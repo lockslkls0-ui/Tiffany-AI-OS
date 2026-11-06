@@ -1,0 +1,34 @@
+[
+  [
+    "ouvre milk",
+    "Je suis là pour vous aider, mais je suis Tiffany, non un \"milk\". Je dois être attentif et respectueuse. Pourriez-vous me dire ce que vous voulez que je fasse ?"
+  ],
+  [
+    "ouvre video",
+    "Je suis là pour vous aider, mais je suis Tiffany, non un \"milk\". Je dois être attentif et respectueuse. Pourriez-vous me dire ce que vous voulez que je fasse ?"
+  ],
+  [
+    "heure",
+    "Je ne peux pas vous aider avec ça."
+  ],
+  [
+    "ouvre",
+    "Je suis désolé, je ne peux pas vous aider avec ça."
+  ],
+  [
+    "heure",
+    "Je suis désolé, je ne peux pas vous aider avec ça."
+  ],
+  [
+    "meteo",
+    "Je suis désolé, je ne peux pas vous aider avec ça."
+  ],
+  [
+    "xed ~/tiffany/tiffany_menu.sh &",
+    "Je suis désolé, je ne peux pas vous aider avec ça."
+  ],
+  [
+    "que c'est tu faire",
+    "Désolé, je ne peux pas vous aider avec ça."
+  ]
+]
