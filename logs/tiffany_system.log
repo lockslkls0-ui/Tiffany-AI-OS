@@ -8,3 +8,5 @@
 [04:45:56] ⚡ CONTRE-BOUCLE : Processus fou détecté (zenity - PID: 1274051). Nettoyage.
 [04:50:29] ⚡ CONTRE-BOUCLE : Processus fou détecté (zenity - PID: 1299920). Nettoyage.
 [05:11:28] ⚡ CONTRE-BOUCLE : Processus fou détecté (zenity - PID: 1422413). Nettoyage.
+[2026-11-07 07:05:17] Erreur écriture journal de bord : module 'diary_agent' has no attribute 'generate_diary_entry'
+[2026-11-07 07:28:31] Erreur écriture journal : module 'diary_agent' has no attribute 'generate_diary_entry'
