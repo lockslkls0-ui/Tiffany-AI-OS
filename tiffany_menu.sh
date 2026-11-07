@@ -1,4 +1,35 @@
 #!/usr/bin/env bash
+intercepter_radio() {
+    INFOS_MUSIQUE=$(rhythmbox-client --print-playing 2>/dev/null)
+    # Si le titre contient un hashtag ou est bizarre, on demande confirmation
+    if [[ "$INFOS_MUSIQUE" == *"#"* ]] || [ -z "$INFOS_MUSIQUE" ] || [ "$INFOS_MUSIQUE" == "Pas de lecture en cours" ]; then
+        INFOS_MUSIQUE=$(zenity --entry  "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="Tiffany OS -- Correction Sémantique" --text="Le titre de la radio semble être un slogan. Écris le vrai titre ici :" --width=400)
+    fi
+    
+    if [ ! -z "$INFOS_MUSIQUE" ]; then
+        ( 
+            echo "# Analyse des sources YouTube..."; sleep 1; 
+            yt-dlp -x --audio-format mp3 -o "~/Musique/%(title)s.%(ext)s" "ytsearch1:$INFOS_MUSIQUE" 2>&1 | \
+            stdbuf -oL tr "\r" "\n" | \
+            sed -u -n "s/.*\\[download\\][[:space:]]*\([0-9.]*\)%.*/\1/p" | \
+            while read -r pct; do 
+                val=$(echo "$pct" | cut -d. -f1)
+                echo "$val"
+                echo "# Téléchargement du MP3 : $val% ..."
+            done
+            echo "100"
+            echo "# Extraction audio et finalisation du fichier MP3..." ; sleep 2
+        ) | zenity --progress  "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="Tiffany OS -- Extracteur Radio" --text="Initialisation du téléchargement..." --percentage=0 --auto-close --width=400
+        
+        if [ $? -eq 0 ]; then
+            zenity --info --text="✅ Téléchargement terminé !\nLe MP3 a été ajouté avec succès dans ton dossier Musique." --timeout=4  "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="Tiffany OS"
+        fi
+    fi
+}
+
 # ==============================================================================
 # 🌹 MODULE : tiffany_menu.sh (Version 17.6 - LE PANNEAU PARFAIT CONSOLIDÉ)
 # 🛡️ RÔLE   : Menu Zenity Complet - Sélection, modifications, bascules et zapping
@@ -27,6 +58,7 @@ charger_radios() {
 while true; do
     charger_radios
     CHOIX=$(zenity --list \
+         "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
         --title="Panneau de Contrôle Tiffany v19.0" \
         --column="Action" --column="Description" \
         --width=580 --height=660 \
@@ -59,6 +91,10 @@ while true; do
     fi
 
     case "$CHOIX" in
+        "📻 INTERCEPTER RHYTHMBOX")
+            intercepter_radio
+            ;;
+
         *"Parler à Tiffany"*)
             gnome-terminal -- bash -c "~/tiffany/tiffany_core.sh"
             break ;;
@@ -77,11 +113,14 @@ while true; do
             zenity --info --text="✅ Matrice réalignée et reconnectée, mon ange ! Tu peux lui parler." --timeout=3 2>/dev/null ;;
             
         *"Analyse Système"*)
-            gnome-terminal --title="📊 Analyse Matérielle en Direct" -- bash -c "sudo lshw -short; echo -e '\n\n📊 LOGS ET ERREURS SYSTÈME RÉCENTES :\n'; sudo dmesg | tail -n 15; echo -e '\n[Appuie sur Entrée pour fermer]'; read" ;;
+            gnome-terminal  "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="📊 Analyse Matérielle en Direct" -- bash -c "sudo lshw -short; echo -e '\n\n📊 LOGS ET ERREURS SYSTÈME RÉCENTES :\n'; sudo dmesg | tail -n 15; echo -e '\n[Appuie sur Entrée pour fermer]'; read" ;;
         *"Diagnostic CPU"*)
-            gnome-terminal --title="📊 Fluctuations CPU en Temps Réel" -- bash -c "while true; do clear; ~/tiffany/tiffany_utilitaire.sh 'etat_cpu'; sleep 2; done" ;;
+            gnome-terminal  "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="📊 Fluctuations CPU en Temps Réel" -- bash -c "while true; do clear; ~/tiffany/tiffany_utilitaire.sh 'etat_cpu'; sleep 2; done" ;;
         *"Check-up RAM"*)
-            gnome-terminal --title="🧠 Fluctuations RAM en Temps Réel" -- bash -c "while true; do clear; ~/tiffany/tiffany_utilitaire.sh 'processus_ram'; sleep 2; done" ;;
+            gnome-terminal  "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="🧠 Fluctuations RAM en Temps Réel" -- bash -c "while true; do clear; ~/tiffany/tiffany_utilitaire.sh 'processus_ram'; sleep 2; done" ;;
         *"Activer Mode Froid"*)
             ~/tiffany/tiffany_utilitaire.sh "refroidissement" "froid"
             zenity --info --text="📉 Mode Froid appliqué." --timeout=2 2>/dev/null ;;
@@ -111,7 +150,8 @@ while true; do
             
         *"Allumer la Radio"*)
             STATION=$(zenity --list \
-                --title="Sources Radio Rhythmbox - Choix du Créateur" \
+                 "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="Sources Radio Rhythmbox - Choix du Créateur" \
                 --column="Radio" --column="Flux Source / Action" \
                 --print-column=2 \
                 --width=540 --height=320 \
@@ -123,7 +163,8 @@ while true; do
             if [ $? -eq 0 ] && [ -n "$STATION" ]; then
                 if [[ "$STATION" == "modifier" ]]; then
                     CIBLE_RADIO=$(zenity --list \
-                        --title="Sélection de la radio à reprogrammer" \
+                         "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="Sélection de la radio à reprogrammer" \
                         --column="Emplacement" --column="Configuration active" \
                         --width=450 --height=240 \
                         "Slot 1" "$RADIO1_NOM | $RADIO1_URL" \
@@ -131,8 +172,10 @@ while true; do
                         "Slot 3" "$RADIO3_NOM | $RADIO3_URL" 2>/dev/null)
                     
                     if [ $? -eq 0 ] && [ -n "$CIBLE_RADIO" ]; then
-                        NOUVEAU_NOM=$(zenity --entry --title="🌹 Configuration Nom" --text="Saisis le nouveau nom pour cette station chéri :" 2>/dev/null)
-                        NOUVELLE_URL=$(zenity --entry --title="🌹 Configuration URL" --text="Colle le lien d'écoute direct (.mp3, .ogg) :" 2>/dev/null)
+                        NOUVEAU_NOM=$(zenity --entry  "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="🌹 Configuration Nom" --text="Saisis le nouveau nom pour cette station chéri :" 2>/dev/null)
+                        NOUVELLE_URL=$(zenity --entry  "📻 INTERCEPTER RHYTHMBOX" "Télécharge le morceau en cours avec suivi de progression" \
+        --title="🌹 Configuration URL" --text="Colle le lien d'écoute direct (.mp3, .ogg) :" 2>/dev/null)
                         
                         if [ -n "$NOUVEAU_NOM" ] && [ -n "$NOUVELLE_URL" ]; then
                             if [[ "$CIBLE_RADIO" == *"Slot 1"* ]]; then

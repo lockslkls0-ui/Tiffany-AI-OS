@@ -1,3 +1,24 @@
+intercepter_radio() {
+    INFOS_MUSIQUE=$(rhythmbox-client --print-playing 2>/dev/null)
+    if [ ! -z "$INFOS_MUSIQUE" ] && [ "$INFOS_MUSIQUE" != "Pas de lecture en cours" ]; then
+        zenity --info --text="📻 Morceau détecté sur Rhythmbox :\n→ $INFOS_MUSIQUE\n\nTéléchargement sémantique MP3 lancé..." --timeout=4 --title="Tiffany OS"
+        yt-dlp -x --audio-format mp3 -o "~/Musique/%(title)s.%(ext)s" "ytsearch1:$INFOS_MUSIQUE"
+        zenity --info --text="✅ Téléchargement terminé ! Le MP3 est dans ton dossier Musique." --timeout=3 --title="Tiffany OS"
+    else
+        zenity --error --text="❌ Rhythmbox ne joue aucune musique ou radio actuellement." --timeout=4 --title="Tiffany OS"
+    fi
+}
+
+intercepter_radio() {
+    INFOS_MUSIQUE=$(rhythmbox-client --print-playing 2>/dev/null)
+    if [ ! -z "$INFOS_MUSIQUE" ] && [ "$INFOS_MUSIQUE" != "Pas de lecture en cours" ]; then
+        zenity --info --text="📻 Morceau détecté sur Rhythmbox :\n→ $INFOS_MUSIQUE\n\nTéléchargement sémantique MP3 lancé..." --timeout=4 --title="Tiffany OS"
+        yt-dlp -x --audio-format mp3 -o "~/Musique/%(title)s.%(ext)s" "ytsearch1:$INFOS_MUSIQUE"
+        zenity --info --text="✅ Téléchargement terminé ! Le MP3 est dans ton dossier Musique." --timeout=3 --title="Tiffany OS"
+    else
+        zenity --error --text="❌ Rhythmbox ne joue aucune musique ou radio actuellement." --timeout=4 --title="Tiffany OS"
+    fi
+}
 #!/usr/bin/env bash
 # ==============================================================================
 # 🌹 MODULE : tiffany_actions.sh (Version 48.0 - PRODUCTION STABLE MASTER)
@@ -146,3 +167,41 @@ else
     fi
 fi
 
+
+intercepter_radio() {
+    # 1. Enregistre le flux audio interne en arrière-plan pendant 5 secondes
+    parecord -d alsa_output.pci-0000_00_1b.0.analog-stereo.monitor --channels=1 --file-format=wav /tmp/radio_sample.wav &
+    sleep 5
+    killall parecord 2>/dev/null
+    
+    # 2. Identification via Shazam (Songrec)
+    if [ -f /tmp/radio_sample.wav ]; then
+        songrec recognize /tmp/radio_sample.wav > /tmp/result.json 2>/dev/null
+        TITRE_TROUVE=$(jq -r '.track.title + " " + .track.subtitle' /tmp/result.json 2>/dev/null)
+    fi
+    
+    # 3. Téléchargement sémantique automatique sur YouTube
+    if [ ! -z "$TITRE_TROUVE" ] && [ "$TITRE_TROUVE" != "null null" ]; then
+        zenity --info --text="📻 Musique capturée : $TITRE_TROUVE !\nTéléchargement MP3 en cours..." --timeout=4 --title="Tiffany OS"
+        yt-dlp -x --audio-format mp3 -o "~/Musique/%(title)s.%(ext)s" "ytsearch1:$TITRE_TROUVE"
+    else
+        zenity --error --text="❌ Impossible d'identifier la musique en cours sur la radio." --timeout=4 --title="Tiffany OS"
+    fi
+    rm -f /tmp/radio_sample.wav /tmp/result.json
+}
+intercepter_radio() {
+    # 1. Demande à Rhythmbox le titre et l'artiste en cours
+    INFOS_MUSIQUE=$(rhythmbox-client --print-playing 2>/dev/null)
+    
+    # 2. Vérifie si Rhythmbox est bien en train de jouer quelque chose
+    if [ ! -z "$INFOS_MUSIQUE" ] && [ "$INFOS_MUSIQUE" != "Pas de lecture en cours" ]; then
+        zenity --info --text="📻 Morceau détecté sur Rhythmbox :\n→ $INFOS_MUSIQUE\n\nTéléchargement sémantique MP3 lancé..." --timeout=4 --title="Tiffany OS"
+        
+        # 3. Lance le téléchargement direct sur YouTube
+        yt-dlp -x --audio-format mp3 -o "~/Musique/%(title)s.%(ext)s" "ytsearch1:$INFOS_MUSIQUE"
+        
+        zenity --info --text="✅ Téléchargement terminé ! Le MP3 est dans ton dossier Musique." --timeout=3 --title="Tiffany OS"
+    else
+        zenity --error --text="❌ Rhythmbox ne joue aucune musique ou radio actuellement." --timeout=4 --title="Tiffany OS"
+    fi
+}

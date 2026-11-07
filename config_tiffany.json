@@ -12,11 +12,27 @@
     },
     "authority": {
       "privileges": "root / administrateur"
-    }
+    },
+    "version": "v1.4_MASTER"
   },
   "paths": {
     "logs_dir": "/home/user/tiffany/logs",
     "backup_dir": "/home/user/tiffany/backup",
     "memory_dir": "/home/user/tiffany/memory"
+  },
+  "system_routing": {
+    "mode_hybride": true,
+    "intercepter_bash": true,
+    "commandes_directes": [
+      "cree dossier",
+      "ram",
+      "nettoyer systeme",
+      "meteo",
+      "cpu",
+      "boost",
+      "ouvrir",
+      "tiffmenu"
+    ],
+    "securite_zenity": true
   }
 }
