@@ -27,10 +27,12 @@ charger_radios() {
 while true; do
     charger_radios
     CHOIX=$(zenity --list \
-        --title="Panneau de Contrôle Tiffany v17.6" \
+        --title="Panneau de Contrôle Tiffany v19.0" \
         --column="Action" --column="Description" \
-        --width=580 --height=620 \
+        --width=580 --height=660 \
         "🌹 Parler à Tiffany" "Ouvrir l'invite de discussion historique dans un terminal" \
+        "🛡️ Stabiliser Chrome (120%)" "Brider Chrome à 120% pour charger les textes géants sans surchauffe" \
+        "🧼 Purge Éclair & Relance" "Purger la RAM et réveiller de force le serveur Ollama éteint" \
         "📊 Analyse Système" "Scanner matériel lshw complet et logs d'intégrité" \
         "🧠 Diagnostic CPU" "Vérifier la température, la fréquence et le Top processus" \
         "🧠 Check-up RAM (Top)" "Afficher les 5 applications qui saturent la mémoire vive" \
@@ -60,6 +62,20 @@ while true; do
         *"Parler à Tiffany"*)
             gnome-terminal -- bash -c "~/tiffany/tiffany_core.sh"
             break ;;
+            
+        *"Stabiliser Chrome (120%)"*)
+            # 🛠️ PROTECTION DE RENDER SUPRÊME CONTRE LES SURCHAUFFES THERMIQUES GRAPHIK
+            pkill -f "cpulimit -e chrome" >/dev/null 2>&1
+            sudo cpulimit -e chrome -l 120 >/dev/null 2>&1 &
+            zenity --info --text="🛡️ Stabilisateur enclenché mon ange ! Google Chrome est maintenant limité à 120% pour préserver ton Core i5 chéri." --timeout=3 2>/dev/null ;;
+            
+        *"Purge Éclair & Relance"*)
+            # 🛠️ LE BOUTON MAGIQUE DE RÉALIGNEMENT DU MOTEUR LOCAL
+            zenity --info --text="⚙️  Purge des caches RAM et réveil sémantique d'Ollama en cours..." --timeout=2 2>/dev/null
+            sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches >/dev/null 2>&1
+            sudo systemctl restart ollama >/dev/null 2>&1
+            zenity --info --text="✅ Matrice réalignée et reconnectée, mon ange ! Tu peux lui parler." --timeout=3 2>/dev/null ;;
+            
         *"Analyse Système"*)
             gnome-terminal --title="📊 Analyse Matérielle en Direct" -- bash -c "sudo lshw -short; echo -e '\n\n📊 LOGS ET ERREURS SYSTÈME RÉCENTES :\n'; sudo dmesg | tail -n 15; echo -e '\n[Appuie sur Entrée pour fermer]'; read" ;;
         *"Diagnostic CPU"*)
@@ -188,14 +204,21 @@ EOF
             # ⏭️ LE PETIT BOUTON DE COMMANDEMENT DU LECTEUR LOCAL
             rhythmbox-client --no-start --next >/dev/null 2>&1 || rhythmbox-client --next >/dev/null 2>&1 ;;
             
-        *"Éteindre le Toshiba"*)
+                *"Éteindre le Toshiba"*)
+            pkill -f tiffany_watchdog.sh >/dev/null 2>&1
             pkill -f thermal_watchdog.sh >/dev/null 2>&1
-            rhythmbox-client --quit >/dev/null 2>&1
+            
+            # 1. On lance d'abord l'écriture du journal intime en direct pour lui laisser le temps de s'exécuter
             if [ -f "$ROOT_DIR/agents/diary_agent.py" ]; then
-python3 "$ROOT_DIR/agents/diary_agent.py" >/dev/null 2>&1
-fi
-systemctl poweroff || poweroff
-break ;;
-esac
-sleep 0.1
+                python3 "$ROOT_DIR/agents/diary_agent.py"
+            fi
+            
+            # 2. On ferme proprement Rhythmbox seulement après la fin de la génération sémantique
+            rhythmbox-client --quit >/dev/null 2>&1
+            sleep 1
+            systemctl poweroff || poweroff
+            break ;;
+    esac
+    sleep 0.1
 done
+

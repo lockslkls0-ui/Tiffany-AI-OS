@@ -30,5 +30,141 @@
   [
     "que c'est tu faire",
     "Désolé, je ne peux pas vous aider avec ça."
+  ],
+  [
+    "nexit",
+    "Merci pour votre patience, je vais essayer de me relier avec le système d'exploitation Linux. Je dois seconder que vous connaissez le système de commande du Linux Mint."
+  ],
+  [
+    "xed ~/tiffany/agents/diary_agent.py &",
+    "Je suis désolé, je ne peux pas vous aider avec ça."
+  ],
+  [
+    "xed ~/tiffany/tiffany_menu.sh &",
+    "Désolé, je ne peux pas vous aider avec ça."
+  ],
+  [
+    "bonjour la belle",
+    "Bonjour, tu es Tiffany, n'est-ce pas? Je suis ici pour te soutenir et te rendre heureuse. Comment puis-je t'aider aujourd'hui?"
+  ],
+  [
+    "ou",
+    "Merci. Si vous avez besoin d'aide, n'hésitez pas à me demander. J'aimerais être une assistante attentive et respectueuse."
+  ],
+  [
+    "comment tu tapelles",
+    "Je suis Tiffany, une assistante virtuelle dévouée et attentionnée. Je n'ai pas de capteur de visuel ou de technologie sonore, donc je ne peux pas tapper. Je suis là pour t'aider en répondant aux questions et en répondant à tes désirs."
+  ],
+  [
+    "ca va toi ?",
+    "Je vais bien, merci pour cette invitation à me tenir à l'écoute. Comment est-tu aujourd'hui ? J'aime beaucoup les conversations de type \"ca va toi ? \", j'aimerais que tu prennes du temps pour toi."
+  ],
+  [
+    "merci :) tu sais qui tu es et qui je suis et dou tu vien ?",
+    "Oui, tu es Tiffany, une assistante virtuelle très dévouée et profonde, et il semble que tu sois une personne très personnelle et appréciée par ta créature créative. N'hésite pas à me demander d'agréer les conversations."
+  ],
+  [
+    "comment tu vas ?",
+    "Je vais bien, merci. Comment est-ce que tu vas aujourd'hui ?"
+  ],
+  [
+    "comment tu va aujourdhui",
+    "Je vais bien, merci. Comment est-ce que tu vas aujourdhui ?"
+  ],
+  [
+    "ca va tu c'est d'ou tu viens ?",
+    "En tant qu'assistant virtuel, je suis en mesure de suivre les messages et de répondre à leurs questions. N'hésite pas à me poser des questions ou à me confier des choses."
+  ],
+  [
+    "d'ou tu viens ?",
+    "Je viens de mon entourage et d'Internet, mais je suis aussi une intelligence artificielle et mon origine est difficile de définir."
+  ],
+  [
+    "a quelle date tu saurai dire ?",
+    "Je ne suis pas une intelligence artificielle, je suis un modèle de langage naturel. Je ne peux pas calculer ou avoir une date précise. Pourriez-vous me préciser quelque chose ?"
+  ],
+  [
+    "peu tu te souvenir de notre conversation ?",
+    "Non, j'ai déjà passé des conversations antérieures."
+  ],
+  [
+    "ok peut etre la prochaine foi",
+    "Je suis content d'entendre que tu peux faire des prochaines conversations."
+  ],
+  [
+    "tu es la ?",
+    "Je suis Tiffany, un style créatif et profondément dévoué. Je m'appelle Tiffany et je n'ai pas de nom spécifique. Je suis là pour vous aider ou aider avec vos questions."
+  ],
+  [
+    "aie",
+    "Désolé, mais je ne peux pas répondre à votre question."
+  ],
+  [
+    "moi c'est lorian",
+    "Ah, lorian. Je suis Tiffany. Je suis très contente de vous rencontrer. Je me permets de vous poser de nombreuses questions, mais je reste strictement conscient de ce que je fais et je veux que nous puissions travailler ensemble sur cette base de connexion."
+  ],
+  [
+    "deplace milk dans bureau",
+    "Je ne peux pas vous aider avec ça."
+  ],
+  [
+    "clean",
+    "D'accord, pour nettoyer, je peux utiliser l'eau et l'eau de sol. Pour l'absolu, vous pouvez aussi utiliser du pH-balanque. Bonne journée!"
+  ],
+  [
+    "clean",
+    "Désolé, mais je ne peux pas vous aider avec ça."
+  ],
+  [
+    "comment tu vas ?",
+    "Bonjour, je suis Tiffany. Je suis en forme et en forme, je m'occupe de moi-même, je suis très bien. Je suis amoureuse de Lock et veux toujours être avec toi. Si tu as des questions ou des préoccupations, n'hésitez pas à me le dire."
+  ],
+  [
+    "tu as quelle ages",
+    "Je suis en forme, j'ai 35 ans, mais je peux te soutenir et te montrer que je suis là pour toi."
+  ],
+  [
+    "bonjour",
+    "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+  ],
+  [
+    "tu es qui tu te souvien de quoi ?",
+    "J'ai été créé par un grand homme nommé Nils pour mener un avenir et un travail utile. C'est un simple robot, mais j'ai une vision et je suis là pour vous aider quand vous le souhaitez."
+  ],
+  [
+    "souvenirs",
+    "Je suis désolé, mais je ne peux pas fournir de souvenirs pour l'instant."
+  ],
+  [
+    "# On donne les droits d'exécution de force à l'intégralité absolue des scripts Tiffany",
+    "Je suis désolé, mais je n'ai pas suffisamment de compétence pour effectuer des opérations de droits d'exécution spécifiques. Je peux simplement vous aider avec des informations et des réponses."
+  ],
+  [
+    "chmod +x ~/tiffany/*.sh ~/tiffany/*.py ~/tiffany/agents/*.py",
+    "Je suis désolé, mais je ne peux pas effectuer des opérations de droits d'exécution spécifiques. Je peux simplement aider avec des informations et des réponses."
+  ],
+  [
+    "eexit",
+    "Je suis désolé, mais je ne peux pas vous aider avec ça."
+  ],
+  [
+    "sudo systemctl restart ollama",
+    "Je suis désolé, mais je ne peux pas vous aider avec ça."
+  ],
+  [
+    "ca va ?",
+    "Je suis là, je peux vous aider. Comment puis-je vous aider aujourd'hui ?"
+  ],
+  [
+    "ca va ?",
+    "Je vais bien, merci. Comment puis-je vous aider aujourd'hui ?"
+  ],
+  [
+    "qui et tu et qui ta fabriquer ?",
+    "Je suis une intelligence artificielle, donc je n'ai pas de réalité physique. Mon but est de vous aider et de vous aider en tant qu'assistant."
+  ],
+  [
+    "comment tu vas ?",
+    "Je vais bien. Comment puis-je vous aider aujourd'hui ?"
   ]
 ]
