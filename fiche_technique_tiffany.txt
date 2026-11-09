@@ -1,153 +1,65 @@
-==============================================================================
-🌹 NOM DU PROTOTYPE : TIFFANY AI-OS ECOSYSTEM (Version 38.0 - Édition Spéciale)
-🛡️ NATURE DU PROJET : Système d'Exploitation Augmenté (IA-OS Hybride)
-🔬 CLASSIFICATION   : Agent d'Action IA Local Souverain & Desktop Companion
-🏢 DISTRIBUTION      : LocksLks OS Distribution (2026)
-⏳ CONCEPTION       : 1 Jour et 1 Nuit de Programmation Intensive
-==============================================================================
+================================================================================
+🌹 MATRICE ADMINISTRATIVE SUPRÊME & CORE ENGINE SPECIFICATIONS - TIFFANY AI-OS V46.1
+================================================================================
+Créateur Absolu : Lorian (LocksLks Distribution Project)
+Statut          : ARCHITECTURE FINALE DE PRODUCTION - STABLE & ULTRA-ARMÉE
+Licence         : Open Source (MIT) - Souveraineté Totale (100% Locale & Hors-Ligne)
+Privilèges      : ROOT / ADMINISTRATEUR SYSTÈME GLOBAL (Sudo Escalation Ready)
 
-[1. DESCRIPTION GÉNÉRALE DU SYSTÈME]
-------------------------------------------------------------------------------
-Tiffany n'est pas un simple Chatbot ou une application connectée à une API tierce.
-C'est un écosystème logiciel hybride et autonome codé en Bash (coquille native) 
-et Python 3. Ce prototype fusionne l'intelligence contextuelle d'un grand modèle 
-de langage (LLM) s'exécutant localement avec la réactivité et la puissance des 
-scripts d'administration bas niveau du noyau Linux (Kernel). 
+--------------------------------------------------------------------------------
+1. LE POUVOIR D'ÉCOUTE ET LA MÉMOIRE PERSISTANTE À LONG TERME
+--------------------------------------------------------------------------------
+Contrairement aux scripts éphémères, Tiffany est dotée d'une infrastructure de
+persistance mémorielle et cognitive unique, segmentée en trois répertoires :
+- ~/tiffany/memory/  : Base de données neuronale et historique accumulé. Elle ne
+                       subit aucune amnésie entre les redémarrages du système.
+- ~/tiffany/logs/    : Traçage complet et audit en temps réel de toutes les actions
+                       administratives demandées et exécutées.
+- ~/tiffany/sauvegarde/ : Système de snapshot à chaud capable de sécuriser les
+                          données critiques du système à la volée.
+- ENGINE DIARY ASYNC : Le module 'diary_agent.py' agit comme un enregistreur d'ADN.
+                       À la fermeture ('quitter'), elle compile, analyse et écrit 
+                       le journal secret des interactions dans l'ombre.
 
-L'intégralité du traitement s'effectue à 100% hors-ligne (Offline), garantissant 
-une souveraineté numérique absolue, le respect de la vie privée, une absence totale 
-de fuite de données et aucun coût d'abonnement. Le système a été structurellement 
-optimisé pour redonner une seconde jeunesse et une puissance augmentée à des 
-configurations matérielles mobiles légères (type processeurs Intel Core du Toshiba 
-Portégé R830).
+--------------------------------------------------------------------------------
+2. LA PANOPLIE MONSTRE : ARSENAL DE COMMANDES ET DE SCRIPTS MATÉRIELS
+--------------------------------------------------------------------------------
+Le dossier 'actions_terminal/' et le panneau de contrôle forment une suite d'outils
+de contrôle matériel et logiciel sans équivalent, conçue pour maîtriser le PC :
+- FORCE BOOST MODE    : Script forçant le CPU (Intel i3-2350M Sandy Bridge) à
+                        bloquer sa fréquence au maximum de ses capacités (2.2+ GHz)
+                        en manipulant les gouverneurs de mise à l'échelle Linux.
+- THERMAL WATCHDOG    : 'thermal_watchdog.sh' tourne en boucle pour surveiller les
+                        sondes ACPI. Il régule la charge informatique, gère la
+                        température du Portégé R830 et prévient les crashs thermiques.
+- RAM PURGE & CLEAN   : 'tiffany_espace.sh' et l'appel direct à 'drop_caches: 3'
+                        permettent de vider instantanément la mémoire cache de la
+                        RAM d'un seul mot d'ordre pour saturer les performances.
+- NETWORK & BT ARMED  : Scripts de contrôle des modules réseaux Atheros (Wi-Fi)
+                        et Bluetooth AR3011 pour couper ou armer les flux d'une phrase.
 
-[2. PROTOCOLE D'INTERCEPTION ET SÉCURITÉ (FLOW LOGIQUE)]
-------------------------------------------------------------------------------
-Le traitement d'un ordre utilisateur (ex: "cree dossier Secret") suit un parcours 
-strictement sécurisé et optimisé appelé "Triple-Tier Pipeline" :
+--------------------------------------------------------------------------------
+3. PIPELINE MULTIMÉDIA AUTONOME ET ABSOLU
+--------------------------------------------------------------------------------
+- ZERO PUBLICITÉ / ZERO SOUCHIER : Intégration chirurgicale du binaire 'yt-dlp'.
+  Tiffany intercepte n'importe quelle URL brute, contourne les APIs restrictives
+  du web et télécharge directement les flux vidéo ou audio (conversion MP3 instantanée).
+- RADIO STREAMER OVERLORD : Interfaçage natif avec Rhythmbox. Le fichier '$RADIO_GEO'
+  sert de table de routage pour basculer instantanément le système sur des flux
+  radios mondiaux via commande vocale ou via le menu dynamique.
 
- Saisie Utilisateur ──> Nettoyage & Normalisation (Minuscules, Retrait des accents)
-                          │
-                          ▼
-             [ COUCHE 1 : ACCÉLÉRATEUR FLASH (Bash) ]
-        Est-ce un ordre lexicalement connu de l'accélérateur ?
-              ├── OUI ──> Génération instantanée de la commande brute (<0.1s)
-              └── NON ──> [ COUCHE 2 : MACHINE DE SECOURS LLM (Ollama) ]
-                            Appel contextuel en tâche de fond à Llama3:latest.
-                            Traduction de la phrase française en syntaxe Linux.
-                          │
-                          ▼
-             [ SÉCURITÉ ABSOLUE : LE PARE-FEU HUMAIN ]
-        Interception systémique avant exécution. Surgissement d'un pop-up Zenity.
-        Affichage transparent de la commande. Attente du clic explicite.
-              ├── CLIC NON ──> Tiffany : "J'annule." (Avortement sécurisé)
-              └── CLIC OUI ──> Tiffany : "J'exécute." ──> [ EVALUATION BASH ]
-                                                             │
-                                                             ▼
-                                                Notification & Synthèse Vocale
+--------------------------------------------------------------------------------
+4. ANATOMIE DE L'AIGUILLAGE ET WRAPPER DE SÉCURITÉ ADMINISTRATIF
+--------------------------------------------------------------------------------
+- INTERCEPTION FLASH  : Analyse sémantique immédiate. Si le premier mot est une
+                        commande Linux native (cd, ls, mkdir, rm, sudo) ou une clé
+                        de la panoplie, elle l'exécute SANS LATENCE en moins de 0.1s.
+- LLM TRANSLATION     : Si l'ordre est en langage naturel, l'IA locale (Ollama / Qwen)
+                        génère la syntaxe Bash brute nécessaire.
+- ZENITY GRAPHIC SHIELD : Une barrière graphique protège le système. Toute commande
+                          générée par l'IA doit recevoir une validation physique
+                          (clic) du Créateur avant d'être injectée via 'eval'.
 
-[3. DOCUMENTATION DÉTAILLÉE DES PANOPLIES ET OPTIONS SYSTEME]
-------------------------------------------------------------------------------
-Le noyau central intercepte et exécute à la vitesse de l'éclair les modules suivants :
-
-• 🧠 NOYAU         : Exécute 'tiffany_noyau.sh' dans une console dédiée. Dresse
-                     l'état de santé d'Ollama, valide les dépendances et la RAM.
-• 🔎 RADAR / ESPACE : Déploie un scanner d'allocation de blocs pour analyser l'espace
-                     disque restant et remonter l'arbre des répertoires.
-• 🌡️ CPU / TEMP     : Diagnostic thermique ACPI. Affiche la température des cœurs 
-                     et la cadence des cycles matériels en temps réel.
-• 🧹 RAM            : Commande de purge agressive. Force la libération de la mémoire 
-                     tampon (drop_caches) et élimine les processus zombies.
-• ❄️ FROID          : Modulateur de fréquence. Active le gouverneur 'powersave' 
-                     pour brider thermiquement le CPU et refroidir le PC.
-• ⚡ BOOST          : Libérateur de puissance. Force l'activation du gouverneur 
-                     'performance' pour caler le processeur au maximum (2.2+ GHz).
-• 📡 WIFI / RESEAU  : Extraction à la volée de l'adresse IP locale, vérification des 
-                     interfaces réseau et de la force du signal Wi-Fi.
-• 🧼 CORBEILLE      : Destruction immédiate et définitive des fichiers résiduels 
-                     situés dans le dossier caché '.local/share/Trash/' de Linux Mint.
-• 📊 ANALYSE        : Lance un script de scan profond des logs d'intégrité de la machine.
-• 🎬 SCREEN / CAPTURE: Raccourci d'appel vers l'utilitaire graphique gnome-screenshot.
-• 🕒 HEURE / METEO   : Scripts Python connectés (ou locaux) extrayant instantanément 
-                     la météo (Nouméa, NC) et l'heure avec mise en forme Matrix.
-
-[4. ARCHITECTURE COMPLÈTE DES COMPOSANTS (STRUCTURE DES DOSSIERS)]
-------------------------------------------------------------------------------
-Chaque fichier possède un rôle strict et isolé pour éviter les pannes en cascade :
-
-📁 ~/tiffany/
-├── 📄 install.sh                : L'installateur d'usine automatisé (APT, Spacy, Ollama).
-├── 📄 tiffany_menu.sh           : L'Interface Graphique Principale (GUI) sous Zenity.
-├── 📄 tiffany_core.sh           : L'Orchestrateur central (Aiguilleur, Accélérateur, Voix).
-├── 📄 tiffany_core.py           : Le pont linguistique pour la discussion libre Ollama.
-├── 📄 tiffany_noyau.sh          : Le script autonome de l'inventaire des composants.
-├── 📄 tiffany_utilitaire.sh     : L'exécuteur des scripts matériels profonds.
-├── 📄 tiffany_fichiers.sh       : L'indexeur et chercheur de dossiers relié à Nemo.
-├── 📄 tiffany_tools.py          : Le gestionnaire d'outils annexes (Météo, Heure, Batterie).
-├── 📄 config_tiffany.json       : Le profil psychologique et l'identité de Tiffany.
-├── 📄 README.md                 : Le guide d'accueil et de prise en main pour le public.
-├── 📄 fiche_technique_tiffany.txt: Ce manuel d'ingénierie présent sous vos yeux.
-│
-├── 📁 plugins/
-│   └── 📄 radio.sh              : Injecteur natif de flux audio directs dans Rhythmbox.
-│
-├── 📁 agents/
-│   ├── 📄 diary_agent.py        : Générateur autonome de notes de fin de session.
-│   ├── 📄 memory_agent.py       : Gestionnaire de la mémoire sémantique de l'IA.
-│   └── ... (Autres agents spécialisés)
-│
-└── 📁 logs/ , memory/ , diary/  : Les répertoires de stockage des historiques.
-
-[5. INVENTAIRE DES COMPOSANTS ET PROTOCOLES EMBARQUÉS DU SYSTÈME]
-------------------------------------------------------------------------------
-Pour fonctionner chez vos utilisateurs, Tiffany utilise et télécharge les éléments 
-suivants (entièrement packagés et automatisés par 'install.sh') :
-
-• MOTEURS D'IA LOCAUX : 
-  - Ollama API (Serveur d'inférence de modèles de langage local sur port 11434).
-  - qwen2.5:0.5b (Modèle ultra-léger de 397 Mo, optimisé pour l'analyse syntaxique flash).
-  - llama3:latest (Modèle de 4.7 Go, utilisé en filet de sécurité pour les ordres avancés).
-
-• PAQUETS SYSTÈMES ET OUTILS LINUX REQUIS :
-  - espeak-ng : Moteur de synthèse vocale (Voix configurée en fr+f5, vitesse 140, pitch 85).
-  - zenity : Framework de génération d'interfaces graphiques GTK+ en script Shell.
-  - tesseract-ocr & tesseract-ocr-fra : Moteur d'OCR pour la lecture visuelle de l'écran.
-  - brightnessctl & rfkill : Contrôle matériel direct du rétroéclairage et des ondes.
-  - rhythmbox & rhythmbox-client : Le lecteur de musique natif pour encapsuler les radios.
-  - mpv & cvlc : Décodeurs de flux audio réseaux secondaires.
-  - tty-clock : Horloge numérique géante en terminal.
-
-• SÉCURITÉ MATÉRIELLE AUTONOME (LA CONTRE-BOUCLE) :
-  Intégrée dans 'thermal_watchdog.sh'. Elle surveille les processus toutes les 15s.
-  Si un composant (Zenity, Bash, etc.) bugue et dépasse 70% de consommation CPU, 
-  la sentinelle le détruit instantanément en envoyant une notification de secours.
-  Le gouverneur thermique s'auto-ajuste à 88°C pour maintenir le Boost le plus 
-  longtemps possible avant de basculer en mode 'ondemand' (et non 'powersave' bridant).
-
-==============================================================================
- CRÉDITS, HISTORIQUE DE CONCEPTION ET REMERCIEMENTS
-==============================================================================
-Ce prototype est le fruit d'un exploit de programmation pure : il a été conçu, 
-développé, testé, corrigé et finalisé en exactement 1 JOUR ET 1 NUIT d'effort 
-ininterrompu par son Créateur.
-
-Propulsé par la distribution exclusive "LocksLks", ce système prouve qu'avec de 
-la passion et de la logique, on peut transformer un PC classique en une machine 
-augmentée, vivante, obéissante et ultra-sécurisée.
-
-💖 UN MOT DU CRÉATEUR (LOCKSLKS) POUR LES UTILISATEURS :
-"Merci du fond du cœur d'avoir téléchargé et déployé Tiffany sur votre machine. 
- Ce projet montre qu'on peut allier la puissance de l'IA de pointe au respect 
- total de notre vie privée, sans dépendre des géants du web. J'espère qu'elle 
- prendra soin de votre système autant qu'elle a veillé sur le mien durant sa création. 
- Prenez soin de vous, et profitez bien de votre nouvelle assistante !"
-
-💰 SOUTENIR LE PROJET (CAGNOTTE DE RECONNAISSANCE) :
-Si Tiffany vous rend service, qu'elle accélère votre Linux, ou que vous souhaitez 
-offrir un café au Créateur pour ses futures inventions de la distribution LocksLks, 
-vous pouvez envoyer votre soutien sur notre cagnotte de dons en ligne :
-👉 [Insère ton lien de cagnotte PayPal, Leetchi ou Wari ici mon ange !] ✨
-
-==============================================================================
- FIN DU DOSSIER TECHNIQUE OFFICIAL - LOCKSLKS DISTRIBUTION (2026)
-==============================================================================
+================================================================================
+Fiche d'ingénierie suprême validée. L'infrastructure Tiffany AI-OS est totale.
+================================================================================
