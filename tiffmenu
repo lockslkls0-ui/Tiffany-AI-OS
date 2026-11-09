@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# 🌹 MODULE : tiffmenu (Version 10.9 - CORRECTIF NUMÉRIQUE)
+# 🛡️ RÔLE   : Utilise --print-column=1 masqué pour un aiguillage 100% fiable
+# ==============================================================================
+
+ROOT_DIR="$HOME/tiffany"
+
+while true; do
+    # --hide-column=1 permet de cacher l'ID numérique à l'utilisateur
+    CHOIX=$(zenity --list \
+        --title="Panneau de Contrôle Tiffany v10.9" \
+        --column="ID" --column="Action" --column="Description" \
+        --hide-column=1 \
+        --print-column=1 \
+        --width=550 --height=450 \
+        "1" "🌹 Parler à Tiffany" "Ouvrir l'invite de discussion historique" \
+        "2" "🌡️ Diagnostic CPU" "Vérifier la température, la fréquence et le Top processus" \
+        "3" "❄️ Activer Mode Froid" "Brider le processeur pour refroidir le Toshiba" \
+        "4" "⚡ Activer Mode Boost" "Redonner la pleine puissance d'origine au CPU" \
+        "5" "🛡️ Watchdog ON" "Lancer la sentinelle thermique autonome (15s)" \
+        "6" "⚠️ Watchdog OFF" "Arrêter la surveillance automatique" \
+        "7" "🧠 Check-up RAM (Top)" "Afficher les 5 applications qui saturent la mémoire vive" \
+        "8" "🧼 Vider la Corbeille" "Purger instantanément tous les fichiers de la poubelle" \
+        "9" "🧹 Nettoyer Système" "Supprimer les résidus système et vieux paquets APT" \
+        "10" "📡 État Réseau" "Vérifier le Wi-Fi, le signal et l'IP locale" \
+        "11" "🌙 Mode Filtre de Nuit" "Activer le filtre anti-lumière bleue chaud" \
+        "12" "☀️ Mode Normal (Jour)" "Désactiver le filtre écran et restaurer la clarté" \
+        "13" "🔊 Couper/Activer Son" "Bascule immédiate de l'état muet (Mute)" \
+        "14" "❌ Quitter" "Fermer le menu")
+
+    # Détection du bouton Annuler, fermeture de fenêtre ou option Quitter
+    if [ $? -ne 0 ] || [ "$CHOIX" = "14" ]; then
+        break
+    fi
+
+    case "$CHOIX" in
+        "1")
+            ~/tiffany/tiffany_core.sh
+            break
+            ;;
+        "2")
+            gnome-terminal -- bash -c "~/tiffany/tiffany_utilitaire.sh 'etat_cpu'; echo -e '\n[Appuie sur Entrée pour fermer]'; read"
+            ;;
+        "3")
+            ~/tiffany/tiffany_utilitaire.sh "refroidissement" "froid"
+            zenity --info --text="📉 Mode Froid appliqué avec succès, mon ange." --timeout=2 2>/dev/null
+            ;;
+        "4")
+            ~/tiffany/tiffany_utilitaire.sh "refroidissement" "chaud"
+            zenity --info --text="🚀 Pleine puissance processeur restaurée, chéri." --timeout=2 2>/dev/null
+            ;;
+        "5")
+            pkill -f tiffany_watchdog.sh >/dev/null 2>&1
+            ~/tiffany/tiffany_watchdog.sh >/dev/null 2>&1 &
+            zenity --info --text="🛡️ Sentinelle thermique d'arrière-plan active." --timeout=2 2>/dev/null
+            ;;
+        "6")
+            pkill -f tiffany_watchdog.sh >/dev/null 2>&1
+            zenity --info --text="⚠️ Sentinelle thermique désactivée." --timeout=2 2>/dev/null
+            ;;
+        "7")
+            gnome-terminal -- bash -c "~/tiffany/tiffany_utilitaire.sh 'processus_ram'; echo -e '\n[Appuie sur Entrée pour fermer]'; read"
+            ;;
+        "8")
+            ~/tiffany/tiffany_utilitaire.sh "corbeille"
+            zenity --info --text="🧼 Poubelle entièrement purgée !" --timeout=2 2>/dev/null
+            ;;
+        "9")
+            gnome-terminal -- bash -c "~/tiffany/tiffany_utilitaire.sh 'nettoie_systeme'; echo -e '\n[Appuie sur Entrée pour fermer]'; read"
+            ;;
+        "10")
+            gnome-terminal -- bash -c "~/tiffany/tiffany_utilitaire.sh 'reseau'; echo -e '\n[Appuie sur Entrée pour fermer]'; read"
+            ;;
+        "11")
+            ~/tiffany/tiffany_utilitaire.sh "filtre" "nuit"
+            ;;
+        "12")
+            ~/tiffany/tiffany_utilitaire.sh "filtre" "jour"
+            ;;
+        "13")
+            ~/tiffany/tiffany_audio.sh "audio" "toggle" 2>/dev/null || ~/tiffany/tiffany_utilitaire.sh "audio" "toggle"
+            ;;
+    esac
+done

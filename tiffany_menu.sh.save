@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# 🌹 MODULE : tiffany_menu.sh (Version ANCRAGE ABSOLU PAR PID v25.0)
+# ==============================================================================
+ROOT_DIR="$HOME/tiffany"
+PLUGIN_DIR="$ROOT_DIR/plugins"
+
+# Fichiers de sauvegarde de ta position géométrique personnalisée
+GEO_FILE="/tmp/tiffany_menu_geo"
+[ -f "$GEO_FILE" ] || echo "0,400,200,580,660" > "$GEO_FILE"
+
+while true; do
+    ZENITY_ARGS=()
+    PLUGIN_FILES=()
+    
+    for script in $(ls "$PLUGIN_DIR"/*.sh 2>/dev/null | sort); do
+        NAME=$(grep -m1 "# MENU_NAME:" "$script" | cut -d':' -f2- | sed 's/^[ \t]*//')
+        DESC=$(grep -m1 "# MENU_DESC:" "$script" | cut -d':' -f2- | sed 's/^[ \t]*//')
+        
+        if [ -n "$NAME" ]; then
+            ZENITY_ARGS+=("$NAME" "$DESC")
+          PLUGIN_FILES+=("$script")
+        fi
+    done
+    ZENITY_ARGS+=("❌ Quitter" "Fermer définitivement le menu")
+
+    # Lire la dernière position et taille sauvegardées par toi
+    GEO_SAVED=$(cat "$GEO_FILE" 2>/dev/null || echo "0,400,200,580,660")
+
+    # 🔄 Lancement de Zenity et repositionnement immédiat par PID
+    zenity --list "${ZENITY_ARGS[@]}" \
+        --title="Panneau de Contrôle Continu" \
+        --column="Action" --column="Description" \
+        --width=580 --height=660 2>/tmp/tiffany_choice &
+    ZENITY_PID=$!
+
+    # Forcer la géométrie sur la fenêtre liée à ce PID précis
+    (
+        for i in {1..20}; do
+            sleep 0.02
+            WIN_ID=$(wmctrl -lp | grep " $ZENITY_PID " | awk '{print $1}' | head -n 1)
+            if [ -n "$WIN_ID" ]; then
+                wmctrl -i -r "$WIN_ID" -e "$GEO_SAVED"
+                wmctrl -i -a "$WIN_ID"
+                break
+            fi
+        done
+    ) &
+
+    # Attendre que tu cliques sur un bouton
+    wait $ZENITY_PID
+    CODE_RETOUR=$?
+    CHOIX=$(cat /tmp/tiffany_choice 2>/dev/null)
+
+    # 💾 Avant de fermer, on enregistre où TU as déplacé/étiré la fenêtre
+    WIN_ID_CURRENT=$(wmctrl -lp | grep " $ZENITY_PID " | awk '{print $1}' | head -n 1)
+    if [ -n "$WIN_ID_CURRENT" ] && command -v wmctrl &>/dev/null; then
+        # Capture de la géométrie réelle
+        GEO_REAL=$(wmctrl -lG | grep "$WIN_ID_CURRENT" | awk '{print "0,"$3","$4","$5","$6}')
+        if [[ "$GEO_REAL" == *"0,"* ]]; then
+            echo "$GEO_REAL" > "$GEO_FILE"
+        fi
+    fi
+
+    # Gestion de la fermeture
+    if [ $CODE_RETOUR -ne 0 ] || [ -z "$CHOIX" ] || [[ "$CHOIX" == "❌ Quitter" ]]; then
+        break
+    fi
+
+    # Trouver le script et l'exécuter en tâche de fond libre
+    for script in "${PLUGIN_FILES[@]}"; do
+        NAME=$(grep -m1 "# MENU_NAME:" "$script" | cut -d':' -f2- | sed 's/^[ \t]*//')
+        if [[ "$CHOIX" == "$NAME" ]]; then
+            bash "$script" </dev/null >/dev/null 2>&1 &
+            break
+        fi
+    done
+    
+    sleep 0.1
+done
+#!/usr/bin/env bash
+# ==============================================================================
+# 🌹 MODULE : tiffany_menu.sh (Version GÉOMÉTRIE ABSOLUE v24.0)
+# 🛡️ RÔLE   : Panneau persistant qui mémorise sa position et sa taille exactes
+# ==============================================================================
+ROOT_DIR="$HOME/tiffany"
+PLUGIN_DIR="$ROOT_DIR/plugins"
+
+# Fichiers temporaires pour stocker la géométrie en continu
+X_FILE="/tmp/tiffany_menu_x"
+Y_FILE="/tmp/tiffany_menu_y"
+W_FILE="/tmp/tiffany_menu_w"
+H_FILE="/tmp/tiffany_menu_h"
+
+# Initialisation par défaut si premier lancement
+[ -f "$W_FILE" ] || echo "580" > "$W_FILE"
+[ -f "$H_FILE" ] || echo "660" > "$H_FILE"
+
+# 🛰️ SENTINELLE INVISIBLE : Enregistre l'emplacement et la taille en continu toutes les 0.4s
+(
+    while true; do
+        sleep 0.4
+        if command -v xdotool &>/dev/null; then
+            # Cherche la fenêtre active du menu
+            WIN_ID=$(xdotool search --name "Panneau de Contrôle Continu" 2>/dev/null | head -n 1)
+            if [ -n "$WIN_ID" ]; then
+                eval $(xdotool getwindowgeometry --shell "$WIN_ID" 2>/dev/null)
+                if [ -n "$X" ] && [ -n "$Y" ] && [ -n "$WIDTH" ] && [ -n "$HEIGHT" ]; then
+                    echo "$X" > "$X_FILE"
+                    echo "$Y" > "$Y_FILE"
+                    echo "$WIDTH" > "$W_FILE"
+       

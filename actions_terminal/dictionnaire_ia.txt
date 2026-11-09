@@ -1,0 +1,4 @@
+- 'crée le dossier Code dans Documents' -> mkdir -p /home/user/Documents/Code
+- 'crée un dossier nommé Secret sur mon bureau' -> mkdir -p /home/user/Bureau/Secret
+- 'déplace le dossier Test de mon bureau vers Documents' -> mv /home/user/Bureau/Test /home/user/Documents/
+- 'déplace nommé test dans ghbt' -> mv /home/user/Bureau/nomme\ test /home/user/Bureau/ghbt/
