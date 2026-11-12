@@ -1,0 +1,49 @@
+================================================================================
+🌹 FEUILLE DE ROUTE & ARCHITECTURE CIBLE : TIFFANY AI-OS V47.0
+================================================================================
+Matériel cible : Toshiba Portégé R830 (Intel Core i3-2350M / 8 Go RAM / HDD 500 Go)
+Objectif       : Fluidité absolue, honnêteté technique et auto-apprentissage clos.
+
+--------------------------------------------------------------------------------
+ÉTAPE 1 (SIMPLE) : LE BOUCLIER CPU & L'HONNÊTETÉ DU PETIT CERVEAU
+--------------------------------------------------------------------------------
+- Objectif : Empêcher Ollama de saturer le processeur à 170% et interdire à l'IA
+  d'inventer des données techniques.
+- Actions  :
+  1. Réécrire le prompt de qwen2.5:0.5b : "Si une donnée n'est pas écrite noir
+     sur blanc dans les capteurs, dis 'Je n'ai pas cette donnée en direct' et
+     conseille la commande ou l'outil Linux à utiliser."
+  2. Encadrer les appels lourds avec 'nice -n 19' et 'cpulimit -l 80' pour que
+     le PC reste fluide même pendant une réflexion longue (timeout 600s).
+
+--------------------------------------------------------------------------------
+ÉTAPE 2 (INTERMÉDIAIRE) : L'APPRENTISSAGE ACTIF & LES 3 VITESSES
+--------------------------------------------------------------------------------
+- Objectif : Créer un système hybride sans latence qui retient ce qu'il fait.
+- Actions  :
+  1. Vitesse 1 (Bash < 0.1s) : Dictionnaires et commandes déjà connues.
+  2. Vitesse 2 (0.5b ~ 1.5s) : Discussion courante, accueil et séduction.
+  3. Vitesse 3 (1.5b / Mistral) : Déclenché uniquement par des mots-clés de
+     réflexion ("analyse", "pourquoi", "comment", "réfléchis", "outil", "bug").
+  4. Mémoire réflexe : Chaque commande générée par l'IA et validée par ton clic
+     Zenity est automatiquement gravée dans 'dictionnaire_ia.txt'.
+
+--------------------------------------------------------------------------------
+ÉTAPE 3 (AVANCÉ) : LE DOJO (BAC À SABLE D'ENTRAÎNEMENT CLOS)
+--------------------------------------------------------------------------------
+- Objectif : Donner à Tiffany un espace isolé pour s'entraîner toute seule.
+- Actions  :
+  1. Création du dossier clos : ~/tiffany/dojo/
+  2. Script 'tiffany_training.sh' : Tiffany se fixe un défi Bash, l'exécute
+     uniquement dans le dojo, vérifie que ça fonctionne (code 0), et ajoute la
+     commande réussie à son dictionnaire officiel.
+  3. Sécurité thermique et système : Interdiction stricte de toucher aux dossiers
+     hors du dojo et pause automatique si le CPU dépasse 70°C.
+
+--------------------------------------------------------------------------------
+ÉTAPE 4 (FINITION) : CLÔTURE ASYNCHRONE ET JOURNAL DE BORD
+--------------------------------------------------------------------------------
+- Objectif : Reconnecter diary_agent.py et memory_agent.py à la fermeture.
+- Actions  : Quand tu écris 'quitter', le terminal se ferme instantanément et
+  Tiffany compile ses souvenirs et son journal intime doucement en arrière-plan.
+================================================================================

@@ -1,0 +1,6 @@
+[11:03:41] ❌ ÉCHEC test : 'df -h | grep /$ | awk {print $4}'
+[11:50:10] 🥋 SUCCÈS : 'affiche les 5 processus qui consomment le plus de memoire' -> 'ps -A | sort -k 4 -n | head -n 5' (Ajouté au dictionnaire)
+[12:29:34] ❌ ÉCHEC test : 'top -o %MEM | head -n'
+[12:51:13] 🌡️ Surchauffe (75°C). Entraînement reporté.
+[00:22:57] 🌡️ Surchauffe (74°C). Entraînement reporté.
+[01:05:56] 🌡️ Surchauffe (75°C). Entraînement reporté.

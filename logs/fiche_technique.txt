@@ -1,72 +1,68 @@
-Chemin matériel         Périphérique  Classe         Description
-===================================================================
-                                         system         PORTEGE R830 (0000000000)
-/0                                       bus            Portable PC
-/0/0                                     memory         128KiB BIOS
-/0/1f                                    processor      Intel(R) Core(TM) i3-2350M CPU @ 2.30GHz
-/0/1f/21                                 memory         32KiB L1 cache
-/0/1f/22                                 memory         256KiB L2 cache
-/0/1f/23                                 memory         3MiB L3 cache
-/0/20                                    memory         32KiB L1 cache
-/0/24                                    memory         8GiB Mémoire Système
-/0/24/0                                  memory         4GiB SODIMM DDR3 Synchrone 1333 MHz (0,8 ns)
-/0/24/1                                  memory         4GiB SODIMM DDR3 Synchrone 1333 MHz (0,8 ns)
-/0/100                                   bridge         2nd Generation Core Processor Family DRAM Controller
-/0/100/2                 /dev/fb0        display        2nd Generation Core Processor Family Integrated Graphics Controller
-/0/100/16                                communication  6 Series/C200 Series Chipset Family MEI Controller #1
-/0/100/19                enp0s25         network        82579V Gigabit Network Connection
-/0/100/1a                                bus            6 Series/C200 Series Chipset Family USB Enhanced Host Controller #2
-/0/100/1a/1              usb1            bus            EHCI Host Controller
-/0/100/1a/1/1                            bus            Integrated Rate Matching Hub
-/0/100/1a/1/1/1                          generic        Fingerprint Sensor
-/0/100/1a/1/1/5                          multimedia     TOSHIBA Web Camera
-/0/100/1b                card0           multimedia     6 Series/C200 Series Chipset Family High Definition Audio Controller
-/0/100/1b/0              input13         input          HDA Intel PCH Mic
-/0/100/1b/1              input14         input          HDA Intel PCH Headphone
-/0/100/1b/2              input15         input          HDA Intel PCH HDMI/DP,pcm=3
-/0/100/1b/3              input16         input          HDA Intel PCH HDMI/DP,pcm=7
-/0/100/1b/4              input17         input          HDA Intel PCH HDMI/DP,pcm=8
-/0/100/1c                                bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 1
-/0/100/1c/0              mmc0            bus            MMC/SD Host Controller
-/0/100/1c.1                              bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 2
-/0/100/1c.2                              bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 3
-/0/100/1c.2/0            wlp4s0          network        AR9285 Wireless Network Adapter (PCI-Express)
-/0/100/1c.4                              bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 5
-/0/100/1c.4/0                            bus            uPD720200 USB 3.0 Host Controller
-/0/100/1c.4/0/0          usb3            bus            xHCI Host Controller
-/0/100/1c.4/0/0/1        input18         input          Razer Razer Lancehead Tournament Edition
-/0/100/1c.4/0/1          usb4            bus            xHCI Host Controller
-/0/100/1c.5                              bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 6
-/0/100/1c.6                              bridge         82801 Mobile PCI Bridge
-/0/100/1d                                bus            6 Series/C200 Series Chipset Family USB Enhanced Host Controller #1
-/0/100/1d/1              usb2            bus            EHCI Host Controller
-/0/100/1d/1/1                            bus            Integrated Rate Matching Hub
-/0/100/1d/1/1/2          scsi6           storage        External USB 3.0
-/0/100/1d/1/1/2/0.0.0    /dev/sdb        disk           1500GB External USB 3.0
-/0/100/1d/1/1/2/0.0.0/1  /dev/sdb1       volume         1397GiB W95 FAT32 (LBA) partition
-/0/100/1d/1/1/6                          communication  AR3011 Bluetooth
-/0/100/1f                                bridge         HM65 Express Chipset LPC Controller
-/0/100/1f/0                              system         PnP device PNP0c02
-/0/100/1f/1                              generic        PnP device IFX0102
-/0/100/1f/2                              system         PnP device PNP0103
-/0/100/1f/3                              system         PnP device PNP0c02
-/0/100/1f/4                              system         PnP device PNP0c02
-/0/100/1f/5                              system         PnP device PNP0b00
-/0/100/1f/6                              input          PnP device PNP0303
-/0/100/1f/7                              generic        PnP device TOS0220
-/0/100/1f/8                              system         PnP device PNP0c01
-/0/100/1f.2              scsi0           storage        6 Series/C200 Series Chipset Family 6 port Mobile SATA AHCI Controller
-/0/100/1f.2/0            /dev/sda        disk           500GB ST500LM012 HN-M5
-/0/100/1f.2/0/1          /dev/sda1       volume         1023KiB BIOS Boot partition
-/0/100/1f.2/0/2          /dev/sda2       volume         512MiB Windows FAT volume
-/0/100/1f.2/0/3          /dev/sda3       volume         465GiB Volume EXT4
-/0/100/1f.2/1            /dev/cdrom      disk           DVD-RAM UJ8B2E
-/1                                       power          Lithium Ion Battery
-/2                                       power          
-/3                       input0          input          Power Button
-/4                       input1          input          Lid Switch
-/5                       input11         input          Toshiba input device
-/6                       input12         input          Video Bus
-/7                       input2          input          Power Button
-/8                       input3          input          AT Translated Set 2 keyboard
-/9                       input6          input          SynPS/2 Synaptics TouchPad
+Chemin matériel  Périphérique  Classe         Description
+============================================================
+                                  system         PORTEGE R830 (0000000000)
+/0                                bus            Portable PC
+/0/0                              memory         128KiB BIOS
+/0/1f                             processor      Intel(R) Core(TM) i3-2350M CPU @ 2.30GHz
+/0/1f/21                          memory         32KiB L1 cache
+/0/1f/22                          memory         256KiB L2 cache
+/0/1f/23                          memory         3MiB L3 cache
+/0/20                             memory         32KiB L1 cache
+/0/24                             memory         8GiB Mémoire Système
+/0/24/0                           memory         4GiB SODIMM DDR3 Synchrone 1333 MHz (0,8 ns)
+/0/24/1                           memory         4GiB SODIMM DDR3 Synchrone 1333 MHz (0,8 ns)
+/0/100                            bridge         2nd Generation Core Processor Family DRAM Controller
+/0/100/2          /dev/fb0        display        2nd Generation Core Processor Family Integrated Graphics Controller
+/0/100/16                         communication  6 Series/C200 Series Chipset Family MEI Controller #1
+/0/100/19         enp0s25         network        82579V Gigabit Network Connection
+/0/100/1a                         bus            6 Series/C200 Series Chipset Family USB Enhanced Host Controller #2
+/0/100/1a/1       usb1            bus            EHCI Host Controller
+/0/100/1a/1/1                     bus            Integrated Rate Matching Hub
+/0/100/1a/1/1/1                   generic        Fingerprint Sensor
+/0/100/1a/1/1/5                   multimedia     TOSHIBA Web Camera
+/0/100/1b         card0           multimedia     6 Series/C200 Series Chipset Family High Definition Audio Controller
+/0/100/1b/0       input10         input          HDA Intel PCH Headphone
+/0/100/1b/1       input11         input          HDA Intel PCH HDMI/DP,pcm=3
+/0/100/1b/2       input12         input          HDA Intel PCH HDMI/DP,pcm=7
+/0/100/1b/3       input13         input          HDA Intel PCH HDMI/DP,pcm=8
+/0/100/1b/4       input9          input          HDA Intel PCH Mic
+/0/100/1c                         bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 1
+/0/100/1c/0       mmc0            bus            MMC/SD Host Controller
+/0/100/1c.1                       bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 2
+/0/100/1c.2                       bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 3
+/0/100/1c.2/0     wlp4s0          network        AR9285 Wireless Network Adapter (PCI-Express)
+/0/100/1c.4                       bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 5
+/0/100/1c.4/0                     bus            uPD720200 USB 3.0 Host Controller
+/0/100/1c.4/0/0   usb3            bus            xHCI Host Controller
+/0/100/1c.4/0/1   usb4            bus            xHCI Host Controller
+/0/100/1c.5                       bridge         6 Series/C200 Series Chipset Family PCI Express Root Port 6
+/0/100/1c.6                       bridge         82801 Mobile PCI Bridge
+/0/100/1d                         bus            6 Series/C200 Series Chipset Family USB Enhanced Host Controller #1
+/0/100/1d/1       usb2            bus            EHCI Host Controller
+/0/100/1d/1/1                     bus            Integrated Rate Matching Hub
+/0/100/1d/1/1/6                   communication  AR3011 Bluetooth
+/0/100/1f                         bridge         HM65 Express Chipset LPC Controller
+/0/100/1f/0                       system         PnP device PNP0c02
+/0/100/1f/1                       generic        PnP device IFX0102
+/0/100/1f/2                       system         PnP device PNP0103
+/0/100/1f/3                       system         PnP device PNP0c02
+/0/100/1f/4                       system         PnP device PNP0c02
+/0/100/1f/5                       system         PnP device PNP0b00
+/0/100/1f/6                       input          PnP device PNP0303
+/0/100/1f/7                       generic        PnP device TOS0220
+/0/100/1f/8                       system         PnP device PNP0c01
+/0/100/1f.2       scsi0           storage        6 Series/C200 Series Chipset Family 6 port Mobile SATA AHCI Controller
+/0/100/1f.2/0     /dev/sda        disk           500GB ST500LM012 HN-M5
+/0/100/1f.2/0/1   /dev/sda1       volume         1023KiB BIOS Boot partition
+/0/100/1f.2/0/2   /dev/sda2       volume         512MiB Windows FAT volume
+/0/100/1f.2/0/3   /dev/sda3       volume         465GiB Volume EXT4
+/0/100/1f.2/1     /dev/cdrom      disk           DVD-RAM UJ8B2E
+/1                                power          Lithium Ion Battery
+/2                                power          
+/3                input0          input          Power Button
+/4                input1          input          Lid Switch
+/5                input2          input          Power Button
+/6                input3          input          AT Translated Set 2 keyboard
+/7                input6          input          SynPS/2 Synaptics TouchPad
+/8                input7          input          Toshiba input device
+/9                input8          input          Video Bus

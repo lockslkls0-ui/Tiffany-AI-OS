@@ -15,3 +15,33 @@ Locks aime programmer sur son Toshiba.
 - Locks: Ouverture jeux
 - Tu as eu l'occasion de découvrir un nouveau goût sucré, en dégustant une tarte aux pommes.
 - Locks: ouvre une application de jeux.
+{"date":"1794393742","action":"noyau"}
+{"date":"1794395743","action":"ca va tiff?"}
+{"date":"1794395845","action":"c'est tu voir mon materiel?"}
+{"date":"1794396249","action":"comment va ma batterie"}
+{"date":"1794396350","action":"Tu vois ma RAM"}
+{"date":"1794396585","action":"quelle age a mon disck dur ?"}
+{"date":"1794396892","action":"quelle est la température de ma  batterie ?"}
+{"date":"1794397258","action":"quel age a mon disque dur ?"}
+{"date":"1794398115","action":"quel age a mon disque dur ?"}
+{"date":"1794398296","action":"affiche Power_On_Hours"}
+{"date":"1794399020","action":"#!/usr/bin/env bash"}
+{"date":"1794399032","action":"# =============================================================================="}
+{"date":"1794399069","action":"# 🌹 PROJECT TIFFANY - APEX ENGINE V46.9 (OMNISCIENCE ET FUSION LOGS EN RAM)"}
+{"date":"1794399153","action":"# =============================================================================="}
+{"date":"1794399178","action":"ROOT_DIR="$HOME/tiffany""}
+{"date":"1794399318","action":"ACTION_DIR="$ROOT_DIR/actions_terminal""}
+{"date":"1794399356","action":"REQUETE="$*""}
+{"date":"1794399399","action":"DICT_PATH="/home/user/tiffany/dictionnaire_flash.txt""}
+{"date":"1794399456","action":"CTX_FILE="$ROOT_DIR/memory/contexte_matrice.txt""}
+{"date":"1794399488","action":"LOG_SESSION="/home/user/tiffany/logs/session_raw.txt""}
+{"date":"1794399528","action":"LONG_TERM="$ROOT_DIR/memory/long_term_facts.json""}
+{"date":"1794399565","action":"REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"}
+{"date":"1794399577","action":"speak() {"}
+{"date":"1794399586","action":"(espeak-ng -v fr+f5 -s 140 -p 85 "$TEXT_CLEAN" >/dev/null 2>&1) &"}
+{"date":"1794399614","action":"# 🚪 1. Gestion de la fermeture de session"}
+{"date":"1794400355","action":"analyse mon matériel"}
+{"date":"1794400546","action":"donne moi ses information"}
+{"date":"1794400710","action":"qui est tu ?"}
+{"date":"1794400776","action":"affiche la date"}
+{"date":"1794401081","action":"analyse mon matérielle"}

@@ -36,7 +36,7 @@ case "$cmd_type" in
         speak "Il fait actuellement $METEO_RAW"
         ;;
 
-    "matériel")
+    "matériel"|"chargeur"|"charge"|"alimentation"|"batterie"|"energie"|"secteur"|"prise"|"courant"|"jus"|"autonomie"|"fil")
         BAT_CAP=$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)
         [ -z "$BAT_CAP" ] && BAT_CAP=$(cat /sys/class/power_supply/BAT1/capacity 2>/dev/null)
         [ -z "$BAT_CAP" ] && BAT_CAP="100"

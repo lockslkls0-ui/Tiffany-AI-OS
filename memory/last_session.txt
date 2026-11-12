@@ -1,0 +1,1 @@
+[SYNTHÈSE V46.1] Créateur: Lorian. Batterie: 100%. Statut: Chargeur fonctionnel. Note: Le script d'ancrage a subi un timeout. Les erreurs ACPI SATA du BIOS saturent le prompt. Variables température et pourcentage à ré-ancrer.

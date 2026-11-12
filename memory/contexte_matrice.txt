@@ -1,0 +1,42 @@
+
+Fait marquant: noyau
+Ouvre: /home/user/Bureau/google-chrome.desktop
+Événement: noyau
+Ouvre: /home/user/Téléchargements/systeme/système/t/r/s/sq/qd/dgsf/dfgdfs/dfg/dfgfdgh/ko/txt/MILK-236
+Cherche: milk
+Événement: ca va tiff?
+Événement: c'est tu voir mon materiel?
+Événement: comment va ma batterie
+Événement: Tu vois ma RAM
+Événement: quelle age a mon disck dur ?
+Événement: quelle est la température de ma  batterie ?
+Événement: quel age a mon disque dur ?
+Ouvre: /home/user/Téléchargements/systeme/système/t/r/s/sq/qd/dgsf/dfgdfs/dfg/dfgfdgh/ko/txt/MILK-236
+Action ROOT: 1. mkdir -p '~/Bureau' : Crea un dossier vierge sous 'Bureau' avec les options -p (placer en dessous) et -r (réeliser en mode opération).
+Événement: quel age a mon disque dur ?
+Événement: affiche Power_On_Hours
+Ouvre: /home/user/Téléchargements/systeme/système/t/r/s/sq/qd/dgsf/dfgdfs/dfg/dfgfdgh/ko/txt/MILK-236
+Action ROOT: mkdir /home/username
+Événement: #!/usr/bin/env bash
+Événement: # ==============================================================================
+Événement: # 🌹 PROJECT TIFFANY - APEX ENGINE V46.9 (OMNISCIENCE ET FUSION LOGS EN RAM)
+Événement: # ==============================================================================
+Événement: ROOT_DIR="$HOME/tiffany"
+Événement: ACTION_DIR="$ROOT_DIR/actions_terminal"
+Événement: REQUETE="$*"
+Événement: DICT_PATH="/home/user/tiffany/dictionnaire_flash.txt"
+Événement: CTX_FILE="$ROOT_DIR/memory/contexte_matrice.txt"
+Événement: LOG_SESSION="/home/user/tiffany/logs/session_raw.txt"
+Événement: LONG_TERM="$ROOT_DIR/memory/long_term_facts.json"
+Événement: REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+Événement: speak() {
+Événement: (espeak-ng -v fr+f5 -s 140 -p 85 "$TEXT_CLEAN" >/dev/null 2>&1) &
+Événement: # 🚪 1. Gestion de la fermeture de session
+Ouvre: /home/user/tiffany/actions_terminal/dictionnaire_ia.txt
+Événement: analyse mon matériel
+Événement: donne moi ses information
+Événement: qui est tu ?
+Événement: affiche la date
+Événement: analyse mon matérielle
+Connaissance Web (ia porc au sucre) : Je suis désolé, mais je ne suis pas en mesure de lire ou de consulter le
+Connaissance Web (ia ingrédients porc au sucre) : Je suis désolée, mais je ne peux pas accéder à la page web spécifique mentionnée dans votre demande. Pourriez-vous fournir le nom de la page web en français ou en anglais? En attendant, je peux essayer de vous aider à résumer les ingrédients et les étapes d'une recette de tarte au porc au sucre en utilisant mes

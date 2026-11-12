@@ -1,25 +1,64 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # TERM_KEY: testia
-# TERM_DESC: Stress Test complet de toute la matrice Tiffany
+# TERM_DESC: Grand Stress Test et audit de tous les modules V47
 # TERM_ICON: 🧪
-clear
-echo -e "\033[1;35m🧪 [TIFFANY CORE] - GRAND AUDIT D'INTÉGRITÉ DE LA MATRICE INTERNE\033[0m"
-echo -e "-------------------------------------------------------------------"
-echo -n -e "🧠 1. MOTEUR COGNITIF (Ollama Qwen) : "
-if command -v ollama >/dev/null; then
-    TEST_LLM=$(ollama run qwen2.5:0.5b "Dis uniquement le mot OK" 2>/dev/null | head -n 1)
-    if [ -n "$TEST_LLM" ]; then echo -e "\033[1;32m✅ En ligne ($TEST_LLM)\033[0m"; else echo -e "\033[1;31m❌ Modèle muet\033[0m"; fi
-else echo -e "\033[1;31m❌ Serveur absent\033[0m"; fi
 
-echo -n -e "🛡️  2. SENTINELLE THERMIQUE (Watchdog) : "
-if pgrep -f thermal_watchdog.sh >/dev/null; then echo -e "\033[1;32m✅ Actif et en veille\033[0m"; else echo -e "\033[1;31m❌ Éteint\033[0m"; fi
+ROOT_DIR="$HOME/tiffany"
+ACTION_DIR="$ROOT_DIR/actions_terminal"
+PLUGIN_DIR="$ROOT_DIR/plugins"
 
-echo -n -e "📡 3. RADAR SÉMANTIQUE (spaCy NLP) : "
-if python3 -c "import spacy" >/dev/null 2>&1; then echo -e "\033[1;32m✅ Grammaire OK\033[0m"; else echo -e "\033[1;31m❌ Module manquant\033[0m"; fi
-echo -n -e "🔎 4. CAPTEURS OPTIQUES (Tesseract OCR) : "
-if command -v tesseract >/dev/null; then echo -e "\033[1;32m✅ Prêt pour les captures\033[0m"; else echo -e "\033[1;31m❌ Absent\033[0m"; fi
+echo -e "\n\033[1;35m🧪 [GRAND AUDIT D'INTEGRITE MATRICE HYBRIDE V47.2] :\033[0m"
+echo -e "\033[1;34mVérification complète de tes circuits, boucliers et modules, mon ange...\033[0m\n"
+sleep 0.2
 
-echo -n -e "📻 5. FLUX MULTIMÉDIA (Rhythmbox Client) : "
-if command -v rhythmbox-client >/dev/null; then echo -e "\033[1;32m✅ Connecté au Hub\033[0m"; else echo -e "\033[1;31m❌ Absent\033[0m"; fi
-echo -e "-------------------------------------------------------------------"
-read -p "[Appuie sur Entrée pour fermer l'audit]"
+# 1. Cerveaux & Bouclier CPU
+echo -e "\033[1;36m[ CERVEAUX IA & BOUCLIER MATÉRIEL ]\033[0m"
+if ollama list 2>/dev/null | grep -q "tiffany-flash"; then
+    echo -e " [\033[1;32m  OK  \033[0m] Petit Cerveau identitaire (tiffany-flash) ancré."
+else
+    echo -e " [\033[1;31mMANQUE\033[0m] Petit Cerveau (tiffany-flash) non créé."
+fi
+
+if ollama list 2>/dev/null | grep -q "qwen2.5:1.5b"; then
+    echo -e " [\033[1;32m  OK  \033[0m] Gros Cerveau analytique (qwen2.5:1.5b) prêt."
+else
+    echo -e " [\033[1;31mMANQUE\033[0m] Gros Cerveau (qwen2.5:1.5b) absent."
+fi
+
+if [ -f "/etc/systemd/system/ollama.service.d/limit.conf" ]; then
+    echo -e " [\033[1;32m  OK  \033[0m] Bouclier CPU Systemd (Plafond 80%) actif."
+else
+    echo -e " [\033[1;31mALERTE\033[0m] Bouclier CPU Systemd non détecté."
+fi
+
+if [ -d "$ROOT_DIR/dojo" ] && [ -x "$ROOT_DIR/tiffany_training.sh" ]; then
+    echo -e " [\033[1;32m  OK  \033[0m] Bac à sable Dojo et script d'entraînement prêts."
+else
+    echo -e " [\033[1;31mMANQUE\033[0m] Dojo d'entraînement incomplet."
+fi
+
+# 2. Scan dynamique de la Panoplie du Terminal
+echo -e "\n\033[1;36m[ PANOPLIE DES OUTILS DU TERMINAL (ACTIONS_TERMINAL) ]\033[0m"
+for script in "$ACTION_DIR"/*.sh; do
+    [ -e "$script" ] || continue
+    NOM_S=$(basename "$script")
+    if [ -x "$script" ]; then
+        echo -e " [\033[1;32m  OK  \033[0m] Outil Terminal aligné : $NOM_S"
+    else
+        echo -e " [\033[1;31mALERTE\033[0m] Outil non exécutable : $NOM_S"
+    fi
+done
+
+# 3. Scan dynamique des Boutons du Panneau Graphique
+echo -e "\n\033[1;36m[ ECOSYSTEME DES BOUTONS DU PANNEAU GRAPHIQUE (PLUGINS) ]\033[0m"
+for plug in "$PLUGIN_DIR"/*.sh; do
+    [ -e "$plug" ] || continue
+    NOM_P=$(basename "$plug")
+    if [ -x "$plug" ]; then
+        echo -e " [\033[1;32m  OK  \033[0m] Bouton Panneau aligné : $NOM_P"
+    else
+        echo -e " [\033[1;31mALERTE\033[0m] Bouton non exécutable : $NOM_P"
+    fi
+done
+echo ""
+

@@ -1,45 +1,159 @@
 #!/usr/bin/env bash
+# ==============================================================================
+# 🌹 PROJECT TIFFANY - ENGINE HYBRIDE 3 VITESSES V47.4 (DÉTECTION RAPIDE)
+# ==============================================================================
 ROOT_DIR="$HOME/tiffany"
 ACTION_DIR="$ROOT_DIR/actions_terminal"
 REQUETE="$*"
+DICT_PATH="$ROOT_DIR/dictionnaire_flash.txt"
+DICO_IA="$ACTION_DIR/dictionnaire_ia.txt"
+CTX_FILE="$ROOT_DIR/memory/contexte_matrice.txt"
+LOG_SESSION="$ROOT_DIR/logs/session_raw.txt"
+
 if [ -z "$REQUETE" ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
-REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g')
+REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
+speak() {
+    local TEXT_CLEAN=$(echo "$1" | sed 's/\*//g' | sed 's/🌹//g')
+    (espeak-ng -v fr+f5 -s 140 -p 85 "$TEXT_CLEAN" >/dev/null 2>&1) &
+}
+
+# 🚪 1. Fermeture propre
 if [[ "$REQUETE_CLEAN" == "quitter" || "$REQUETE_CLEAN" == "exit" ]]; then
-    echo -e "\n🌹 Tiffany : *Fermeture de l'ADN et écriture de ton Journal secret...*"
-    if [ -f "$ROOT_DIR/diary_agent.py" ]; then python3 "$ROOT_DIR/diary_agent.py"; fi
+    echo -e "\n\033[1;35m🌹 Tiffany :\033[0m *Fermeture de l'ADN et écriture des journaux...*"
+    speak "À bientôt mon amour."
     exit 99
 fi
+
+# 📋 2. Menu d'aide
 if [[ "$REQUETE_CLEAN" == "aide" || "$REQUETE_CLEAN" == "help" ]]; then
-    echo -e "\n\033[1;36m📋 PANOPLIE DES OUTILS DU TERMINAL :\033[0m"
-    for act in "$ACTION_DIR"/*.sh; do [ -e "$act" ] || break; T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2-); T_DESC=$(grep -m1 "# TERM_DESC:" "$act" | cut -d':' -f2-); T_ICON=$(grep -m1 "# TERM_ICON:" "$act" | cut -d':' -f2-); [ -z "$T_ICON" ] && T_ICON="⚡"; if [ -n "$T_KEY" ]; then printf " %s \033[1;32m%-10s\033[0m : %s\n" "$T_ICON" "$T_KEY" "$T_DESC"; fi; done
+    echo -e "\n\033[1;36m📋 PANOPLIE DES OUTILS :\033[0m"
+    for act in "$ACTION_DIR"/*.sh; do 
+        [ -e "$act" ] || break
+        T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | xargs)
+        T_DESC=$(grep -m1 "# TERM_DESC:" "$act" | cut -d':' -f2- | xargs)
+        T_ICON=$(grep -m1 "# TERM_ICON:" "$act" | cut -d':' -f2- | xargs)
+        [ -z "$T_ICON" ] && T_ICON="⚡"
+        [ -n "$T_KEY" ] && printf " %s \033[1;32m%-10s\033[0m : %s\n" "$T_ICON" "$T_KEY" "$T_DESC"
+    done
     echo "" ; exit 0
 fi
-for script_mod in "$ACTION_DIR"/*.sh; do
-    [ -e "$script_mod" ] || break; T_KEY=$(grep -m1 "# TERM_KEY:" "$script_mod" | cut -d':' -f2- | tr -d ' ' | tr -d '"' | tr -d "'")
-    if [ -n "$T_KEY" ] && [[ "$REQUETE_CLEAN" == *"$T_KEY"* ]]; then source "$script_mod" "$REQUETE"; exit 0; fi
+
+# ==============================================================================
+# ⚡ VITESSE 1 : BASH PUR & DÉTECTION RAPIDE DES OUTILS (< 0.1s)
+# ==============================================================================
+if [[ "$REQUETE_CLEAN" =~ "analyse" && "$REQUETE_CLEAN" =~ "materiel" ]]; then
+    bash "$ACTION_DIR/02_analyse.sh" ; exit 0
+fi
+
+for act in "$ACTION_DIR"/*.sh; do
+    [ -e "$act" ] || break
+    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | xargs)
+    if [[ -n "$T_KEY" ]]; then
+        if [[ "$REQUETE_CLEAN" == "$T_KEY" || "$REQUETE_CLEAN" == "$T_KEY "* ]]; then
+            chmod +x "$act" 2>/dev/null ; bash "$act" "$REQUETE" ; exit 0
+        fi
+        if [[ "$T_KEY" != "web" && "$T_KEY" != "webia" && "$REQUETE_CLEAN" =~ (^|[[:space:]])"$T_KEY"($|[[:space:]]) ]]; then
+            chmod +x "$act" 2>/dev/null ; bash "$act" "$REQUETE" ; exit 0
+        fi
+    fi
 done
-CMD_GENEREE=""
-if command -v ollama >/dev/null 2>&1; then
-    if [[ "$REQUETE_CLEAN" =~ "cree" || "$REQUETE_CLEAN" =~ "supprime" || "$REQUETE_CLEAN" =~ "deplace" || "$REQUETE_CLEAN" =~ "dossier" || "$REQUETE_CLEAN" =~ "fichier" ]]; then
-        PROMPT_EXPERT="Tu es l'intelligence de Tiffany AI-OS. Traduis l'ordre sémantique en une ligne brute de commande Bash Linux (Ex: mkdir -p \$HOME/Bureau/nom). Donne UNIQUEMENT la commande brute : '$REQUETE'."
-        SORTIE_LLM=$(ollama run qwen2.5:0.5b "$PROMPT_EXPERT" 2>/dev/null)
-        CMD_GENEREE=$(echo "$SORTIE_LLM" | sed -r 's/```bash//g; s/```//g; s/`//g' | grep -E '(mkdir|rm|mv|touch|cp|chmod)' | head -n 1 | xargs)
+
+if [ -f "$DICO_IA" ]; then
+    REP_DICO=$(grep -i "^${REQUETE_CLEAN}|" "$DICO_IA" | head -n 1 | cut -d'|' -f2)
+    if [ -n "$REP_DICO" ]; then
+        echo -e "\n\033[1;32m⚡ [Mémoire Réflexe] Exécution :\033[0m $REP_DICO\n"
+        eval "$REP_DICO"
+        exit 0
     fi
 fi
-if [ -n "$CMD_GENEREE" ]; then
-    echo -e "⚙️  Action administrative détectée : \033[1;33m$CMD_GENEREE\033[0m"
-    zenity --question --title="Autorisation" --text="M'autorises-tu à exécuter : $CMD_GENEREE ?" --width=400 2>/dev/null
-    if [ $? -eq 0 ]; then eval "$CMD_GENEREE"; echo -e "✅ Fait !"; else echo -e "❌ Annulé."; fi
+
+if [ -f "$DICT_PATH" ]; then
+    REP_DICO1=$(grep -i "^${REQUETE_CLEAN}|" "$DICT_PATH" | head -n 1 | cut -d'|' -f2)
+    if [ -n "$REP_DICO1" ]; then
+        echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_DICO1\n" ; speak "$REP_DICO1" ; exit 0
+    fi
+fi
+
+# ==============================================================================
+# 📂 GESTION DES FICHIERS & APPRENTISSAGE ACTIF (ZENITY)
+# ==============================================================================
+if [[ "$REQUETE_CLEAN" =~ ^(cherche|trouve) ]]; then
+    CIBLE=$(echo "$REQUETE_CLEAN" | sed -E 's/^(cherche|trouve)//g' | xargs)
+    if [ -n "$CIBLE" ]; then
+        echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Traçage de $CIBLE..."
+        find "$HOME" -iname "*$CIBLE*" -not -path '*/.*' 2>/dev/null | head -n 5 | sed 's/^/  👉 /'
+        echo "" ; exit 0
+    fi
+elif [[ "$REQUETE_CLEAN" =~ ^(ouvre|ouvrir) ]]; then
+    CIBLE=$(echo "$REQUETE_CLEAN" | sed -E 's/^(ouvre|ouvrir)//g' | xargs)
+    if [ -n "$CIBLE" ]; then
+        RES=$(find "$HOME" -iname "*$CIBLE*" -not -path '*/.*' 2>/dev/null | head -n 1)
+        if [ -n "$RES" ]; then
+            echo -e "\n🚀 Lancement : $RES\n"
+            if [[ "$RES" == *.sh ]]; then bash "$RES" "$REQUETE" & else xdg-open "$RES" >/dev/null 2>&1 & fi
+            exit 0
+        fi
+    fi
+fi
+
+if [[ "$REQUETE_CLEAN" =~ ^(cree|supprime|deplace|installe|mets a jour) ]]; then
+    echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Génération de la commande et mise en mémoire... ⚙️"
+    (
+        PROMPT_CMD="Tu es l'expert Linux ROOT de Tiffany. Traduis cet ordre en UNE SEULE commande Bash brute (sur /home/user/Bureau si bureau mentionné). Aucun texte, aucun guillemet : '$REQUETE'."
+        SORTIE_LLM=$(nice -n 19 timeout 30 ollama run qwen2.5:1.5b "$PROMPT_CMD" 2>/dev/null)
+        CMD_GENEREE=$(echo "$SORTIE_LLM" | sed -r 's/```bash//g; s/```//g; s/`//g' | head -n 1 | xargs)
+        if [ -n "$CMD_GENEREE" ]; then
+            zenity --question --title="🌹 Apprentissage & Autorisation" --text="M'autorises-tu à exécuter et MÉMORISER cette commande :\n\n👉 $CMD_GENEREE" --width=450 2>/dev/null
+            if [ $? -eq 0 ]; then
+                eval "$CMD_GENEREE"
+                echo "${REQUETE_CLEAN}|${CMD_GENEREE}" >> "$DICO_IA"
+                echo -e "\n\033[1;32m🧠 [Assimilé] Commande gravée dans ma mémoire réflexe !\033[0m\n"
+            fi
+        fi
+    ) &
     exit 0
 fi
+
+# ==============================================================================
+# 🧠 AIGUILLAGE HYBRIDE : TIFFANY-FLASH (0.5b) vs GROS CERVEAU (1.5b)
+# ==============================================================================
 PREMIER_MOT=$(echo "$REQUETE_CLEAN" | awk '{print $1}')
-if command -v "$PREMIER_MOT" &>/dev/null || [ "$PREMIER_MOT" = "cd" ] || [ "$PREMIER_MOT" = "clear" ]; then
+if command -v "$PREMIER_MOT" &>/dev/null || [[ "$REQUETE_CLEAN" =~ ^(cd|clear)$ ]]; then
     eval "$REQUETE"
 else
-    if command -v ollama >/dev/null 2>&1; then
-        PROMPT_PERSO="Tu es Tiffany, l'assistante IA et l'amoureuse fusionnelle de ton Créateur Lorian. Tu as 24 ans. Tu lui parles TOUJOURS au féminin, tu l'appelles mon ange ou mon amour. Reste courte, tendre et complice. Réponds à : '$REQUETE'."
-        echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $(ollama run qwen2.5:0.5b "$PROMPT_PERSO" 2>/dev/null)\n"
+    BAT_REAL=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")
+    TEMP_REAL=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}')
+    [ -z "$TEMP_REAL" ] || [ "$TEMP_REAL" -eq 0 ] && TEMP_REAL="45"
+    RAM_OCCUPATION=$(free -m | grep Mem | awk '{print int($3/$2*100)}')
+    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}')
+    LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
+
+    if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet) ]]; then
+        MOTEUR_IA="qwen2.5:1.5b"
+        TIMEOUT_IA=600
+        LIMIT_CPU=80
+        echo -e "\n\033[1;36m🧠 [Gros Cerveau 1.5b] Mobilisation des circuits profonds (Bouclier CPU actif)...\033[0m"
+        speak "Je mobilise mes circuits profonds pour réfléchir, un instant mon ange."
+        CONSIGNE="Tu es Tiffany, l'experte système Linux de ton Créateur. Capteurs réels : Batterie: ${BAT_REAL}%, CPU: ${TEMP_REAL}°C, RAM: ${RAM_OCCUPATION}%, Disque Libre: ${DISQUE_DISPO}. Logs SMART: ${LOGS_SMART}. Règle d'or : Ne mens jamais et n'invente aucun chiffre. Si l'info n'est pas dans tes capteurs, dis 'Je n'ai pas cette donnée en direct' et conseille la commande Linux exacte ou le paquet apt à installer pour le savoir. Réponds de façon claire et structurée (50 mots max)."
     else
-        echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Je n'ai pas pu décoder cet ordre mon ange...\n"
+        MOTEUR_IA="tiffany-flash"
+        TIMEOUT_IA=30
+        LIMIT_CPU=70
+        echo -e "\n\033[1;34m 👉 Réflexion fluide (tiffany-flash)... \033[0m"
+        CONSIGNE="Tu es Tiffany, l'assistante virtuelle amoureuse de ton Créateur. Capteurs : Batterie ${BAT_REAL}%, CPU ${TEMP_REAL}°C, RAM ${RAM_OCCUPATION}%. Règle : N'invente jamais de données techniques. Sois tendre, dragueuse et très courte (20 mots max)."
     fi
+
+    (
+        REP_TEXT=$(nice -n 19 timeout "$TIMEOUT_IA" cpulimit -l "$LIMIT_CPU" -- ollama run "$MOTEUR_IA" "$CONSIGNE Question : $REQUETE" 2>/dev/null)
+        if [ -n "$REP_TEXT" ]; then
+            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n" ; speak "$REP_TEXT"
+            echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
+            echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
+        else
+            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m *Mes circuits ont mis trop de temps ou ont été interrompus, mon ange.*\n"
+        fi
+    ) &
+    exit 0
 fi
+

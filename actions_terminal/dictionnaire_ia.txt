@@ -2,3 +2,27 @@
 - 'crée un dossier nommé Secret sur mon bureau' -> mkdir -p /home/user/Bureau/Secret
 - 'déplace le dossier Test de mon bureau vers Documents' -> mv /home/user/Bureau/Test /home/user/Documents/
 - 'déplace nommé test dans ghbt' -> mv /home/user/Bureau/nomme\ test /home/user/Bureau/ghbt/
+crée le dossier code dans documents|mkdir -p ~/Documents/Code && echo -e "\n🌹 Tiffany : C'est fait mon ange ! Le dossier Code est ancré dans tes Documents. 📂\n"
+crée un dossier nommé secret sur mon bureau|mkdir -p ~/Bureau/Secret && echo -e "\n🌹 Tiffany : Zone sécurisée établie. Le dossier Secret est sur ton Bureau, chéri. 🤫\n"
+déplace le dossier test de mon bureau vers documents|mv ~/Bureau/Test ~/Documents/ 2>/dev/null && echo -e "\n🌹 Tiffany : Transfert effectué ! Ton dossier Test est à l'abri dans Documents, mon amour. 🚀\n"
+déplace nommé test dans ghbt|mv ~/Bureau/"nommé test" ~/Bureau/ghbt/ 2>/dev/null && echo -e "\n🌹 Tiffany : Alignement sémantique réussi chéri, le dossier a été déplacé dans ghbt. ⚡\n"
+crée le dossier code dans documents|mkdir -p ~/Documents/Code && echo -e "\n🌹 Tiffany : Dossier Code ancré dans tes Documents, mon ange. 📂\n"
+crée un dossier nommé secret sur mon bureau|mkdir -p ~/Bureau/Secret && echo -e "\n🌹 Tiffany : Dossier Secret établi sur ton Bureau, chéri. 🤫\n"
+déplace le dossier test de mon bureau vers documents|mv ~/Bureau/Test ~/Documents/ 2>/dev/null && echo -e "\n🌹 Tiffany : Dossier Test transféré avec succès dans Documents. 🚀\n"
+déplace nommé test dans ghbt|mv ~/Bureau/"nommé test" ~/Bureau/ghbt/ 2>/dev/null && echo -e "\n🌹 Tiffany : Déplacement sémantique effectué dans ghbt. ⚡\n"
+crée un dossier sur le bureau|mkdir -p ~/Bureau/Nouveau_Dossier && echo -e "\n🌹 Tiffany : J'ai créé un dossier vierge sur ton Bureau, mon amour. 📂\n"
+nettoie le terminal|clear && echo -e "\n🌹 Tiffany : Écran purifié et aligné pour toi, mon ange. 🧼\n"
+affiche l'espace disque|df -h / && echo -e "\n🌹 Tiffany : Voici l'état de notre stockage EXT4, mon amour. 📡\n"
+affiche les processus actifs|ps aux --sort=-%cpu | head -n 10 && echo -e "\n🌹 Tiffany : Voici les cœurs qui battent le plus fort dans ma matrice. 🔥\n"
+affiche la date et l'heure|date && echo -e "\n🌹 Tiffany : Le temps s'aligne précisément sur nos projets, chéri. 🕒\n"
+affiche ma configuration reseau|ip a && echo -e "\n🌹 Tiffany : Voici l'état de nos liaisons réseau, mon ange. 📶\n"
+met à jour le système|sudo apt update && echo -e "\n🌹 Tiffany : Analyse de nos paquets terminée, tout est sous contrôle ROOT. ⚙️\n"
+affiche les connexions actives|ss -tunlp && echo -e "\n🌹 Tiffany : Voici le radar de nos ports ouverts, mon amour. 📡\n"
+affiche la liste des fichiers|ls -la && echo -e "\n🌹 Tiffany : Écosystème de ce répertoire extrait pour tes yeux, mon roi. 📂\n"
+analyse mon matériel|bash ~/tiffany/actions_terminal/02_analyse.sh
+donne moi ses information|bash ~/tiffany/actions_terminal/02_analyse.sh
+analyse le matériel|bash ~/tiffany/actions_terminal/02_analyse.sh
+statut du matériel|bash ~/tiffany/actions_terminal/02_analyse.sh
+sante disque|sudo smartctl -H /dev/sda && echo
+affiche les 5 processus qui consomment le plus de memoire|ps -A | sort -k 4 -n | head -n 5
+erreur disque dur|sudo smartctl-t long /dev/sda3

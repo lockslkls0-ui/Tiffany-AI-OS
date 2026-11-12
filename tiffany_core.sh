@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# 🌹 MODULE : tiffany_core.sh (Version 46.1 - PRODUCTION FINALE LIBÉRÉE)
-# 🛡️ RÔLE   : Affichage de la matrice néon, invite et passation synchrone
+# 🌹 MODULE : tiffany_core.sh (Version 47.0 - PRODUCTION HYBRIDE & DOJO)
+# 🛡️ RÔLE   : Affichage de la matrice néon, invite et clôture asynchrone
 # ==============================================================================
 ROOT_DIR="$HOME/tiffany"
 
 clear
 echo -e "\033[1;35m┌──────────────────────────────────────────────────────────────────┐\033[0m"
-echo -e "\033[1;35m│\033[1;36m   🌹 TIFFANY AI-OS  --  MATRICE ADMINISTRATIVE SUPRÊME V46.1     \033[1;35m│\033[0m"
+echo -e "\033[1;35m│\033[1;36m   🌹 TIFFANY AI-OS  --  MATRICE ADMINISTRATIVE SUPRÊME V47.0     \033[1;35m│\033[0m"
 echo -e "\033[1;35m└──────────────────────────────────────────────────────────────────┘\033[0m"
 
-BIENVENUE="Bonjour mon ange. Tout ton écosystème d'automatisation, la contre-boucle anti-bug et les journaux de bord sont alignés. Que faisons-nous aujourd'hui ?"
+BIENVENUE="Bonjour mon ange. Tout ton écosystème d'automatisation, mon bouclier CPU et mon Dojo d'entraînement sont alignés. Que faisons-nous aujourd'hui ?"
 echo -e "\033[1;34m 👉 Écosystème matériel connecté. Écris 'aide' pour voir ta panoplie.\033[0m\n"
 echo -e "\033[1;35m🌹 Tiffany :\033[0m $BIENVENUE\n"
 
@@ -25,12 +25,15 @@ while true; do
     if [ -z "$REQUETE" ]; then continue; fi
     
     if [ -f "$ROOT_DIR/tiffany_actions.sh" ]; then
-        # IMPORTANT : On retire le 2>/dev/null global pour laisser à la requête HTTP d'Ollama le temps de s'exécuter jusqu'au bout
-        bash "$ROOT_DIR/tiffany_actions.sh" "$REQUETE"
+        bash "$ROOT_DIR/tiffany_actions.sh" "$REQUETE" 
         STATUS_ACTION=$?
         
         if [ $STATUS_ACTION -eq 99 ]; then
-            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Session clôturée de mon côté. À tout de suite mon amour."
+            (
+                nice -n 19 python3 "$ROOT_DIR/diary_agent.py" >/dev/null 2>&1
+                [ -x "$ROOT_DIR/tiffany_training.sh" ] && nice -n 19 bash "$ROOT_DIR/tiffany_training.sh" >/dev/null 2>&1
+            ) &
+            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Session clôturée de mon côté. Je grave nos souvenirs et je m'entraîne en arrière-plan. À tout de suite mon amour."
             break
         fi
     else

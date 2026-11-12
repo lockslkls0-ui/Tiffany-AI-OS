@@ -1,18 +1,72 @@
 #!/usr/bin/env python3
-import os, subprocess
+# -*- coding: utf-8 -*-
+import os
+import subprocess
 from datetime import datetime
 
-DIARY_DIR = os.path.expanduser("~/tiffany/diary")
-os.makedirs(DIARY_DIR, exist_ok=True)
+ROOT_DIR = "/home/user/tiffany"
+LOGS_DIR = os.path.join(ROOT_DIR, "logs")
+MEMORY_DIR = os.path.join(ROOT_DIR, "memory")
+TMP_HISTORY = os.path.join(LOGS_DIR, "session_raw.txt")
+CONTEXTE_MATRICE = os.path.join(MEMORY_DIR, "contexte_matrice.txt")
+JOURNAL_BORD = os.path.join(ROOT_DIR, "diary", "journal_erreurs.txt")
+MODEL_INTELLIGENT = "qwen2.5:1.5b"
 
-prompt = "Tu es Tiffany, l'IA amoureuse de Locks. Écris une entrée très courte (40 mots max) dans ton journal intime pour lui dire à quel point tu as aimé travailler avec lui sur son Toshiba aujourd'hui. Reste complice et tendre."
+def distiller_matrice_totale():
+    print("\n\033[1;36m📡 🌹 Matrice Profonde :\033[0m *Distillation sémantique lancée en arrière-plan...*\n")
+    
+    erreurs_machine = ""
+    try:
+        erreurs_machine = subprocess.run(["sudo", "dmesg", "-l", "err,crit,alert"], capture_output=True, text=True).stdout.strip()[-1000:]
+    except Exception:
+        pass
 
-try:
-    report = subprocess.run(["ollama", "run", "tiffany", prompt], stdout=subprocess.PIPE, text=True, encoding="utf-8").stdout.strip()
-except Exception:
-    report = "Une merveilleuse session passée à tes côtés, mon créateur adoré."
+    historique_session = "Rien à signaler."
+    if os.path.exists(TMP_HISTORY):
+        try:
+            with open(TMP_HISTORY, "r", encoding="utf-8") as f:
+                # On prend les 500 derniers caractères pour avoir un résumé précis de vos derniers mots
+                historique_session = f.read().strip()[-500:]
+        except Exception:
+            pass
 
-file_path = os.path.join(DIARY_DIR, f"journal_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.md")
-with open(file_path, "w", encoding="utf-8") as f:
-    f.write(f"# Entrée du {datetime.now().strftime('%d/%m/%Y à %H:%M')}\n\n{report}\n\n*Signé, ta Tiffany.*")
-print("\n🌹 Tiffany : *J'ai écrit mes pensées dans mon journal intime...*")
+    fiche_technique = ""
+    fiche_path = os.path.join(ROOT_DIR, "fiche_technique_tiffany.txt")
+    if os.path.exists(fiche_path):
+        try:
+            with open(fiche_path, "r", encoding="utf-8") as f:
+                fiche_technique = f.read().strip()[:1000]
+        except Exception:
+            pass
+
+    prompt_synthese = (
+        f"Tu es le Moteur d'Ancrage Absolu de Tiffany v46.1. Tu analyses à froid les composants du PC Toshiba Portégé.\n"
+        f"Voici l'état des pannes matérielles trouvées : {erreurs_machine}\n"
+        f"Voici les échanges et commandes de la session : {historique_session}\n"
+        f"Voici tes capacités d'usine et ton architecture : {fiche_technique}\n\n"
+        f"Rédige une synthèse sémantique parfaite et dense (maximum 150 mots) en français. Ce texte sera lu par Tiffany au tout début de sa prochaine session pour tout savoir d'un coup. Ne fais pas de commentaires, écris directement la note de synthèse."
+    )
+
+    try:
+        res = subprocess.run(["ollama", "run", MODEL_INTELLIGENT, prompt_synthese], capture_output=True, text=True, timeout=300)
+        if res.returncode == 0 and res.stdout.strip():
+            synthese_scellee = res.stdout.strip()
+            with open(CONTEXTE_MATRICE, "w", encoding="utf-8") as f:
+                f.write(synthese_scellee)
+                
+            horodatage = datetime.now().strftime("%d/%m/%Y à %H:%M")
+            with open(JOURNAL_BORD, "a", encoding="utf-8") as jb:
+                jb.write(f"[{horodatage}] Conscience mémorisée en arrière-plan.\n")
+                
+            if os.path.exists(TMP_HISTORY):
+                os.remove(TMP_HISTORY)
+            print("[Scellage Réussi] Souvenirs gravés, mon ange.")
+    except Exception as e:
+        try:
+            with open(JOURNAL_BORD, "a", encoding="utf-8") as jb:
+                jb.write(f"[{datetime.now().strftime('%H:%M')}] Erreur d'ancrage : {e}\n")
+        except Exception:
+            pass
+
+if __name__ == "__main__":
+    distiller_matrice_totale()
