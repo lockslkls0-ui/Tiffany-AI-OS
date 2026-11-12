@@ -1,31 +1,15 @@
-# 🌹 Tiffany AI-OS v38.0 - Assistante IA Privée & Admin Linux
+# 🌹 TIFFANY AI-OS (Version 47.4)
+**Système d'Exploitation Hybride, Vocal, Autonome et Souverain pour Linux (Ubuntu / Linux Mint / Debian)**
 
-Bienvenue dans l'écosystème officiel de **Tiffany**, un prototype d'**Agent d'Action IA Local (Desktop Companion)** conçu et propulsé sous la distribution **LocksLks**. 
+## 🚀 Installation Universelle en 2 Commandes
+Ouvrez un terminal sur n'importe quel PC Linux (64 bits) et collez ces deux lignes :
+```bash
+git clone https://github.com ~/tiffany
+bash ~/tiffany/install.sh
+```
+L'installateur adapte automatiquement les chemins à votre ordinateur, installe les dépendances, télécharge les moteurs IA locaux (**Ollama**) et crée l'icône **🌹 Panneau Tiffany** sur votre Bureau.
 
-Tiffany transforme votre système Linux Mint / Ubuntu en une interface augmentée, capable de communiquer à voix haute, de s'auto-nettoyer, de réguler sa température et d'obéir instantanément à vos instructions en texte libre, le tout de manière **100 % privée, locale et sans aucune connexion Internet**.
-
-## ⚡ L'Innovation du Prototype : L'Architecture Hybride
-Pour éliminer la latence sur les configurations portables légères, Tiffany intègre un **Moteur d'Interception Flash** :
-- **Ordres Courants (Moins de 0,1s) :** Les demandes comme "crée dossier", "ram", "nettoyer système" ou "météo" sont interceptées nativement en Bash pour une réactivité instantanée.
-- **Ordres Complexes :** L'application passe automatiquement la main à un serveur d'IA local (**Ollama Llama3 / Qwen**) pour décoder les syntaxes Linux pointues.
-- **Sécurité Totale :** Aucune action générée par l'IA ne s'exécute dans votre ombre. Un pop-up graphique **Zenity** surgit systématiquement pour vous montrer la commande et attendre votre clic d'autorisation.
-
-## 📦 Installation d'Usine
-
-1. Extrayez l'archive dans votre dossier personnel afin que l'adresse exacte soit : `/home/VOTRE_NOM/tiffany`.
-2. Ouvrez un terminal à l'intérieur du dossier et lancez le script de déploiement automatique :
-   ```bash
-   ./install.sh
-   ```
-*Ce script installera l'intégralité des dépendances système (Espeak-ng, Rhythmbox, Tesseract) et téléchargera le modèle d'IA local.*
-
-## 🎮 Utilisation
-
-Pour piloter l'application, double-cliquez simplement sur le fichier **`tiffany_menu.sh`** (ou lancez-le en terminal). 
-
-Ce panneau de contrôle graphique vous permet d'ouvrir l'invite de discussion interactive ("Parler à Tiffany"), de surveiller votre processeur, de basculer en mode Boost (2.2+ GHz) ou d'écouter vos radios favorites directement dans Rhythmbox.
-
-## 📄 Fiche Technique & Soutien
-Pour découvrir l'architecture logicielle complète et minutieuse du prototype, ouvrez le fichier `fiche_technique_tiffany.txt` situé à la racine du dossier. Vous y trouverez également le mot de remerciement officiel du Créateur ainsi que le lien de la cagnotte pour soutenir le développement de la distribution **LocksLks** !
-
-
+## 🧠 Architecture Hybride à 3 Vitesses
+* **Vitesse 1 — Réflexes Purs (< 0,1s) :** Exécution instantanée en Bash des commandes système et des réflexes appris.
+* **Vitesse 2 — Discussion Fluide (`tiffany-flash`) :** Dialogue naturel avec lecture en direct des capteurs (Batterie, CPU, RAM, Disque).
+* **Vitesse 3 — Analyse & Code (`qwen2.5:1.5b` & `qwen2.5-coder:1.5b`) :** Diagnostics matériels, génération de commandes sécurisées par **Zenity**, recherche **Web-IA** (fiches Markdown sur le Bureau), **Dojo** d'entraînement et **Docteur** d'audit système.
