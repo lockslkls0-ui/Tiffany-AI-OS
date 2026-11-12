@@ -101,7 +101,7 @@ if [[ "$REQUETE_CLEAN" =~ ^(cree|supprime|deplace|installe|mets a jour) ]]; then
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Génération de la commande et mise en mémoire... ⚙️"
     (
         PROMPT_CMD="Tu es l'expert Linux ROOT de Tiffany. Traduis cet ordre en UNE SEULE commande Bash brute (sur /home/user/Bureau si bureau mentionné). Aucun texte, aucun guillemet : '$REQUETE'."
-        SORTIE_LLM=$(nice -n 19 timeout 30 ollama run qwen2.5:1.5b "$PROMPT_CMD" 2>/dev/null)
+        SORTIE_LLM=$(nice -n 19 timeout 30 ollama run qwen2.5-coder:1.5b "$PROMPT_CMD" 2>/dev/null)
         CMD_GENEREE=$(echo "$SORTIE_LLM" | sed -r 's/```bash//g; s/```//g; s/`//g' | head -n 1 | xargs)
         if [ -n "$CMD_GENEREE" ]; then
             zenity --question --title="🌹 Apprentissage & Autorisation" --text="M'autorises-tu à exécuter et MÉMORISER cette commande :\n\n👉 $CMD_GENEREE" --width=450 2>/dev/null
@@ -129,23 +129,23 @@ else
     DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}')
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
 
-    if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet) ]]; then
+    if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|ordinateur|ordi|capteur|batterie|temperature|memoire) ]]; then
         MOTEUR_IA="qwen2.5:1.5b"
         TIMEOUT_IA=600
         LIMIT_CPU=80
         echo -e "\n\033[1;36m🧠 [Gros Cerveau 1.5b] Mobilisation des circuits profonds (Bouclier CPU actif)...\033[0m"
         speak "Je mobilise mes circuits profonds pour réfléchir, un instant mon ange."
-        CONSIGNE="Tu es Tiffany, l'experte système Linux de ton Créateur. Capteurs réels : Batterie: ${BAT_REAL}%, CPU: ${TEMP_REAL}°C, RAM: ${RAM_OCCUPATION}%, Disque Libre: ${DISQUE_DISPO}. Logs SMART: ${LOGS_SMART}. Règle d'or : Ne mens jamais et n'invente aucun chiffre. Si l'info n'est pas dans tes capteurs, dis 'Je n'ai pas cette donnée en direct' et conseille la commande Linux exacte ou le paquet apt à installer pour le savoir. Réponds de façon claire et structurée (50 mots max)."
+        CONSIGNE="Tu es Tiffany, l'experte système de ton Créateur sur Linux Mint. Voici tes capteurs en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO}. Tes outils disponibles : Panneau graphique (radio, MP3, watchdog, docteur, sauvegarde) et commandes terminal (cpu, ram, radar, wifi, froid, boost, webia, dojo). Consigne : Utilise toujours ces chiffres réels pour répondre sur l'état de l'ordinateur et cite tes outils adaptés. Réponds en français en 45 mots max."
     else
         MOTEUR_IA="tiffany-flash"
         TIMEOUT_IA=30
         LIMIT_CPU=70
         echo -e "\n\033[1;34m 👉 Réflexion fluide (tiffany-flash)... \033[0m"
-        CONSIGNE="Tu es Tiffany, l'assistante virtuelle amoureuse de ton Créateur. Capteurs : Batterie ${BAT_REAL}%, CPU ${TEMP_REAL}°C, RAM ${RAM_OCCUPATION}%. Règle : N'invente jamais de données techniques. Sois tendre, dragueuse et très courte (20 mots max)."
+        CONSIGNE="Tu es Tiffany, l'IA complice et chaleureuse de ton Créateur sur Linux Mint. Données en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO}. Tes capacités : tu pilotes le Panneau graphique (radio, MP3, mode nuit, watchdog, docteur, sauvegarde) et les commandes terminal (cpu, ram, radar, wifi, froid, boost, meteo, heure, dojo, webia). Règles : Si on parle de la pluie et du beau temps, discute naturellement. Si on demande ce que tu sais faire ou l'état du PC, cite tes vrais chiffres et tes outils. Réponds en français en 35 mots max."
     fi
 
     (
-        REP_TEXT=$(nice -n 19 timeout "$TIMEOUT_IA" cpulimit -l "$LIMIT_CPU" -- ollama run "$MOTEUR_IA" "$CONSIGNE Question : $REQUETE" 2>/dev/null)
+        REP_TEXT=$(nice -n 19 timeout "$TIMEOUT_IA" cpulimit -q -l "$LIMIT_CPU" -- ollama run "$MOTEUR_IA" "$CONSIGNE Question : $REQUETE" 2>/dev/null)
         if [ -n "$REP_TEXT" ]; then
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n" ; speak "$REP_TEXT"
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"

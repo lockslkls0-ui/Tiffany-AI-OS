@@ -1,58 +1,39 @@
 #!/usr/bin/env bash
-# ==============================================================================
-# 🌹 PROJECT TIFFANY - ARCHITECTURE D'INSTALLATION OPEN-SOURCE (CLIENT PACK V2)
-# ==============================================================================
-
 clear
-echo -e "\033[1;35m🌹 Initialisation de l'installation de Tiffany...\033[0m"
+echo -e "\033[1;35m🌹 Installation universelle de Tiffany AI-OS...\033[0m"
 ROOT_DIR="$HOME/tiffany"
+mkdir -p "$ROOT_DIR/memory" "$ROOT_DIR/logs" "$ROOT_DIR/diary" "$ROOT_DIR/agents" "$ROOT_DIR/dojo"
 
-# 1. Création des répertoires de l'écosystème
-mkdir -p "$ROOT_DIR/memory" "$ROOT_DIR/logs" "$ROOT_DIR/diary" "$ROOT_DIR/agents"
-
-# 2. Installation des paquets Linux requis
-echo -e "\n\033[1;36m⚙️  Vérification et installation des dépendances système...\033[0m"
+find "$ROOT_DIR" -maxdepth 3 -type f \( -name "*.sh" -o -name "*.py" -o -name "*.json" -o -name "*.desktop" \) -exec sed -i "s|/home/user|$HOME|g" {} + 2>/dev/null
+BUREAU_DIR=$(xdg-user-dir DESKTOP 2>/dev/null)
+[ -z "$BUREAU_DIR" ] && BUREAU_DIR="$HOME/Bureau"
+mkdir -p "$BUREAU_DIR"
 sudo apt update
-sudo apt install -y espeak-ng zenity tesseract-ocr brightnessctl rfkill rhythmbox mpv cvlc python3-pip cpulimit
-
-# 3. Installation des modules Python
-echo -e "\n\033[1;32m📦 Configuration de l'environnement Python...\033[0m"
-pip3 install requests spacy
+sudo apt install -y espeak-ng zenity tesseract-ocr tesseract-ocr-fra brightnessctl rfkill rhythmbox mpv cvlc python3-pip cpulimit wmctrl xdotool smartmontools lm-sensors curl
+pip3 install --break-system-packages requests spacy yt-dlp ddgs 2>/dev/null || pip3 install requests spacy yt-dlp ddgs
 python3 -m spacy download fr_core_news_sm
 
-# 4. Configuration du raccourci global 'tiff' dans le terminal
-echo -e "\n\033[1;33m🚀 Configuration du raccourci système...\033[0m"
-if ! grep -q "alias tiff=" ~/.bashrc; then
-    echo "alias tiff='$ROOT_DIR/tiffany_core.sh'" >> ~/.bashrc
-fi
+if ! command -v ollama >/dev/null 2>&1; then curl -fsSL https://ollama.com | sh; fi
+sudo systemctl enable --now ollama 2>/dev/null
+sleep 3
+ollama pull qwen2.5:1.5b
+ollama pull qwen2.5:0.5b
+ollama cp qwen2.5:0.5b tiffany-flash 2>/dev/null
+chmod +x "$ROOT_DIR"/*.sh "$ROOT_DIR"/actions_terminal/*.sh "$ROOT_DIR"/plugins/*.sh 2>/dev/null
+grep -q "alias tiff=" ~/.bashrc || echo "alias tiff='$ROOT_DIR/tiffany_core.sh'" >> ~/.bashrc
 
-# 5. IMPLANTATION AUTOMATIQUE DU BOUTON DE PANNEAU DE CONTRÔLE SUR LE BUREAU CLIENT
-echo -e "\n\033[1;35m🎛️  Déploiement du bouton Panneau de Contrôle sur le Bureau...\033[0m"
-mkdir -p ~/Bureau
-cat << 'EOD' > ~/Bureau/"Panneau Tiffany.desktop"
+cat << EOD > "$BUREAU_DIR/Panneau Tiffany.desktop"
 [Desktop Entry]
 Version=1.0
 Type=Application
 Terminal=false
 Name=🌹 Panneau Tiffany
-Comment=Lancer le panneau global de contrôle multimédia et thermique
-Exec=/home/user/tiffany/tiffany_menu.sh
-Icon=/home/user/Bureau/outil/face.jpg
+Exec=$ROOT_DIR/tiffany_menu.sh
+Icon=$ROOT_DIR/face.jpg
 Categories=Utility;System;
-Path=/home/user/tiffany
-StartupNotify=false
+Path=$ROOT_DIR
 EOD
 
-# Activation des droits d'exécution pour le client
-chmod +x ~/Bureau/"Panneau Tiffany.desktop"
-gio set ~/Bureau/"Panneau Tiffany.desktop" metadata::trusted true 2>/dev/null || true
-echo "  ✅ Bouton de contrôle activé sur le Bureau !"
-
-# ✨ PROTECTION DE L'AFFICHAGE FINAL (Anti-mélange)
-echo -e "\n"
-echo -e "-------------------------------------------------------------------"
-echo -e "\033[1;32m🌹 Installation terminée avec succès pour vos clients !\033[0m"
-echo -e "-------------------------------------------------------------------"
-echo -e "\n"
-sleep 1
-
+chmod +x "$BUREAU_DIR/Panneau Tiffany.desktop"
+gio set "$BUREAU_DIR/Panneau Tiffany.desktop" metadata::trusted true 2>/dev/null || true
+echo -e "\n\033[1;32m🌹 Installation terminée ! Double-clique sur 'Panneau Tiffany'.\033[0m\n"

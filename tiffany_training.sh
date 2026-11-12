@@ -27,13 +27,13 @@ DEFIS=(
 )
 
 # Sélection d'un défi au hasard
-DEFI_CHOISI=${DEFIS[$RANDOM % ${#DEFIS[@]}]}
+if [ -n "$1" ]; then DEFI_CHOISI="$1|"; else DEFI_CHOISI=${DEFIS[$RANDOM % ${#DEFIS[@]}]}; fi
 ORDRE=$(echo "$DEFI_CHOISI" | cut -d'|' -f1)
 CMD_ATTENDUE=$(echo "$DEFI_CHOISI" | cut -d'|' -f2)
 
 # 3. Demande au Gros Cerveau de trouver la commande
 PROMPT="Tu es une experte Linux. Donne UNIQUEMENT la commande Bash brute en une ligne pour : '$ORDRE'. Sans texte autour, sans guillemets."
-CMD_TEST=$(nice -n 19 timeout 120 ollama run qwen2.5:1.5b "$PROMPT" 2>/dev/null | sed -r 's/```bash//g; s/```//g; s/`//g' | head -n 1 | xargs)
+CMD_TEST=$(nice -n 19 timeout 120 ollama run qwen2.5-coder:1.5b "$PROMPT" 2>/dev/null | sed -r 's/```bash//g; s/```//g; s/`//g' | head -n 1 | xargs)
 
 # 4. Bouclier Anti-Destruction (Blocage strict des commandes dangereuses)
 if [[ -z "$CMD_TEST" ]] || [[ "$CMD_TEST" =~ (sudo|rm|mv|dd|mkfs|chmod|chown|/etc|/usr|/home|/root|\.\.) ]]; then
@@ -46,13 +46,18 @@ cd "$DOJO_DIR" || exit 1
 eval "$CMD_TEST" >/dev/null 2>&1
 CODE_RETOUR=$?
 
-# 6. Validation et Apprentissage dans le dictionnaire officiel
+# 6. Validation, Apprentissage et Alerte Zenity
 if [ $CODE_RETOUR -eq 0 ]; then
     if ! grep -qi "^${ORDRE}|" "$DICO_IA" 2>/dev/null; then
         echo "${ORDRE}|${CMD_TEST}" >> "$DICO_IA"
         echo "[$(date '+%H:%M:%S')] 🥋 SUCCÈS : '$ORDRE' -> '$CMD_TEST' (Ajouté au dictionnaire)" >> "$LOG_DOJO"
     fi
+    zenity --info --title="🥋 Dojo Tiffany — Réussite !" \
+        --text="✅ Défi validé et gravé dans ma mémoire réflexe !\n\n📌 Demande :\n$ORDRE\n\n⚡ Code Bash trouvé :\n$CMD_TEST" \
+        --width=450 2>/dev/null
 else
     echo "[$(date '+%H:%M:%S')] ❌ ÉCHEC test : '$CMD_TEST'" >> "$LOG_DOJO"
+    zenity --warning --title="🥋 Dojo Tiffany — Échec" \
+        --text="❌ Le code généré n'a pas passé le test du bac à sable :\n\n$CMD_TEST" \
+        --width=450 2>/dev/null
 fi
-
