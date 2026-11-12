@@ -5,7 +5,7 @@
 
 REQUETE="$*"
 SUJET=$(echo "$REQUETE" | sed -E 's/^web//I' | xargs)
-CTX_FILE="$HOME/tiffany/memory/contexte_matrice.txt"
+CTX_FILE="$HOME/tiffany/memory/connaissances_web.txt"
 
 if [ -z "$SUJET" ]; then
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Quel sujet dois-je aspirer et apprendre sur le web, mon ange ?\n"

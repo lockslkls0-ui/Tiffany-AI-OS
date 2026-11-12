@@ -70,3 +70,4 @@ nice -n 19 ollama run qwen2.5:1.5b "$PROMPT" 2>/dev/null | tee -a "$FICHIER_FINA
 echo -e "\n\033[1;32m💾 [Archivage] Dossier sauvegardé sur le Bureau : WebIA_Dossiers/${DATE_STR}_${NOM_PROPRE}.md\033[0m\n"
 (espeak-ng -v fr+f5 -s 140 -p 85 "J'ai terminé et rangé le dossier sur ton bureau, mon amour." >/dev/null 2>&1) &
 
+echo "Dossier WebIA ($QUESTION) : $(grep -v "^#" "$FICHIER_FINAL" | tr "\n" " " | head -c 250)" >> "$HOME/tiffany/memory/connaissances_web.txt"
