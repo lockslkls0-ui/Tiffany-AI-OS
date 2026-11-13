@@ -2,7 +2,17 @@
 Q="$1"
 NOM=$(cat "$HOME/tiffany/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
 say() { echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"; (espeak-ng -v fr+f5 -s 140 -p 85 "$(echo "$1" | tr -d '🌹👑⚡❄️')" >/dev/null 2>&1) & exit 0; }
-if [[ "$Q" =~ ^(cree|creer|fais|nouveau)[[:space:]]+(un[[:space:]]+)?(dossier|coffre) ]]; then
+if [[ "$Q" =~ ^(deverrouille|libere|debloque)[[:space:]]+(le[[:space:]]+)?(coffre|dossier) ]]; then
+    NOM_C=$(echo "${2:-$Q}" | sed -E "s/^(d[eé]verrouille|lib[eè]re|d[eé]bloque)[[:space:]]+(le[[:space:]]+)?(coffre[- ]?fort|dossier)[[:space:]]*//I; s/[[:space:]]*(sur|dans)[[:space:]]*(le|mon)?[[:space:]]*bureau.*//I" | tr -d "?!." | xargs)
+    BUREAU=$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Bureau")
+    F_CIBLE="$BUREAU/${NOM_C}.7z"
+    [ ! -f "$F_CIBLE" ] && F_CIBLE="$BUREAU/${NOM_C}"
+    if [ -e "$F_CIBLE" ]; then
+        pkexec chattr -i "$F_CIBLE" && say "Verrou anti-suppression retiré sur $(basename "$F_CIBLE"), $NOM ! 🔓"
+    else
+        say "Je ne trouve pas $NOM_C sur ton Bureau, $NOM."
+    fi
+elif [[ "$Q" =~ ^(cree|creer|fais|nouveau)[[:space:]]+(un[[:space:]]+)?(dossier|coffre) ]]; then
     IS_SEC=0
     [[ "$Q" =~ (securise|prive|protege|verrouille|mot de passe|coffre) ]] && IS_SEC=1
     NOM_D=$(echo "${2:-$Q}" | sed -E "s/^(cr[eé]e|cr[eé]er|fais|nouveau)[[:space:]]+(un[[:space:]]+)?(dossier|coffre[- ]?fort)[[:space:]]*//I; s/(s[eé]curis[eé]|priv[eé]|prot[eé]g[eé]|verrouill[eé]|avec mot de passe|nomm[eé]|appel[eé])[[:space:]]*//Ig; s/[[:space:]]*(sur|dans)[[:space:]]*(le|mon)?[[:space:]]*bureau.*//I" | tr -d "?!." | xargs)
@@ -10,7 +20,7 @@ if [[ "$Q" =~ ^(cree|creer|fais|nouveau)[[:space:]]+(un[[:space:]]+)?(dossier|co
     BUREAU=$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Bureau")
     if [ $IS_SEC -eq 1 ]; then
         ARCHIVE="$BUREAU/${NOM_D}.7z"
-        CMD_SHOW="7z a -p[MOT_DE_PASSE] -mhe=on '$ARCHIVE' '/tmp/$NOM_D'"
+        CMD_SHOW="7z a -p[MDP] -mhe=on '$ARCHIVE' && pkexec chattr +i '$ARCHIVE'"
         if zenity --question --no-markup --title="🛡️ Validation Coffre-Fort" --text="Autoriser la création de ce coffre-fort chiffré ?
 
 $CMD_SHOW" --width=540 2>/dev/null; then
@@ -18,7 +28,7 @@ $CMD_SHOW" --width=540 2>/dev/null; then
             [ -z "$MDP" ] && say "Création annulée, $NOM."
             mkdir -p "/tmp/$NOM_D" && echo "Coffre-fort chiffré par Tiffany AI-OS" > "/tmp/$NOM_D/LisezMoi.txt"
             7z a -p"$MDP" -mhe=on "$ARCHIVE" "/tmp/$NOM_D" >/dev/null 2>&1
-            rm -rf "/tmp/$NOM_D"
+            rm -rf "/tmp/$NOM_D" && pkexec chattr +i "$ARCHIVE" 2>/dev/null
             say "Coffre-fort intégral ${NOM_D}.7z verrouillé par mot de passe créé sur ton Bureau, $NOM ! 🔐"
         else
             say "Création annulée, $NOM."
