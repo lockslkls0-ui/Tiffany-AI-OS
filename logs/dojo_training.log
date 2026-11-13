@@ -15,3 +15,4 @@
 [17:22:23] 🥋 SUCCÈS : 'affiche l adresse ip locale' -> 'hostname -I' (Ajouté au dictionnaire)
 [17:24:23] 🌡️ Surchauffe (75°C). Entraînement reporté.
 [17:53:03] 🌡️ Surchauffe (75°C). Entraînement reporté.
+[18:27:54] ❌ ÉCHEC test : 'ls -lh /dojo'

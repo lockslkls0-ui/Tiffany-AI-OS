@@ -28,7 +28,7 @@ $CMD_SHOW" --width=540 2>/dev/null; then
             [ -z "$MDP" ] && say "Création annulée, $NOM."
             mkdir -p "/tmp/$NOM_D" && echo "Coffre-fort chiffré par Tiffany AI-OS" > "/tmp/$NOM_D/LisezMoi.txt"
             7z a -p"$MDP" -mhe=on "$ARCHIVE" "/tmp/$NOM_D" >/dev/null 2>&1
-            rm -rf "/tmp/$NOM_D" && pkexec chattr +i "$ARCHIVE" 2>/dev/null
+            rm -rf "/tmp/$NOM_D" && pkexec chattr +i "$ARCHIVE"
             say "Coffre-fort intégral ${NOM_D}.7z verrouillé par mot de passe créé sur ton Bureau, $NOM ! 🔐"
         else
             say "Création annulée, $NOM."
