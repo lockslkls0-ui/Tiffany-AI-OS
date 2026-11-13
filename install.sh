@@ -37,3 +37,22 @@ EOD
 chmod +x "$BUREAU_DIR/Panneau Tiffany.desktop"
 gio set "$BUREAU_DIR/Panneau Tiffany.desktop" metadata::trusted true 2>/dev/null || true
 echo -e "\n\033[1;32m🌹 Installation terminée ! Double-clique sur 'Panneau Tiffany'.\033[0m\n"
+
+# Installation automatique de la sentinelle thermique permanente
+mkdir -p "$HOME/.config/systemd/user"
+cat << EOW > "$HOME/.config/systemd/user/tiffany-watchdog.service"
+[Unit]
+Description=Sentinelle Thermique Auto-Regulee Tiffany AI-OS
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash $ROOT_DIR/thermal_watchdog.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
+EOW
+systemctl --user daemon-reload 2>/dev/null || true
+systemctl --user enable --now tiffany-watchdog.service 2>/dev/null || true

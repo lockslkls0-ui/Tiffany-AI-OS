@@ -1,6 +1,5 @@
-#!/bin/bash
-# MENU_NAME: 🛡️ Watchdog ON
-# MENU_DESC: Lancer la sentinelle thermique autonome
-pkill -f thermal_watchdog.sh >/dev/null 2>&1
-~/tiffany/thermal_watchdog.sh >/dev/null 2>&1 &
-zenity --info --title="Tiffany OS -- Sentinelle" --text="🛡️ Sentinelle thermique active, mon ange ! Je surveille tes cœurs en arrière-plan chéri." --timeout=3 2>/dev/null
+#!/usr/bin/env bash
+# MENU_NAME: 🛡️ Watchdog ON (Permanent)
+# MENU_DESC: Activer la sentinelle thermique auto-réparatrice au démarrage
+systemctl --user enable --now tiffany-watchdog.service >/dev/null 2>&1 || ~/tiffany/thermal_watchdog.sh >/dev/null 2>&1 &
+notify-send -u low -t 3000 -i "weather-clear" "🛡️ Watchdog ON" "Sentinelle thermique permanente activée !"
