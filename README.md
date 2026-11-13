@@ -1,4 +1,8 @@
 # 🌹 TIFFANY AI-OS (Version 47.4)
+
+## 📦 Téléchargement Direct (Logithèque Linux Mint / Ubuntu)
+👉 **[Télécharger tiffany-ai-os_47.4_all.deb](https://github.com)** *(Double-cliquez sur le fichier téléchargé pour l installer via la Logithèque)*
+
 **Système d'Exploitation Hybride, Vocal, Autonome et Souverain pour Linux (Ubuntu / Linux Mint / Debian)**
 
 ## 🚀 Installation Universelle en 2 Commandes

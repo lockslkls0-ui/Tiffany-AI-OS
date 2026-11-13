@@ -1,0 +1,24 @@
+app-id: com.github.lockslkls0_ui.TiffanyAIOS
+runtime: org.freedesktop.Platform
+runtime-version: "23.08"
+sdk: org.freedesktop.Sdk
+command: tiffany-launcher
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --share=network
+  - --filesystem=host
+  - --device=all
+modules:
+  - name: tiffany-ai-os
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/tiffany /app/bin
+      - cp -r * /app/tiffany/
+      - echo "bash /app/tiffany/tiffany_menu.sh" > /app/bin/tiffany-launcher
+      - chmod +x /app/bin/tiffany-launcher
+    sources:
+      - type: dir
+        path: .

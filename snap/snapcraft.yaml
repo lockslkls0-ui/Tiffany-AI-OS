@@ -1,0 +1,19 @@
+name: tiffany-ai-os
+base: core22
+version: '47.4'
+summary: Assistant IA Hybride, Vocal et Souverain pour Linux
+description: |
+  Tiffany AI-OS pilote votre PC Linux en temps reel avec 4 niveaux d intelligence locale (Bash, tiffany-flash, qwen2.5:1.5b, qwen2.5-coder:1.5b), bouclier thermique et coffre-fort chiffre.
+grade: stable
+confinement: classic
+
+apps:
+  tiffany-ai-os:
+    command: bin/bash $SNAP/tiffany/tiffany_menu.sh
+
+parts:
+  tiffany:
+    plugin: dump
+    source: .
+    organize:
+      '*': tiffany/
