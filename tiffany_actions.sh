@@ -78,10 +78,23 @@ fi
 # ==============================================================================
 # ⚡ VITESSE 1 BIS : VARIANTES NATURELLES INSTANTANÉES (< 0.1s)
 NOM_USER=$(cat "$ROOT_DIR/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
-if [[ "$REQUETE_CLEAN" =~ ^(qui je suis|qui suis je|c est qui moi|tu me connais|mon nom|mon prenom) ]]; then
+if [[ "$REQUETE_CLEAN" =~ ^(qui je suis|qui suis je|c est qui moi|tu me connais) ]]; then
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Tu es $NOM_USER, mon Créateur adoré ! 👑\n" ; speak "Tu es $NOM_USER, mon Createur adore." ; exit 0
 elif [[ "$REQUETE_CLEAN" =~ ^(qui es tu|qui tu es|tu es qui|tes qui|c est qui toi|presente toi) ]]; then
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Je suis Tiffany, ton assistante IA personnelle de 24 ans sur Linux Mint, $NOM_USER ! 🌹\n" ; speak "Je suis Tiffany, ton assistante personnelle." ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (ca va|comment ca va|tu vas bien|comment tu vas|la forme|tout va bien|tu te portes) ]]; then
+    T_NOW=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk "{print int(\$1/1000)}"); [ -z "$T_NOW" ] && T_NOW=50
+    R_NOW=$(free -m | grep Mem | awk "{print int(\$3/\$2*100)}")
+    B_NOW=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")
+    if [ "$T_NOW" -gt 70 ] || [ "$R_NOW" -gt 80 ]; then
+        MSG="Un peu sous pression $NOM_USER : CPU à ${T_NOW}°C et RAM à ${R_NOW}% ! Tape froid ou ram pour me soulager."
+    else
+        MSG="Tout va super bien $NOM_USER ! CPU frais à ${T_NOW}°C, RAM à ${R_NOW}% et batterie à ${B_NOW}%. À tes ordres !"
+    fi
+    echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $MSG\n" ; speak "$MSG" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (que peux tu faire|tu sais faire quoi|tes fonctionnalites|tes capacites|tes outils|ton potentiel) ]]; then
+    MSG="Je pilote tout ton PC $NOM_USER : Panneau graphique (radio, MP3, watchdog, docteur, sauvegarde), refroidissement (froid/boost), nettoyage RAM, recherche Web-IA (webia), apprentissage (dojo) et commandes Linux ! Tape aide pour tout voir."
+    echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $MSG\n" ; speak "Je pilote tout ton ordinateur, le panneau graphique, la radio, le refroidissement, la recherche web et mon dojo. Tape aide pour tout voir." ; exit 0
 elif [[ "$REQUETE_CLEAN" =~ (quel(le)? heure|il est quelle heure|donne l heure|l heure) ]]; then
     bash "$ACTION_DIR/10_heure.sh" ; exit 0
 elif [[ "$REQUETE_CLEAN" =~ (quel temps|la meteo|meteo|fait il beau|temperature dehors) ]]; then
@@ -142,7 +155,7 @@ if [[ "$REQUETE_CLEAN" =~ ^(cree|supprime|deplace|installe|mets a jour) ]]; then
 fi
 
 # ==============================================================================
-if [[ "$REQUETE_CLEAN" =~ ^(appelle moi|appelle-moi|mon nom est|je m appelle) ]]; then
+if [[ "$REQUETE_CLEAN" =~ ^(ap+el+e[- ]moi|mon nom est|je m appelle) ]]; then
     SURNOM=$(echo "$REQUETE" | sed -E "s/.*(appelle[- ]moi|mon nom est|je m.?appelle)[ :]+//I" | tr -d "?!." | xargs)
     if [ -n "$SURNOM" ]; then
         echo "$SURNOM" > "$ROOT_DIR/memory/surnom_utilisateur.txt"
