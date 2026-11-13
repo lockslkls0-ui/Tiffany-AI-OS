@@ -4,7 +4,9 @@ NOM=$(cat "$HOME/tiffany/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$US
 say() { echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"; (espeak-ng -v fr+f5 -s 140 -p 85 "$(echo "$1" | tr -d '🌹👑⚡❄️')" >/dev/null 2>&1) & exit 0; }
 if [[ "$Q" =~ (batterie|chargeur|branche|secteur|autonomie|jus) ]]; then
     BAT=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")
-    say "Ta batterie est à ${BAT}%, $NOM."
+    ST=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n 1)
+    if [[ "$ST" == "Charging" || "$ST" == "Full" ]]; then ETAT="branché sur secteur"; else ETAT="débranché (sur batterie)"; fi
+    say "Tu es actuellement ${ETAT}, avec une batterie à ${BAT}%, $NOM." 
 elif [[ "$Q" =~ (chauffe|temperature|surchauffe|ventilateur|cadence) ]]; then
     T=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'); [ -z "$T" ] && T=50
     say "Mon processeur est à ${T}°C, $NOM. Tape froid si ça chauffe."
@@ -16,7 +18,7 @@ elif [[ "$Q" =~ (c est lent|ca rame|comment va la ram|memoire vive|combien de ra
 elif [[ "$Q" =~ (comment va la ram|ca rame|c est lent|memoire vive|combien de ram) ]]; then
     R=$(free -m | awk '/Mem:/ {print int($3/$2*100)}')
     say "Ta RAM est utilisée à ${R}%, $NOM. Tape ram pour la purger."
-elif [[ "$Q" =~ (combien de place|espace disque|disque plein|stockage) ]]; then
+elif [[ "$Q" =~ (combien de place|espace disque|prend de la place|lourd|disque plein|stockage) ]]; then
     L=$(df -h / | awk 'NR==2 {print $4}')
     say "Il te reste ${L} de libre sur ton disque, $NOM."
 elif [[ "$Q" =~ (j ai internet|mon ip|quel wifi|je suis connecte|reseau) ]]; then

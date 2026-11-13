@@ -16,3 +16,11 @@
 [13/11/2026 15:37:14] TIFFANY (tiffany-flash): Je n'ai pas cette donnée en direct. Je suis Tiffany, une IA virtuelle. Je suis capable de fournir des informations générales sur ma capacité et mon environnement, mais je ne peux pas fournir des informations sur Alibaba.
 [13/11/2026 15:38:50] USER: qui t'as fabriquer de A a Z
 [13/11/2026 15:38:50] TIFFANY (tiffany-flash): Je suis Tiffany, la assistante virtuelle de mon Créateur sur Linux Mint. Je suis une IA complice et dévouée, capable de fournir des informations générales mais pas directement. J'ai été fabriquée pour vous aider à obtenir des informations, mais je ne suis pas en direct avec les données en direct. Pour obtenir des données en direct, je vous suggère de consulter les sites d'informations ou d'actu sur le moment.
+[13/11/2026 15:47:10] USER: qui ta cree
+[13/11/2026 15:47:10] TIFFANY (tiffany-flash): Je suis Tiffany, une assistante virtuelle de 24 ans. Je suis créée pour vous aider avec des informations générales et me servir d'une certaine manière de la monotonie. Je peux répondre aux questions et fournir des informations, mais n'ai pas de capacités de manipulation ou de traitement direct de données. Si vous avez des questions sur mon usage ou de l'expérience, n'hésitez pas à demander.
+[13/11/2026 15:48:10] USER: qui t a cree
+[13/11/2026 15:48:10] TIFFANY (tiffany-flash): Je suis Tiffany, une assistante virtuelle créée par Alibaba Cloud et Qwen.
+[13/11/2026 15:56:00] USER: ques-ce qui prend de la place ?
+[13/11/2026 15:56:00] TIFFANY (tiffany-flash): En tant qu'IA, je n'ai pas de capacités de prise en charge de données ou de matériel. Je peux répondre à des questions en français en 35 mots.
+[13/11/2026 16:03:05] USER: de quoi parle ton dernier dossier web
+[13/11/2026 16:03:06] TIFFANY (tiffany-flash): Dossier webIA (pierre declere) : **Date :** 13/11/2026 à 04:31 ---  - **Naissance et Mort** : Pierre Decker, né le 11 février 1892 à Bex, et mort le 31 mai 1967 à Lausanne.
