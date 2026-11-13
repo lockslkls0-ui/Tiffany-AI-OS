@@ -26,3 +26,4 @@ statut du matériel|bash ~/tiffany/actions_terminal/02_analyse.sh
 sante disque|sudo smartctl -H /dev/sda && echo
 affiche les 5 processus qui consomment le plus de memoire|ps -A | sort -k 4 -n | head -n 5
 erreur disque dur|sudo smartctl-t long /dev/sda3
+affiche l adresse ip locale|hostname -I

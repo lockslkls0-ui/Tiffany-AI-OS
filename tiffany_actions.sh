@@ -11,7 +11,7 @@ CTX_FILE="$ROOT_DIR/memory/contexte_matrice.txt"
 LOG_SESSION="$ROOT_DIR/logs/session_raw.txt"
 
 if [ -z "$REQUETE" ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
-REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | tr "'" " " | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | tr "'" " " | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed 's/[ùû]/u/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
 speak() {
     local TEXT_CLEAN=$(echo "$1" | sed 's/\*//g' | sed 's/🌹//g')
@@ -40,7 +40,7 @@ if [[ "$REQUETE_CLEAN" == "aide" || "$REQUETE_CLEAN" == "help" ]]; then
 fi
 
 # ==============================================================================
-bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" && exit 0
+bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
 # ⚡ VITESSE 1 : BASH PUR & DÉTECTION RAPIDE DES OUTILS (< 0.1s)
 # ==============================================================================
 if [[ "$REQUETE_CLEAN" =~ "analyse" && "$REQUETE_CLEAN" =~ "materiel" ]]; then
