@@ -116,6 +116,16 @@ if [[ "$REQUETE_CLEAN" =~ ^(cree|supprime|deplace|installe|mets a jour) ]]; then
 fi
 
 # ==============================================================================
+if [[ "$REQUETE_CLEAN" =~ ^(appelle moi|appelle-moi|mon nom est|je m appelle) ]]; then
+    SURNOM=$(echo "$REQUETE" | sed -E "s/.*(appelle[- ]moi|mon nom est|je m.?appelle)[ :]+//I" | tr -d "?!." | xargs)
+    if [ -n "$SURNOM" ]; then
+        echo "$SURNOM" > "$ROOT_DIR/memory/surnom_utilisateur.txt"
+        echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Enregistre ! Je vais maintenant t appeler $SURNOM.\n"
+        speak "Enregistre, je vais maintenant t appeler $SURNOM."
+        exit 0
+    fi
+fi
+
 # 🧠 AIGUILLAGE HYBRIDE : TIFFANY-FLASH (0.5b) vs GROS CERVEAU (1.5b)
 # ==============================================================================
 PREMIER_MOT=$(echo "$REQUETE_CLEAN" | awk '{print $1}')
