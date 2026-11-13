@@ -6,16 +6,19 @@ MODEL_DIR="$ROOT_DIR/voice/vosk-fr/vosk-model-small-fr-0.22"
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
+# Activer le micro et le filtre anti-bruit WebRTC automatiquement
 pactl set-source-mute @DEFAULT_SOURCE@ 0 2>/dev/null || true
 amixer sset Capture cap 100% >/dev/null 2>&1 || true
+pactl list short modules | grep -q "tiffany_clean_mic" || pactl load-module module-echo-cancel aec_method=webrtc source_name=tiffany_clean_mic >/dev/null 2>&1
+pactl set-default-source tiffany_clean_mic >/dev/null 2>&1 || true
 
 python3 - "$MODEL_DIR" "$ROOT_DIR" << 'PYEOF'
-import sys, os, json, re, subprocess, time
+import sys, os, json, subprocess, time
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 SetLogLevel(-1)
-model_dir = sys.argv[1]
-root_dir = sys.argv[2]
+model_dir = sys.argv
+root_dir = sys.argv
 actions_script = os.path.join(root_dir, "tiffany_actions.sh")
 
 model = Model(model_dir)
@@ -36,47 +39,47 @@ def executer_ordre(commande):
     commande = commande.strip()
     if not commande:
         return
-    notifier("🌹 Tiffany (Ordre Vocal)", f"Exécution : {commande}")
+    notifier("🌹 Tiffany (Voix Comprise)", f"👉 {commande}")
     subprocess.Popen(["bash", actions_script, commande], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-notifier("👂 Oreille Permanente Active", "Dis 'Tiffany [commande]' ou 'Tiffany écoute 8 secondes' !")
+notifier("👂 Tiffany à l'écoute", "Dis 'Tiffany' suivi de ta phrase à tout moment !")
+
+en_attente_suite = False
+debut_attente = 0
 
 while True:
     data = proc.stdout.read(4000)
     if not data:
-        time.sleep(0.1)
+        time.sleep(0.05)
         continue
+
+    # AcceptWaveform devient True automatiquement dès que tu fais une pause de ~1 seconde après ta phrase
     if rec.AcceptWaveform(data):
         res = json.loads(rec.Result())
         texte = res.get("text", "").strip().lower()
+
+        if en_attente_suite:
+            en_attente_suite = False
+            if texte:
+                executer_ordre(texte)
+            continue
+
         if not texte:
             continue
 
-        declenche = False
-        reste = texte
         for w in WAKE_WORDS:
             if w in texte:
-                declenche = True
-                reste = texte.split(w, 1)[1].strip()
+                reste = texte.split(w, 1).strip()
+                if reste:
+                    # Tu as dit "Tiffany [ta phrase]" d'un seul trait : exécution immédiate !
+                    executer_ordre(reste)
+                else:
+                    # Tu as dit juste "Tiffany" : elle attend la suite de ta phrase jusqu'au prochain silence
+                    notifier("🎤 Oui mon ange ?", "Je t'écoute, dis ta phrase...")
+                    en_attente_suite = True
+                    debut_attente = time.time()
                 break
-
-        if not declenche:
-            continue
-
-        m_sec = re.search(r"ecoute\w*\s*(\d+)?", reste.replace("é", "e"))
-        if m_sec or reste == "":
-            duree = int(m_sec.group(1)) if (m_sec and m_sec.group(1)) else 6
-            duree = max(3, min(30, duree))
-            notifier("🎤 Tiffany t'écoute...", f"Parle maintenant ({duree} secondes)...")
-            frames_a_lire = int((16000 * 2 * duree) / 4000)
-            rec_long = KaldiRecognizer(model, 16000)
-            for _ in range(frames_a_lire):
-                chunk = proc.stdout.read(4000)
-                if chunk:
-                    rec_long.AcceptWaveform(chunk)
-            ordre_long = json.loads(rec_long.FinalResult()).get("text", "").strip()
-            if ordre_long:
-                executer_ordre(ordre_long)
-        else:
-            executer_ordre(reste)
+    else:
+        if en_attente_suite and (time.time() - debut_attente > 12):
+            en_attente_suite = False
 PYEOF
