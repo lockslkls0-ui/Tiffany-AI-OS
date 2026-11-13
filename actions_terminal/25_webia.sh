@@ -67,6 +67,7 @@ Rédige une fiche complète, détaillée et bien cataloguée sur ce sujet :"
 # Lancement en direct avec tee pour afficher à l'écran ET enregistrer dans le fichier en même temps
 nice -n 19 ollama run qwen2.5:1.5b "$PROMPT" 2>/dev/null | tee -a "$FICHIER_FINAL"
 
+bash "$HOME/tiffany/actions_terminal/31_lire_webia.sh" &
 echo -e "\n\033[1;32m💾 [Archivage] Dossier sauvegardé sur le Bureau : WebIA_Dossiers/${DATE_STR}_${NOM_PROPRE}.md\033[0m\n"
 (espeak-ng -v fr+f5 -s 140 -p 85 "J'ai terminé et rangé le dossier sur ton bureau, mon amour." >/dev/null 2>&1) &
 

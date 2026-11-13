@@ -2,7 +2,22 @@
 Q="$1"
 NOM=$(cat "$HOME/tiffany/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
 say() { echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"; (espeak-ng -v fr+f5 -s 140 -p 85 "$(echo "$1" | tr -d '🌹👑⚡❄️')" >/dev/null 2>&1) & exit 0; }
-if [[ "$Q" =~ ^(deverrouille|libere|debloque)[[:space:]]+(le[[:space:]]+)?(coffre|dossier) ]]; then
+if [[ "$Q" =~ ^(ouvre[[:space:]]+)?(le[[:space:]]+)?terminal$ ]]; then
+    gnome-terminal >/dev/null 2>&1 &
+    say "J'ouvre un terminal Linux pour toi, $NOM ! 💻"
+elif [[ "$Q" =~ (panneau de commande|ton menu|ouvre.*menu|affiche.*panneau) ]]; then
+    bash "$HOME/tiffany/tiffany_menu.sh" >/dev/null 2>&1 &
+    say "J'ouvre mon panneau de commande graphique, $NOM ! 🌹"
+elif [[ "$Q" =~ (ta discussion|ouvre.*discussion|parler a tiffany|discuter avec toi) ]]; then
+    gnome-terminal --title="🌹 Discussion Tiffany" -- bash -c "$HOME/tiffany/tiffany_core.sh" >/dev/null 2>&1 &
+    say "J'ouvre notre espace de discussion, $NOM ! 💬"
+elif [[ "$Q" =~ (lis.*(page|dossier|fiche|web|article)|lecture.*web) ]]; then
+    bash "$HOME/tiffany/actions_terminal/31_lire_webia.sh"
+    exit 0
+elif [[ "$Q" =~ ^(tais[- ]toi|stop.*voix|arrete.*lire|chut)$ ]]; then
+    pkill -x espeak-ng >/dev/null 2>&1
+    exit 0
+elif [[ "$Q" =~ ^(deverrouille|libere|debloque)[[:space:]]+(le[[:space:]]+)?(coffre|dossier) ]]; then
     NOM_C=$(echo "${2:-$Q}" | sed -E "s/^(d[eé]verrouille|lib[eè]re|d[eé]bloque)[[:space:]]+(le[[:space:]]+)?(coffre[- ]?fort|dossier)[[:space:]]*//I; s/[[:space:]]*(sur|dans)[[:space:]]*(le|mon)?[[:space:]]*bureau.*//I" | tr -d "?!." | xargs)
     BUREAU=$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Bureau")
     F_CIBLE="$BUREAU/${NOM_C}.7z"
