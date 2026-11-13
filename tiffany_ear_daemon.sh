@@ -29,6 +29,9 @@ proc = subprocess.Popen(
 
 WAKE_WORDS = ("tiffany", "tifany", "typhanie", "stéphanie", "tiff", "téléphonie")
 
+def parler(texte):
+    subprocess.Popen(["espeak-ng", "-v", "fr+f5", "-s", "145", "-p", "85", texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
 def notifier(titre, msg):
     subprocess.Popen(["notify-send", "-u", "low", "-t", "3000", "-i", "audio-input-microphone", titre, msg], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
@@ -37,6 +40,7 @@ def executer_ordre(commande):
     if not commande:
         return
     notifier("🌹 Tiffany (Voix Comprise)", "👉 " + commande)
+    parler("Tout de suite : " + commande)
     subprocess.Popen(["bash", actions_script, commande], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 notifier("👂 Tiffany à l'écoute", "Dis 'Tiffany' suivi de ta phrase à tout moment !")
@@ -65,13 +69,13 @@ while True:
 
         for w in WAKE_WORDS:
             if w in texte:
-                # Garde tout ce qui est dit avant et après le mot-réveil (ex: "bonjour tiffany" -> "bonjour")
                 avant, apres = texte.split(w, 1)
                 commande = (apres.strip() if apres.strip() else avant.strip())
                 if commande:
                     executer_ordre(commande)
                 else:
                     notifier("🎤 Oui mon ange ?", "Je t'écoute, dis ta phrase...")
+                    parler("Oui mon ange, je t'écoute.")
                     en_attente_suite = True
                     debut_attente = time.time()
                 break
