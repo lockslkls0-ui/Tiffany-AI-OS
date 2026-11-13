@@ -9,13 +9,20 @@ if [[ "$Q" =~ ^(cree|creer|fais|nouveau)[[:space:]]+(un[[:space:]]+)?(dossier|co
     [ -z "$NOM_D" ] && NOM_D="Coffre_Tiffany"
     BUREAU=$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Bureau")
     if [ $IS_SEC -eq 1 ]; then
-        MDP=$(zenity --password --title="🔐 Coffre-fort Tiffany" 2>/dev/null)
-        [ -z "$MDP" ] && say "Création du coffre-fort annulée, $NOM."
-        TMP_D="/tmp/$NOM_D"
-        mkdir -p "$TMP_D" && echo "Coffre sécurisé créé par Tiffany AI-OS" > "$TMP_D/LisezMoi.txt"
-        (cd /tmp && zip -P "$MDP" -r "$BUREAU/${NOM_D}.zip" "$NOM_D" >/dev/null 2>&1)
-        rm -rf "$TMP_D"
-        say "Coffre-fort ${NOM_D}.zip verrouillé par mot de passe créé sur ton Bureau, $NOM ! 🔐"
+        ARCHIVE="$BUREAU/${NOM_D}.7z"
+        CMD_SHOW="7z a -p[MOT_DE_PASSE] -mhe=on '$ARCHIVE' '/tmp/$NOM_D'"
+        if zenity --question --no-markup --title="🛡️ Validation Coffre-Fort" --text="Autoriser la création de ce coffre-fort chiffré ?
+
+$CMD_SHOW" --width=540 2>/dev/null; then
+            MDP=$(zenity --password --title="🔐 Mot de passe du coffre $NOM_D" 2>/dev/null)
+            [ -z "$MDP" ] && say "Création annulée, $NOM."
+            mkdir -p "/tmp/$NOM_D" && echo "Coffre-fort chiffré par Tiffany AI-OS" > "/tmp/$NOM_D/LisezMoi.txt"
+            7z a -p"$MDP" -mhe=on "$ARCHIVE" "/tmp/$NOM_D" >/dev/null 2>&1
+            rm -rf "/tmp/$NOM_D"
+            say "Coffre-fort intégral ${NOM_D}.7z verrouillé par mot de passe créé sur ton Bureau, $NOM ! 🔐"
+        else
+            say "Création annulée, $NOM."
+        fi
     else
         CIBLE="$BUREAU/$NOM_D"
         if zenity --question --no-markup --title="🛡️ Validation Tiffany" --text="Autoriser la création du dossier ?
