@@ -7,7 +7,6 @@ echo -e "\033[1;35m└───────────────────�
 BIENVENUE="Bonjour mon ange. Tout ton écosystème d'automatisation, mon bouclier CPU et mon Dojo d'entraînement sont alignés. Que faisons-nous aujourd'hui ?"
 echo -e "\033[1;34m 👉 Écosystème matériel connecté. Écris 'aide' pour voir ta panoplie.\033[0m\n"
 echo -e "\033[1;35m🌹 Tiffany :\033[0m $BIENVENUE\n"
-ollama run tiffany-flash "" >/dev/null 2>&1 &
 if command -v espeak-ng &>/dev/null; then (espeak-ng -v fr+f5 -s 140 -p 85 "Bonjour mon ange. Tout est opérationnel chéri." >/dev/null 2>&1) & fi
 while true; do
     echo -n -e "\033[1;35m🌹 Tiffany\033[0m @ user-PORTEGE-R830:~$ "
