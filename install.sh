@@ -56,3 +56,4 @@ WantedBy=default.target
 EOW
 systemctl --user daemon-reload 2>/dev/null || true
 systemctl --user enable --now tiffany-watchdog.service 2>/dev/null || true
+python3 -c 'import vosk, os, shutil; vosk.Model(lang="fr"); dst=os.path.expanduser("~/tiffany/voice/vosk-fr/vosk-model-small-fr-0.22"); os.makedirs(os.path.dirname(dst), exist_ok=True); src=os.path.expanduser("~/.cache/vosk/vosk-model-small-fr-0.22"); os.path.exists(src) and not os.path.exists(dst) and shutil.copytree(src, dst)' 2>/dev/null || true
