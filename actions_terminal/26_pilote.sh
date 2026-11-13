@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # TERM_KEY: pilote
-# TERM_DESC: Contrôler la souris, le défilement, les onglets et l'écran
+# TERM_DESC: Contrôler la souris, le défilement, les onglets et l ecran
 # TERM_ICON: 🖱️
 
 ORDRE=$(echo "$*" | tr 'A-Z' 'a-z' | sed 's/[éèêë]/e/g; s/[àâ]/a/g')

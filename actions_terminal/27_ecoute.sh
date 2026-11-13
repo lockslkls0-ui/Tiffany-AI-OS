@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # TERM_KEY: ecoute
-# TERM_DESC: Écouter ta voix au micro (5s) et exécuter l'ordre
+# TERM_DESC: Écouter ta voix au micro (5s) et exécuter l ordre
 # TERM_ICON: 🎤
 
 MODEL_DIR="$HOME/tiffany/voice/vosk-fr/vosk-model-small-fr-0.22"
