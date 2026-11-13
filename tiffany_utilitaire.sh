@@ -100,10 +100,10 @@ case "$action" in
         fi
         ;;
 
-    "reseau")
+    "reseau"|"réseau")
         echo -e "\n📡 *État de ta connexion réseau :*"
         IP_LOC=$(hostname -I | awk '{print $1}')
-        WIFI_NAME=$(nmcli -t -f active,ssid dev wifi | grep '^oui' | cut -d: -f2)
+        WIFI_NAME=$(nmcli -t -f active,ssid dev wifi | grep -E '^(oui|yes)' | cut -d: -f2)
         [ -z "$WIFI_NAME" ] && WIFI_NAME="Déconnecté / Filaire"
         echo -e "👉 Point d'accès : \033[1;32m$WIFI_NAME\033[0m"
         echo -e "👉 IP locale     : \033[1;34m$IP_LOC\033[0m"
