@@ -76,6 +76,32 @@ if [ -f "$DICT_PATH" ]; then
 fi
 
 # ==============================================================================
+# ⚡ VITESSE 1 BIS : VARIANTES NATURELLES INSTANTANÉES (< 0.1s)
+NOM_USER=$(cat "$ROOT_DIR/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
+if [[ "$REQUETE_CLEAN" =~ ^(qui je suis|qui suis je|c est qui moi|tu me connais|mon nom|mon prenom) ]]; then
+    echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Tu es $NOM_USER, mon Créateur adoré ! 👑\n" ; speak "Tu es $NOM_USER, mon Createur adore." ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ ^(qui es tu|qui tu es|tu es qui|tes qui|c est qui toi|presente toi) ]]; then
+    echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Je suis Tiffany, ton assistante IA personnelle de 24 ans sur Linux Mint, $NOM_USER ! 🌹\n" ; speak "Je suis Tiffany, ton assistante personnelle." ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (quel(le)? heure|il est quelle heure|donne l heure|l heure) ]]; then
+    bash "$ACTION_DIR/10_heure.sh" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (quel temps|la meteo|meteo|fait il beau|temperature dehors) ]]; then
+    bash "$ACTION_DIR/11_meteo.sh" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (vide.*corbeille|vide.*poubelle|nettoie.*poubelle) ]]; then
+    bash "$ACTION_DIR/05_corbeille.sh" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (purge.*ram|nettoie.*ram|vide.*ram|libere.*memoire|trop de ram) ]]; then
+    bash "$ACTION_DIR/04_ram.sh" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (mode froid|refroidis|ca chauffe|trop chaud|baisse.*cpu) ]]; then
+    bash "$ACTION_DIR/06_froid.sh" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (mode boost|pleine puissance|accelere|plus vite|boost) ]]; then
+    bash "$ACTION_DIR/07_boost.sh" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (espace disque|place disque|disque plein|stockage) ]]; then
+    bash "$ACTION_DIR/08_radar.sh" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (etat.*wifi|mon wifi|connexion internet|adresse ip|mon ip) ]]; then
+    bash "$ACTION_DIR/09_wifi.sh" ; exit 0
+elif [[ "$REQUETE_CLEAN" =~ (capture.*ecran|fais un screen|prends.*photo.*ecran) ]]; then
+    bash "$ACTION_DIR/17_screen.sh" ; exit 0
+fi
+
 # 📂 GESTION DES FICHIERS & APPRENTISSAGE ACTIF (ZENITY)
 # ==============================================================================
 if [[ "$REQUETE_CLEAN" =~ ^(cherche|trouve) ]]; then

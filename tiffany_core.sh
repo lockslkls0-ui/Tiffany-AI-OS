@@ -14,6 +14,9 @@ BIENVENUE="Bonjour mon ange. Tout ton écosystème d'automatisation, mon bouclie
 echo -e "\033[1;34m 👉 Écosystème matériel connecté. Écris 'aide' pour voir ta panoplie.\033[0m\n"
 echo -e "\033[1;35m🌹 Tiffany :\033[0m $BIENVENUE\n"
 
+ollama run tiffany-flash "" >/dev/null 2>ollama run tiffany-flash "" >/dev/null 2>if command -v espeak-ng1 &
+if command -v espeak-ng1 &
+ollama run tiffany-flash "" >/dev/null 2>if command -v espeak-ng1 &
 if command -v espeak-ng &>/dev/null; then
     (espeak-ng -v fr+f5 -s 140 -p 85 "Bonjour mon ange. Tout est opérationnel chéri." >/dev/null 2>&1) &
 fi
