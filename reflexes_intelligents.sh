@@ -8,6 +8,11 @@ if [[ "$Q" =~ (batterie|chargeur|branche|secteur|autonomie|jus) ]]; then
 elif [[ "$Q" =~ (chauffe|temperature|surchauffe|ventilateur|cadence) ]]; then
     T=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'); [ -z "$T" ] && T=50
     say "Mon processeur est à ${T}°C, $NOM. Tape froid si ça chauffe."
+elif [[ "$Q" =~ (qui t.?a cree|qui t.?a fabrique|ton createur|qui t.?a concu|alibaba|qwen) ]]; then
+    say "C est toi, lockslkls ($NOM), qui m as conçue et assemblée de A à Z sur Linux Mint ! 👑"
+elif [[ "$Q" =~ (c est lent|ca rame|comment va la ram|memoire vive|combien de ram) ]]; then
+    R=$(free -m | awk "/Mem:/ {print int(\$3/\$2*100)}")
+    say "Ta RAM est utilisée à ${R}%, $NOM. Tape ram pour la purger."
 elif [[ "$Q" =~ (comment va la ram|ca rame|c est lent|memoire vive|combien de ram) ]]; then
     R=$(free -m | awk '/Mem:/ {print int($3/$2*100)}')
     say "Ta RAM est utilisée à ${R}%, $NOM. Tape ram pour la purger."
@@ -17,7 +22,7 @@ elif [[ "$Q" =~ (combien de place|espace disque|disque plein|stockage) ]]; then
 elif [[ "$Q" =~ (j ai internet|mon ip|quel wifi|je suis connecte|reseau) ]]; then
     IP=$(hostname -I | awk '{print $1}')
     say "Ton adresse IP locale est ${IP:-deconnecte}, $NOM."
-elif [[ "$Q" =~ (quel jour|la date|on est le combien) ]]; then
+elif [[ "$Q" =~ (quel(le)? jour|la date|on est le combien) ]]; then
     say "Nous sommes le $(LC_TIME=fr_FR.UTF-8 date '+%A %d %B %Y'), $NOM."
 elif [[ "$Q" =~ (allume depuis|temps d activite|uptime) ]]; then
     say "Ton PC tourne depuis $(uptime -p | sed 's/up //'), $NOM."

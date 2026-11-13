@@ -11,7 +11,7 @@ CTX_FILE="$ROOT_DIR/memory/contexte_matrice.txt"
 LOG_SESSION="$ROOT_DIR/logs/session_raw.txt"
 
 if [ -z "$REQUETE" ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
-REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | tr "'" " " | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
 speak() {
     local TEXT_CLEAN=$(echo "$1" | sed 's/\*//g' | sed 's/🌹//g')
@@ -40,6 +40,7 @@ if [[ "$REQUETE_CLEAN" == "aide" || "$REQUETE_CLEAN" == "help" ]]; then
 fi
 
 # ==============================================================================
+bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" && exit 0
 # ⚡ VITESSE 1 : BASH PUR & DÉTECTION RAPIDE DES OUTILS (< 0.1s)
 # ==============================================================================
 if [[ "$REQUETE_CLEAN" =~ "analyse" && "$REQUETE_CLEAN" =~ "materiel" ]]; then
@@ -48,7 +49,7 @@ fi
 
 for act in "$ACTION_DIR"/*.sh; do
     [ -e "$act" ] || break
-    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | xargs)
+    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | tr "'" " " | xargs)
     if [[ -n "$T_KEY" ]]; then
         if [[ "$REQUETE_CLEAN" == "$T_KEY" || "$REQUETE_CLEAN" == "$T_KEY "* ]]; then
             chmod +x "$act" 2>/dev/null ; bash "$act" "$REQUETE" ; exit 0
@@ -76,7 +77,6 @@ if [ -f "$DICT_PATH" ]; then
 fi
 
 # ==============================================================================
-bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" && exit 0
 # ⚡ VITESSE 1 BIS : VARIANTES NATURELLES INSTANTANÉES (< 0.1s)
 NOM_USER=$(cat "$ROOT_DIR/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
 if [[ "$REQUETE_CLEAN" =~ ^(qui je suis|qui suis je|c est qui moi|tu me connais) ]]; then
@@ -98,7 +98,7 @@ elif [[ "$REQUETE_CLEAN" =~ (que peux tu faire|que sait tu faire|que sais tu fai
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $MSG\n" ; speak "Je pilote tout ton ordinateur, le panneau graphique, la radio, le refroidissement, la recherche web et mon dojo. Tape aide pour tout voir." ; exit 0
 elif [[ "$REQUETE_CLEAN" =~ (quel(le)? heure|il est quelle heure|donne l heure|l heure) ]]; then
     bash "$ACTION_DIR/10_heure.sh" ; exit 0
-elif [[ "$REQUETE_CLEAN" =~ (quel temps|la meteo|meteo|fait il beau|temperature dehors) ]]; then
+elif [[ "$REQUETE_CLEAN" =~ (quel(le)? temps|la meteo|meteo|fait il beau|il fait beau|il fait beau|quel temps fait|il fait beau|quel temps fait|temperature dehors) ]]; then
     bash "$ACTION_DIR/11_meteo.sh" ; exit 0
 elif [[ "$REQUETE_CLEAN" =~ (vide.*corbeille|vide.*poubelle|nettoie.*poubelle) ]]; then
     bash "$ACTION_DIR/05_corbeille.sh" ; exit 0
