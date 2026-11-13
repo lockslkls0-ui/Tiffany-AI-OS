@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-# MENU_NAME: 🎤 Parler au Micro (Ouïe)
-# MENU_DESC: Dicter un ordre vocal à Tiffany (100% local via Vosk)
-gnome-terminal --title="🎤 Ouïe Tiffany" -- bash -c "$HOME/tiffany/actions_terminal/27_ecoute.sh; sleep 2"
+# MENU_NAME: 👂 Oreille Continue ON (Mains-Libres)
+# MENU_DESC: Écoute permanente du mot 'Tiffany' + commandes vocales instantanées
+pkill -f "tiffany_ear_daemon.sh" >/dev/null 2>&1
+nice -n 15 ~/tiffany/tiffany_ear_daemon.sh >/dev/null 2>&1 &
