@@ -76,6 +76,7 @@ if [ -f "$DICT_PATH" ]; then
 fi
 
 # ==============================================================================
+bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" && exit 0
 # ⚡ VITESSE 1 BIS : VARIANTES NATURELLES INSTANTANÉES (< 0.1s)
 NOM_USER=$(cat "$ROOT_DIR/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
 if [[ "$REQUETE_CLEAN" =~ ^(qui je suis|qui suis je|c est qui moi|tu me connais) ]]; then
@@ -92,7 +93,7 @@ elif [[ "$REQUETE_CLEAN" =~ (ca va|comment ca va|tu vas bien|comment tu vas|la f
         MSG="Tout va super bien $NOM_USER ! CPU frais à ${T_NOW}°C, RAM à ${R_NOW}% et batterie à ${B_NOW}%. À tes ordres !"
     fi
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $MSG\n" ; speak "$MSG" ; exit 0
-elif [[ "$REQUETE_CLEAN" =~ (que peux tu faire|tu sais faire quoi|tes fonctionnalites|tes capacites|tes outils|ton potentiel) ]]; then
+elif [[ "$REQUETE_CLEAN" =~ (que peux tu faire|que sait tu faire|que sais tu faire|tu sais faire quoi|tes fonctionnalites|tes capacites|tes outils|ton potentiel) ]]; then
     MSG="Je pilote tout ton PC $NOM_USER : Panneau graphique (radio, MP3, watchdog, docteur, sauvegarde), refroidissement (froid/boost), nettoyage RAM, recherche Web-IA (webia), apprentissage (dojo) et commandes Linux ! Tape aide pour tout voir."
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $MSG\n" ; speak "Je pilote tout ton ordinateur, le panneau graphique, la radio, le refroidissement, la recherche web et mon dojo. Tape aide pour tout voir." ; exit 0
 elif [[ "$REQUETE_CLEAN" =~ (quel(le)? heure|il est quelle heure|donne l heure|l heure) ]]; then
