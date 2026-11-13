@@ -41,6 +41,7 @@ fi
 
 # ==============================================================================
 bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
+bash "$ROOT_DIR/interpreteur_universel.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
 # ⚡ VITESSE 1 : BASH PUR & DÉTECTION RAPIDE DES OUTILS (< 0.1s)
 # ==============================================================================
 if [[ "$REQUETE_CLEAN" =~ "analyse" && "$REQUETE_CLEAN" =~ "materiel" ]]; then
