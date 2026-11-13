@@ -14,14 +14,13 @@ import sys, os, json, re, subprocess, time
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 SetLogLevel(-1)
-model_dir = sys.argv
-root_dir = sys.argv
+model_dir = sys.argv[1]
+root_dir = sys.argv[2]
 actions_script = os.path.join(root_dir, "tiffany_actions.sh")
 
 model = Model(model_dir)
 rec = KaldiRecognizer(model, 16000)
 
-# Flux audio continu brut via arecord (16kHz mono, quasi 0% CPU)
 proc = subprocess.Popen(
     ["arecord", "-f", "S16_LE", "-r", "16000", "-c", "1", "-t", "raw", "-q"],
     stdout=subprocess.PIPE,
@@ -53,19 +52,17 @@ while True:
         if not texte:
             continue
 
-        # Vérifie si un mot-réveil est prononcé
         declenche = False
         reste = texte
         for w in WAKE_WORDS:
             if w in texte:
                 declenche = True
-                reste = texte.split(w, 1).strip()
+                reste = texte.split(w, 1)[1].strip()
                 break
 
         if not declenche:
             continue
 
-        # Cas A : Demande d'écoute prolongée ("tiffany écoute 8 secondes" ou "écoute")
         m_sec = re.search(r"ecoute\w*\s*(\d+)?", reste.replace("é", "e"))
         if m_sec or reste == "":
             duree = int(m_sec.group(1)) if (m_sec and m_sec.group(1)) else 6
@@ -81,6 +78,5 @@ while True:
             if ordre_long:
                 executer_ordre(ordre_long)
         else:
-            # Cas B : Commande directe immédiate (< 0.1s) ex: "tiffany mode froid"
             executer_ordre(reste)
 PYEOF
