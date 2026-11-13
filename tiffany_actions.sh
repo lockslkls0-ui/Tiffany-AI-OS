@@ -83,7 +83,7 @@ if [[ "$REQUETE_CLEAN" =~ ^(qui je suis|qui suis je|c est qui moi|tu me connais)
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Tu es $NOM_USER, mon Créateur adoré ! 👑\n" ; speak "Tu es $NOM_USER, mon Createur adore." ; exit 0
 elif [[ "$REQUETE_CLEAN" =~ ^(qui es tu|qui tu es|tu es qui|tes qui|c est qui toi|presente toi) ]]; then
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Je suis Tiffany, ton assistante IA personnelle de 24 ans sur Linux Mint, $NOM_USER ! 🌹\n" ; speak "Je suis Tiffany, ton assistante personnelle." ; exit 0
-elif [[ "$REQUETE_CLEAN" =~ (ca va|comment ca va|tu vas bien|comment tu vas|la forme|tout va bien|tu te portes) ]]; then
+elif [[ "$REQUETE_CLEAN" =~ (ca va|cava|comment ca va|tu vas bien|comment tu vas|la forme|tout va bien|tu te portes) ]]; then
     T_NOW=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk "{print int(\$1/1000)}"); [ -z "$T_NOW" ] && T_NOW=50
     R_NOW=$(free -m | grep Mem | awk "{print int(\$3/\$2*100)}")
     B_NOW=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")
@@ -197,7 +197,21 @@ else
     fi
 
     (
-        REP_TEXT=$(nice -n 19 timeout "$TIMEOUT_IA" cpulimit -q -l "$LIMIT_CPU" -- ollama run "$MOTEUR_IA" "$CONSIGNE Question : $REQUETE" 2>/dev/null)
+        REP_TEXT=$(python3 -c '
+import sys, json, urllib.request
+req = urllib.request.Request("http://localhost:11434/api/generate", data=json.dumps({
+    "model": sys.argv[1],
+    "prompt": sys.argv[2] + " Question : " + sys.argv[3],
+    "stream": False,
+    "keep_alive": "15m",
+    "options": {"num_predict": 80, "temperature": 0.7}
+}).encode("utf-8"), headers={"Content-Type": "application/json"})
+try:
+    with urllib.request.urlopen(req, timeout=int(sys.argv[4])) as r:
+        print(json.loads(r.read().decode("utf-8")).get("response", "").strip())
+except Exception:
+    pass
+' "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" 90 2>/dev/null)
         if [ -n "$REP_TEXT" ]; then
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n" ; speak "$REP_TEXT"
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"

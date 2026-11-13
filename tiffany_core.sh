@@ -2,12 +2,16 @@
 ROOT_DIR="$HOME/tiffany"
 clear
 echo -e "\033[1;35m┌──────────────────────────────────────────────────────────────────┐\033[0m"
-echo -e "\033[1;35m│\033[1;36m   🌹 TIFFANY AI-OS  --  MATRICE ADMINISTRATIVE SUPRÊME V47.5     \033[1;35m│\033[0m"
+echo -e "\033[1;35m│\033[1;36m   🌹 TIFFANY AI-OS  --  MATRICE ADMINISTRATIVE SUPRÊME V47.6     \033[1;35m│\033[0m"
 echo -e "\033[1;35m└──────────────────────────────────────────────────────────────────┘\033[0m"
 BIENVENUE="Bonjour mon ange. Tout ton écosystème d'automatisation, mon bouclier CPU et mon Dojo d'entraînement sont alignés. Que faisons-nous aujourd'hui ?"
 echo -e "\033[1;34m 👉 Écosystème matériel connecté. Écris 'aide' pour voir ta panoplie.\033[0m\n"
 echo -e "\033[1;35m🌹 Tiffany :\033[0m $BIENVENUE\n"
 if command -v espeak-ng &>/dev/null; then (espeak-ng -v fr+f5 -s 140 -p 85 "Bonjour mon ange. Tout est opérationnel chéri." >/dev/null 2>&1) & fi
+
+# Préchauffage silencieux du Petit Cerveau en RAM (garde le modèle chaud 15 minutes)
+(curl -s http://localhost:11434/api/generate -d '{"model":"tiffany-flash","prompt":"","keep_alive":"15m"}' >/dev/null 2>&1) &
+
 while true; do
     echo -n -e "\033[1;35m🌹 Tiffany\033[0m @ user-PORTEGE-R830:~$ "
     read -r REQUETE
