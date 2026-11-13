@@ -112,7 +112,7 @@ case "$action" in
     "audio")
         if [ "$option" = "toggle" ]; then
             echo -e "\n🔊 *Bascule du mode muet...*"
-            amixer set Master toggle >/dev/null 2>&1
+            amixer -D pulse sset Master toggle 2>/dev/null || amixer set Master toggle >/dev/null 2>&1
         else
             echo -e "\n🔊 *Réglage du volume général à ${option}%...*"
             amixer set Master "${option}%" >/dev/null 2>&1
