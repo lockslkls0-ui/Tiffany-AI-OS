@@ -16,3 +16,5 @@
 [17:24:23] 🌡️ Surchauffe (75°C). Entraînement reporté.
 [17:53:03] 🌡️ Surchauffe (75°C). Entraînement reporté.
 [18:27:54] ❌ ÉCHEC test : 'ls -lh /dojo'
+[18:43:35] 🛡️ Rejet sécurité pour 'affiche la taille des dossiers dans le dojo' : 
+[18:52:56] 🛡️ Rejet sécurité pour 'verifie l espace disque libre en megaoctets' : 
