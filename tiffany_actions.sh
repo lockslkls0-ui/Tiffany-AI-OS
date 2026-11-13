@@ -87,8 +87,10 @@ elif [[ "$REQUETE_CLEAN" =~ (ca va|comment ca va|tu vas bien|comment tu vas|la f
     T_NOW=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk "{print int(\$1/1000)}"); [ -z "$T_NOW" ] && T_NOW=50
     R_NOW=$(free -m | grep Mem | awk "{print int(\$3/\$2*100)}")
     B_NOW=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")
-    if [ "$T_NOW" -gt 70 ] || [ "$R_NOW" -gt 80 ]; then
-        MSG="⚠️ Attention, ça chauffe ! $NOM_USER : CPU à ${T_NOW}°C et RAM à ${R_NOW}% ! Tape froid ou ram pour me soulager."
+    if [ "$T_NOW" -gt 70 ]; then
+        MSG="⚠️ Attention, ça chauffe $NOM_USER : CPU à ${T_NOW}°C (RAM ${R_NOW}%) ! Tape froid pour refroidir."
+    elif [ "$R_NOW" -gt 80 ]; then
+        MSG="⚠️ Mémoire chargée $NOM_USER : RAM à ${R_NOW}% (CPU frais à ${T_NOW}°C) ! Tape ram pour purger." 
     else
         MSG="Tout va super bien $NOM_USER ! CPU frais à ${T_NOW}°C, RAM à ${R_NOW}% et batterie à ${B_NOW}%. À tes ordres !"
     fi
@@ -179,7 +181,7 @@ else
     DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEM_WEB=$(tail -n 5 "$ROOT_DIR/memory/connaissances_web.txt" 2>/dev/null | tr "\n" " " | head -c 300); SOUVENIRS=$(cat "$CTX_FILE" "$ROOT_DIR/memory/journal_de_bord.txt" 2>/dev/null | tail -n 12 | tr "\n" " " | head -c 450)
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
 
-    if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire) ]]; then
+    if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|souvenir|memoire|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire) ]]; then
         MOTEUR_IA="qwen2.5:1.5b"
         TIMEOUT_IA=600
         LIMIT_CPU=80

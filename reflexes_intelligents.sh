@@ -10,7 +10,7 @@ if [[ "$Q" =~ (batterie|chargeur|branche|secteur|autonomie|jus) ]]; then
 elif [[ "$Q" =~ (chauffe|temperature|surchauffe|ventilateur|cadence) ]]; then
     T=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'); [ -z "$T" ] && T=50
     say "Mon processeur est à ${T}°C, $NOM. Tape froid si ça chauffe."
-elif [[ "$Q" =~ (qui t.?a cree|qui t.?a fabrique|ton createur|qui t.?a concu|alibaba|qwen) ]]; then
+elif [[ "$Q" =~ (qui t.?a cree|qui t.?a fabrique|ton createur|d ou viens tu|tes origines|qui t.?a concu|alibaba|qwen) ]]; then
     say "C est toi, lockslkls ($NOM), qui m as conçue et assemblée de A à Z sur Linux Mint ! 👑"
 elif [[ "$Q" =~ (c est lent|ca rame|comment va la ram|memoire vive|combien de ram) ]]; then
     R=$(free -m | awk "/Mem:/ {print int(\$3/\$2*100)}")

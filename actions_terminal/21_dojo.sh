@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # TERM_KEY: dojo
-# TERM_DESC: Lancer une séance d'entraînement IA (Libre ou défi personnalisé)
+# TERM_DESC: Lancer une séance d entrainement IA (Libre ou défi personnalisé)
 # TERM_ICON: 🥋
 
 DEFI_PERSO=$(zenity --entry --title="🥋 Entraînement du Dojo" \
