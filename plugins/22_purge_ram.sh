@@ -1,6 +1,5 @@
-#!/bin/bash
-# MENU_NAME: 🧼 Purge Éclair \& Relance
-# MENU_DESC: Purger la RAM et réveiller Ollama
-sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches >/dev/null 2>&1
-sudo systemctl restart ollama >/dev/null 2>&1
-zenity --info --text="✅ Matrice réalignée, mon ange !" --timeout=2 2>/dev/null
+#!/usr/bin/env bash
+# MENU_NAME: 🧼 Purge Éclair & Relance
+# MENU_DESC: Purger le cache RAM et réveiller Ollama
+pkexec bash -c "sync && echo 3 > /proc/sys/vm/drop_caches && systemctl restart ollama" >/dev/null 2>&1
+notify-send -u low -t 3000 -i "user-trash" "🧼 Purge RAM" "Mémoire cache libérée et moteur IA réaligné !"

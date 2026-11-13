@@ -2,7 +2,7 @@
 ROOT_DIR="$HOME/tiffany"
 clear
 echo -e "\033[1;35m┌──────────────────────────────────────────────────────────────────┐\033[0m"
-echo -e "\033[1;35m│\033[1;36m   🌹 TIFFANY AI-OS  --  MATRICE ADMINISTRATIVE SUPRÊME V47.4     \033[1;35m│\033[0m"
+echo -e "\033[1;35m│\033[1;36m   🌹 TIFFANY AI-OS  --  MATRICE ADMINISTRATIVE SUPRÊME V47.5     \033[1;35m│\033[0m"
 echo -e "\033[1;35m└──────────────────────────────────────────────────────────────────┘\033[0m"
 BIENVENUE="Bonjour mon ange. Tout ton écosystème d'automatisation, mon bouclier CPU et mon Dojo d'entraînement sont alignés. Que faisons-nous aujourd'hui ?"
 echo -e "\033[1;34m 👉 Écosystème matériel connecté. Écris 'aide' pour voir ta panoplie.\033[0m\n"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# 🌹 PROJECT TIFFANY - ENGINE HYBRIDE 3 VITESSES V47.4 (DÉTECTION RAPIDE)
+# 🌹 PROJECT TIFFANY - ENGINE HYBRIDE 3 VITESSES V47.5 (DÉTECTION RAPIDE)
 # ==============================================================================
 ROOT_DIR="$HOME/tiffany"
 ACTION_DIR="$ROOT_DIR/actions_terminal"
