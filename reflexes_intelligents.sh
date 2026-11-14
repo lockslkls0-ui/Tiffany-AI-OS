@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 Q="$1"
 NOM=$(cat "$HOME/tiffany/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
+say_alea() {
+    local ITEMS=("$@")
+    local CHOIX="${ITEMS[$RANDOM % ${#ITEMS[@]}]}"
+    local DEB=145
+    [ "$(cat "$HOME/tiffany/memory/ambiance_active.txt" 2>/dev/null)" == "zen" ] && DEB=128
+    echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $CHOIX\n"
+    pkill -x espeak-ng >/dev/null 2>&1
+    (espeak-ng -v fr+f5 -s "$DEB" -p 85 "$(echo "$CHOIX" | tr -d '🌹👑⚡❄️🔋💾🩺🧠')" >/dev/null 2>&1) &
+    exit 0
+}
 say() { echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"; pkill -x espeak-ng >/dev/null 2>&1; (espeak-ng -v fr+f5 -s 140 -p 85 "$(echo "$1" | tr -d '🌹👑⚡❄️')" >/dev/null 2>&1) & exit 0; }
 if [[ "$Q" =~ ^(ouvre[[:space:]]+)?(le[[:space:]]+)?terminal$ ]]; then
     gnome-terminal >/dev/null 2>&1 &
@@ -62,10 +72,10 @@ elif [[ "$Q" =~ (batterie|chargeur|branche|secteur|autonomie|jus) ]]; then
     BAT=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")
     ST=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n 1)
     if [[ "$ST" == "Charging" || "$ST" == "Full" ]]; then ETAT="branché sur secteur"; else ETAT="débranché (sur batterie)"; fi
-    say "Tu es actuellement ${ETAT}, avec une batterie à ${BAT}%, $NOM." 
+    say_alea "Tu es actuellement ${ETAT}, avec une batterie à ${BAT}%, $NOM. 🔋" "Côté énergie, ton PC est ${ETAT} et la batterie affiche ${BAT}%, $NOM. 🔋" "La batterie est à ${BAT}% et ton ordinateur est ${ETAT}, $NOM. 🔋" 
 elif [[ "$Q" =~ (chauffe|temperature|surchauffe|ventilateur|cadence) ]]; then
     T=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'); [ -z "$T" ] && T=50
-    say "Mon processeur est à ${T}°C, $NOM. Tape froid si ça chauffe."
+    say_alea "Mon processeur tourne à ${T}°C en ce moment, $NOM. 🌡️" "La sonde thermique indique ${T}°C sur le CPU, $NOM. 🌡️" "Tout est sous contrôle : le processeur est à ${T}°C, $NOM. 🌡️"
 elif [[ "$Q" =~ ^(merci|cimer|top|parfait|super|genial|nikel|nickel) ]]; then
     say "Avec grand plaisir, $NOM ! Je veille sur tout. 🌹"
 elif [[ "$Q" =~ ^(bonjour|salut|coucou|hello|hey|yo|bonsoir) ]]; then
@@ -84,13 +94,13 @@ elif [[ "$Q" =~ (de quoi tu te souviens|tes souvenirs|mes souvenirs|lis.*souveni
     FAITS=$(grep -v '^{' "$HOME/tiffany/memory/long_term_facts.json" 2>/dev/null | tail -n 3 | tr '\n' ' ' | sed 's/^- //g' | xargs)
     say "Voici mes derniers souvenirs gravés : ${FAITS:-Nous construisons Tiffany AI-OS ensemble sur ton Toshiba}, $NOM ! 🧠"
 elif [[ "$Q" =~ (qui t.?a cree|qui t.?a fabrique|ton createur|d ou viens tu|d ou tu viens|dou tu viens|tes origines|qui t.?a concu|alibaba|qwen) ]]; then
-    say "C est toi, lockslkls ($NOM), qui m as conçue et assemblée de A à Z sur Linux Mint ! 👑"
+    say_alea "C est Lorian (lockslkls) qui m a conçue et assemblée de A à Z sur Linux Mint ! 👑" "Mon créateur officiel est Lorian (lockslkls), c est lui qui a forgé toute ma matrice sur Linux Mint ! 👑" "Je dois mon existence à Lorian (lockslkls), mon concepteur sur Linux Mint ! 👑"
 elif [[ "$Q" =~ (c est lent|ca rame|comment va la ram|memoire vive|combien de ram) ]]; then
     R=$(free -m | awk "/Mem:/ {print int(\$3/\$2*100)}")
-    say "Ta RAM est utilisée à ${R}%, $NOM. Tape ram pour la purger."
+    say_alea "Ta mémoire vive est occupée à ${R}%, $NOM. 🧠" "Côté RAM, tu utilises actuellement ${R}% de la mémoire, $NOM. 🧠" "La mémoire vive est à ${R}% d occupation, $NOM. 🧠"
 elif [[ "$Q" =~ (comment va la ram|ca rame|c est lent|memoire vive|combien de ram) ]]; then
     R=$(free -m | awk '/Mem:/ {print int($3/$2*100)}')
-    say "Ta RAM est utilisée à ${R}%, $NOM. Tape ram pour la purger."
+    say_alea "Ta mémoire vive est occupée à ${R}%, $NOM. 🧠" "Côté RAM, tu utilises actuellement ${R}% de la mémoire, $NOM. 🧠" "La mémoire vive est à ${R}% d occupation, $NOM. 🧠"
 elif [[ "$Q" =~ (combien de place|espace disque|prend de la place|lourd|disque plein|stockage) ]]; then
     L=$(df -h / | awk 'NR==2 {print $4}')
     say "Il te reste ${L} de libre sur ton disque, $NOM."
