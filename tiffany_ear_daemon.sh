@@ -36,7 +36,7 @@ ACTIONS_SANS_TERMINAL = (
     "nuit", "jour", "froid", "boost", "zram", "turbo", "backup", "sauvegarde",
     "instinct", "fenetre", "range", "bureau", "chrome", "youtube",
     "pilote", "droite", "gauche", "monte", "descends", "clic", "onglet",
-    "plein ecran", "verrouille", "oreille", "tais-toi", "chut", "eteins"
+    "plein ecran", "verrouille", "oreille", "tais-toi", "chut", "annule", "stop ia", "eteins"
 )
 
 def volume_rms(data):

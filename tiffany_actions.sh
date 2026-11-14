@@ -25,6 +25,15 @@ if [[ "$REQUETE_CLEAN" == "quitter" || "$REQUETE_CLEAN" == "exit" ]]; then
     exit 99
 fi
 
+# 🛑 Arrêt immédiat d'une réflexion IA en cours
+if [[ "$REQUETE_CLEAN" =~ ^(annule|stop ia|arrete de reflechir|stop reflexion)$ ]]; then
+    pkill -f "localhost:11434/api/generate" 2>/dev/null || true
+    pkill -f "ollama run" 2>/dev/null || true
+    pkill -x espeak-ng 2>/dev/null || true
+    echo -e "\n\033[1;33m🛑 Réflexion IA interrompue immédiatement, mon ange.\033[0m\n"
+    exit 0
+fi
+
 # 📋 2. Menu d'aide
 if [[ "$REQUETE_CLEAN" == "aide" || "$REQUETE_CLEAN" == "help" ]]; then
     echo -e "\n\033[1;36m📋 PANOPLIE DES OUTILS :\033[0m"
@@ -40,6 +49,7 @@ if [[ "$REQUETE_CLEAN" == "aide" || "$REQUETE_CLEAN" == "help" ]]; then
 fi
 
 # ==============================================================================
+REQUETE_CLEAN=$(bash "$ROOT_DIR/correcteur_phonetique.sh" "$REQUETE_CLEAN")
 bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
 bash "$ROOT_DIR/interpreteur_universel.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
 # ⚡ VITESSE 1 : BASH PUR & DÉTECTION RAPIDE DES OUTILS (< 0.1s)
