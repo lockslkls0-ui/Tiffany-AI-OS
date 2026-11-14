@@ -9,7 +9,9 @@ fi
 
 
 # Corriger d'abord les confusions 'cent/sans' devant un nombre (ex: "cent cinquante" -> "son cinquante")
-TXT=$(TXT=$(echo "$TXT" | sed -E "s/pierre de claire|pierre declere/pierre decker/g; s/^oeuvres$/ouvre/g")
+TXT=$(TXT=$(TXT=$(echo "$TXT" | sed -E "s/pauvre discussion/ouvre discussion/g")
+echo "$TXT" | sed -E "s/pierre de claire|pierre declere/pierre decker/g; s/^oeuvres$/ouvre/g")
+TXT=$(echo "$TXT" | sed -E "s/pauvre discussion/ouvre discussion/g")
 echo "$TXT" | sed -E "s/^son ([0-9]+)$/son a \1/" | sed -E '
     s/\b(cent|sans|sang|sont)[[:space:]]+(dix|vingt|trente|quarante|cinquante|soixante|soixante-dix|quatre-vingt|quatre-vingts|quatre-vingt-dix|[0-9]+)\b/son \2/g;
     s/\b(montlucon|montluçon|monte le son|montre le volume|montre le son|mets le son|volume)[[:space:]]*(a|au)?[[:space:]]*([0-9]+|dix|vingt|trente|quarante|cinquante|soixante|soixante-dix|quatre-vingt|quatre-vingts|quatre-vingt-dix)/son a \3/g;
@@ -37,7 +39,9 @@ print(t)
 ' "$TXT")
 
 # Corrections phonétiques courantes de Vosk FR
-TXT=$(TXT=$(echo "$TXT" | sed -E "s/pierre de claire|pierre declere/pierre decker/g; s/^oeuvres$/ouvre/g")
+TXT=$(TXT=$(TXT=$(echo "$TXT" | sed -E "s/pauvre discussion/ouvre discussion/g")
+echo "$TXT" | sed -E "s/pierre de claire|pierre declere/pierre decker/g; s/^oeuvres$/ouvre/g")
+TXT=$(echo "$TXT" | sed -E "s/pauvre discussion/ouvre discussion/g")
 echo "$TXT" | sed -E "s/^son ([0-9]+)$/son a \1/" | sed -E '
     s/\b(boss|boste|boust|booster|bouste)\b/boost/g;
     s/\b(frais|froide|frois)\b/froid/g;
@@ -63,5 +67,7 @@ echo "$TXT" | sed -E "s/^son ([0-9]+)$/son a \1/" | sed -E '
     s/\b(fenetre|fenêtres)\b/fenetres/g;
     s/\b(webcam|web cam)\b/cam/g
 ')
-TXT=$(echo "$TXT" | sed -E "s/pierre de claire|pierre declere/pierre decker/g; s/^oeuvres$/ouvre/g")
+TXT=$(TXT=$(echo "$TXT" | sed -E "s/pauvre discussion/ouvre discussion/g")
+echo "$TXT" | sed -E "s/pierre de claire|pierre declere/pierre decker/g; s/^oeuvres$/ouvre/g")
+TXT=$(echo "$TXT" | sed -E "s/pauvre discussion/ouvre discussion/g")
 echo "$TXT" | sed -E "s/^son ([0-9]+)$/son a \1/"
