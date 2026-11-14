@@ -66,6 +66,23 @@ elif [[ "$Q" =~ (batterie|chargeur|branche|secteur|autonomie|jus) ]]; then
 elif [[ "$Q" =~ (chauffe|temperature|surchauffe|ventilateur|cadence) ]]; then
     T=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'); [ -z "$T" ] && T=50
     say "Mon processeur est à ${T}°C, $NOM. Tape froid si ça chauffe."
+elif [[ "$Q" =~ ^(merci|cimer|top|parfait|super|genial|nikel|nickel) ]]; then
+    say "Avec grand plaisir, $NOM ! Je veille sur tout. 🌹"
+elif [[ "$Q" =~ ^(bonjour|salut|coucou|hello|hey|yo|bonsoir) ]]; then
+    say "Coucou $NOM ! Tout est frais et opérationnel sur ton Toshiba. Que faisons-nous ? 🌹"
+elif [[ "$Q" =~ (tu dors|es tu la|tu es la|tu m entends|reveille) ]]; then
+    say "Je ne dors jamais, $NOM ! Mon oreille et mon bouclier thermique veillent en permanence. ⚡"
+elif [[ "$Q" =~ (age.*disque|heures.*disque|smart|sante.*disque|usure.*disque) ]]; then
+    H=$(grep "Power_On_Hours" "$HOME/tiffany/logs/sante_disque.txt" 2>/dev/null | awk '{print $NF}')
+    CRC=$(grep "UDMA_CRC_Error_Count" "$HOME/tiffany/logs/sante_disque.txt" 2>/dev/null | awk '{print $NF}')
+    JOURS=$(( ${H:-8884} / 24 ))
+    say "Ton disque dur totalise ${H:-8884} heures de fonctionnement (environ ${JOURS} jours) et ${CRC:-243} erreurs de câble CRC, $NOM. 💾"
+elif [[ "$Q" =~ (rapport.*erreur|erreurs.*systeme|dernier.*audit|journal.*erreur) ]]; then
+    ERR=$(journalctl -p 3 -n 1 --no-pager -q 2>/dev/null | cut -d' ' -f5- | head -c 110)
+    say "Dernière alerte système relevée : ${ERR:-Aucune erreur critique détectée}, $NOM. 🩺"
+elif [[ "$Q" =~ (de quoi tu te souviens|tes souvenirs|mes souvenirs|lis.*souvenir|nos sessions) ]]; then
+    FAITS=$(grep -v '^{' "$HOME/tiffany/memory/long_term_facts.json" 2>/dev/null | tail -n 3 | tr '\n' ' ' | sed 's/^- //g' | xargs)
+    say "Voici mes derniers souvenirs gravés : ${FAITS:-Nous construisons Tiffany AI-OS ensemble sur ton Toshiba}, $NOM ! 🧠"
 elif [[ "$Q" =~ (qui t.?a cree|qui t.?a fabrique|ton createur|d ou viens tu|d ou tu viens|dou tu viens|tes origines|qui t.?a concu|alibaba|qwen) ]]; then
     say "C est toi, lockslkls ($NOM), qui m as conçue et assemblée de A à Z sur Linux Mint ! 👑"
 elif [[ "$Q" =~ (c est lent|ca rame|comment va la ram|memoire vive|combien de ram) ]]; then
