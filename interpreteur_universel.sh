@@ -3,7 +3,8 @@ Q="$1"; RAW="$2"; ROOT_DIR="$HOME/tiffany"; PLUG="$ROOT_DIR/plugins"; ACT="$ROOT
 NOM=$(cat "$ROOT_DIR/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
 go() {
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"
-    (espeak-ng -v fr+f5 -s 145 -p 85 "$(echo "$1" | tr -d '🌹🎵📻❄️⚡🚀🩺💾🪟📷✂️🧼🗑️🌙☀️🔊🎙️💻📊')" >/dev/null 2>&1) &
+    notify-send -u low -t 3000 -i "dialog-information" "🌹 Tiffany AI-OS" "$1" >/dev/null 2>&1
+    (espeak-ng -v fr+f5 -s 145 -p 85 "$(echo "$1" | tr -d '🌹🎵📻❄️⚡🚀🩺💾🪟📷✂️🧼🗑️🌙☀️🔊🎙️💻📊🧬📡')" >/dev/null 2>&1) &
     eval "$2" >/dev/null 2>&1 &
     exit 0
 }
@@ -24,10 +25,17 @@ case "$Q" in
     "zone"|"decoupe"|"ocr") go "Sélectionne la zone à lire, $NOM ! ✂️" "bash '$PLUG/29_vision_zone.sh'" ;;
     "nuit"|"sombre") go "Filtre de nuit activé, $NOM ! 🌙" "bash '$PLUG/32_filtre_nuit.sh'" ;;
     "jour"|"clair") go "Mode jour restauré, $NOM ! ☀️" "bash '$PLUG/33_mode_jour.sh'" ;;
+    "froid"|"refroidis") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
+    "boost"|"puissance") go "Mode Boost Auto activé, $NOM ! ⚡" "bash '$PLUG/12_mode_boost.sh'" ;;
     "zram"|"turbo") go "Accélération ZRAM vérifiée, $NOM ! 🚀" "bash '$PLUG/25_turbo_zram.sh'" ;;
     "docteur"|"mistral"|"audit"|"diag"|"diagnostic") go "Lancement du Docteur Mistral, $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'" ;;
     "backup"|"sauvegarde"|"sauve") go "Sauvegarde matrice lancée, $NOM ! 💾" "bash '$PLUG/15_sauvegarde_matrice.sh'" ;;
-    "top"|"processus") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
+    "top"|"processus"|"cpu") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
+    "ram"|"memoire") go "Check-up RAM et purge mémoire, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
+    "reseau"|"wifi"|"ip") go "Affichage de l'état réseau et IP, $NOM ! 📡" "bash '$PLUG/24_etat_reseau.sh'" ;;
+    "analyse"|"materiel"|"lshw") go "Analyse matérielle en direct, $NOM ! 📊" "bash '$PLUG/23_analyse_systeme.sh'" ;;
+    "corbeille"|"poubelle") go "Corbeille vidée, $NOM ! 🗑️" "bash '$PLUG/30_vider_corbeille.sh'" ;;
+    "evolution"|"journal") go "Ouverture du registre d'évolution, $NOM ! 📝" "bash '$PLUG/Y98_voir_evolution.sh'" ;;
     "instinct"|"capteurs"|"usb"|"bluetooth") go "Instinct matériel étendu, $NOM ! 🧬" "bash '$PLUG/26_instinct_etendu.sh'" ;;
     "fenetres"|"range") go "Fenêtres rangées en 50/50, $NOM ! 🪟" "bash '$ACT/30_fenetre.sh' range" ;;
     "bureau") go "Bureau dégagé, $NOM ! 🖥️" "bash '$ACT/30_fenetre.sh' bureau" ;;
@@ -72,6 +80,7 @@ elif [[ "$Q" =~ (turbo.*ram|compresse.*ram|active.*zram|accelere.*ram) ]]; then 
 elif [[ "$Q" =~ (docteur|mistral|audit.*total|repare.*pc) ]]; then go "Docteur Mistral lancé, $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'"
 elif [[ "$Q" =~ (stabilise.*chrome|bride.*chrome) ]]; then go "Chrome stabilisé à 120%, $NOM ! 🛡️" "bash '$PLUG/10_stabiliser_chrome.sh'"
 elif [[ "$Q" =~ (sauvegarde.*matrice|sauvegarde.*tout|archive.*tiffany) ]]; then go "Sauvegarde matrice lancée, $NOM ! 💾" "bash '$PLUG/15_sauvegarde_matrice.sh'"
+elif [[ "$Q" =~ (vide.*corbeille|vide.*poubelle) ]]; then go "Corbeille purgée, $NOM ! 🗑️" "bash '$PLUG/30_vider_corbeille.sh'"
 elif [[ "$Q" =~ (eteins.*(pc|ordinateur|toshiba)|extinction) ]]; then go "Extinction propre du Toshiba, $NOM ! 💤" "bash '$PLUG/Z99_eteindre_toshiba.sh'"
 fi
 exit 1
