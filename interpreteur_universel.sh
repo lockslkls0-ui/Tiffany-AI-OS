@@ -5,7 +5,7 @@ NOM=$(cat "$ROOT_DIR/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
 go() {
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"
     notify-send -u low -t 3000 -i "dialog-information" "🌹 Tiffany AI-OS" "$1" >/dev/null 2>&1
-    (espeak-ng -v fr+f5 -s 145 -p 85 "$(echo "$1" | tr -d '🌹🎵📻❄️⚡🚀🩺💾🪟📷✂️🧼🗑️🌙☀️🔊🎙️💻📊🧬📡⏰📂⚙️')" >/dev/null 2>&1) &
+    pkill -x espeak-ng >/dev/null 2>&1; (espeak-ng -v fr+f5 -s 145 -p 85 "$(echo "$1" | tr -d '🌹🎵📻❄️⚡🚀🩺💾🪟📷✂️🧼🗑️🌙☀️🔊🎙️💻📊🧬📡⏰📂⚙️')" >/dev/null 2>&1) &
     eval "$2" >/dev/null 2>&1 &
     exit 0
 }

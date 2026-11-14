@@ -15,7 +15,7 @@ REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | tr "'" " " | sed 's/[éèêë
 
 speak() {
     local TEXT_CLEAN=$(echo "$1" | sed 's/\*//g' | sed 's/🌹//g')
-    (espeak-ng -v fr+f5 -s 140 -p 85 "$TEXT_CLEAN" >/dev/null 2>&1) &
+    pkill -x espeak-ng >/dev/null 2>&1; (espeak-ng -v fr+f5 -s 140 -p 85 "$TEXT_CLEAN" >/dev/null 2>&1) &
 }
 
 # 🚪 1. Fermeture propre

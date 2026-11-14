@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 Q="$1"
 NOM=$(cat "$HOME/tiffany/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
-say() { echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"; (espeak-ng -v fr+f5 -s 140 -p 85 "$(echo "$1" | tr -d '🌹👑⚡❄️')" >/dev/null 2>&1) & exit 0; }
+say() { echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"; pkill -x espeak-ng >/dev/null 2>&1; (espeak-ng -v fr+f5 -s 140 -p 85 "$(echo "$1" | tr -d '🌹👑⚡❄️')" >/dev/null 2>&1) & exit 0; }
 if [[ "$Q" =~ ^(ouvre[[:space:]]+)?(le[[:space:]]+)?terminal$ ]]; then
     gnome-terminal >/dev/null 2>&1 &
     say "J'ouvre un terminal Linux pour toi, $NOM ! 💻"
