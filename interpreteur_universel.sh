@@ -52,7 +52,7 @@ case "$Q" in
     "oreille off") go "Oreille vocale mise en pause, $NOM ! 🔇" "bash '$PLUG/28b_ouie_off.sh'" ;;
 
     # Diagnostics séparés clairement (Analyse simple vs Docteur Mistral)
-    "analyse"|"materiel"|"lshw") go "Analyse matérielle simple lancée, $NOM ! 📊" "bash '$PLUG/23_analyse_systeme.sh'" ;;
+    "analyse"|"materiel"|"bilan"|"etat du pc") bash "$ACT/02_analyse.sh" ; exit 0 ;;
     "docteur"|"mistral"|"audit total"|"diagnostic complet") go "Lancement du Docteur Mistral (Audit Total), $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'" ;;
     "froid"|"refroidis") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
     "boost"|"puissance") go "Mode Boost Auto activé, $NOM ! ⚡" "bash '$PLUG/12_mode_boost.sh'" ;;
