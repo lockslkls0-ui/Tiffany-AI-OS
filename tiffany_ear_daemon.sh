@@ -11,7 +11,7 @@ armer_micro() {
     VRAI_MICRO=$(pactl list short sources 2>/dev/null | awk '{print $2}' | grep -v "\.monitor" | head -n 1)
     [ -n "$VRAI_MICRO" ] && pactl set-default-source "$VRAI_MICRO" >/dev/null 2>&1 || true
     pactl set-source-mute @DEFAULT_SOURCE@ 0 >/dev/null 2>&1 || true
-    pactl set-source-volume @DEFAULT_SOURCE@ 90% >/dev/null 2>&1 || true
+    pactl set-source-volume @DEFAULT_SOURCE@ 115% >/dev/null 2>&1 || true
     amixer sset Capture cap 28 >/dev/null 2>&1 || true
 }
 
