@@ -41,7 +41,7 @@ def lancer_capture():
 
 proc = lancer_capture()
 
-WAKE_WORDS = ("tiffany", "tifany", "typhanie", "stéphanie", "tiff", "hey tiffany", "hey tiff", "hey", "ok tiffany")
+WAKE_WORDS = ("tiffany", "tifany", "typhanie", "stéphanie", "tiff", "tif", "tife", "typh", "hey tiffany", "hey tiff", "hey", "ok tiffany")
 ACTIONS_SANS_TERMINAL = (
     "next", "skip", "suivant", "suivante", "pause", "play", "stop", "muet", "silence",
     "musique", "radio", "menu", "panneau", "cam", "webcam", "zone",
