@@ -33,7 +33,7 @@ rec = KaldiRecognizer(model, 16000)
 
 def lancer_capture():
     return subprocess.Popen(
-        ["arecord", "-f", "S16_LE", "-r", "16000", "-c", "1", "-t", "raw", "-q"],
+        ["arecord", "-D", "pulse", "-f", "S16_LE", "-r", "16000", "-c", "1", "-t", "raw", "-q"],
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL
     )
