@@ -5,15 +5,27 @@ MEM_GEO="$HOME/.tiffany_menu_geo.txt"
 [ -f "$MEM_GEO" ] || echo "0,400,200,580,660" > "$MEM_GEO"
 
 POS_FILE="$HOME/tiffany/memory/panneau_position.txt"
+LOCK_MOVE="/tmp/tiffany_panneau_moving.lock"
+
+# Observateur continu : mémorise ta position/taille dès que tu déplaces le Panneau à la souris
 (
     while pgrep -f "tiffany_menu.sh" >/dev/null 2>&1; do
-        GEOM=$(wmctrl -lG 2>/dev/null | grep -i "Tiffany" | grep -v "Discussion" | head -n 1 | awk '{print "0," $3 "," $4 "," $5 "," $6}')
-        [ -n "$GEOM" ] && echo "$GEOM" > "$POS_FILE"
-        sleep 0.6
+        if [ ! -f "$LOCK_MOVE" ]; then
+            LINE=$(wmctrl -lG 2>/dev/null | grep -i "Tiffany" | grep -v "Discussion" | head -n 1)
+            if [ -n "$LINE" ]; then
+                X=$(echo "$LINE" | awk '{print $3}')
+                Y=$(echo "$LINE" | awk '{print $4}')
+                W=$(echo "$LINE" | awk '{print $5}')
+                H=$(echo "$LINE" | awk '{print $6}')
+                # Enregistre uniquement si la fenêtre est ouverte et valide
+                [ "$W" -gt 150 ] 2>/dev/null && echo "0,$X,$Y,$W,$H" > "$POS_FILE"
+            fi
+        fi
+        sleep 0.5
     done
 ) &
 TRACK_PID=$!
-trap "kill $TRACK_PID 2>/dev/null" EXIT
+trap "kill $TRACK_PID 2>/dev/null; rm -f $LOCK_MOVE" EXIT
 
 while true; do
     GEO_SAVED=$(cat "$MEM_GEO" 2>/dev/null)
@@ -62,15 +74,25 @@ while true; do
     ) &
     SPY_PID=$!
 
+            if [ -s "$POS_FILE" ]; then
+        touch "$LOCK_MOVE"
         (
-        for _ in $(seq 1 20); do
-            sleep 0.08
-            if wmctrl -l 2>/dev/null | grep -i "Tiffany" | grep -qv "Discussion"; then
-                [ -s "$POS_FILE" ] && wmctrl -r "Tiffany" -e "$(cat "$POS_FILE")" 2>/dev/null
-                break
-            fi
-        done
-    ) &
+            GEOM_SAVED=$(cat "$POS_FILE")
+            for _ in $(seq 1 25); do
+                sleep 0.1
+                WID=$(wmctrl -l 2>/dev/null | grep -i "Tiffany" | grep -v "Discussion" | head -n 1 | awk '{print $1}')
+                if [ -n "$WID" ]; then
+                    sleep 0.18
+                    wmctrl -i -r "$WID" -b remove,maximized_vert,maximized_horz 2>/dev/null
+                    wmctrl -i -r "$WID" -e "$GEOM_SAVED" 2>/dev/null
+                    sleep 0.15
+                    wmctrl -i -r "$WID" -e "$GEOM_SAVED" 2>/dev/null
+                    break
+                fi
+            done
+            rm -f "$LOCK_MOVE"
+        ) &
+    fi
     CHOIX=$(zenity --list "${ZENITY_ARGS[@]}" --title="TIFFANY_OS" --column="Action" --column="Description" --width="$LAST_W" --height="$LAST_H" 2>/dev/null)
     CODE=$?
     kill $SPY_PID 2>/dev/null
