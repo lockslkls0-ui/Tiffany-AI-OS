@@ -28,3 +28,4 @@ affiche les 5 processus qui consomment le plus de memoire|ps -A | sort -k 4 -n |
 erreur disque dur|sudo smartctl-t long /dev/sda3
 affiche l adresse ip locale|hostname -I
 creer 1 dossier sur le bureau|mkdir /home/user/Bureau
+cree 1 dossier securise sur le bureau|mkdir -p ~/Bureau/securedossier
