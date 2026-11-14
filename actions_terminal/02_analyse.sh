@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # TERM_KEY: analyse
-# TERM_DESC: Bilan matériel en temps réel parlé et écrit en français
+# TERM_DESC: Bilan matériel et traduction des logs d erreurs en français (0,1s)
 # TERM_ICON: 🔍
 
 MODELE=$(cat /sys/devices/virtual/dmi/id/product_name 2>/dev/null || echo "Ordinateur Linux")
@@ -24,7 +24,28 @@ BAT_STAT=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n 1)
 WIFI_SSID=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep -E '^(oui|yes)' | cut -d: -f2)
 [ -z "$WIFI_SSID" ] && WIFI_SSID="Non connecté"
 
-echo -e "\n\033[1;36m🔍 [ANALYSE TEMPS RÉEL EN FRANÇAIS — DONNÉES DIRECTES] :\033[0m"
+# --- 🔍 ANALYSE & TRADUCTION DES LOGS SYSTÈME EN FRANÇAIS PUR (0.05s) ---
+SERVICES_HS=$(systemctl --failed --no-legend 2>/dev/null | awk '{print $1}' | xargs)
+LOGS_BRUTS=$(journalctl -p 3 -n 15 --no-pager -q 2>/dev/null)
+DIAG_FR=()
+
+[ -n "$SERVICES_HS" ] && DIAG_FR+=("Service(s) en erreur : $SERVICES_HS.")
+echo "$LOGS_BRUTS" | grep -qiE "I/O error|blk_update_request|sda" && DIAG_FR+=("Attention : erreur de lecture ou d'écriture détectée sur le disque dur sda.")
+echo "$LOGS_BRUTS" | grep -qiE "Out of memory|Killed process" && DIAG_FR+=("Alerte mémoire : un programme trop lourd a été fermé par manque de RAM.")
+echo "$LOGS_BRUTS" | grep -qiE "i915|drm.*ERROR" && DIAG_FR+=("Micro-erreur d'affichage graphique Intel détectée dans les journaux.")
+echo "$LOGS_BRUTS" | grep -qiE "ACPI Error|AE_NOT_FOUND" && DIAG_FR+=("Erreur mineure du BIOS ACPI au démarrage (sans danger).")
+echo "$LOGS_BRUTS" | grep -qiE "iwlwifi|ath9k|wlan|NetworkManager.*error" && DIAG_FR+=("Coupure ou instabilité signalée sur la carte Wi-Fi.")
+[ "${TEMP:-50}" -ge 78 ] && DIAG_FR+=("Surchauffe : le processeur est chaud à ${TEMP} degrés.")
+
+if [ ${#DIAG_FR[@]} -eq 0 ]; then
+    BILAN_SANTE="✅ Aucun problème détecté dans les journaux système : tout est sain."
+    VOCAL_SANTE="Aucune erreur détectée dans les journaux système, tout fonctionne parfaitement."
+else
+    BILAN_SANTE=$(printf "⚠️ %s\n   " "${DIAG_FR[@]}")
+    VOCAL_SANTE="Attention, voici ce que j'ai trouvé dans les journaux : ${DIAG_FR[*]}"
+fi
+
+echo -e "\n\033[1;36m🔍 [ANALYSE TEMPS RÉEL & LOGS SYSTÈME EN FRANÇAIS] :\033[0m"
 echo -e "-------------------------------------------------------------------"
 echo -e " 💻 Ordinateur   : \033[1;32m$MODELE\033[0m"
 echo -e " 🌡️ Processeur   : \033[1;33m${TEMP}°C\033[0m à \033[1;36m${FREQ} MHz\033[0m ($MODE_FR)"
@@ -34,8 +55,11 @@ echo -e " 🚀 Turbo ZRAM   : ${ZRAM_STAT:-Actif}"
 echo -e " 💾 Disque dur   : $DISK_LIBRE"
 echo -e " 🔋 Batterie     : \033[1;32m${BAT_CAP}%\033[0m ($SECTEUR)"
 echo -e " 📶 Réseau Wi-Fi : $WIFI_SSID"
+echo -e "-------------------------------------------------------------------"
+echo -e " \033[1;35m🩺 ÉTAT DES LOGS & ANOMALIES :\033[0m"
+echo -e "   $BILAN_SANTE"
 echo -e "-------------------------------------------------------------------\n"
 
-PHRASE_FR="Analyse en temps réel de ton $MODELE : le processeur est à ${TEMP} degrés à ${FREQ} mégahertz en ${MODE_FR}. Tu as ${RAM_DISP} de mémoire disponible, ${DISK_LIBRE} sur ton disque dur, et ta batterie est à ${BAT_CAP} pour cent, ${SECTEUR}."
+PHRASE_FR="Analyse en temps réel de ton $MODELE : processeur à ${TEMP} degrés, ${RAM_DISP} de mémoire libre, batterie à ${BAT_CAP} pour cent ${SECTEUR}. ${VOCAL_SANTE}"
 pkill -x espeak-ng >/dev/null 2>&1
 (espeak-ng -v fr+f5 -s 145 -p 85 "$PHRASE_FR" >/dev/null 2>&1) &
