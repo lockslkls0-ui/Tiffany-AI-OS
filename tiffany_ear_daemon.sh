@@ -6,12 +6,8 @@ MODEL_DIR="$ROOT_DIR/voice/vosk-fr/vosk-model-small-fr-0.22"
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
-pactl set-source-mute @DEFAULT_SOURCE@ 0 2>/dev/null || true
-pactl set-source-volume @DEFAULT_SOURCE@ 100% 2>/dev/null || true
-amixer sset Capture cap 100% >/dev/null 2>&1 || true
-
 python3 - "$MODEL_DIR" "$ROOT_DIR" << 'PYEOF'
-import sys, os, json, subprocess, time, struct, math
+import sys, os, json, subprocess, time
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 SetLogLevel(-1)
@@ -30,7 +26,7 @@ proc = subprocess.Popen(
     stderr=subprocess.DEVNULL
 )
 
-WAKE_WORDS = ("tiffany", "tifany", "typhanie", "stéphanie", "tiff", "téléphonie")
+WAKE_WORDS = ("tiffany", "tifany", "typhanie", "stéphanie", "tiff", "téléphonie", "clémence")
 ACTIONS_SANS_TERMINAL = (
     "next", "skip", "suivant", "pause", "play", "stop", "muet", "silence",
     "musique", "radio", "menu", "panneau", "cam", "webcam", "zone",
@@ -39,13 +35,6 @@ ACTIONS_SANS_TERMINAL = (
     "pilote", "droite", "gauche", "monte", "descends", "clic", "onglet",
     "plein ecran", "verrouille", "oreille", "tais-toi", "chut", "annule", "stop ia"
 )
-
-def volume_rms(data):
-    count = len(data) // 2
-    if count == 0:
-        return 0
-    shorts = struct.unpack(f"{count}h", data[:count*2])
-    return math.sqrt(sum(s * s for s in shorts) / count)
 
 def parler_fluide(texte):
     subprocess.run(["espeak-ng", "-v", "fr+f5", "-s", "145", "-p", "85", texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -81,7 +70,7 @@ dernier_declenchement = 0
 def executer_ordre(commande):
     global dernier_declenchement
     commande = commande.strip()
-    if not commande or (time.time() - dernier_declenchement < 2.5):
+    if not commande or (time.time() - dernier_declenchement < 2.0):
         return
     dernier_declenchement = time.time()
 
@@ -92,7 +81,7 @@ def executer_ordre(commande):
     else:
         envoyer_dans_fenetre_unique(commande)
 
-notifier("👂 Oreille Réparée", "Dis 'Tiffany' suivi de ta phrase !")
+notifier("👂 Oreille Haute Précision", "Flux audio pur restauré : dis 'Tiffany' !")
 
 en_attente_suite = False
 debut_attente = 0
@@ -101,9 +90,6 @@ while True:
     data = proc.stdout.read(4000)
     if not data:
         time.sleep(0.05)
-        continue
-
-    if volume_rms(data) < 220 and not en_attente_suite:
         continue
 
     if rec.AcceptWaveform(data):
