@@ -1,27 +1,36 @@
 #!/usr/bin/env bash
 ROOT_DIR="$HOME/tiffany"
+FIFO="/tmp/tiffany_chat.fifo"
+rm -f "$FIFO" && mkfifo "$FIFO"
+
 clear
 echo -e "\033[1;35m┌──────────────────────────────────────────────────────────────────┐\033[0m"
-echo -e "\033[1;35m│\033[1;36m   🌹 TIFFANY AI-OS  --  MATRICE ADMINISTRATIVE SUPRÊME V47.6     \033[1;35m│\033[0m"
+echo -e "\033[1;35m│\033[1;36m   🌹 TIFFANY AI-OS  --  MATRICE ADMINISTRATIVE SUPRÊME V48.2     \033[1;35m│\033[0m"
 echo -e "\033[1;35m└──────────────────────────────────────────────────────────────────┘\033[0m"
-BIENVENUE="Bonjour mon ange. Tout ton écosystème d'automatisation, mon bouclier CPU et mon Dojo d'entraînement sont alignés. Que faisons-nous aujourd'hui ?"
+BIENVENUE="Bonjour mon ange. Fenêtre unique synchronisée avec ton oreille vocale. Que faisons-nous ?"
 echo -e "\033[1;34m 👉 Écosystème matériel connecté. Écris 'aide' pour voir ta panoplie.\033[0m\n"
 echo -e "\033[1;35m🌹 Tiffany :\033[0m $BIENVENUE\n"
-if command -v espeak-ng &>/dev/null; then (espeak-ng -v fr+f5 -s 140 -p 85 "Bonjour mon ange. Tout est opérationnel chéri." >/dev/null 2>&1) & fi
-
-# Préchauffage silencieux du Petit Cerveau en RAM (garde le modèle chaud 15 minutes)
+(espeak-ng -v fr+f5 -s 145 -p 85 "Bonjour mon ange. Je suis prête." >/dev/null 2>&1) &
 (curl -s http://localhost:11434/api/generate -d '{"model":"tiffany-flash","prompt":"","keep_alive":"15m"}' >/dev/null 2>&1) &
 
-while true; do
-    echo -n -e "\033[1;35m🌹 Tiffany\033[0m @ user-PORTEGE-R830:~$ "
-    read -r REQUETE
+# Relais clavier -> FIFO
+while IFS= read -r LINE; do
+    [ -n "$LINE" ] && echo "$LINE" > "$FIFO"
+done &
+KEY_PID=$!
+
+trap "kill $KEY_PID 2>/dev/null; rm -f $FIFO" EXIT
+
+# Boucle unique de traitement (clavier + voix réunis dans cette même fenêtre)
+exec 3<> "$FIFO"
+while IFS= read -r REQUETE <&3; do
     [ -z "$REQUETE" ] && continue
-    if [ -f "$ROOT_DIR/tiffany_actions.sh" ]; then
-        bash "$ROOT_DIR/tiffany_actions.sh" "$REQUETE"
-        if [ $? -eq 99 ]; then
-            (nice -n 19 python3 "$ROOT_DIR/diary_agent.py" >/dev/null 2>&1; [ -x "$ROOT_DIR/tiffany_training.sh" ] && nice -n 19 bash "$ROOT_DIR/tiffany_training.sh" >/dev/null 2>&1) &
-            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Session clôturée. À tout de suite mon amour."
-            break
-        fi
+    echo -e "\033[1;36m💬 Reçu :\033[0m $REQUETE"
+    bash "$ROOT_DIR/tiffany_actions.sh" "$REQUETE"
+    if [ $? -eq 99 ]; then
+        (nice -n 19 python3 "$ROOT_DIR/diary_agent.py" >/dev/null 2>&1) &
+        echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Session clôturée. À tout de suite mon amour."
+        break
     fi
+    echo -n -e "\033[1;35m🌹 Tiffany\033[0m @ user-PORTEGE-R830:~$ "
 done

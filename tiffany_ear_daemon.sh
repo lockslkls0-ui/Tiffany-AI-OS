@@ -10,7 +10,7 @@ pactl set-source-mute @DEFAULT_SOURCE@ 0 2>/dev/null || true
 amixer sset Capture cap 100% >/dev/null 2>&1 || true
 
 python3 - "$MODEL_DIR" "$ROOT_DIR" << 'PYEOF'
-import sys, os, json, subprocess, time, shlex, struct, math
+import sys, os, json, subprocess, time, struct, math
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 SetLogLevel(-1)
@@ -18,6 +18,7 @@ model_dir = sys.argv.__getitem__(1)
 root_dir = sys.argv.__getitem__(2)
 actions_script = os.path.join(root_dir, "tiffany_actions.sh")
 core_script = os.path.join(root_dir, "tiffany_core.sh")
+fifo_path = "/tmp/tiffany_chat.fifo"
 
 model = Model(model_dir)
 rec = KaldiRecognizer(model, 16000)
@@ -43,59 +44,69 @@ def volume_rms(data):
     if count == 0:
         return 0
     shorts = struct.unpack(f"{count}h", data[:count*2])
-    sum_sq = sum(s * s for s in shorts)
-    return math.sqrt(sum_sq / count)
+    return math.sqrt(sum(s * s for s in shorts) / count)
 
-def parler(texte):
-    subprocess.Popen(["espeak-ng", "-v", "fr+f5", "-s", "145", "-p", "85", texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+def parler_fluide(texte):
+    # Parle en priorité normale (pas bridé) et attend la fin pour ne pas s'écouter elle-même
+    subprocess.run(["espeak-ng", "-v", "fr+f5", "-s", "145", "-p", "85", texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    rec.Reset()
 
 def notifier(titre, msg):
-    subprocess.Popen(["notify-send", "-u", "low", "-t", "3000", "-i", "audio-input-microphone", titre, msg], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.Popen(["notify-send", "-u", "low", "-t", "2500", "-i", "audio-input-microphone", titre, msg], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+def envoyer_dans_fenetre_unique(commande):
+    # Si la fenêtre de discussion est déjà ouverte (FIFO présent), écrit directement dedans !
+    if os.path.exists(fifo_path):
+        try:
+            fd = os.open(fifo_path, os.O_WRONLY | os.O_NONBLOCK)
+            os.write(fd, (commande + "\n").encode("utf-8"))
+            os.close(fd)
+            subprocess.Popen(["wmctrl", "-a", "Discussion Tiffany"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            return
+        except Exception:
+            pass
+    # Sinon ouvre UNE seule fenêtre et y envoie la commande
+    subprocess.Popen(["gnome-terminal", "--title=🌹 Discussion Tiffany", "--", "bash", core_script])
+    for _ in range(25):
+        time.sleep(0.1)
+        if os.path.exists(fifo_path):
+            try:
+                fd = os.open(fifo_path, os.O_WRONLY | os.O_NONBLOCK)
+                os.write(fd, (commande + "\n").encode("utf-8"))
+                os.close(fd)
+                break
+            except Exception:
+                pass
 
 dernier_declenchement = 0
 
 def executer_ordre(commande):
     global dernier_declenchement
     commande = commande.strip()
-    if not commande:
-        return
-    # Verrou anti-mitraillette : 1 seule exécution toutes les 4 secondes max
-    if time.time() - dernier_declenchement < 4.0:
+    if not commande or (time.time() - dernier_declenchement < 3.0):
         return
     dernier_declenchement = time.time()
 
-    notifier("🌹 Tiffany (Voix Comprise)", "👉 " + commande)
-    parler("Tout de suite : " + commande)
-
+    notifier("🌹 Tiffany", "👉 " + commande)
     cmd_low = commande.lower()
     if any(k in cmd_low for k in ACTIONS_SANS_TERMINAL):
         subprocess.Popen(["bash", actions_script, commande], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
-        safe_cmd = shlex.quote(commande)
-        bash_cmd = f"bash {shlex.quote(actions_script)} {safe_cmd}; echo ''; bash {shlex.quote(core_script)}"
-        subprocess.Popen(["gnome-terminal", "--title=🌹 Discussion Tiffany", "--", "bash", "-c", bash_cmd])
+        envoyer_dans_fenetre_unique(commande)
 
-notifier("👂 Oreille Légère Active", "Mode éco-CPU activé : dis 'Tiffany' à tout moment !")
+notifier("👂 Oreille Synchronisée", "Fenêtre unique + voix fluide actives !")
 
 en_attente_suite = False
 debut_attente = 0
-silence_frames = 0
 
 while True:
     data = proc.stdout.read(4000)
     if not data:
-        time.sleep(0.1)
+        time.sleep(0.05)
         continue
 
-    # Filtre économique : si c'est du silence ambiant (RMS < 350), on ne réveille pas Vosk !
-    rms = volume_rms(data)
-    if rms < 350 and not en_attente_suite:
-        silence_frames += 1
-        if silence_frames == 8:
-            rec.Reset()
-        time.sleep(0.02)
+    if volume_rms(data) < 280 and not en_attente_suite:
         continue
-    silence_frames = 0
 
     if rec.AcceptWaveform(data):
         res = json.loads(rec.Result())
@@ -117,8 +128,8 @@ while True:
                 if commande:
                     executer_ordre(commande)
                 else:
-                    notifier("🎤 Oui mon ange ?", "Je t'écoute, dis ta phrase...")
-                    parler("Oui mon ange, je t'écoute.")
+                    notifier("🎤 Oui mon ange ?", "Dis ta phrase...")
+                    parler_fluide("Oui mon ange ?")
                     en_attente_suite = True
                     debut_attente = time.time()
                 break
