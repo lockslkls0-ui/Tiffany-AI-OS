@@ -28,6 +28,8 @@ case "$Q" in
         go "Je lance ${NOM_R:-la radio} et j'ouvre le panneau radio, $NOM ! 📻" "pkill -9 -x mpv vlc 2>/dev/null; pgrep -x rhythmbox >/dev/null || (rhythmbox >/dev/null 2>&1 & sleep 2); [ -n '$LIEN_R' ] && rhythmbox-client --play-uri='$LIEN_R'; bash '$PLUG/40_gestion_radio.sh'" ;;
 
     # Interfaces & Dossiers usuels
+    "noyau") bash "$ACT/14_noyau.sh" ; exit 0 ;;
+    "testia") bash "$ACT/20_test_ia.sh" ; exit 0 ;;
     "menu"|"panneau"|"dashboard") go "J'ouvre mon panneau de commande, $NOM ! 🌹" "bash '$ROOT_DIR/tiffany_menu.sh'" ;;
     "term"|"terminal"|"console"|"bash") go "J'ouvre un terminal, $NOM ! 💻" "gnome-terminal" ;;
     "discussion"|"chat"|"parle") go "J'ouvre notre console de discussion, $NOM ! 💬" "gnome-terminal --title='🌹 Discussion Tiffany' -- bash -c '$ROOT_DIR/tiffany_core.sh'" ;;

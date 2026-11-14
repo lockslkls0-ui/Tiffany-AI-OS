@@ -29,9 +29,15 @@ TXT=$(echo "$TXT" | sed -E '
     s/\b(pose|pauses)\b/pause/g;
     s/\b(muette|muets)\b/muet/g;
     s/\b(menue|menus)\b/menu/g;
-    s/\b(noix|noyer|noyaux)\b/noyau/g;
+        s/\b(maillot|maillots|noix|noyer|noyaux)\b/noyau/g;
+    s/\b(hestia|bastia|festia|vestia|test il a|test ia|teste ia)\b/testia/g;
+    s/\b(web ia|web il a|web ya)\b/webia/g;
+    s/\b(lire web|lis web|lire ouais)\b/lireweb/g;
+    s/\b(souvenir|souvenire)\b/souvenirs/g;
+    s/\b(docteur|doc|audit)\b/docteur/g;
+    s/\b(arzens autrichien|arrete de reflechir)\b/annule/g;
     s/\b(aide moi|aides)\b/aide/g;
-    s/\b(test ia|teste ia)\b/testia/g;
+    
     s/\b(web ia)\b/webia/g;
     s/\b(lire web|lis web)\b/lireweb/g;
     s/\b(fenetre|fenêtres)\b/fenetres/g;
