@@ -24,7 +24,9 @@ case "$Q" in
     "lireweb"|"lis"|"lecture web"|"lis le dossier"|"lis la fiche") go "Lecture vocale du dernier dossier Web-IA, $NOM ! 📖" "bash '$PLUG/38_lire_dernier_webia.sh'" ;;
     "chut"|"stop voix"|"silence voix"|"tais toi"|"arrete de lire"|"stop lecture") bash "$PLUG/39_stop_voix.sh" ; exit 0 ;;
     "eteins l ordinateur"|"eteins le pc"|"extinction systeme"|"arrete l ordinateur"|"eteindre le pc") go "Extinction propre du Toshiba, à bientôt $NOM ! 💤" "bash '$PLUG/Z99_eteindre_toshiba.sh'" ;;
-    "analyse graphique") bash "$PLUG/01_analyse_systeme.sh" ; exit 0 ;;
+    "musique"|"playlist"|"rhythmbox"|"sons"|"allume la musique"|"mets de la musique"|"lance la musique"|"joue ma musique"|"mets ma playlist") go "J'allume Rhythmbox, $NOM ! 🎵" "bash '$PLUG/43_allumer_rhythmbox.sh'" ;;
+    "backup"|"sauvegarde"|"sauvegarde matrice"|"sauvegarder"|"fais une sauvegarde"|"archive tout") go "Sauvegarde complète de la matrice lancée, $NOM ! 💾" "bash '$PLUG/15_sauvegarde_matrice.sh'" ;;
+    "analyse graphique"|"bilan graphique"|"fenetre analyse"|"affiche bilan") bash "$PLUG/01_analyse_systeme.sh" ; exit 0 ;;
     # Multimédia & Radio
     # Groupe 2 : Musique, Rhythmbox, Radio & Téléchargements MP3
     "next"|"skip"|"suivant"|"suivante"|"chanson suivante"|"morceau suivant"|"zappe ce son"|"autre chanson") go "Morceau suivant, $NOM ! ⏭️" "bash '$PLUG/45_morceau_suivant.sh'" ;;
