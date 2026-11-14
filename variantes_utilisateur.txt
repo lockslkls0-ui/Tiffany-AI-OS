@@ -22,3 +22,37 @@ empty trash|corbeille
 clean system|nettoie systeme
 backup system|backup
 help|aide
+screenshot|screen
+take screenshot|screen
+scan zone|zone
+select area|zone
+open webcam|cam
+read paper|cam
+split screen|fenetres
+tile windows|fenetres
+show desktop|bureau
+open browser|chrome
+open files|mes fichiers
+open downloads|telechargements
+open settings|parametres
+lock screen|verrouille
+scroll down|descends
+scroll up|monte
+next tab|onglet
+full screen|plein ecran
+brightness up|lumiere +
+brightness down|lumiere -
+read web|lireweb
+stop reading|chut
+show memories|souvenirs
+show logs|analyse
+shutdown computer|eteins l ordinateur
+partage ecran|fenetres
+cote a cote|fenetres
+montre le bureau|bureau
+reduis tout|bureau
+allume la camera|cam
+lis ce papier|cam
+copie une zone|zone
+capture ecran|screen
+verrouille la session|verrouille

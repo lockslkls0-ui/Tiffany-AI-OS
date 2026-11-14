@@ -44,7 +44,24 @@ case "$Q" in
     "documents") go "J'ouvre ton dossier Documents, $NOM ! 📂" "nemo '$HOME/Documents'" ;;
     "parametres"|"reglages") go "J'ouvre les paramètres système, $NOM ! ⚙️" "cinnamon-settings 2>/dev/null || gnome-control-center" ;;
 
-    # Vision, Caméra & Écran
+    # Groupe 4 : Vision, Caméra, Fenêtres, Dossiers, Écran & Savoir (toutes nuances)
+    "screen"|"capture"|"capture ecran"|"photo ecran") go "Ouverture de la capture d'écran, $NOM ! 🎬" "bash '$ACT/17_screen.sh'" ;;
+    "cam"|"webcam"|"camera"|"photo"|"allume la camera"|"lis ce papier") go "J'active la webcam OCR, $NOM ! 📷" "bash '$PLUG/36_oeil_webcam.sh'" ;;
+    "zone"|"decoupe"|"ocr"|"copie une zone"|"selectionne une zone") go "Sélectionne la zone à lire, $NOM ! ✂️" "bash '$PLUG/29_vision_zone.sh'" ;;
+    "nuit"|"mode nuit"|"filtre bleu") go "Filtre de nuit activé, $NOM ! 🌙" "bash '$PLUG/32_filtre_nuit.sh'" ;;
+    "jour"|"mode jour"|"lumiere normale") go "Mode jour restauré, $NOM ! ☀️" "bash '$PLUG/33_mode_jour.sh'" ;;
+    "lumiere +"|"luminosite +"|"augmente la luminosite"|"plus clair"|"plus lumineux") go "Luminosité augmentée, $NOM ! ☀️" "brightnessctl set +15%" ;;
+    "lumiere -"|"luminosite -"|"baisse la luminosite"|"moins clair"|"moins lumineux") go "Luminosité baissée, $NOM ! 🌙" "brightnessctl set 15%-" ;;
+    "fenetres"|"range"|"cote a cote"|"partage ecran") go "Fenêtres rangées en 50/50, $NOM ! 🪟" "bash '$ACT/30_fenetre.sh' range" ;;
+    "bureau"|"montre le bureau"|"reduis tout") go "Bureau dégagé, $NOM ! 🖥️" "bash '$ACT/30_fenetre.sh' bureau" ;;
+    "chrome"|"navigateur"|"internet"|"ouvre chrome"|"va sur internet") go "Ouverture du navigateur, $NOM ! 🌐" "bash '$ACT/30_fenetre.sh' chrome" ;;
+    "youtube"|"ouvre youtube") go "Ouverture de YouTube, $NOM ! 🌐" "bash '$ACT/13_youtube.sh'" ;;
+    "verrouille"|"verrouille l ecran"|"verrouille la session") bash "$ACT/26_pilote.sh" verrouille ; exit 0 ;;
+    "aide"|"help"|"commandes"|"panoplie") bash "$ROOT_DIR/tiffany_actions.sh" "aide" ; exit 0 ;;
+    "dojo"|"entrainement") bash "$ACT/21_dojo.sh" ; exit 0 ;;
+    "apprends"|"enseigne") bash "$ACT/22_apprends.sh" ; exit 0 ;;
+    "gerer"|"dictionnaire") bash "$ACT/23_gerer_dico.sh" ; exit 0 ;;
+    # Ancien bloc vision
     "cam"|"webcam"|"camera"|"photo") go "J'active la webcam OCR, $NOM ! 📷" "bash '$PLUG/36_oeil_webcam.sh'" ;;
     "zone"|"decoupe"|"ocr") go "Sélectionne la zone à lire, $NOM ! ✂️" "bash '$PLUG/29_vision_zone.sh'" ;;
     "nuit"|"mode nuit") go "Filtre de nuit activé, $NOM ! 🌙" "bash '$PLUG/32_filtre_nuit.sh'" ;;
