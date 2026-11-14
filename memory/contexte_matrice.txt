@@ -1,2 +1,2 @@
-[SESSION : 14/11/2026 à 21:56]
-Une IA qui s'appelle Tiffany Flash, qui est une tâche de fond de Linux Mint, est utilisée pour aider le système à gérer les commandes et les systèmes, mais ne peut pas boucher. Elle est là pour répondre aux utilisateurs et aider avec leurs demandes.
+[SESSION : 14/11/2026 à 22:20]
+Session système rapide (commandes directes sans discussion IA).

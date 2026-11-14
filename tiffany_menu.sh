@@ -4,6 +4,17 @@ PLUGIN_DIR="$ROOT_DIR/plugins"
 MEM_GEO="$HOME/.tiffany_menu_geo.txt"
 [ -f "$MEM_GEO" ] || echo "0,400,200,580,660" > "$MEM_GEO"
 
+POS_FILE="$HOME/tiffany/memory/panneau_position.txt"
+(
+    while pgrep -f "tiffany_menu.sh" >/dev/null 2>&1; do
+        GEOM=$(wmctrl -lG 2>/dev/null | grep -i "Tiffany" | grep -v "Discussion" | head -n 1 | awk '{print "0," $3 "," $4 "," $5 "," $6}')
+        [ -n "$GEOM" ] && echo "$GEOM" > "$POS_FILE"
+        sleep 0.6
+    done
+) &
+TRACK_PID=$!
+trap "kill $TRACK_PID 2>/dev/null" EXIT
+
 while true; do
     GEO_SAVED=$(cat "$MEM_GEO" 2>/dev/null)
     [[ "$GEO_SAVED" != 0,* ]] && GEO_SAVED="0,400,200,580,660"
@@ -51,6 +62,15 @@ while true; do
     ) &
     SPY_PID=$!
 
+        (
+        for _ in $(seq 1 20); do
+            sleep 0.08
+            if wmctrl -l 2>/dev/null | grep -i "Tiffany" | grep -qv "Discussion"; then
+                [ -s "$POS_FILE" ] && wmctrl -r "Tiffany" -e "$(cat "$POS_FILE")" 2>/dev/null
+                break
+            fi
+        done
+    ) &
     CHOIX=$(zenity --list "${ZENITY_ARGS[@]}" --title="TIFFANY_OS" --column="Action" --column="Description" --width="$LAST_W" --height="$LAST_H" 2>/dev/null)
     CODE=$?
     kill $SPY_PID 2>/dev/null
