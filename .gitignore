@@ -1,0 +1,5 @@
+logs/
+memory/contexte_matrice.txt
+memory/journal_de_bord.txt
+memory/panneau_position.txt
+__pycache__/
