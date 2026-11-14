@@ -44,6 +44,7 @@ TXT=$(echo "$TXT" | sed -E '
     s/\b(nexte|nekst|suivante)\b/next/g;
     s/\b(pose|pauses)\b/pause/g;
     s/\b(muette|muets)\b/muet/g;
+    s/\b(chuck|chute|chutes|shuut|shuuut)\b/chut/g;
     s/\b(menue|menus)\b/menu/g;
     s/\b(maillot|maillots|noix|noyer|noyaux)\b/noyau/g;
     s/\b(hestia|bastia|festia|vestia|test il a|test ia|teste ia|test y a)\b/testia/g;
