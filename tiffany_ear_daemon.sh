@@ -82,7 +82,7 @@ def executer_ordre(commande):
         return
     dernier_declenchement = time.time()
     global attention_jusqua
-    attention_jusqua = time.time() + 6.0
+    attention_jusqua = time.time() + 16.0
 
     notifier("🌹 Tiffany", "👉 " + commande)
     cmd_low = commande.lower()
@@ -133,6 +133,6 @@ while True:
                     debut_attente = time.time()
                 break
     else:
-        if en_attente_suite and (time.time() - debut_attente > 10):
+        if en_attente_suite and (time.time() - debut_attente > 16):
             en_attente_suite = False
 PYEOF

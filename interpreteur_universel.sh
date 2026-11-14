@@ -19,8 +19,8 @@ case "$Q" in
     "pause"|"play"|"reprends"|"lecture") go "Bascule lecture/pause, $NOM ! ⏸️" "bash '$PLUG/44_play_pause.sh'" ;;
     "stop"|"arrete musique"|"coupe musique") go "Lecture arrêtée, $NOM ! 🤫" "bash '$PLUG/46_couper_radio.sh'" ;;
     "muet"|"mute"|"silence") go "Bascule son système, $NOM ! 🔊" "bash '$PLUG/34_bascule_son.sh'" ;;
-    "son +"|"volume +"|"monte le son"|"augmente le son") go "Volume augmenté de 15%, $NOM ! 🔊" "amixer -D pulse sset Master 15%+ 2>/dev/null || amixer sset Master 15%+" ;;
-    "son -"|"volume -"|"baisse le son"|"diminue le son") go "Volume baissé de 15%, $NOM ! 🔉" "amixer -D pulse sset Master 15%- 2>/dev/null || amixer sset Master 15%-" ;;
+    "son +"|"volume +"|"monte le son"|"augmente le son"|"monte le volume"|"augmente le volume"|"plus fort") go "Volume augmenté de 15%, $NOM ! 🔊" "amixer -D pulse sset Master 15%+ 2>/dev/null || amixer sset Master 15%+" ;;
+    "son -"|"volume -"|"baisse le son"|"diminue le son"|"baisse le volume"|"diminue le volume"|"moins fort") go "Volume baissé de 15%, $NOM ! 🔉" "amixer -D pulse sset Master 15%- 2>/dev/null || amixer sset Master 15%-" ;;
     "musique"|"playlist"|"rhythmbox"|"sons") go "J'allume Rhythmbox, $NOM ! 🎵" "bash '$PLUG/43_allumer_rhythmbox.sh'" ;;
     "radio"|"radios"|"zapping")
         URL_R=$(shuf -n 1 "$HOME/.tiffany_radios.txt" "$HOME/.catalogue_geant.txt" 2>/dev/null | head -n 1)
