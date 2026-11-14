@@ -1,3 +1,4 @@
+mkdir -p "$HOME/tiffany/logs" "$HOME/tiffany/memory"
 #!/usr/bin/env bash
 # ==============================================================================
 # 🌹 PROJECT TIFFANY - ENGINE HYBRIDE 3 VITESSES V47.5 (DÉTECTION RAPIDE)
@@ -9,8 +10,7 @@ REQUETE="$*"
 DICT_PATH="$ROOT_DIR/dictionnaire_flash.txt"
 DICO_IA="$ACTION_DIR/dictionnaire_ia.txt"
 CTX_FILE="$ROOT_DIR/memory/contexte_matrice.txt"
-mkdir -p "$ROOT_DIR/logs"
-LOG_SESSION="$ROOT_DIR/logs/session_raw.txt"
+LOG_SESSION="$HOME/tiffany/logs/session_raw.txt"
 
 if [ -z "$REQUETE" ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
 REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | tr "'" " " | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed 's/[ùû]/u/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
@@ -229,12 +229,8 @@ except Exception:
 ' "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" 90 2>/dev/null)
         if [ -n "$REP_TEXT" ]; then
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS} faits | Fil : ${NB_LIGNES_FIL} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n" ; speak "$REP_TEXT"
-            mkdir -p "$ROOT_DIR/logs"
-mkdir -p "$ROOT_DIR/logs"
-echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
-            mkdir -p "$ROOT_DIR/logs"
-mkdir -p "$ROOT_DIR/logs"
-echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
+            echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
+            echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
         else
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m *Mes circuits ont mis trop de temps ou ont été interrompus, mon ange.*\n"
         fi

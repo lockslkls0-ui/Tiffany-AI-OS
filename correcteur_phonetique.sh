@@ -50,7 +50,7 @@ echo "$TXT" | sed -E "s/^son ([0-9]+)$/son a \1/" | sed -E '
     s/\b(menue|menus)\b/menu/g;
     s/\b(maillot|maillots|noix|noyer|noyaux)\b/noyau/g;
     s/\b(hestia|bastia|festia|vestia|test il a|test ia|teste ia|test y a|casque y a|casque il a)\b/testia/g;
-    s/\b(web ia|web il a|web ya)\b/webia/g;
+    s/\b(web ia|web il a|web ya|web y a)\b/webia/g;
     s/\b(lire web|lis web|lire ouais)\b/lireweb/g;
     s/\b(souvenir|souvenire)\b/souvenirs/g;
     s/\b(arzens autrichien|arrete de reflechir)\b/annule/g;
