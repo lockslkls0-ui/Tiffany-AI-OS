@@ -4,7 +4,8 @@ TXT="$1"
 # Corriger d'abord les confusions 'cent/sans' devant un nombre (ex: "cent cinquante" -> "son cinquante")
 TXT=$(echo "$TXT" | sed -E '
     s/\b(cent|sans|sang|sont)[[:space:]]+(dix|vingt|trente|quarante|cinquante|soixante|soixante-dix|quatre-vingt|quatre-vingts|quatre-vingt-dix|[0-9]+)\b/son \2/g;
-    s/\bmontre[[:space:]]+(le[[:space:]]+)?(volume|son)\b/monte le son/g;
+    s/\b(montlucon|montluçon|monte le son|montre le volume|montre le son|mets le son|volume)[[:space:]]*(a|au)?[[:space:]]*([0-9]+|dix|vingt|trente|quarante|cinquante|soixante|soixante-dix|quatre-vingt|quatre-vingts|quatre-vingt-dix)/son a \3/g;
+    s/\b(montlucon|montluçon|montre le volume|montre le son|monter le volume|monter le son)\b/monte le son/g;
     s/\bmonter[[:space:]]+(le[[:space:]]+)?(volume|son)\b/monte le son/g;
     s/\bbaisser[[:space:]]+(le[[:space:]]+)?(volume|son)\b/baisse le son/g
 ')
