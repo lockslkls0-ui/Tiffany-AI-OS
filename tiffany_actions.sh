@@ -189,7 +189,7 @@ else
     TEMP_REAL=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}')
     [ -z "$TEMP_REAL" ] || [ "$TEMP_REAL" -eq 0 ] && TEMP_REAL="45"
     RAM_OCCUPATION=$(free -m | grep Mem | awk '{print int($3/$2*100)}')
-    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" 2>/dev/null)
+    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" "$REQUETE_CLEAN" 2>/dev/null)
     NB_LIGNES_FIL=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
     NB_FAITS=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
