@@ -9,6 +9,7 @@ REQUETE="$*"
 DICT_PATH="$ROOT_DIR/dictionnaire_flash.txt"
 DICO_IA="$ACTION_DIR/dictionnaire_ia.txt"
 CTX_FILE="$ROOT_DIR/memory/contexte_matrice.txt"
+mkdir -p "$ROOT_DIR/logs"
 LOG_SESSION="$ROOT_DIR/logs/session_raw.txt"
 
 if [ -z "$REQUETE" ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
