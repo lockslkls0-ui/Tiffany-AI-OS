@@ -27,7 +27,7 @@ if [[ "$REQUETE_CLEAN" == "quitter" || "$REQUETE_CLEAN" == "exit" ]]; then
 fi
 
 # 🛑 Arrêt immédiat d'une réflexion IA en cours
-if [[ "$REQUETE_CLEAN" =~ ^(annule|stop ia|arrete de reflechir|stop reflexion)$ ]]; then
+if [[ "$REQUETE_CLEAN" =~ ^(annule|stop ia|arrete de reflechir|arret de reflechir|arrete ia|arret ia|stop reflexion)$ ]]; then
     pkill -f "localhost:11434/api/generate" 2>/dev/null || true
     pkill -f "ollama run" 2>/dev/null || true
     pkill -x espeak-ng 2>/dev/null || true
