@@ -14,6 +14,7 @@ go() {
 # 1. RACCOURCIS ULTRA-COURTS SÉCURISÉS (ZÉRO CONFLIT ENTRE OUTILS)
 # ==============================================================================
 case "$Q" in
+    "pdf"|"lire pdf"|"apprends pdf"|"apprendre pdf"|"lis un pdf"|"analyse un pdf") bash "$PLUG/04_apprendre_pdf.sh" ; exit 0 ;;
     "webia") SUJ=$(zenity --entry --title="🤖 Recherche Web-IA" --text="Quel sujet dois-je rechercher et archiver sur ton Bureau ?" --width=450 2>/dev/null); [ -n "$SUJ" ] && bash "$ACT/25_webia.sh" "$SUJ"; exit 0 ;;
     # Liaison explicite et complète de tous les plugins du Panneau (100% couverts)
     "analyse"|"materiel"|"bilan"|"etat du pc"|"diagnostic rapide") bash "$ACT/02_analyse.sh" ; exit 0 ;;
