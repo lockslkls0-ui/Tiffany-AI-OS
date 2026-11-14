@@ -53,6 +53,7 @@ TXT=$(echo "$TXT" | sed -E "s/^son ([0-9]+)$/son a \1/" | sed -E '
     s/\b(souvenir|souvenire)\b/souvenirs/g;
     s/\b(arzens autrichien|arrete de reflechir)\b/annule/g;
     s/\b(aide moi|aides)\b/aide/g;
+    s/\b(doc|docs)\b/docteur/g;
     s/\b(heures|peur|leurs)\b/heure/g;
     s/\b(solide|securiser|securisee|securises|protege|proteger|chiffre|chiffrer)\b/securise/g;
     s/.*(donne|dit|dis).*(heure|leur).*/heure/g;

@@ -63,7 +63,7 @@ case "$Q" in
     "zone"|"decoupe"|"ocr"|"copie une zone"|"selectionne une zone") go "Sélectionne la zone à lire, $NOM ! ✂️" "bash '$PLUG/29_vision_zone.sh'" ;;
     "nuit"|"mode nuit"|"filtre bleu") go "Filtre de nuit activé, $NOM ! 🌙" "bash '$PLUG/32_filtre_nuit.sh'" ;;
     "jour"|"mode jour"|"lumiere normale") go "Mode jour restauré, $NOM ! ☀️" "bash '$PLUG/33_mode_jour.sh'" ;;
-    "lumiere +"|"luminosite +"|"augmente la luminosite"|"plus clair"|"plus lumineux") go "Luminosité augmentée, $NOM ! ☀️" "brightnessctl set +15%" ;;
+    "lumiere +"|"luminosite +"|"luminosite max"|"luminosite a fond"|"lumiere max"|"augmente la luminosite"|"plus clair"|"plus lumineux") go "Luminosité augmentée, $NOM ! ☀️" "brightnessctl set +15%" ;;
     "lumiere -"|"luminosite -"|"baisse la luminosite"|"moins clair"|"moins lumineux") go "Luminosité baissée, $NOM ! 🌙" "brightnessctl set 15%-" ;;
     "fenetres"|"range"|"cote a cote"|"partage ecran") go "Fenêtres rangées en 50/50, $NOM ! 🪟" "bash '$ACT/30_fenetre.sh' range" ;;
     "bureau"|"montre le bureau"|"reduis tout") go "Bureau dégagé, $NOM ! 🖥️" "bash '$ACT/30_fenetre.sh' bureau" ;;
@@ -79,7 +79,7 @@ case "$Q" in
     "zone"|"decoupe"|"ocr") go "Sélectionne la zone à lire, $NOM ! ✂️" "bash '$PLUG/29_vision_zone.sh'" ;;
     "nuit"|"mode nuit") go "Filtre de nuit activé, $NOM ! 🌙" "bash '$PLUG/32_filtre_nuit.sh'" ;;
     "jour"|"mode jour") go "Mode jour restauré, $NOM ! ☀️" "bash '$PLUG/33_mode_jour.sh'" ;;
-    "lumiere +"|"luminosite +"|"augmente la luminosite"|"plus clair") go "Luminosité augmentée, $NOM ! ☀️" "brightnessctl set +15%" ;;
+    "lumiere +"|"luminosite +"|"luminosite max"|"luminosite a fond"|"lumiere max"|"augmente la luminosite"|"plus clair") go "Luminosité augmentée, $NOM ! ☀️" "brightnessctl set +15%" ;;
     "lumiere -"|"luminosite -"|"baisse la luminosite"|"moins clair") go "Luminosité baissée, $NOM ! 🌙" "brightnessctl set 15%-" ;;
 
     # Voix & Lecture
