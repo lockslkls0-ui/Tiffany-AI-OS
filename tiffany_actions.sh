@@ -3,6 +3,7 @@
 # 🌹 PROJECT TIFFANY - ENGINE HYBRIDE 3 VITESSES V47.5 (DÉTECTION RAPIDE)
 # ==============================================================================
 ROOT_DIR="$HOME/tiffany"
+mkdir -p "$ROOT_DIR/logs" "$ROOT_DIR/memory"
 ACTION_DIR="$ROOT_DIR/actions_terminal"
 REQUETE="$*"
 DICT_PATH="$ROOT_DIR/dictionnaire_flash.txt"
