@@ -53,6 +53,7 @@ TXT=$(echo "$TXT" | sed -E '
     s/\b(arzens autrichien|arrete de reflechir)\b/annule/g;
     s/\b(aide moi|aides)\b/aide/g;
     s/.*(donne|dit|dis).*(heure|leur).*/heure/g;
+    s/.*(donne|dit|dis).*(heure|leur).*/heure/g;
     s/\b(fenetre|fenêtres)\b/fenetres/g;
     s/\b(webcam|web cam)\b/cam/g
 ')
