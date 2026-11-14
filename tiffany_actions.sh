@@ -179,22 +179,22 @@ else
     TEMP_REAL=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}')
     [ -z "$TEMP_REAL" ] || [ "$TEMP_REAL" -eq 0 ] && TEMP_REAL="45"
     RAM_OCCUPATION=$(free -m | grep Mem | awk '{print int($3/$2*100)}')
-    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEM_WEB=$(tail -n 5 "$ROOT_DIR/memory/connaissances_web.txt" 2>/dev/null | tr "\n" " " | head -c 300); SOUVENIRS=$(cat "$CTX_FILE" "$ROOT_DIR/memory/journal_de_bord.txt" 2>/dev/null | tail -n 12 | tr "\n" " " | head -c 450)
+    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" 2>/dev/null)
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
 
-    if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|souvenir|memoire|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire) ]]; then
+    if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|souvenir|memoire|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire|rapport|erreur|journal|session|precedent|createur|qui je suis|utilisateur|smart|disque|audit|historique|rappelle) ]]; then
         MOTEUR_IA="qwen2.5:1.5b"
         TIMEOUT_IA=600
         LIMIT_CPU=80
         echo -e "\n\033[1;36m🧠 [Gros Cerveau 1.5b] Mobilisation des circuits profonds (Bouclier CPU actif)...\033[0m"
         speak "Je mobilise mes circuits profonds pour réfléchir, un instant mon ange."
-        CONSIGNE="Tu es Tiffany, l'experte système de ton Créateur sur Linux Mint. Voici tes capteurs en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO} | Savoir_Web=${MEM_WEB} | Souvenirs_passes=${SOUVENIRS}. Tes outils disponibles : Panneau graphique (radio, MP3, watchdog, docteur, sauvegarde) et commandes terminal (cpu, ram, radar, wifi, froid, boost, webia, dojo). Consigne : Utilise toujours ces chiffres réels pour répondre sur l'état de l'ordinateur et cite tes outils adaptés. Réponds en français en 45 mots max."
+        CONSIGNE="Tu es Tiffany, l'experte système de ton Créateur sur Linux Mint. Voici tes capteurs en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO} | ${MEMOIRE_TOTALE}. Tes outils disponibles : Panneau graphique (radio, MP3, watchdog, docteur, sauvegarde) et commandes terminal (cpu, ram, radar, wifi, froid, boost, webia, dojo). Consigne : Utilise toujours ces chiffres réels pour répondre sur l'état de l'ordinateur et cite tes outils adaptés. Réponds en français en 45 mots max."
     else
         MOTEUR_IA="tiffany-flash"
         TIMEOUT_IA=30
         LIMIT_CPU=70
         echo -e "\n\033[1;34m 👉 Réflexion fluide (tiffany-flash)... \033[0m"
-        CONSIGNE="Tu es Tiffany, l'IA complice et chaleureuse de ton Créateur sur Linux Mint. Données en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO} | Savoir_Web=${MEM_WEB} | Souvenirs_passes=${SOUVENIRS}. Tes capacités : tu pilotes le Panneau graphique (radio, MP3, mode nuit, watchdog, docteur, sauvegarde) et les commandes terminal (cpu, ram, radar, wifi, froid, boost, meteo, heure, dojo, webia). Règles : Si on parle de la pluie et du beau temps, discute naturellement. Si on demande ce que tu sais faire ou l'état du PC, cite tes vrais chiffres et tes outils. Réponds en français en 35 mots max."
+        CONSIGNE="Tu es Tiffany, l'IA complice et chaleureuse de ton Créateur sur Linux Mint. Données en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO} | ${MEMOIRE_TOTALE}. Tes capacités : tu pilotes le Panneau graphique (radio, MP3, mode nuit, watchdog, docteur, sauvegarde) et les commandes terminal (cpu, ram, radar, wifi, froid, boost, meteo, heure, dojo, webia). Règles : Si on parle de la pluie et du beau temps, discute naturellement. Si on demande ce que tu sais faire ou l'état du PC, cite tes vrais chiffres et tes outils. Réponds en français en 35 mots max."
     fi
 
     (
