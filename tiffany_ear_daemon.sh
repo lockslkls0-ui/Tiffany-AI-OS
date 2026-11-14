@@ -98,6 +98,7 @@ notifier("👂 Oreille Synchronisée", "Fenêtre unique + voix fluide actives !"
 
 en_attente_suite = False
 debut_attente = 0
+dernier_reset = time.time()
 
 while True:
     data = proc.stdout.read(4000)
@@ -105,8 +106,12 @@ while True:
         time.sleep(0.05)
         continue
 
-    if volume_rms(data) < 550 and not en_attente_suite:
+    if volume_rms(data) < 300 and not en_attente_suite:
         continue
+
+    if not en_attente_suite and (time.time() - dernier_reset > 4.0):
+        rec.Reset()
+        dernier_reset = time.time()
 
     if rec.AcceptWaveform(data):
         res = json.loads(rec.Result())
