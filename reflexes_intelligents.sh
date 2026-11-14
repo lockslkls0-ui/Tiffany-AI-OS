@@ -94,7 +94,7 @@ elif [[ "$Q" =~ (de quoi tu te souviens|tes souvenirs|mes souvenirs|lis.*souveni
     FAITS=$(grep -v '^{' "$HOME/tiffany/memory/long_term_facts.json" 2>/dev/null | tail -n 3 | tr '\n' ' ' | sed 's/^- //g' | xargs)
     say "Voici mes derniers souvenirs gravés : ${FAITS:-Nous construisons Tiffany AI-OS ensemble sur ton Toshiba}, $NOM ! 🧠"
 elif [[ "$Q" =~ (qui t.?a cree|qui t.?a fabrique|ton createur|d ou viens tu|d ou tu viens|dou tu viens|tes origines|qui t.?a concu|alibaba|qwen) ]]; then
-    say_alea "C est Lorian (lockslkls) qui m a conçue et assemblée de A à Z sur Linux Mint ! 👑" "Mon créateur officiel est Lorian (lockslkls), c est lui qui a forgé toute ma matrice sur Linux Mint ! 👑" "Je dois mon existence à Lorian (lockslkls), mon concepteur sur Linux Mint ! 👑"
+    say_alea "C est lockslkls qui m a conçue et assemblée de A à Z sur Linux Mint ! 👑" "Mon créateur officiel est lockslkls, c est lui qui a forgé toute ma matrice sur Linux Mint ! 👑" "Je dois mon existence à lockslkls, mon concepteur sur Linux Mint ! 👑"
 elif [[ "$Q" =~ (c est lent|ca rame|comment va la ram|memoire vive|combien de ram) ]]; then
     R=$(free -m | awk "/Mem:/ {print int(\$3/\$2*100)}")
     say_alea "Ta mémoire vive est occupée à ${R}%, $NOM. 🧠" "Côté RAM, tu utilises actuellement ${R}% de la mémoire, $NOM. 🧠" "La mémoire vive est à ${R}% d occupation, $NOM. 🧠"

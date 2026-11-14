@@ -30,7 +30,7 @@ if os.path.exists(smart_path):
         smart = " ; ".join(lignes)
 
 print(
-    f"Createur_officiel=Lorian (lockslkls) | "
+    f"Createur_officiel=lockslkls | "
     f"Utilisateur_actuel={surnom} (compte={os.getenv('USER', 'user')}) | "
     f"Fil_discussion_en_cours={fil_actuel or 'Debut de session'} | "
     f"Faits_memorises={faits or 'Aucun'} | "
