@@ -60,10 +60,11 @@ case "$Q" in
     "watchdog off") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/14_watchdog_off.sh'" ;;
     "zram"|"turbo") go "Accélération ZRAM vérifiée, $NOM ! 🚀" "bash '$PLUG/25_turbo_zram.sh'" ;;
     "top"|"processus"|"cpu") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
-    "ram"|"memoire") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
+    "ram") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
     "purge ram"|"purge") go "Purge éclair RAM et relance Ollama, $NOM ! 🧼" "bash '$PLUG/22_purge_ram.sh'" ;;
     "reseau"|"wifi"|"ip") go "État réseau et IP affiché, $NOM ! 📡" "bash '$PLUG/24_etat_reseau.sh'" ;;
     "instinct"|"capteurs"|"usb"|"bluetooth") go "Instinct matériel étendu, $NOM ! 🧬" "bash '$PLUG/26_instinct_etendu.sh'" ;;
+    "souvenirs"|"memoire") bash "$ACT/32_souvenirs.sh" ; exit 0 ;;
     "evolution"|"journal") go "Registre d'évolution ouvert, $NOM ! 📝" "bash '$PLUG/Y98_voir_evolution.sh'" ;;
 
     # Maintenance & Arrêt (Commandes sensibles explicites uniquement)

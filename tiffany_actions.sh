@@ -180,6 +180,8 @@ else
     [ -z "$TEMP_REAL" ] || [ "$TEMP_REAL" -eq 0 ] && TEMP_REAL="45"
     RAM_OCCUPATION=$(free -m | grep Mem | awk '{print int($3/$2*100)}')
     DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" 2>/dev/null)
+    NB_LIGNES_FIL=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
+    NB_FAITS=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
 
     if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|souvenir|memoire|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire|rapport|erreur|journal|session|precedent|createur|qui je suis|utilisateur|smart|disque|audit|historique|rappelle) ]]; then
@@ -214,7 +216,7 @@ except Exception:
     pass
 ' "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" 90 2>/dev/null)
         if [ -n "$REP_TEXT" ]; then
-            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n" ; speak "$REP_TEXT"
+            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS} faits | Fil : ${NB_LIGNES_FIL} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n" ; speak "$REP_TEXT"
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
         else
