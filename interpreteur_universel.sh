@@ -190,7 +190,7 @@ fi
 
 # Filet de sécurité par mots-clés flous (comprend tes intentions libres sans phrase exacte)
 if [[ "$Q" =~ (dossier|fichier|coffre) ]] && [[ "$Q" =~ (securis|proteg|chiffr|mot de passe|verrouill|zip|7z) ]]; then
-    MDP=$(zenity --password --title="🔒 Mot de passe du Coffre-Fort") && [ -n "$MDP" ] && NOM=$(zenity --entry --title="📁 Nom du Coffre" --text="Nom du dossier sécurisé :" --entry-text="Coffre_Prive") && [ -n "$NOM" ] && mkdir -p "$HOME/Bureau/$NOM" && touch "$HOME/Bureau/$NOM/LISEZMOI.txt" && 7z a -t7z -mhe=on -p"$MDP" "$HOME/Bureau/${NOM}.7z" "$HOME/Bureau/$NOM" >/dev/null && rm -rf "$HOME/Bureau/$NOM" && pkexec chattr +i "$HOME/Bureau/${NOM}.7z" && notify-send "🔒 Coffre-Fort Créé" "${NOM}.7z chiffré et protégé !"
+    MDP=$(zenity --password --title="🔒 Mot de passe du Coffre-Fort") && [ -n "$MDP" ] && NOM=$(zenity --entry --title="📁 Nom du Coffre" --text="Nom du dossier sécurisé :" --entry-text="Coffre_Prive") && [ -n "$NOM" ] && mkdir -p "$HOME/Bureau/$NOM" && touch "$HOME/Bureau/$NOM/LISEZMOI.txt" && 7z a -t7z -mx=1 -mhe=on -p"$MDP" "$HOME/Bureau/${NOM}.7z" "$HOME/Bureau/$NOM" >/dev/null && rm -rf "$HOME/Bureau/$NOM" && chmod 400 "$HOME/Bureau/${NOM}.7z" && notify-send "🔒 Coffre-Fort Créé" "${NOM}.7z chiffré et protégé !"
     exit 0
 elif [[ "$Q" =~ (memoire|souvenir|journal|archive) ]] && [[ "$Q" =~ (regarde|ouvre|affiche|voir|lis|montre) ]]; then
     bash "$PLUG/02_voir_memoire.sh" &
