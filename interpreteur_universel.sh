@@ -15,9 +15,12 @@ go() {
 # ==============================================================================
 case "$Q" in
     # Multimédia & Radio
-    "next"|"skip"|"suivant"|"suivante") go "Morceau suivant, $NOM ! ⏭️" "bash '$PLUG/45_morceau_suivant.sh'" ;;
-    "pause"|"play"|"reprends"|"lecture") go "Bascule lecture/pause, $NOM ! ⏸️" "bash '$PLUG/44_play_pause.sh'" ;;
-    "stop"|"arrete musique"|"coupe musique") go "Lecture arrêtée, $NOM ! 🤫" "bash '$PLUG/46_couper_radio.sh'" ;;
+    # Groupe 2 : Musique, Rhythmbox, Radio & Téléchargements MP3
+    "next"|"skip"|"suivant"|"suivante"|"chanson suivante"|"morceau suivant"|"zappe ce son"|"autre chanson") go "Morceau suivant, $NOM ! ⏭️" "bash '$PLUG/45_morceau_suivant.sh'" ;;
+    "pause"|"play"|"reprends"|"lecture"|"mets pause"|"mets sur pause"|"reprends la musique"|"relance la musique") go "Bascule lecture/pause, $NOM ! ⏸️" "bash '$PLUG/44_play_pause.sh'" ;;
+    "stop"|"stop musique"|"stop radio"|"coupe la musique"|"arrete la musique"|"eteins la radio"|"coupe la radio") go "Lecture arrêtée, $NOM ! 🤫" "bash '$PLUG/46_couper_radio.sh'" ;;
+    "intercepte"|"telecharge cette musique"|"enregistre ce son"|"aspire cette chanson") go "J'intercepte le morceau en MP3, $NOM ! 🎧" "bash '$PLUG/41_intercepter_rhythmbox.sh'" ;;
+    "telechargeur mp3"|"extracteur mp3"|"cherche une musique"|"telecharge sur youtube") go "Téléchargeur MP3 intelligent ouvert, $NOM ! 📥" "bash '$PLUG/42_telechargeur_intelligent.sh'" ;;
     # Groupe 1 : Son, Volume & Voix (toutes nuances sans conflit)
     "muet"|"mute"|"coupe le son"|"remets le son"|"active le son"|"mode muet") go "Bascule son système, $NOM ! 🔊" "bash '$PLUG/34_bascule_son.sh'" ;;
     "son +"|"volume +"|"monte le son"|"augmente le son"|"monte le volume"|"augmente le volume"|"plus fort"|"mets plus fort") go "Volume augmenté de 15%, $NOM ! 🔊" "amixer -D pulse sset Master 15%+ 2>/dev/null || amixer sset Master 15%+" ;;
@@ -25,7 +28,6 @@ case "$Q" in
     "son a fond"|"volume a fond"|"son au max"|"volume au max"|"volume maximum"|"son maximum") go "Volume réglé au maximum (100%), $NOM ! 🔊" "amixer -D pulse sset Master 100% 2>/dev/null || amixer sset Master 100%" ;;
     "son doux"|"volume doux"|"volume bas") go "Volume doux réglé à 30%, $NOM ! 🔉" "amixer -D pulse sset Master 30% 2>/dev/null || amixer sset Master 30%" ;;
     "son moyen"|"volume moyen"|"volume moitie") go "Volume moyen réglé à 50%, $NOM ! 🔊" "amixer -D pulse sset Master 50% 2>/dev/null || amixer sset Master 50%" ;;
-    "musique"|"playlist"|"rhythmbox"|"sons") go "J'allume Rhythmbox, $NOM ! 🎵" "bash '$PLUG/43_allumer_rhythmbox.sh'" ;;
     "radio"|"radios"|"zapping")
         URL_R=$(shuf -n 1 "$HOME/.tiffany_radios.txt" "$HOME/.catalogue_geant.txt" 2>/dev/null | head -n 1)
         NOM_R=$(echo "$URL_R" | cut -d'|' -f1); LIEN_R=$(echo "$URL_R" | cut -d'|' -f2)
