@@ -24,9 +24,9 @@ Conçu et testé en 6 jours sur un modeste PC portable Toshiba Portégé R830 (I
   Programmation d'actions différées à la voix (« coupe la radio dans 20 minutes », « nettoie la RAM à 23h30 ») ou via l'interface graphique.
 
 🔗 CODE SOURCE & INSTALLATION RAPIDE :
-Dépôt GitHub officiel : https://:https://github.com/lockslkls0-ui/Tiffany-AI-OS
+Dépôt GitHub officiel : https://github.com/lockslkls0-ui/Tiffany-AI-OS
 
-git clone https://:https://github.com/lockslkls0-ui/Tiffany-AI-OS.git ~/tiffany
+git clone https://github.com/lockslkls0-ui/Tiffany-AI-OS.git ~/tiffany
 cd ~/tiffany && chmod +x install.sh && ./install.sh
 
 N'hésitez pas à tester, forker ou partager vos retours !
@@ -51,9 +51,9 @@ Built and stress-tested in 6 days on a modest Toshiba Portégé R830 laptop (Int
 - ⏰ Voice & GUI Task Scheduler: Schedule delayed commands naturally or via the graphical interface.
 
 ### 🔗 Source Code & Quick Install:
-Official GitHub Repository: https://:https://github.com/lockslkls0-ui/Tiffany-AI-OS
+Official GitHub Repository: https://github.com/lockslkls0-ui/Tiffany-AI-OS
 
-git clone https://:https://github.com/lockslkls0-ui/Tiffany-AI-OS.git ~/tiffany
+git clone https://github.com/lockslkls0-ui/Tiffany-AI-OS.git ~/tiffany
 cd ~/tiffany && chmod +x install.sh && ./install.sh
 
 Feedback, stars, and forks are warmly welcome!
