@@ -65,7 +65,6 @@ case "$Q" in
     "reseau"|"wifi"|"ip") go "État réseau et IP affiché, $NOM ! 📡" "bash '$PLUG/24_etat_reseau.sh'" ;;
     "instinct"|"capteurs"|"usb"|"bluetooth") go "Instinct matériel étendu, $NOM ! 🧬" "bash '$PLUG/26_instinct_etendu.sh'" ;;
     "souvenirs"|"memoire") bash "$ACT/32_souvenirs.sh" ; exit 0 ;;
-    "evolution"|"journal") go "Registre d'évolution ouvert, $NOM ! 📝" "bash '$PLUG/Y98_voir_evolution.sh'" ;;
 
     # Maintenance & Arrêt (Commandes sensibles explicites uniquement)
     "corbeille"|"poubelle") go "Corbeille vidée, $NOM ! 🗑️" "bash '$PLUG/30_vider_corbeille.sh'" ;;
