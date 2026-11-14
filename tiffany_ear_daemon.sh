@@ -6,16 +6,21 @@ MODEL_DIR="$ROOT_DIR/voice/vosk-fr/vosk-model-small-fr-0.22"
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
-VRAI_MICRO=$(pactl list short sources | awk '{print $2}' | grep -v "\.monitor" | grep -v "echo_cancel" | head -n 1)
-if [ -n "$VRAI_MICRO" ]; then
-    pactl list short modules | grep -q "tiffany_mic_propre" || pactl load-module module-echo-cancel aec_method=webrtc source_master="$VRAI_MICRO" source_name=tiffany_mic_propre >/dev/null 2>&1
-    pactl set-default-source tiffany_mic_propre >/dev/null 2>&1 || pactl set-default-source "$VRAI_MICRO" >/dev/null 2>&1
-fi
-pactl set-source-mute @DEFAULT_SOURCE@ 0 >/dev/null 2>&1 || true
-pactl set-source-volume @DEFAULT_SOURCE@ 85% >/dev/null 2>&1 || true
+armer_micro() {
+    VRAI_MICRO=$(pactl list short sources 2>/dev/null | awk '{print $2}' | grep -v "\.monitor" | grep -v "echo_cancel" | head -n 1)
+    if [ -n "$VRAI_MICRO" ]; then
+        pactl list short modules 2>/dev/null | grep -q "tiffany_mic_propre" || pactl load-module module-echo-cancel aec_method=webrtc source_master="$VRAI_MICRO" source_name=tiffany_mic_propre >/dev/null 2>&1
+        pactl set-default-source tiffany_mic_propre >/dev/null 2>&1 || pactl set-default-source "$VRAI_MICRO" >/dev/null 2>&1
+    fi
+    pactl set-source-mute @DEFAULT_SOURCE@ 0 >/dev/null 2>&1 || true
+    pactl set-source-volume @DEFAULT_SOURCE@ 85% >/dev/null 2>&1 || true
+    amixer sset Capture cap 25 >/dev/null 2>&1 || true
+}
+
+armer_micro
 
 python3 - "$MODEL_DIR" "$ROOT_DIR" << 'PYEOF'
-import sys, os, json, subprocess, time
+import sys, os, json, subprocess, time, select
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 SetLogLevel(-1)
@@ -28,15 +33,18 @@ fifo_path = "/tmp/tiffany_chat.fifo"
 model = Model(model_dir)
 rec = KaldiRecognizer(model, 16000)
 
-proc = subprocess.Popen(
-    ["arecord", "-f", "S16_LE", "-r", "16000", "-c", "1", "-t", "raw", "-q"],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.DEVNULL
-)
+def lancer_capture():
+    return subprocess.Popen(
+        ["arecord", "-f", "S16_LE", "-r", "16000", "-c", "1", "-t", "raw", "-q"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL
+    )
+
+proc = lancer_capture()
 
 WAKE_WORDS = ("tiffany", "tifany", "typhanie", "stéphanie", "tiff", "téléphonie", "clémence")
 ACTIONS_SANS_TERMINAL = (
-    "next", "skip", "suivant", "pause", "play", "stop", "muet", "silence",
+    "next", "skip", "suivant", "suivante", "pause", "play", "stop", "muet", "silence",
     "musique", "radio", "menu", "panneau", "cam", "webcam", "zone",
     "nuit", "jour", "froid", "boost", "zram", "turbo", "backup", "sauvegarde",
     "instinct", "fenetre", "range", "bureau", "chrome", "youtube",
@@ -74,14 +82,14 @@ def envoyer_dans_fenetre_unique(commande):
                 pass
 
 dernier_declenchement = 0
+attention_jusqua = 0
 
 def executer_ordre(commande):
-    global dernier_declenchement
+    global dernier_declenchement, attention_jusqua
     commande = commande.strip()
-    if not commande or (time.time() - dernier_declenchement < 2.0):
+    if not commande or (time.time() - dernier_declenchement < 1.8):
         return
     dernier_declenchement = time.time()
-    global attention_jusqua
     attention_jusqua = time.time() + 16.0
 
     notifier("🌹 Tiffany", "👉 " + commande)
@@ -91,16 +99,28 @@ def executer_ordre(commande):
     else:
         envoyer_dans_fenetre_unique(commande)
 
-notifier("👂 Oreille Haute Précision", "Flux audio pur restauré : dis 'Tiffany' !")
+notifier("👂 Oreille Auto-Réparatrice", "Écoute permanente blindée active !")
 
 en_attente_suite = False
 debut_attente = 0
-attention_jusqua = 0
 
 while True:
+    # Surveillance anti-gel du flux micro : si aucun son reçu en 2.5s, relance auto d'arecord !
+    rlist, _, _ = select.select([proc.stdout], [], [], 2.5)
+    if not rlist:
+        proc.kill()
+        proc.wait()
+        subprocess.run(["pactl", "set-source-mute", "@DEFAULT_SOURCE@", "0"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        proc = lancer_capture()
+        rec.Reset()
+        continue
+
     data = proc.stdout.read(4000)
     if not data:
-        time.sleep(0.05)
+        proc.kill()
+        proc.wait()
+        time.sleep(0.2)
+        proc = lancer_capture()
         continue
 
     if rec.AcceptWaveform(data):
