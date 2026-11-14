@@ -27,6 +27,16 @@ case "$Q" in
     "jour"|"clair") go "Mode jour restauré, $NOM ! ☀️" "bash '$PLUG/33_mode_jour.sh'" ;;
     "froid"|"refroidis") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
     "boost"|"puissance") go "Mode Boost Auto activé, $NOM ! ⚡" "bash '$PLUG/12_mode_boost.sh'" ;;
+        "lireweb"|"lis"|"lecture") bash "$ACT/31_lire_webia.sh" ; exit 0 ;;
+    "chut"|"stop voix"|"silence voix") pkill -x espeak-ng >/dev/null 2>&1 ; exit 0 ;;
+    "voix") go "Sélecteur de voix ouvert, $NOM ! 🎙️" "bash '$PLUG/35_bascule_voix.sh'" ;;
+    "purge") go "Purge éclair RAM et relance Ollama, $NOM ! 🧼" "bash '$PLUG/22_purge_ram.sh'" ;;
+    "clean"|"menage"|"nettoyage") go "Nettoyage système APT lancé, $NOM ! 🧹" "bash '$PLUG/31_nettoyer_systeme.sh'" ;;
+    "watchdog on") go "Sentinelle thermique activée, $NOM ! 🛡️" "bash '$PLUG/13_watchdog_on.sh'" ;;
+    "watchdog off") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/14_watchdog_off.sh'" ;;
+    "oreille on") go "Oreille vocale permanente activée, $NOM ! 👂" "bash '$PLUG/28_ouie_micro.sh'" ;;
+    "oreille off") go "Oreille vocale mise en pause, $NOM ! 🔇" "bash '$PLUG/28b_ouie_off.sh'" ;;
+    "eteins"|"poweroff"|"extinction") go "Extinction propre du Toshiba, à bientôt $NOM ! 💤" "bash '$PLUG/Z99_eteindre_toshiba.sh'" ;;
     "zram"|"turbo") go "Accélération ZRAM vérifiée, $NOM ! 🚀" "bash '$PLUG/25_turbo_zram.sh'" ;;
     "docteur"|"mistral"|"audit"|"diag"|"diagnostic") go "Lancement du Docteur Mistral, $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'" ;;
     "backup"|"sauvegarde"|"sauve") go "Sauvegarde matrice lancée, $NOM ! 💾" "bash '$PLUG/15_sauvegarde_matrice.sh'" ;;
