@@ -71,10 +71,6 @@ case "$Q" in
 
     # Voix & Lecture
     "lireweb"|"lis"|"lecture web") bash "$ACT/31_lire_webia.sh" ; exit 0 ;;
-    "chut"|"stop voix"|"silence voix") pkill -x espeak-ng >/dev/null 2>&1 ; exit 0 ;;
-    "voix") go "Sélecteur de voix ouvert, $NOM ! 🎙️" "bash '$PLUG/35_bascule_voix.sh'" ;;
-    "oreille on") go "Oreille vocale permanente activée, $NOM ! 👂" "bash '$PLUG/28_ouie_micro.sh'" ;;
-    "oreille off") go "Oreille vocale mise en pause, $NOM ! 🔇" "bash '$PLUG/28b_ouie_off.sh'" ;;
 
     # Diagnostics séparés clairement (Analyse simple vs Docteur Mistral)
     "analyse"|"materiel"|"bilan"|"etat du pc") bash "$ACT/02_analyse.sh" ; exit 0 ;;
@@ -99,15 +95,17 @@ case "$Q" in
     "top"|"processus"|"cpu") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
     "ram") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
     "purge ram"|"purge") go "Purge éclair RAM et relance Ollama, $NOM ! 🧼" "bash '$PLUG/22_purge_ram.sh'" ;;
-    "reseau"|"wifi"|"ip") go "État réseau et IP affiché, $NOM ! 📡" "bash '$PLUG/24_etat_reseau.sh'" ;;
-    "instinct"|"capteurs"|"usb"|"bluetooth") go "Instinct matériel étendu, $NOM ! 🧬" "bash '$PLUG/26_instinct_etendu.sh'" ;;
     "souvenirs"|"memoire") bash "$ACT/32_souvenirs.sh" ; exit 0 ;;
 
-    # Maintenance & Arrêt (Commandes sensibles explicites uniquement)
-    "corbeille"|"poubelle") go "Corbeille vidée, $NOM ! 🗑️" "bash '$PLUG/30_vider_corbeille.sh'" ;;
-    "nettoie systeme"|"menage systeme") go "Nettoyage système APT lancé, $NOM ! 🧹" "bash '$PLUG/31_nettoyer_systeme.sh'" ;;
-    "backup"|"sauvegarde matrice") go "Sauvegarde complète de la matrice lancée, $NOM ! 💾" "bash '$PLUG/15_sauvegarde_matrice.sh'" ;;
-    "eteins l ordinateur"|"eteins le pc"|"extinction systeme") go "Extinction propre du Toshiba, à bientôt $NOM ! 💤" "bash '$PLUG/Z99_eteindre_toshiba.sh'" ;;
+    # Enrichissement complet des variantes naturelles pour chaque bouton du Panneau
+    "stabilise chrome"|"stabiliser chrome"|"bride chrome"|"calme chrome"|"chrome chauffe"|"limite chrome") go "Chrome stabilisé à 120% CPU max, $NOM ! 🌐" "bash '$PLUG/10_stabiliser_chrome.sh'" ;;
+    "telecommande"|"telecommande tactile"|"pilotage"|"toucher") go "Ouverture de la télécommande tactile, $NOM ! 🖱️" "bash '$PLUG/27_toucher_pilotage.sh'" ;;
+    "voir memoire"|"fenetre memoire"|"ouvre memoire"|"journaux"|"journal de bord") go "Ouverture de ta mémoire et de tes journaux, $NOM ! 📝" "bash '$PLUG/02_voir_memoire.sh'" ;;
+    "voix"|"change de voix"|"bascule voix"|"profil vocal"|"voix douce"|"voix vive"|"regle la voix") go "Sélecteur de voix ouvert, $NOM ! 🎙️" "bash '$PLUG/35_bascule_voix.sh'" ;;
+    "oreille on"|"active oreille"|"allume oreille"|"ecoute permanente"|"active le micro") go "Oreille vocale permanente activée, $NOM ! 👂" "bash '$PLUG/28_ouie_micro.sh'" ;;
+    "oreille off"|"coupe oreille"|"arrete oreille"|"pause micro"|"desactive micro") go "Oreille vocale mise en pause, $NOM ! 🔇" "bash '$PLUG/28b_ouie_off.sh'" ;;
+    "corbeille"|"poubelle"|"vide la corbeille"|"vide la poubelle"|"nettoie la poubelle"|"purge corbeille") go "Corbeille vidée, $NOM ! 🗑️" "bash '$PLUG/30_vider_corbeille.sh'" ;;
+    # Ancien bloc maintenance
 
     # Fenêtres & Souris
     "fenetres"|"range") go "Fenêtres rangées en 50/50, $NOM ! 🪟" "bash '$ACT/30_fenetre.sh' range" ;;
