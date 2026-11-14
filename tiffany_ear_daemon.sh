@@ -6,6 +6,14 @@ MODEL_DIR="$ROOT_DIR/voice/vosk-fr/vosk-model-small-fr-0.22"
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
+VRAI_MICRO=$(pactl list short sources | awk '{print $2}' | grep -v "\.monitor" | grep -v "echo_cancel" | head -n 1)
+if [ -n "$VRAI_MICRO" ]; then
+    pactl list short modules | grep -q "tiffany_mic_propre" || pactl load-module module-echo-cancel aec_method=webrtc source_master="$VRAI_MICRO" source_name=tiffany_mic_propre >/dev/null 2>&1
+    pactl set-default-source tiffany_mic_propre >/dev/null 2>&1 || pactl set-default-source "$VRAI_MICRO" >/dev/null 2>&1
+fi
+pactl set-source-mute @DEFAULT_SOURCE@ 0 >/dev/null 2>&1 || true
+pactl set-source-volume @DEFAULT_SOURCE@ 85% >/dev/null 2>&1 || true
+
 python3 - "$MODEL_DIR" "$ROOT_DIR" << 'PYEOF'
 import sys, os, json, subprocess, time
 from vosk import Model, KaldiRecognizer, SetLogLevel
