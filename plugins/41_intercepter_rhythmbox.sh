@@ -1,5 +1,5 @@
 #!/bin/bash
-# MENU_NAME: 📻 INTERCEPTER RHYTHMBOX
+# MENU_NAME: 🎧 Intercepter Rhythmbox (MP3)
 # MENU_DESC: Télécharge le morceau en cours avec barre fluide
 INFOS_MUSIQUE=$(rhythmbox-client --print-playing 2>/dev/null)
 if [[ "$INFOS_MUSIQUE" == *"#"* ]] || [[ "$INFOS_MUSIQUE" == -* ]] || [[ "$INFOS_MUSIQUE" == *"favori"* ]] || [ -z "$INFOS_MUSIQUE" ] || [ "$INFOS_MUSIQUE" == "Pas de lecture en cours" ] || [[ "$INFOS_MUSIQUE" == http* ]]; then

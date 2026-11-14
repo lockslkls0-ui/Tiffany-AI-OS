@@ -1,5 +1,5 @@
 #!/bin/bash
-# MENU_NAME: 📻 Allumer la Radio
+# MENU_NAME: 📻 Allumer la Radio (Zapping)
 # MENU_DESC: Mode Zapping, Ajouts et Suppressions
 DB_RADIOS="$HOME/.tiffany_radios.txt"
 RADIO_GEO="$HOME/.tiffany_radio_geo.txt"

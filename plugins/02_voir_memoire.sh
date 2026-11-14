@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# MENU_NAME: 🧠 Voir sa Mémoire & Logs
+# MENU_NAME: 📝 Mémoire & Journaux de Tiffany
 # MENU_DESC: Lire tous ses souvenirs, son journal de bord et ses rapports SMART (Défilant)
 
 ROOT_DIR="$HOME/tiffany"

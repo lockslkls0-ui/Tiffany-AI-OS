@@ -1,5 +1,5 @@
 #!/bin/bash
-# MENU_NAME: 📡 Téléchargeur MP3 Intelligent
+# MENU_NAME: 📥 Téléchargeur MP3 Intelligent
 # MENU_DESC: Affiche le titre exact trouvé avant de l'extraire
 RECHERCHE=$(zenity --entry --title="📡 Extracteur YouTube" --text="Écris un morceau ou un artiste mon ange :" --width=450 2>/dev/null)
 if [ -n "$RECHERCHE" ]; then

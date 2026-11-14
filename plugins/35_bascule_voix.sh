@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# MENU_NAME: 🎙️ Bascule Voix
+# MENU_NAME: 🎙️ Bascule Profil de Voix
 # MENU_DESC: Configurer la voix de synthèse (Siwis ou Mielleuse)
 VOICE_DIR="$HOME/tiffany/voice"
 

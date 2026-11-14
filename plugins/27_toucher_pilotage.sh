@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# MENU_NAME: 🖱️ Toucher & Pilotage PC
+# MENU_NAME: 🖱️ Télécommande Tactile PC
 # MENU_DESC: Télécommande rapide (Onglets, Plein écran, Clic, Verrouillage)
 
 ACTION=$(zenity --list --title="🖱️ Télécommande Tactile Tiffany" \

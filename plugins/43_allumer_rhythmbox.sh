@@ -1,5 +1,5 @@
 #!/bin/bash
-# MENU_NAME: 🎵 Allumer Rhythmbox
+# MENU_NAME: 🎵 Allumer Rhythmbox (Playlist)
 # MENU_DESC: Forcer le chargement et la lecture de toute la musique locale
 pkill -9 -x "mpv" >/dev/null 2>&1
 pkill -9 -x "vlc" >/dev/null 2>&1
