@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-TXT="$1"
+TXT=$(echo "$1" | sed -E "s/^(tiffany|tifany|typhanie|tiff|stephanie)[[:space:]]+//g")
 # 0. Appliquer les variantes personnalisées et traductions multilingues de l'utilisateur
 VAR_FILE="$HOME/tiffany/variantes_utilisateur.txt"
 if [ -f "$VAR_FILE" ]; then
@@ -52,6 +52,7 @@ TXT=$(echo "$TXT" | sed -E '
     s/\b(souvenir|souvenire)\b/souvenirs/g;
     s/\b(arzens autrichien|arrete de reflechir)\b/annule/g;
     s/\b(aide moi|aides)\b/aide/g;
+    s/.*(donne|dit|dis).*(heure|leur).*/heure/g;
     s/\b(fenetre|fenêtres)\b/fenetres/g;
     s/\b(webcam|web cam)\b/cam/g
 ')
