@@ -11,8 +11,9 @@ armer_micro() {
     VRAI_MICRO=$(pactl list short sources 2>/dev/null | awk '{print $2}' | grep -v "\.monitor" | head -n 1)
     [ -n "$VRAI_MICRO" ] && pactl set-default-source "$VRAI_MICRO" >/dev/null 2>&1 || true
     pactl set-source-mute @DEFAULT_SOURCE@ 0 >/dev/null 2>&1 || true
-    pactl set-source-volume @DEFAULT_SOURCE@ 115% >/dev/null 2>&1 || true
-    amixer sset Capture cap 28 >/dev/null 2>&1 || true
+    pactl set-source-volume @DEFAULT_SOURCE@ 85% >/dev/null 2>&1 || true
+    amixer sset "Internal Mic Boost" 50% >/dev/null 2>&1 || amixer sset "Mic Boost" 50% >/dev/null 2>&1 || true
+    amixer sset Capture cap 75% >/dev/null 2>&1 || true
 }
 
 armer_micro
@@ -40,7 +41,7 @@ def lancer_capture():
 
 proc = lancer_capture()
 
-WAKE_WORDS = ("tiffany", "tifany", "typhanie", "stéphanie", "tiff", "téléphonie", "clémence")
+WAKE_WORDS = ("tiffany", "tifany", "typhanie", "stéphanie", "tiff", "hey tiffany", "hey tiff", "hey", "ok tiffany")
 ACTIONS_SANS_TERMINAL = (
     "next", "skip", "suivant", "suivante", "pause", "play", "stop", "muet", "silence",
     "musique", "radio", "menu", "panneau", "cam", "webcam", "zone",
@@ -85,7 +86,7 @@ attention_jusqua = 0
 def executer_ordre(commande):
     global dernier_declenchement, attention_jusqua
     commande = commande.strip()
-    if not commande or (time.time() - dernier_declenchement < 1.8):
+    if not commande or len(commande) <= 2 or (time.time() - dernier_declenchement < 1.5):
         return
     dernier_declenchement = time.time()
     attention_jusqua = time.time() + 16.0
@@ -97,18 +98,16 @@ def executer_ordre(commande):
     else:
         envoyer_dans_fenetre_unique(commande)
 
-notifier("👂 Oreille Auto-Réparatrice", "Écoute permanente blindée active !")
+notifier("👂 Oreille Pure Restaurée", "Dis 'Tiffany', 'Tiff' ou 'Hey' !")
 
 en_attente_suite = False
 debut_attente = 0
 
 while True:
-    # Surveillance anti-gel du flux micro : si aucun son reçu en 2.5s, relance auto d'arecord !
-    rlist, _, _ = select.select([proc.stdout], [], [], 2.5)
+    rlist, _, _ = select.select([proc.stdout], [], [], 3.0)
     if not rlist:
         proc.kill()
         proc.wait()
-        subprocess.run(["pactl", "set-source-mute", "@DEFAULT_SOURCE@", "0"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         proc = lancer_capture()
         rec.Reset()
         continue
@@ -139,17 +138,18 @@ while True:
             continue
 
         for w in WAKE_WORDS:
-            if w in texte:
-                avant, apres = texte.split(w, 1)
-                commande = (apres.strip() if apres.strip() else avant.strip())
-                if commande:
-                    executer_ordre(commande)
-                else:
-                    notifier("🎤 Oui mon ange ?", "Dis ta phrase...")
-                    parler_fluide("Oui mon ange ?")
-                    en_attente_suite = True
-                    debut_attente = time.time()
-                break
+            if w in texte.split() or texte.startswith(w):
+                if w in texte:
+                    avant, apres = texte.split(w, 1)
+                    commande = apres.strip()
+                    if commande:
+                        executer_ordre(commande)
+                    else:
+                        notifier("🎤 Oui mon ange ?", "Dis ta phrase...")
+                        parler_fluide("Oui mon ange ?")
+                        en_attente_suite = True
+                        debut_attente = time.time()
+                    break
     else:
         if en_attente_suite and (time.time() - debut_attente > 16):
             en_attente_suite = False
