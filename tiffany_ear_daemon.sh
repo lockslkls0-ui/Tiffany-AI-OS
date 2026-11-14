@@ -7,6 +7,7 @@ export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
 pactl set-source-mute @DEFAULT_SOURCE@ 0 2>/dev/null || true
+pactl set-source-volume @DEFAULT_SOURCE@ 100% 2>/dev/null || true
 amixer sset Capture cap 100% >/dev/null 2>&1 || true
 
 python3 - "$MODEL_DIR" "$ROOT_DIR" << 'PYEOF'
@@ -36,7 +37,7 @@ ACTIONS_SANS_TERMINAL = (
     "nuit", "jour", "froid", "boost", "zram", "turbo", "backup", "sauvegarde",
     "instinct", "fenetre", "range", "bureau", "chrome", "youtube",
     "pilote", "droite", "gauche", "monte", "descends", "clic", "onglet",
-    "plein ecran", "verrouille", "oreille", "tais-toi", "chut", "annule", "stop ia", "eteins"
+    "plein ecran", "verrouille", "oreille", "tais-toi", "chut", "annule", "stop ia"
 )
 
 def volume_rms(data):
@@ -47,7 +48,6 @@ def volume_rms(data):
     return math.sqrt(sum(s * s for s in shorts) / count)
 
 def parler_fluide(texte):
-    # Parle en priorité normale (pas bridé) et attend la fin pour ne pas s'écouter elle-même
     subprocess.run(["espeak-ng", "-v", "fr+f5", "-s", "145", "-p", "85", texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     rec.Reset()
 
@@ -55,7 +55,6 @@ def notifier(titre, msg):
     subprocess.Popen(["notify-send", "-u", "low", "-t", "2500", "-i", "audio-input-microphone", titre, msg], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 def envoyer_dans_fenetre_unique(commande):
-    # Si la fenêtre de discussion est déjà ouverte (FIFO présent), écrit directement dedans !
     if os.path.exists(fifo_path):
         try:
             fd = os.open(fifo_path, os.O_WRONLY | os.O_NONBLOCK)
@@ -65,7 +64,6 @@ def envoyer_dans_fenetre_unique(commande):
             return
         except Exception:
             pass
-    # Sinon ouvre UNE seule fenêtre et y envoie la commande
     subprocess.Popen(["gnome-terminal", "--title=🌹 Discussion Tiffany", "--", "bash", core_script])
     for _ in range(25):
         time.sleep(0.1)
@@ -83,7 +81,7 @@ dernier_declenchement = 0
 def executer_ordre(commande):
     global dernier_declenchement
     commande = commande.strip()
-    if not commande or (time.time() - dernier_declenchement < 3.0):
+    if not commande or (time.time() - dernier_declenchement < 2.5):
         return
     dernier_declenchement = time.time()
 
@@ -94,11 +92,10 @@ def executer_ordre(commande):
     else:
         envoyer_dans_fenetre_unique(commande)
 
-notifier("👂 Oreille Synchronisée", "Fenêtre unique + voix fluide actives !")
+notifier("👂 Oreille Réparée", "Dis 'Tiffany' suivi de ta phrase !")
 
 en_attente_suite = False
 debut_attente = 0
-dernier_reset = time.time()
 
 while True:
     data = proc.stdout.read(4000)
@@ -106,12 +103,8 @@ while True:
         time.sleep(0.05)
         continue
 
-    if volume_rms(data) < 300 and not en_attente_suite:
+    if volume_rms(data) < 220 and not en_attente_suite:
         continue
-
-    if not en_attente_suite and (time.time() - dernier_reset > 4.0):
-        rec.Reset()
-        dernier_reset = time.time()
 
     if rec.AcceptWaveform(data):
         res = json.loads(rec.Result())
