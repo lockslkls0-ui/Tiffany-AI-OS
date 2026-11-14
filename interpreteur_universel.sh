@@ -48,6 +48,7 @@ case "$Q" in
 
     # Interfaces & Dossiers usuels
     "noyau") bash "$ACT/14_noyau.sh" ; exit 0 ;;
+    "audit"|"banc de test"|"test complet") bash "$ACT/34_audit_fonctionnel.sh" ; exit 0 ;;
     "testia") bash "$ACT/20_test_ia.sh" ; exit 0 ;;
     "menu"|"panneau"|"dashboard") go "J'ouvre mon panneau de commande, $NOM ! 🌹" "bash '$ROOT_DIR/tiffany_menu.sh'" ;;
     "term"|"terminal"|"console"|"bash") go "J'ouvre un terminal, $NOM ! 💻" "gnome-terminal" ;;
