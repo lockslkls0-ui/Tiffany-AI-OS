@@ -100,12 +100,12 @@ en_attente_suite = False
 debut_attente = 0
 
 while True:
-    data = proc.stdout.read(4000)
+    data = proc.stdout.read(8000)
     if not data:
         time.sleep(0.05)
         continue
 
-    if volume_rms(data) < 280 and not en_attente_suite:
+    if volume_rms(data) < 1200 and not en_attente_suite:
         continue
 
     if rec.AcceptWaveform(data):
