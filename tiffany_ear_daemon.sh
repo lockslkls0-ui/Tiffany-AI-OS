@@ -89,7 +89,7 @@ def executer_ordre(commande):
     if not commande or len(commande) <= 2 or (time.time() - dernier_declenchement < 1.5):
         return
     dernier_declenchement = time.time()
-    attention_jusqua = time.time() + 5.0
+    attention_jusqua = time.time() + 16.0
 
     notifier("🌹 Tiffany", "👉 " + commande)
     cmd_low = commande.lower()
