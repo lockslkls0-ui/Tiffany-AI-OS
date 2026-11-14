@@ -5,6 +5,7 @@ TXT=$(echo "$TXT" | sed -E '
     s/\b(boss|boste|boust|booster|bouste)\b/boost/g;
     s/\b(frais|froide|frois)\b/froid/g;
     s/\b(rame|rames)\b/ram/g;
+    s/\b(rythme|rythmes|ritme)\b/rhythmbox/g;
     s/\b(nexte|nekst|suivante)\b/next/g;
     s/\b(pose|pauses)\b/pause/g;
     s/\b(muette|muets)\b/muet/g;
