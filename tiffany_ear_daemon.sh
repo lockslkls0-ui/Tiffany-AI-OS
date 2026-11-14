@@ -7,14 +7,12 @@ export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
 armer_micro() {
-    VRAI_MICRO=$(pactl list short sources 2>/dev/null | awk '{print $2}' | grep -v "\.monitor" | grep -v "echo_cancel" | head -n 1)
-    if [ -n "$VRAI_MICRO" ]; then
-        pactl list short modules 2>/dev/null | grep -q "tiffany_mic_propre" || pactl load-module module-echo-cancel aec_method=webrtc source_master="$VRAI_MICRO" source_name=tiffany_mic_propre >/dev/null 2>&1
-        pactl set-default-source tiffany_mic_propre >/dev/null 2>&1 || pactl set-default-source "$VRAI_MICRO" >/dev/null 2>&1
-    fi
+    pactl unload-module module-echo-cancel >/dev/null 2>&1 || true
+    VRAI_MICRO=$(pactl list short sources 2>/dev/null | awk '{print $2}' | grep -v "\.monitor" | head -n 1)
+    [ -n "$VRAI_MICRO" ] && pactl set-default-source "$VRAI_MICRO" >/dev/null 2>&1 || true
     pactl set-source-mute @DEFAULT_SOURCE@ 0 >/dev/null 2>&1 || true
-    pactl set-source-volume @DEFAULT_SOURCE@ 85% >/dev/null 2>&1 || true
-    amixer sset Capture cap 25 >/dev/null 2>&1 || true
+    pactl set-source-volume @DEFAULT_SOURCE@ 90% >/dev/null 2>&1 || true
+    amixer sset Capture cap 28 >/dev/null 2>&1 || true
 }
 
 armer_micro
