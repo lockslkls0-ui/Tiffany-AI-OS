@@ -14,6 +14,17 @@ go() {
 # 1. RACCOURCIS ULTRA-COURTS SÉCURISÉS (ZÉRO CONFLIT ENTRE OUTILS)
 # ==============================================================================
 case "$Q" in
+    # Liaison explicite et complète de tous les plugins du Panneau (100% couverts)
+    "analyse"|"materiel"|"bilan"|"etat du pc"|"diagnostic rapide") bash "$ACT/02_analyse.sh" ; exit 0 ;;
+    "details systeme"|"materiel complet"|"lshw"|"logs bruts") go "Détails système et logs ouverts, $NOM ! 🖥️" "bash '$PLUG/23_analyse_systeme.sh'" ;;
+    "discussion"|"chat"|"parle"|"ouvre discussion"|"parler a tiffany") go "Console de discussion ouverte, $NOM ! 🌹" "bash '$PLUG/01_parler_tiffany.sh'" ;;
+    "reseau"|"wifi"|"ip"|"etat reseau"|"etat du wifi"|"mon ip"|"connexion internet") go "État réseau et Wi-Fi affiché, $NOM ! 📡" "bash '$PLUG/24_etat_reseau.sh'" ;;
+    "instinct"|"instinct etendu"|"capteurs"|"capteurs complets"|"usb"|"bluetooth"|"peripheriques") go "Instinct matériel étendu affiché, $NOM ! 🧬" "bash '$PLUG/26_instinct_etendu.sh'" ;;
+    "nettoie systeme"|"menage systeme"|"nettoyage"|"nettoie le pc"|"grand menage"|"purge paquets") go "Nettoyage système APT lancé, $NOM ! 🧹" "bash '$PLUG/31_nettoyer_systeme.sh'" ;;
+    "lireweb"|"lis"|"lecture web"|"lis le dossier"|"lis la fiche") go "Lecture vocale du dernier dossier Web-IA, $NOM ! 📖" "bash '$PLUG/38_lire_dernier_webia.sh'" ;;
+    "chut"|"stop voix"|"silence voix"|"tais toi"|"arrete de lire"|"stop lecture") bash "$PLUG/39_stop_voix.sh" ; exit 0 ;;
+    "eteins l ordinateur"|"eteins le pc"|"extinction systeme"|"arrete l ordinateur"|"eteindre le pc") go "Extinction propre du Toshiba, à bientôt $NOM ! 💤" "bash '$PLUG/Z99_eteindre_toshiba.sh'" ;;
+    "analyse graphique") bash "$PLUG/01_analyse_systeme.sh" ; exit 0 ;;
     # Multimédia & Radio
     # Groupe 2 : Musique, Rhythmbox, Radio & Téléchargements MP3
     "next"|"skip"|"suivant"|"suivante"|"chanson suivante"|"morceau suivant"|"zappe ce son"|"autre chanson") go "Morceau suivant, $NOM ! ⏭️" "bash '$PLUG/45_morceau_suivant.sh'" ;;
@@ -38,7 +49,6 @@ case "$Q" in
     "testia") bash "$ACT/20_test_ia.sh" ; exit 0 ;;
     "menu"|"panneau"|"dashboard") go "J'ouvre mon panneau de commande, $NOM ! 🌹" "bash '$ROOT_DIR/tiffany_menu.sh'" ;;
     "term"|"terminal"|"console"|"bash") go "J'ouvre un terminal, $NOM ! 💻" "gnome-terminal" ;;
-    "discussion"|"chat"|"parle") go "J'ouvre notre console de discussion, $NOM ! 💬" "gnome-terminal --title='🌹 Discussion Tiffany' -- bash -c '$ROOT_DIR/tiffany_core.sh'" ;;
     "mes fichiers"|"explorateur"|"nemo") go "J'ouvre tes fichiers personnels, $NOM ! 📂" "nemo '$HOME'" ;;
     "telechargements"|"downloads") go "J'ouvre ton dossier Téléchargements, $NOM ! 📂" "nemo '$HOME/Téléchargements' 2>/dev/null || nemo '$HOME/Downloads'" ;;
     "documents") go "J'ouvre ton dossier Documents, $NOM ! 📂" "nemo '$HOME/Documents'" ;;
@@ -70,10 +80,8 @@ case "$Q" in
     "lumiere -"|"luminosite -"|"baisse la luminosite"|"moins clair") go "Luminosité baissée, $NOM ! 🌙" "brightnessctl set 15%-" ;;
 
     # Voix & Lecture
-    "lireweb"|"lis"|"lecture web") bash "$ACT/31_lire_webia.sh" ; exit 0 ;;
 
     # Diagnostics séparés clairement (Analyse simple vs Docteur Mistral)
-    "analyse"|"materiel"|"bilan"|"etat du pc") bash "$ACT/02_analyse.sh" ; exit 0 ;;
     "docteur"|"mistral"|"audit total"|"diagnostic complet") go "Lancement du Docteur Mistral (Audit Total), $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'" ;;
     # Groupe 3 : Thermique, CPU, RAM, ZRAM, Watchdog & Docteur (toutes nuances)
     "froid"|"refroidis"|"mode froid"|"ca chauffe"|"trop chaud"|"baisse le cpu") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
@@ -84,7 +92,6 @@ case "$Q" in
     "top"|"processus"|"cpu"|"etat cpu") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
     "ram"|"memoire"|"etat ram") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
     "purge ram"|"purge"|"libere la ram"|"nettoie la ram"|"vide la ram") go "Purge éclair RAM et relance Ollama, $NOM ! 🧼" "bash '$PLUG/22_purge_ram.sh'" ;;
-    "analyse"|"materiel"|"bilan"|"etat du pc"|"diagnostic rapide") bash "$ACT/02_analyse.sh" ; exit 0 ;;
     "docteur"|"mistral"|"audit total"|"diagnostic complet"|"repare le pc") go "Lancement du Docteur Mistral (Audit Total), $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'" ;;
     "variante"|"traduction") bash "$ACT/33_variante.sh" ; exit 0 ;;
     "froid_old") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
