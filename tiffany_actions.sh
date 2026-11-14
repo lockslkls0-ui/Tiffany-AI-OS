@@ -1,4 +1,5 @@
 mkdir -p "$HOME/tiffany/logs" "$HOME/tiffany/memory"
+export PATH="$HOME/tiffany/bin:$PATH"
 #!/usr/bin/env bash
 # ==============================================================================
 # 🌹 PROJECT TIFFANY - ENGINE HYBRIDE 3 VITESSES V47.5 (DÉTECTION RAPIDE)

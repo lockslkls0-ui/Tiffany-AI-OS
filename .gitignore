@@ -1,5 +1,9 @@
-logs/
-memory/contexte_matrice.txt
-memory/journal_de_bord.txt
-memory/panneau_position.txt
+# Modèles vocaux lourds et caches locaux (téléchargés à l'installation)
+voice/vosk-fr/
+voice/*.onnx
+voice/*.onnx.json
+voice/voix_active*
+voice/mode_voix.txt
+backup/
+*.log
 __pycache__/

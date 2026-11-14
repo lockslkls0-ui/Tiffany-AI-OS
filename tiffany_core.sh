@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export PATH="$HOME/tiffany/bin:$PATH"
 ROOT_DIR="$HOME/tiffany"
 FIFO="/tmp/tiffany_chat.fifo"
 

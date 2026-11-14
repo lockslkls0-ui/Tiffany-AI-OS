@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export PATH="$HOME/tiffany/bin:$PATH"
 ROOT_DIR="$HOME/tiffany"
 MODEL_DIR="$ROOT_DIR/voice/vosk-fr/vosk-model-small-fr-0.22"
 [ ! -d "$MODEL_DIR" ] && exit 1

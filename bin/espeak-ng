@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+VOICE_DIR="$HOME/tiffany/voice"
+MODE_FILE="$VOICE_DIR/mode_voix.txt"
+TEXTE="${@: -1}"
+
+if [ -f "$MODE_FILE" ] && [ "$(cat "$MODE_FILE")" = "piper" ] && [ -f "$VOICE_DIR/voix_active.onnx" ]; then
+    echo "$TEXTE" | python3 -m piper -m "$VOICE_DIR/voix_active.onnx" --output_raw 2>/dev/null | aplay -r 22050 -f S16_LE -t raw - >/dev/null 2>&1
+else
+    /usr/bin/espeak-ng "$@"
+fi
