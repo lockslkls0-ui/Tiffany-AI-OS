@@ -28,7 +28,7 @@ elif [[ "$Q" =~ ^(tais[- ]toi|stop.*voix|arrete.*lire|chut)$ ]]; then
     pkill -x espeak-ng >/dev/null 2>&1
     exit 0
 elif [[ "$Q" =~ ^(deverrouille|libere|debloque)[[:space:]]+(le[[:space:]]+)?(coffre|dossier) ]]; then
-    NOM_C=$(echo "${2:-$Q}" | sed -E "s/^(d[eé]verrouille|lib[eè]re|d[eé]bloque)[[:space:]]+(le[[:space:]]+)?(coffre[- ]?fort|dossier)[[:space:]]*//I; s/[[:space:]]*(sur|dans)[[:space:]]*(le|mon)?[[:space:]]*bureau.*//I" | tr -d "?!." | xargs)
+    NOM_C=$(echo "${2:-$Q}" | sed -E "s/^(d[eé]verrouille|lib[eè]re|d[eé]bloque)[[:space:]]+(le[[:space:]]+)?(coffre[- ]?fort|dossier)[[:space:]]*//I; s/[[:space:]]*(sur|dans)[[:space:]]*(le|mon)?[[:space:]]*bureau.*//I" | tr -d "?!." | tr -s ' ')
     BUREAU=$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Bureau")
     F_CIBLE="$BUREAU/${NOM_C}.7z"
     [ ! -f "$F_CIBLE" ] && F_CIBLE="$BUREAU/${NOM_C}"
@@ -40,7 +40,7 @@ elif [[ "$Q" =~ ^(deverrouille|libere|debloque)[[:space:]]+(le[[:space:]]+)?(cof
 elif [[ "$Q" =~ ^(cree|creer|fais|nouveau)[[:space:]]+(un[[:space:]]+)?(dossier|coffre) ]]; then
     IS_SEC=0
     [[ "$Q" =~ (securise|prive|protege|verrouille|mot de passe|coffre) ]] && IS_SEC=1
-    NOM_D=$(echo "${2:-$Q}" | sed -E "s/^(cr[eé]e|cr[eé]er|fais|nouveau)[[:space:]]+(un[[:space:]]+)?(dossier|coffre[- ]?fort)[[:space:]]*//I; s/(s[eé]curis[eé]|priv[eé]|prot[eé]g[eé]|verrouill[eé]|avec mot de passe|nomm[eé]|appel[eé])[[:space:]]*//Ig; s/[[:space:]]*(sur|dans)[[:space:]]*(le|mon)?[[:space:]]*bureau.*//I" | tr -d "?!." | xargs)
+    NOM_D=$(echo "${2:-$Q}" | sed -E "s/^(cr[eé]e|cr[eé]er|fais|nouveau)[[:space:]]+(un[[:space:]]+)?(dossier|coffre[- ]?fort)[[:space:]]*//I; s/(s[eé]curis[eé]|priv[eé]|prot[eé]g[eé]|verrouill[eé]|avec mot de passe|nomm[eé]|appel[eé])[[:space:]]*//Ig; s/[[:space:]]*(sur|dans)[[:space:]]*(le|mon)?[[:space:]]*bureau.*//I" | tr -d "?!." | tr -s ' ')
     [ -z "$NOM_D" ] && NOM_D="Coffre_Tiffany"
     BUREAU=$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Bureau")
     if [ $IS_SEC -eq 1 ]; then
@@ -91,7 +91,7 @@ elif [[ "$Q" =~ (rapport.*erreur|erreurs.*systeme|dernier.*audit|journal.*erreur
     ERR=$(journalctl -p 3 -n 1 --no-pager -q 2>/dev/null | cut -d' ' -f5- | head -c 110)
     say "Dernière alerte système relevée : ${ERR:-Aucune erreur critique détectée}, $NOM. 🩺"
 elif [[ "$Q" =~ (de quoi tu te souviens|tes souvenirs|mes souvenirs|lis.*souvenir|nos sessions) ]]; then
-    FAITS=$(grep -v '^{' "$HOME/tiffany/memory/long_term_facts.json" 2>/dev/null | tail -n 3 | tr '\n' ' ' | sed 's/^- //g' | xargs)
+    FAITS=$(grep -v '^{' "$HOME/tiffany/memory/long_term_facts.json" 2>/dev/null | tail -n 3 | tr '\n' ' ' | sed 's/^- //g' | tr -s ' ')
     say "Voici mes derniers souvenirs gravés : ${FAITS:-Nous construisons Tiffany AI-OS ensemble sur ton Toshiba}, $NOM ! 🧠"
 elif [[ "$Q" =~ (qui t.?a cree|qui t.?a fabrique|ton createur|d ou viens tu|d ou tu viens|dou tu viens|tes origines|qui t.?a concu|alibaba|qwen) ]]; then
     say_alea "C est lockslkls qui m a conçue et assemblée de A à Z sur Linux Mint ! 👑" "Mon créateur officiel est lockslkls, c est lui qui a forgé toute ma matrice sur Linux Mint ! 👑" "Je dois mon existence à lockslkls, mon concepteur sur Linux Mint ! 👑"
