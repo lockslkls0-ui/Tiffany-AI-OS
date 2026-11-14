@@ -13,6 +13,16 @@ go() {
 # ==============================================================================
 # 1. RACCOURCIS ULTRA-COURTS SÉCURISÉS (ZÉRO CONFLIT ENTRE OUTILS)
 # ==============================================================================
+
+# Planificateur temporel vocal ("... dans X minutes")
+if [[ "$Q" =~ ^(.+)[[:space:]]+dans[[:space:]]+([0-9]+)[[:space:]]+minute ]]; then
+    ACTION_DIFF="${BASH_REMATCH}"
+    DELAI="${BASH_REMATCH}"
+    echo "bash '$HOME/tiffany/tiffany_actions.sh' '$ACTION_DIFF'" | at "now + ${DELAI} minutes" >/dev/null 2>&1
+    say "C'est programmé $NOM ! J'exécuterai « $ACTION_DIFF » dans $DELAI minutes. ⏰"
+    exit 0
+fi
+
 case "$Q" in
     "pdf"|"lire pdf"|"apprends pdf"|"apprendre pdf"|"lis un pdf"|"analyse un pdf") bash "$PLUG/04_apprendre_pdf.sh" ; exit 0 ;;
     "webia") SUJ=$(zenity --entry --title="🤖 Recherche Web-IA" --text="Quel sujet dois-je rechercher et archiver sur ton Bureau ?" --width=450 2>/dev/null); [ -n "$SUJ" ] && bash "$ACT/25_webia.sh" "$SUJ"; exit 0 ;;
