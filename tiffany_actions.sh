@@ -10,7 +10,7 @@ DICO_IA="$ACTION_DIR/dictionnaire_ia.txt"
 CTX_FILE="$ROOT_DIR/memory/contexte_matrice.txt"
 LOG_SESSION="$ROOT_DIR/logs/session_raw.txt"
 
-if [ -z "$REQUETE" ] || [ ${#REQUETE_CLEAN} -le 2 ] || [ ${#REQUETE_CLEAN} -le 2 ] || [ ${#REQUETE_CLEAN} -le 2 ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
+if [ -z "$REQUETE" ] || [ ${#REQUETE_CLEAN} -le 2 ] || [ ${#REQUETE_CLEAN} -le 2 ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
 REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | tr "'" " " | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed 's/[ùû]/u/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
 speak() {
