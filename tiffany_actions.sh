@@ -229,8 +229,10 @@ except Exception:
         if [ -n "$REP_TEXT" ]; then
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS} faits | Fil : ${NB_LIGNES_FIL} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n" ; speak "$REP_TEXT"
             mkdir -p "$ROOT_DIR/logs"
+mkdir -p "$ROOT_DIR/logs"
 echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
             mkdir -p "$ROOT_DIR/logs"
+mkdir -p "$ROOT_DIR/logs"
 echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
         else
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m *Mes circuits ont mis trop de temps ou ont été interrompus, mon ange.*\n"

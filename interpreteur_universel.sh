@@ -36,8 +36,8 @@ case "$Q" in
     "telechargeur mp3"|"extracteur mp3"|"cherche une musique"|"telecharge sur youtube") go "Téléchargeur MP3 intelligent ouvert, $NOM ! 📥" "bash '$PLUG/42_telechargeur_intelligent.sh'" ;;
     # Groupe 1 : Son, Volume & Voix (toutes nuances sans conflit)
     "muet"|"mute"|"coupe le son"|"remets le son"|"active le son"|"mode muet") go "Bascule son système, $NOM ! 🔊" "bash '$PLUG/34_bascule_son.sh'" ;;
-    "son +"|"volume +"|"monte le son"|"augmente le son"|"monte le volume"|"augmente le volume"|"plus fort"|"mets plus fort") go "Volume augmenté de 15%, $NOM ! 🔊" "amixer -D pulse sset Master 15%+ 2>/dev/null || amixer sset Master 15%+" ;;
-    "son -"|"volume -"|"baisse le son"|"diminue le son"|"baisse le volume"|"diminue le volume"|"moins fort"|"baisse un peu") go "Volume baissé de 15%, $NOM ! 🔉" "amixer -D pulse sset Master 15%- 2>/dev/null || amixer sset Master 15%-" ;;
+    "son +"|"volume +"|"volume plus"|"son plus"|"monte le son"|"augmente le son"|"monte le volume"|"augmente le volume"|"plus fort"|"mets plus fort") go "Volume augmenté de 15%, $NOM ! 🔊" "amixer -D pulse sset Master 15%+ 2>/dev/null || amixer sset Master 15%+" ;;
+    "son -"|"volume -"|"volume moins"|"son moins"|"baisse le son"|"diminue le son"|"baisse le volume"|"diminue le volume"|"moins fort"|"baisse un peu") go "Volume baissé de 15%, $NOM ! 🔉" "amixer -D pulse sset Master 15%- 2>/dev/null || amixer sset Master 15%-" ;;
     "son a fond"|"volume a fond"|"son au max"|"volume au max"|"volume maximum"|"son maximum") go "Volume réglé au maximum (100%), $NOM ! 🔊" "amixer -D pulse sset Master 100% 2>/dev/null || amixer sset Master 100%" ;;
     "son doux"|"volume doux"|"volume bas") go "Volume doux réglé à 30%, $NOM ! 🔉" "amixer -D pulse sset Master 30% 2>/dev/null || amixer sset Master 30%" ;;
     "son moyen"|"volume moyen"|"volume moitie") go "Volume moyen réglé à 50%, $NOM ! 🔊" "amixer -D pulse sset Master 50% 2>/dev/null || amixer sset Master 50%" ;;
