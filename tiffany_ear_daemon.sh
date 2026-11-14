@@ -81,6 +81,8 @@ def executer_ordre(commande):
     if not commande or (time.time() - dernier_declenchement < 2.0):
         return
     dernier_declenchement = time.time()
+    global attention_jusqua
+    attention_jusqua = time.time() + 6.0
 
     notifier("🌹 Tiffany", "👉 " + commande)
     cmd_low = commande.lower()
@@ -93,6 +95,7 @@ notifier("👂 Oreille Haute Précision", "Flux audio pur restauré : dis 'Tiffa
 
 en_attente_suite = False
 debut_attente = 0
+attention_jusqua = 0
 
 while True:
     data = proc.stdout.read(4000)
@@ -111,6 +114,10 @@ while True:
             continue
 
         if not texte:
+            continue
+
+        if time.time() < attention_jusqua:
+            executer_ordre(texte)
             continue
 
         for w in WAKE_WORDS:
