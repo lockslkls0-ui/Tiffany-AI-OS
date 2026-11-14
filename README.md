@@ -1,21 +1,18 @@
-[![Get it from the Snap Store](https://snapcraft.io)](https://snapcraft.io)
+# 🌹 Tiffany AI-OS v48.6
 
-# 🌹 TIFFANY AI-OS (Version 47.5)
+**Tiffany AI-OS** est un système d'assistance vocale, hybride et autonome **100 % local** pour Linux (Linux Mint / Ubuntu / Debian), conçu et assemblé en **6 jours** pour offrir une fluidité extrême même sur des ordinateurs portables modestes (Intel Core i3 / 8 Go RAM).
 
-## 📦 Téléchargement Direct (Logithèque Linux Mint / Ubuntu)
-👉 **[Télécharger tiffany-ai-os_47.5_all.deb](https://github.com)** *(Double-cliquez sur le fichier téléchargé pour l installer via la Logithèque)*
+## ✨ Fonctionnalités Principales
+- **🎙️ Oreille Continue & Réveil Vocal Instantané (Vosk FR) :** Écoute locale sans cloud avec 16 secondes d'écoute enchaînée, anti-mise en veille matérielle et correcteur phonétique adaptatif.
+- **⚡ Architecture Hybride (< 0,05 s en Bash + Cerveaux Ollama) :**
+  - **Réflexes directs :** 39 boutons graphiques et 28 outils terminal exécutés instantanément sans solliciter le processeur.
+  - **IA locale :** `tiffany-flash` préchargé en RAM pour une discussion fluide, soutenu par `qwen2.5:1.5b` et `qwen2.5-coder:1.5b`.
+- **🛡️ Sentinelle Thermique & Santé Matérielle :** Régulation automatique de fréquence CPU (`systemd`), compression mémoire ZRAM (`lz4`), lecture SMART du disque et traduction des logs système en français.
+- **📄 Apprentissage Éclair PDF, Web-IA & Dojo :** Résume et mémorise instantanément des fichiers PDF, effectue des recherches encyclopédiques sur le web et forge ses propres commandes en bac à sable.
+- **⏰ Planificateur & Réveils Vocaux :** Programmation d'actions différées (*« coupe la radio dans 20 minutes »*) ou via l'interface graphique.
 
-**Système d'Exploitation Hybride, Vocal, Autonome et Souverain pour Linux (Ubuntu / Linux Mint / Debian)**
-
-## 🚀 Installation Universelle en 2 Commandes
-Ouvrez un terminal sur n'importe quel PC Linux (64 bits) et collez ces deux lignes :
+## 🚀 Installation Rapide
 ```bash
 git clone https://github.com ~/tiffany
-bash ~/tiffany/install.sh
+cd ~/tiffany && chmod +x install.sh && ./install.sh
 ```
-L'installateur adapte automatiquement les chemins à votre ordinateur, installe les dépendances, télécharge les moteurs IA locaux (**Ollama**) et crée l'icône **🌹 Panneau Tiffany** sur votre Bureau.
-
-## 🧠 Architecture Hybride à 3 Vitesses
-* **Vitesse 1 — Réflexes Purs (< 0,1s) :** Exécution instantanée en Bash des commandes système et des réflexes appris.
-* **Vitesse 2 — Discussion Fluide (`tiffany-flash`) :** Dialogue naturel avec lecture en direct des capteurs (Batterie, CPU, RAM, Disque).
-* **Vitesse 3 — Analyse & Code (`qwen2.5:1.5b` & `qwen2.5-coder:1.5b`) :** Diagnostics matériels, génération de commandes sécurisées par **Zenity**, recherche **Web-IA** (fiches Markdown sur le Bureau), **Dojo** d'entraînement et **Docteur** d'audit système.
