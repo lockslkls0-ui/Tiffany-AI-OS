@@ -27,3 +27,4 @@ sante disque|sudo smartctl -H /dev/sda && echo
 affiche les 5 processus qui consomment le plus de memoire|ps -A | sort -k 4 -n | head -n 5
 erreur disque dur|sudo smartctl-t long /dev/sda3
 affiche l adresse ip locale|hostname -I
+creer 1 dossier sur le bureau|mkdir /home/user/Bureau

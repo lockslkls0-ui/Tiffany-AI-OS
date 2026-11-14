@@ -1,0 +1,24 @@
+next song|next
+skip song|next
+pause music|pause
+stop music|stop
+play music|musique
+turn on radio|radio
+louder|son +
+volume up|son +
+quieter|son -
+volume down|son -
+cool down|froid
+cold mode|froid
+boost mode|boost
+turbo ram|zram
+system check|analyse
+health check|docteur
+open menu|menu
+open terminal|term
+night mode|nuit
+day mode|jour
+empty trash|corbeille
+clean system|nettoie systeme
+backup system|backup
+help|aide

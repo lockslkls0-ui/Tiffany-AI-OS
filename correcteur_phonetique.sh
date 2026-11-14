@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 TXT="$1"
+# 0. Appliquer les variantes personnalisées et traductions multilingues de l'utilisateur
+VAR_FILE="$HOME/tiffany/variantes_utilisateur.txt"
+if [ -f "$VAR_FILE" ]; then
+    MATCH_VAR=$(grep -i "^${TXT}|" "$VAR_FILE" | head -n 1 | cut -d'|' -f2- | xargs)
+    [ -n "$MATCH_VAR" ] && TXT="$MATCH_VAR"
+fi
+
 
 # Corriger d'abord les confusions 'cent/sans' devant un nombre (ex: "cent cinquante" -> "son cinquante")
 TXT=$(echo "$TXT" | sed -E '

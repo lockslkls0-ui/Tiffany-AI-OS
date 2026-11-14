@@ -62,7 +62,19 @@ case "$Q" in
     # Diagnostics séparés clairement (Analyse simple vs Docteur Mistral)
     "analyse"|"materiel"|"bilan"|"etat du pc") bash "$ACT/02_analyse.sh" ; exit 0 ;;
     "docteur"|"mistral"|"audit total"|"diagnostic complet") go "Lancement du Docteur Mistral (Audit Total), $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'" ;;
-    "froid"|"refroidis") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
+    # Groupe 3 : Thermique, CPU, RAM, ZRAM, Watchdog & Docteur (toutes nuances)
+    "froid"|"refroidis"|"mode froid"|"ca chauffe"|"trop chaud"|"baisse le cpu") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
+    "boost"|"puissance"|"mode boost"|"pleine puissance"|"accelere le pc") go "Mode Boost Auto activé, $NOM ! ⚡" "bash '$PLUG/12_mode_boost.sh'" ;;
+    "watchdog on"|"active sentinelle"|"allume watchdog") go "Sentinelle thermique activée, $NOM ! 🛡️" "bash '$PLUG/13_watchdog_on.sh'" ;;
+    "watchdog off"|"coupe sentinelle"|"pause watchdog") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/14_watchdog_off.sh'" ;;
+    "zram"|"turbo"|"compresse la ram"|"turbo ram") go "Accélération ZRAM vérifiée, $NOM ! 🚀" "bash '$PLUG/25_turbo_zram.sh'" ;;
+    "top"|"processus"|"cpu"|"etat cpu") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
+    "ram"|"memoire"|"etat ram") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
+    "purge ram"|"purge"|"libere la ram"|"nettoie la ram"|"vide la ram") go "Purge éclair RAM et relance Ollama, $NOM ! 🧼" "bash '$PLUG/22_purge_ram.sh'" ;;
+    "analyse"|"materiel"|"bilan"|"etat du pc"|"diagnostic rapide") bash "$ACT/02_analyse.sh" ; exit 0 ;;
+    "docteur"|"mistral"|"audit total"|"diagnostic complet"|"repare le pc") go "Lancement du Docteur Mistral (Audit Total), $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'" ;;
+    "variante"|"traduction") bash "$ACT/33_variante.sh" ; exit 0 ;;
+    "froid_old") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
     "boost"|"puissance") go "Mode Boost Auto activé, $NOM ! ⚡" "bash '$PLUG/12_mode_boost.sh'" ;;
     "watchdog on") go "Sentinelle thermique activée, $NOM ! 🛡️" "bash '$PLUG/13_watchdog_on.sh'" ;;
     "watchdog off") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/14_watchdog_off.sh'" ;;
