@@ -54,8 +54,15 @@ fi
 
 # ==============================================================================
 REQUETE_CLEAN=$(bash "$ROOT_DIR/correcteur_phonetique.sh" "$REQUETE_CLEAN")
-[[ "$REQUETE_CLEAN" =~ ^(noyau|le noyau|etat du noyau)$ ]] && { bash "$ACTION_DIR/14_noyau.sh"; exit 0; }
-[[ "$REQUETE_CLEAN" =~ ^(testia|test ia|teste ia)$ ]] && { bash "$ACTION_DIR/20_test_ia.sh"; exit 0; }
+if [[ "$REQUETE_CLEAN" =~ (noyau|maillot|noix) ]]; then
+    bash "$ACTION_DIR/14_noyau.sh" ; exit 0
+fi
+if [[ "$REQUETE_CLEAN" =~ (testia|test ia|teste ia|hestia|test y a) ]]; then
+    bash "$ACTION_DIR/20_test_ia.sh" ; exit 0
+fi
+if [[ "$REQUETE_CLEAN" =~ (audit|banc de test) ]]; then
+    bash "$ACTION_DIR/34_audit_fonctionnel.sh" ; exit 0
+fi
 bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
 bash "$ROOT_DIR/interpreteur_universel.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
 # ⚡ VITESSE 1 : BASH PUR & DÉTECTION RAPIDE DES OUTILS (< 0.1s)
@@ -241,4 +248,3 @@ except Exception:
     ) &
     exit 0
 fi
-
