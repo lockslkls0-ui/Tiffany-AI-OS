@@ -207,7 +207,7 @@ else
     NB_FAITS=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
 
-    if [[ "$REQUETE_CLEAN" =~ (pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|souvenir|memoire|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire|rapport|erreur|journal|session|precedent|createur|qui je suis|utilisateur|smart|disque|audit|historique|rappelle) ]]; then
+    if [[ "$REQUETE_CLEAN" =~ (connais|sais tu|qui est|pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|souvenir|memoire|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire|rapport|erreur|journal|session|precedent|createur|qui je suis|utilisateur|smart|disque|audit|historique|rappelle) ]]; then
         MOTEUR_IA="qwen2.5:1.5b"
         TIMEOUT_IA=600
         LIMIT_CPU=80
