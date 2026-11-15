@@ -1,6 +1,6 @@
 import os, subprocess, difflib
 ROOT = os.path.expanduser("~/tiffany")
-ACT = {"next","skip","suivant","suivante","pause","play","muet","silence","musique","radio","menu","panneau","cam","webcam","zone","nuit","jour","froid","boost","zram","turbo","backup","sauvegarde","ouvre dossier","instinct","fenetre","range","bureau","pilote","droite","gauche","monte","descends","clic","onglet","plein ecran","verrouille","oreille","tais-toi","chut","annule","stop ia","urgence"}
+ACT = {"next","skip","suivant","suivante","pause","play","muet","silence","musique","radio","menu","panneau","cam","webcam","zone","nuit","jour","froid","boost","zram","turbo","backup","sauvegarde","ouvre dossier","telechargements","documents","parametres","mes fichiers","instinct","fenetre","range","bureau","pilote","droite","gauche","monte","descends","clic","onglet","plein ecran","verrouille","oreille","tais-toi","chut","annule","stop ia","urgence"}
 VERBES_RECHERCHE = ("ouvre ", "cherche ", "trouve ", "lance ", "lis ", "résume ", "resume ", "explique ", "crée ", "cree ", "écris ", "ecris ")
 
 def charger_alias():
