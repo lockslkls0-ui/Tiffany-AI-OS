@@ -28,6 +28,9 @@ def filtrer(brut):
             o = subprocess.check_output(["bash", cs, txt], stderr=subprocess.DEVNULL, timeout=1).decode().strip().lower()
             if o: txt = o
         except Exception: pass
+    mots = txt.split()
+    if all(w in {"hum","euh","heu","hein","ah","oh","mh","hmm","oui","non","ok","et","le","la","de"} for w in mots):
+        return None, False
     if len(txt) <= 2: return None, False
     if txt == "ouvre dossier": return txt, True
     if txt.startswith(VERBES_RECHERCHE): return txt, False

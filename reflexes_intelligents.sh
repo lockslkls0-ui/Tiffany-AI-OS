@@ -107,7 +107,7 @@ elif [[ "$Q" =~ (combien de place|espace disque|prend de la place|lourd|disque p
 elif [[ "$Q" =~ (j ai internet|mon ip|quel wifi|je suis connecte|reseau) ]]; then
     IP=$(hostname -I | awk '{print $1}')
     say "Ton adresse IP locale est ${IP:-deconnecte}, $NOM."
-elif [[ "$Q" =~ (quel(le)? jour|la date|on est le combien) ]]; then
+elif [[ "$Q" =~ (quel(le)? jour|quelle date|la date|on est le combien) ]]; then
     say "Nous sommes le $(LC_TIME=fr_FR.UTF-8 date '+%A %d %B %Y'), $NOM."
 elif [[ "$Q" =~ (allume depuis|temps d activite|uptime) ]]; then
     say "Ton PC tourne depuis $(uptime -p | sed 's/up //'), $NOM."
