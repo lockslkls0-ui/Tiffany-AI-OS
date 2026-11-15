@@ -9,7 +9,7 @@ FIFO = "/tmp/tiffany_chat.fifo"
 WAKE = ("tiffany","tifany","typhanie","stéphanie","tiff","tif","tife","typh","type","tifs","hey","ey","eh","ok tiffany")
 STOP = ("arrête","arrete","arrêt","arret","arrêter","stop","stop ia","tais-toi","tais toi","chut","annule","coupe")
 rec = KaldiRecognizer(Model(os.path.join(ROOT, "voice/vosk-fr/vosk-model-small-fr-0.22")), 16000)
-def cap(): return subprocess.Popen(shlex.split("arecord -D pulse -f S16_LE -r 16000 -c 1 -t raw --buffer-size=4000 -q"), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+def cap(): return subprocess.Popen(shlex.split("arecord -D pulse -f S16_LE -r 16000 -c 1 -t raw --buffer-size=2400 -q"), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 def dire(t):
     global muet_jusqua; muet_jusqua = time.time() + 2.3
     cmd = BIN_SPEAK if os.path.exists(BIN_SPEAK) else "/usr/bin/espeak-ng"
@@ -24,13 +24,14 @@ def stop_ia():
         except Exception: pass
     notif("🛑 Tiffany", "Recherche IA stoppée !")
 def envoi(c):
-    if os.path.exists(FIFO):
+    if os.path.exists("/tmp/tiffany_core_ready") and os.path.exists(FIFO):
         try: fd=os.open(FIFO,os.O_WRONLY|os.O_NONBLOCK); os.write(fd,(c+"\n").encode()); os.close(fd); return
         except Exception: pass
+    if os.path.exists("/tmp/tiffany_core_ready"): os.remove("/tmp/tiffany_core_ready")
     subprocess.Popen(["gnome-terminal","--title=Discussion_Tiffany","--","bash",os.path.join(ROOT,"tiffany_core.sh")])
-    for _ in range(25):
+    for _ in range(40):
         time.sleep(0.1)
-        if os.path.exists(FIFO):
+        if os.path.exists("/tmp/tiffany_core_ready") and os.path.exists(FIFO):
             try: fd=os.open(FIFO,os.O_WRONLY|os.O_NONBLOCK); os.write(fd,(c+"\n").encode()); os.close(fd); break
             except Exception: pass
 proc, der, att16, suite, deb, muet_jusqua = cap(), 0, 0, False, 0, 0
@@ -47,10 +48,10 @@ def ordre(b):
     else: envoi(ok)
 notif("👂 Tiffany Prête", "Voix Siwis HD + CPU Éco + Anti-bruit")
 while True:
-    time.sleep(0.08)
+    time.sleep(0.02)
     r,_,_ = select.select(list((proc.stdout,)),(),(),3.0)
     if not r: proc.kill(); proc.wait(); proc=cap(); rec.Reset(); continue
-    d = proc.stdout.read(4000)
+    d = proc.stdout.read(2400)
     if not d or proc.poll() is not None: proc.kill(); proc.wait(); time.sleep(0.5); proc=cap(); continue
     if time.time() < muet_jusqua:
         rec.Reset(); continue

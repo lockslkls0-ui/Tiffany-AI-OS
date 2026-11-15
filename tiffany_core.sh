@@ -5,7 +5,7 @@ FIFO="/tmp/tiffany_chat.fifo"
 
 trap '' SIGINT SIGQUIT
 rm -f "$FIFO" && mkfifo "$FIFO"
-trap "rm -f $FIFO" EXIT
+trap "rm -f $FIFO /tmp/tiffany_core_ready" EXIT
 
 clear
 echo -e "\033[1;35m┌──────────────────────────────────────────────────────────────────┐\033[0m"
@@ -18,6 +18,7 @@ echo -e "\033[1;35m🌹 Tiffany :\033[0m $BIENVENUE\n"
 (curl -s http://localhost:11434/api/generate -d '{"model":"tiffany-flash","prompt":"","keep_alive":-1}' >/dev/null 2>&1) &
 
 exec 3<> "$FIFO"
+touch /tmp/tiffany_core_ready
 
 while true; do
     echo -n -e "\033[1;35m🌹 Tiffany\033[0m @ user-PORTEGE-R830:~$ "
