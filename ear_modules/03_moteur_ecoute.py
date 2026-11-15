@@ -6,7 +6,7 @@ filtre = importlib.util.module_from_spec(spec); spec.loader.exec_module(filtre)
 ROOT = os.path.expanduser("~/tiffany")
 BIN_SPEAK = os.path.join(ROOT, "bin/espeak-ng")
 FIFO = "/tmp/tiffany_chat.fifo"
-WAKE = ("tiffany","tifany","typhanie","stéphanie","tiff","tif","tife","typh","hey tiffany","hey tiff","hey","ok tiffany")
+WAKE = ("tiffany","tifany","typhanie","stéphanie","tiff","tif","tife","typh","type","tifs","hey","ey","eh","ok tiffany")
 STOP = ("arrête","arrete","arrêt","arret","arrêter","stop","stop ia","tais-toi","tais toi","chut","annule","coupe")
 rec = KaldiRecognizer(Model(os.path.join(ROOT, "voice/vosk-fr/vosk-model-small-fr-0.22")), 16000)
 def cap(): return subprocess.Popen(shlex.split("arecord -D pulse -f S16_LE -r 16000 -c 1 -t raw --buffer-size=8000 -q"), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
@@ -47,13 +47,14 @@ def ordre(b):
     else: envoi(ok)
 notif("👂 Tiffany Prête", "Voix Siwis HD + CPU Éco + Anti-bruit")
 while True:
+    time.sleep(0.22)
     r,_,_ = select.select(list((proc.stdout,)),(),(),3.0)
     if not r: proc.kill(); proc.wait(); proc=cap(); rec.Reset(); continue
     d = proc.stdout.read(8000)
     if not d or proc.poll() is not None: proc.kill(); proc.wait(); time.sleep(0.5); proc=cap(); continue
     if time.time() < muet_jusqua:
         rec.Reset(); continue
-    if audioop.rms(d, 2) < 180 and time.time() > att16 and not suite:
+    if audioop.rms(d, 2) < 110 and time.time() > att16 and not suite:
         time.sleep(0.05)
         continue
     if rec.AcceptWaveform(d):
