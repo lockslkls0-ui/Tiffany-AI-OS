@@ -43,7 +43,7 @@ while true; do
 
     bash "$ROOT_DIR/tiffany_actions.sh" "$REQUETE"
     if [ $? -eq 99 ]; then
-        (nice -n 19 python3 "$ROOT_DIR/diary_agent.py" >/dev/null 2>&1) &
+        (nice -n 19 python3 "$ROOT_DIR/diary_agent.py" && python3 "$ROOT_DIR/memory_gardener.py" >/dev/null 2>diary_agent.py" >/dev/null 2>&1) &1) &
         echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Session clôturée. À tout de suite mon amour."
         sleep 1
         break
