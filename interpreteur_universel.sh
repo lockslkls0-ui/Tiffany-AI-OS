@@ -102,8 +102,8 @@ case "$Q" in
     # Groupe 3 : Thermique, CPU, RAM, ZRAM, Watchdog & Docteur (toutes nuances)
     "froid"|"refroidis"|"mode froid"|"ca chauffe"|"trop chaud"|"baisse le cpu") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
     "boost"|"puissance"|"mode boost"|"pleine puissance"|"accelere le pc") go "Mode Boost Auto activé, $NOM ! ⚡" "bash '$PLUG/12_mode_boost.sh'" ;;
-    "watchdog on"|"active sentinelle"|"allume watchdog") go "Sentinelle thermique activée, $NOM ! 🛡️" "bash '$PLUG/13_watchdog_on.sh'" ;;
-    "watchdog off"|"coupe sentinelle"|"pause watchdog") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/14_watchdog_off.sh'" ;;
+    "watchdog on"|"active sentinelle"|"allume watchdog") go "Sentinelle thermique activée, $NOM ! 🛡️" "bash '$PLUG/13_watchdog_on_off.sh'" ;;
+    "watchdog off"|"coupe sentinelle"|"pause watchdog") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/13_watchdog_on_off.sh'" ;;
     "zram"|"turbo"|"compresse la ram"|"turbo ram") go "Accélération ZRAM vérifiée, $NOM ! 🚀" "bash '$PLUG/25_turbo_zram.sh'" ;;
     "top"|"processus"|"cpu"|"etat cpu") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
     "ram"|"memoire"|"etat ram") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
@@ -113,8 +113,8 @@ case "$Q" in
     "variante_old") bash "$ACT/33_variante.sh" ; exit 0 ;;
     "froid_old") go "Mode Froid activé, $NOM ! ❄️" "bash '$PLUG/11_mode_froid.sh'" ;;
     "boost"|"puissance") go "Mode Boost Auto activé, $NOM ! ⚡" "bash '$PLUG/12_mode_boost.sh'" ;;
-    "watchdog on") go "Sentinelle thermique activée, $NOM ! 🛡️" "bash '$PLUG/13_watchdog_on.sh'" ;;
-    "watchdog off") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/14_watchdog_off.sh'" ;;
+    "watchdog on") go "Sentinelle thermique activée, $NOM ! 🛡️" "bash '$PLUG/13_watchdog_on_off.sh'" ;;
+    "watchdog off") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/13_watchdog_on_off.sh'" ;;
     "zram"|"turbo") go "Accélération ZRAM vérifiée, $NOM ! 🚀" "bash '$PLUG/25_turbo_zram.sh'" ;;
     "top"|"processus"|"cpu") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
     "ram") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
@@ -126,8 +126,8 @@ case "$Q" in
     "telecommande"|"telecommande tactile"|"pilotage"|"toucher") go "Ouverture de la télécommande tactile, $NOM ! 🖱️" "bash '$PLUG/27_toucher_pilotage.sh'" ;;
     "voir memoire"|"fenetre memoire"|"ouvre memoire"|"journaux"|"journal de bord") go "Ouverture de ta mémoire et de tes journaux, $NOM ! 📝" "bash '$PLUG/02_voir_memoire.sh'" ;;
     "voix"|"change de voix"|"bascule voix"|"profil vocal"|"voix douce"|"voix vive"|"regle la voix") go "Sélecteur de voix ouvert, $NOM ! 🎙️" "bash '$PLUG/35_bascule_voix.sh'" ;;
-    "oreille on"|"active oreille"|"allume oreille"|"ecoute permanente"|"active le micro") go "Oreille vocale permanente activée, $NOM ! 👂" "bash '$PLUG/28_ouie_micro.sh'" ;;
-    "oreille off"|"coupe oreille"|"arrete oreille"|"pause micro"|"desactive micro") go "Oreille vocale mise en pause, $NOM ! 🔇" "bash '$PLUG/28b_ouie_off.sh'" ;;
+    "oreille on"|"active oreille"|"allume oreille"|"ecoute permanente"|"active le micro") go "Oreille vocale permanente activée, $NOM ! 👂" "bash '$PLUG/02_oreille_on_off.sh'" ;;
+    "oreille off"|"coupe oreille"|"arrete oreille"|"pause micro"|"desactive micro") go "Oreille vocale mise en pause, $NOM ! 🔇" "bash '$PLUG/02_oreille_on_off.sh'" ;;
     "corbeille"|"poubelle"|"vide la corbeille"|"vide la poubelle"|"nettoie la poubelle"|"purge corbeille") go "Corbeille vidée, $NOM ! 🗑️" "bash '$PLUG/30_vider_corbeille.sh'" ;;
     # Ancien bloc maintenance
 
