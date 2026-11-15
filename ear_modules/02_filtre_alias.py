@@ -1,7 +1,15 @@
-import os, subprocess, difflib
+import re
+import os, difflib
 ROOT = os.path.expanduser("~/tiffany")
 ACT = {"next","skip","suivant","suivante","pause","play","stop","muet","silence","musique","radio","menu","panneau","cam","webcam","zone","nuit","jour","froid","boost","zram","turbo","backup","sauvegarde","instinct","fenetre","range","bureau","pilote","droite","gauche","monte","descends","clic","onglet","plein ecran","verrouille","oreille","tais-toi","chut","annule","stop ia","urgence"}
 VERBES_RECHERCHE = ("ouvre ", "cherche ", "trouve ", "lance ", "lis ", "résume ", "resume ", "explique ", "crée ", "cree ", "écris ", "ecris ")
+CORRECTIONS_VOSK = (
+    (r"^pauvre\b", "ouvre"),
+    (r"^oeuvres?\b", "ouvre"),
+    (r"^ouvre le dossier\b", "ouvre dossier"),
+    (r"pierre de claire|pierre declere", "pierre decker"),
+    (r"^cent\s+([0-9]+)", r"son \1"),
+)
 
 def charger_alias():
     a = set(ACT)
@@ -15,32 +23,19 @@ def charger_alias():
 
 def filtrer(brut):
     txt = brut.strip().lower()
-    cs = os.path.join(ROOT, "correcteur_phonetique.sh")
-    if os.path.exists(cs):
-        try:
-            o = subprocess.check_output(["bash", cs, txt], stderr=subprocess.DEVNULL, timeout=1).decode().strip().lower()
-            if o: txt = o
-        except Exception: pass
+    for pat, rep in CORRECTIONS_VOSK:
+        txt = re.sub(pat, rep, txt)
     if len(txt) <= 2: return None, False
-
-    # 1. Si c est une vraie demande d ouverture/recherche, on laisse le cerveau principal chercher le fichier/dossier
     if txt.startswith(VERBES_RECHERCHE):
         return txt, False
-
     al = charger_alias()
-    # 2. Alias exact (ex: coucou, boost, froid, next, menu...)
     if txt in al:
         return txt, (txt in ACT)
-
-    # 3. Rapprochement flou uniquement sur les commandes courtes (1 a 3 mots)
     if len(txt.split()) <= 3:
-        pr = difflib.get_close_matches(txt, al, n=1, cutoff=0.78)
+        pr = difflib.get_close_matches(txt, al, n=1, cutoff=0.82)
         if pr:
             m = pr.pop(0)
             return m, (m in ACT)
-
-    # 4. Rejette tout mot seul inconnu (anti-bruit)
     if len(txt.split()) == 1:
         return None, False
-
     return txt, False
