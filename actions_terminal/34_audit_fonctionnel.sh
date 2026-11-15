@@ -39,7 +39,7 @@ check "Test réel Accélération ZRAM (lz4 actif)" "zramctl 2>/dev/null | grep -
 
 echo -e "\n\033[1;34m 3. SERVICES PERMANENTS, AUDIO & SERVEUR IA OLLAMA\033[0m"
 check "Sentinelle Thermique Permanente (tiffany-watchdog.service)" "systemctl --user is-active tiffany-watchdog.service | grep -q '^active$'"
-check "Oreille Continue Vosk (tiffany-ear.service + processus actif)" "systemctl --user is-active tiffany-ear.service | grep -q '^active$' && pgrep -f 'tiffany_ear_daemon.sh'"
+check "Oreille Continue Vosk (tiffany-ear.service + processus actif)" "systemctl --user is-active tiffany-ear.service | grep -q '^active$' && pgrep -f '03_moteur_ecoute.py'"
 check "Micro physique verrouillé sans muet (tiffany_mic_propre)" "pactl get-source-mute @DEFAULT_SOURCE@ | grep -qiE 'no|non'"
 check "Serveur neuronal local Ollama (API port 11434 prête)" "curl -s --max-time 2 http://localhost:11434/api/tags | grep -q 'tiffany-flash'"
 
