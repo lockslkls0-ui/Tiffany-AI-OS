@@ -2,7 +2,7 @@
 # MENU_NAME: 🚨 Arrêt d'Urgence CPU
 # MENU_DESC: Stopper uniquement les boucles IA bloquées (préserve sentinelles & boost)
 pkill -9 -f "piper" 2>/dev/null || true
-pkill -9 -f "tiffany_ear_worker" 2>/dev/null || true
+pkill -9 -f "03_moteur_ecoute|tiffany_ear_worker|aiguilleur|assimiler|tiffany_core.py" 2>/dev/null || true
 pkill -9 -f "llama-server" 2>/dev/null || true
 pkill -9 -f "curl.*11434" 2>/dev/null || true
 pkill -x "aplay" 2>/dev/null || true
