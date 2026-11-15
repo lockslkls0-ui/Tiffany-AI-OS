@@ -56,3 +56,52 @@ lis ce papier|cam
 copie une zone|zone
 capture ecran|screen
 verrouille la session|verrouille
+
+quelle heure est il|heure
+donne l heure|heure
+affiche l heure|heure
+what time is it|heure
+quel temps fait il|meteo
+bulletin meteo|meteo
+previsions meteo|meteo
+weather|meteo
+etat du noyau|noyau
+inventaire moteurs|noyau
+moteurs ia|noyau
+kernel info|noyau
+test les ia|testia
+stress test|testia
+audit ia|testia
+test matrice|testia
+espace disque|radar
+gros fichiers|radar
+place disque|radar
+disk usage|radar
+lance le dojo|dojo
+seance dojo|dojo
+entraine toi|dojo
+training|dojo
+nouveau reflexe|apprends
+apprendre commande|apprends
+enseigner|apprends
+teach command|apprends
+gerer dictionnaire|gerer
+mes commandes|gerer
+editer reflexe|gerer
+manage aliases|gerer
+aspire page|web
+apprends page web|web
+recherche page|web
+scrape web|web
+ecoute moi|ecoute
+parler au micro|ecoute
+dictee vocale|ecoute
+listen now|ecoute
+trouve fichier|cherche
+localise|cherche
+fouille disque|cherche
+find file|cherche
+ouvre fichier|ouvre
+lance fichier|ouvre
+ouvre element|ouvre
+open file|ouvre

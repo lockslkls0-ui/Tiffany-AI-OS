@@ -106,7 +106,7 @@ case "$Q" in
     "watchdog off"|"coupe sentinelle"|"pause watchdog") go "Sentinelle thermique en pause, $NOM ! ⚠️" "bash '$PLUG/13_watchdog_on_off.sh'" ;;
     "zram"|"turbo"|"compresse la ram"|"turbo ram") go "Accélération ZRAM vérifiée, $NOM ! 🚀" "bash '$PLUG/25_turbo_zram.sh'" ;;
     "top"|"processus"|"cpu"|"etat cpu") go "Diagnostic CPU en direct, $NOM ! 📊" "bash '$PLUG/20_diagnostic_cpu.sh'" ;;
-    "ram"|"memoire"|"etat ram") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
+    "ram"|"etat ram") go "Check-up RAM en direct, $NOM ! 🧠" "bash '$PLUG/21_checkup_ram.sh'" ;;
     "purge ram"|"purge"|"libere la ram"|"nettoie la ram"|"vide la ram") go "Purge éclair RAM et relance Ollama, $NOM ! 🧼" "bash '$PLUG/22_purge_ram.sh'" ;;
     "docteur"|"mistral"|"audit total"|"diagnostic complet"|"repare le pc") go "Lancement du Docteur Mistral (Audit Total), $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'" ;;
     "variante"|"traduction"|"nouvel alias"|"ajouter variante") bash "$PLUG/03_ajouter_variante.sh" ; exit 0 ;;
