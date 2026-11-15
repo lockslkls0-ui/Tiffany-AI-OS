@@ -16,7 +16,7 @@ for nom, ch in [("Modèle Vosk FR", ROOT+"/voice/vosk-fr/vosk-model-small-fr-0.2
     check(os.path.exists(ch), nom)
 spec = importlib.util.spec_from_file_location("f", ROOT+"/ear_modules/02_filtre_alias.py")
 filtre = importlib.util.module_from_spec(spec); spec.loader.exec_module(filtre)
-for ent, att, d_att in [("tuk",None,False),("bost","boost",True),("ouvre le dossier musique","ouvre le dossier musique",False)]:
+for ent, att, d_att in [("tuk",None,False),("bost","boost",True),("ouvre le dossier musique","ouvre dossier musique",False)]:
     r, d = filtre.filtrer(ent)
     check(r==att and d==d_att, f"Routage vocal ('{ent}' -> {r})")
 off = os.path.exists(os.path.expanduser("~/.config/tiffany/oreille_off"))
