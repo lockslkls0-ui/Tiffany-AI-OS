@@ -26,6 +26,8 @@ def filtrer(brut):
     for pat, rep in CORRECTIONS_VOSK:
         txt = re.sub(pat, rep, txt).strip()
     if len(txt) <= 2: return None, False
+    if txt == "ouvre dossier":
+        return txt, True
     if txt.startswith(VERBES_RECHERCHE):
         return txt, False
     al = charger_alias()
