@@ -105,3 +105,14 @@ ouvre fichier|ouvre
 lance fichier|ouvre
 ouvre element|ouvre
 open file|ouvre
+etat memoire vive|ram
+checkup ram|ram
+memory check|ram
+dossier webia|webia
+recherche webia|webia
+fiche web|webia
+controle souris|pilote
+pilote ecran|pilote
+mouse control|pilote
+lance l audit|audit
+verification complete|audit
