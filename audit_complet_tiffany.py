@@ -27,7 +27,7 @@ for out in ("zenity","wmctrl","pactl","arecord","nemo","python3","git"):
 print(f"\n{B}--- [3/5] SIMULATION VOCALE, ANTI-BRUIT & ROUTAGE ---{Z}")
 spec = importlib.util.spec_from_file_location("f", ROOT+"/ear_modules/02_filtre_alias.py")
 filtre = importlib.util.module_from_spec(spec); spec.loader.exec_module(filtre)
-for ent, att, d_att, desc in [("tuk",None,False,"Rejet mot seul"),("coque",None,False,"Rejet bruit"),("bost","boost",True,"Alias flou"),("froid","froid",True,"Raccourci froid"),("next","next",True,"Raccourci next"),("coucou","coucou",False,"Alias coucou"),("ouvre dossier","ouvre dossier",True,"Ouverture $HOME"),("ouvre le dossier musique","ouvre dossier musique",False,"Recherche dossier"),("cherche mon rapport","cherche mon rapport",False,"Recherche fichier")]:
+for ent, att, d_att, desc in [("tuk",None,False,"Rejet mot seul"),("coque",None,False,"Rejet bruit"),("bost","boost",True,"Alias flou"),("froid","froid",True,"Raccourci froid"),("next","next",True,"Raccourci next"),("coucou","coucou",False,"Alias coucou"),("ouvre dossier","ouvre dossier",True,"Ouverture $HOME"),("ouvre le dossier musique","ouvre le dossier musique",False,"Recherche dossier"),("cherche mon rapport","cherche mon rapport",False,"Recherche fichier")]:
     r, d = filtre.filtrer(ent)
     check(r==att and d==d_att, f"{desc} ('{ent}' -> {r})", f"Obtenu ({r}, {d}) au lieu de ({att}, {d_att})", "Vérifier ~/tiffany/ear_modules/02_filtre_alias.py")
 
