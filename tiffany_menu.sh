@@ -43,7 +43,7 @@ while true; do
             PLUGIN_FILES+=("$script")
         fi
     done
-    ZENITY_ARGS+=("❌ Quitter" "Fermer définitivement le menu")
+    ZENITY_ARGS+=("❌ Quitter" "Fermer définitivement le menu" " " " " " " " " " " " " " " " " " " " " " " " " " " " " " " " " " " " " " ")
 
     # Espion wmctrl sécurisé par ID de fenêtre unique (WID)
     (
