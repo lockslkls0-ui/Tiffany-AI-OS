@@ -19,6 +19,7 @@ for k, v in nombres.items():
 t = re.sub(r"\bcent\b", "100", t)
 
 regles = [
+    (r".*(montre le volume|montre le son|volume|son)\s*(a|au)?\s*([0-9]+).*", lambda m: "son a " + m.group(3)),
     (r"\b(ces pays|c.?est paix eu|c.?est p u|c p u)\b", "cpu"),
     (r"^www\s+youtube$", "youtube"),
     (r"\b(montlucon|montluçon|monte le son|montre le volume|montre le son|mets le son|volume)\s*(a|au)?\s*([0-9]+)", r"son a "),
