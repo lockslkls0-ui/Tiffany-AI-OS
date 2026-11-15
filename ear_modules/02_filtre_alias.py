@@ -1,14 +1,14 @@
-import re
-import os, difflib
+import os, re, difflib
 ROOT = os.path.expanduser("~/tiffany")
-ACT = {"next","skip","suivant","suivante","pause","play","stop","muet","silence","musique","radio","menu","panneau","cam","webcam","zone","nuit","jour","froid","boost","zram","turbo","backup","sauvegarde","instinct","fenetre","range","bureau","pilote","droite","gauche","monte","descends","clic","onglet","plein ecran","verrouille","oreille","tais-toi","chut","annule","stop ia","urgence"}
-VERBES_RECHERCHE = ("ouvre ", "cherche ", "trouve ", "lance ", "lis ", "résume ", "resume ", "explique ", "crée ", "cree ", "écris ", "ecris ")
+ACT = {"next","skip","suivant","suivante","pause","play","muet","silence","musique","radio","menu","panneau","cam","webcam","zone","nuit","jour","froid","boost","zram","turbo","backup","sauvegarde","instinct","fenetre","range","bureau","pilote","droite","gauche","monte","descends","clic","onglet","plein ecran","verrouille","oreille","tais-toi","chut","annule","stop ia","urgence"}
+VERBES_RECHERCHE = ("ouvre ", "ouvrez ", "cherche ", "trouve ", "lance ", "lis ", "résume ", "resume ", "explique ", "crée ", "cree ", "écris ", "ecris ")
 CORRECTIONS_VOSK = (
-    (r"^pauvre\b", "ouvre"),
+    (r"^(tiffany|tifany|typhanie|tiff|hey)\s+", ""),
+    (r"\bpauvre\b", "ouvre"),
     (r"^oeuvres?\b", "ouvre"),
+    (r"^ouvrez\b", "ouvre"),
     (r"^ouvre le dossier\b", "ouvre dossier"),
-    (r"pierre de claire|pierre declere", "pierre decker"),
-    (r"^cent\s+([0-9]+)", r"son \1"),
+    (r"^ouvre dossier$", "cherche dossier"),
 )
 
 def charger_alias():
@@ -24,7 +24,7 @@ def charger_alias():
 def filtrer(brut):
     txt = brut.strip().lower()
     for pat, rep in CORRECTIONS_VOSK:
-        txt = re.sub(pat, rep, txt)
+        txt = re.sub(pat, rep, txt).strip()
     if len(txt) <= 2: return None, False
     if txt.startswith(VERBES_RECHERCHE):
         return txt, False
