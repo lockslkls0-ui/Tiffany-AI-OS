@@ -41,7 +41,7 @@ echo "✅ GitHub et Tag v$VER synchronisés !"
 
 echo -e "\n=== 3/3 : DÉCLENCHEMENT SNAP STORE (SNAPCRAFT) ==="
 if command -v snapcraft >/dev/null 2>&1; then
-    snapcraft remote-build --launchpad-accept-public-upload 2>/dev/null || echo "ℹ️ Snapcraft : vérifie ta connexion 'snapcraft login' si besoin."
+    nohup snapcraft remote-build --launchpad-accept-public-upload >/tmp/snapcraft_build.log 2>&1 & echo "🚀 Build Snap lancé en arrière-plan sur Launchpad !" || echo "ℹ️ Snapcraft : vérifie ta connexion 'snapcraft login' si besoin."
 else
     echo "ℹ️ Snapcraft CLI non installé localement (GitHub déclenche automatiquement le build Snap Store s'il est lié)."
 fi
