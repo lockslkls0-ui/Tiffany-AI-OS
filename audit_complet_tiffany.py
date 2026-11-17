@@ -39,7 +39,7 @@ ps = subprocess.check_output(["ps","-eo","args"]).decode(errors="ignore")
 check(off or ("03_moteur_ecoute.py" in ps and "arecord" in ps), "Oreille Modulaire & Micro" + (" (Mode OFF)" if off else " (Actifs)"), "Processus oreille ou arecord arrêté", "systemctl --user restart tiffany-ear.service")
 j_err = subprocess.check_output(["journalctl","--user","-u","tiffany-ear.service","-u","tiffany-watchdog.service","--since","2 minutes ago","-p","err","--no-pager"]).decode(errors="ignore").strip()
 check(len(j_err)==0 or "No entries" in j_err, "Journaux systemd (0 erreur récente)", j_err.splitlines().pop() if j_err else "", "journalctl --user -u tiffany-ear.service -n 20")
-check(subprocess.run(["systemctl","is-active","--quiet","ollama"]).returncode==0, "Service IA locale Ollama actif", "Service Ollama arrêté", "sudo systemctl restart ollama")
+check("ollama" in ps or "llama-server" in ps, "Service IA locale Ollama actif", "Service Ollama arrêté", "sudo systemctl restart ollama")
 for nom, ch in [("Dossier Config", os.path.expanduser("~/.config/tiffany")), ("Service Oreille systemd", os.path.expanduser("~/.config/systemd/user/tiffany-ear.service")), ("Service Watchdog systemd", os.path.expanduser("~/.config/systemd/user/tiffany-watchdog.service")), ("Dépôt Git local", ROOT+"/.git")]:
     check(os.path.exists(ch), nom, f"Manquant : {ch}", f"mkdir -p {ch}")
 

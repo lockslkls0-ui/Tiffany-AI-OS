@@ -4,7 +4,7 @@
 # TERM_ICON: 🖱️
 
 ORDRE=$(echo "$*" | tr 'A-Z' 'a-z' | sed 's/[éèêë]/e/g; s/[àâ]/a/g')
-say() { (espeak-ng -v fr+f5 -s 145 -p 85 "$1" >/dev/null 2>&1) & }
+say() { (espeak-ng -v fr+f5 -s 145 -p 48 "$1" >/dev/null 2>&1) & }
 
 if [[ "$ORDRE" =~ (droite) ]]; then
     xdotool mousemove_relative -- 150 0

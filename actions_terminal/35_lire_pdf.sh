@@ -63,4 +63,4 @@ echo -e "\n\033[1;32m✅ Résumé mémorisé :\033[0m\n$RESUME\n"
 DATE_NOW=$(date '+%d/%m/%Y %H:%M')
 echo "- [$DATE_NOW] Document PDF ($NOM_DOC) : $(echo "$RESUME" | tr '\n' ' ' | cut -c 1-240)" >> "$ROOT_DIR/memory/long_term_facts.json"
 echo -e "\n=== 📄 PDF : $NOM_DOC [$DATE_NOW] ===\n$RESUME\n" >> "$ROOT_DIR/memory/connaissances_web.txt"
-(espeak-ng -v fr+f5 -s 145 -p 85 "Document PDF analysé et gravé dans ma mémoire." >/dev/null 2>&1) &
+(espeak-ng -v fr+f5 -s 145 -p 48 "Document PDF analysé et gravé dans ma mémoire." >/dev/null 2>&1) &

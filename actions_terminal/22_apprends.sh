@@ -18,6 +18,6 @@ if [ $? -eq 0 ] && [ -n "$SAISIE" ]; then
     if [ -n "$PHRASE" ] && [ -n "$CMD" ]; then
         echo "${PHRASE}|${CMD}" >> "$DICO_IA"
         echo -e "\n\033[1;32m🎓 [Nouveau Réflexe Gravé] :\033[0m '$PHRASE' ➔ '$CMD'\n"
-        (espeak-ng -v fr+f5 -s 140 -p 85 "C'est gravé dans ma mémoire réflexe mon amour." >/dev/null 2>&1) &
+        (espeak-ng -v fr+f5 -s 140 -p 48 "C'est gravé dans ma mémoire réflexe mon amour." >/dev/null 2>&1) &
     fi
 fi

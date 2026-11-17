@@ -8,5 +8,5 @@ pkill -9 -f "curl.*11434" 2>/dev/null || true
 pkill -x "aplay" 2>/dev/null || true
 sudo systemctl restart ollama 2>/dev/null || true
 TOP_PROC=$(ps -eo pcpu,comm --sort=-pcpu | head -n 4 | tail -n 3)
-$HOME/tiffany/bin/espeak-ng -v fr+f5 -s 145 -p 85 "Boucles IA libérées. Vos sentinelles restent actives." >/dev/null 2>&1 &
+espeak-ng -v fr+f5 -s 145 -p 48 "Boucles IA libérées. Vos sentinelles restent actives." >/dev/null 2>&1 &
 zenity --info --title="🚨 URGENCE CPU EXÉCUTÉE" --text="✅ Boucles IA bloquées stoppées (Sentinelles & Boost intacts).\n\nTop 3 processus actuels :\n$TOP_PROC" --width=360 2>/dev/null

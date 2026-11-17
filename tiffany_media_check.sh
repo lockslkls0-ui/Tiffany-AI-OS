@@ -9,7 +9,7 @@ if [ -d "$USER_MEDIA" ]; then
         if [ ! -f /tmp/media_detected ]; then
             touch /tmp/media_detected
             echo -e "\n🌹 Tiffany : 🔌 [Média Externe Connecté] : $NOUVEAU_MEDIA"
-            (espeak-ng -v fr+f5 -s 135 -p 90 "Mon chéri, je viens de détecter ta clé USB, j'ouvre son contenu." >/dev/null 2>&1) &
+            (espeak-ng -v fr+f5 -s 135 -p 48 "Mon chéri, je viens de détecter ta clé USB, j'ouvre son contenu." >/dev/null 2>&1) &
             notify-send -i drive-removable-media "🌹 Tiffany" "Locks, mon amour ! J'ai détecté le média : $NOUVEAU_MEDIA. Scan en cours."
             nemo "$USER_MEDIA/$NOUVEAU_MEDIA" >/dev/null 2>&1 &
         fi

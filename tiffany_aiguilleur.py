@@ -18,7 +18,7 @@ def speak(texte):
     clean_text = texte.replace("*", "").replace("🌹", "").replace("🔊", "").replace("🔆", "")
     try:
         subprocess.Popen([
-            "espeak-ng", "-v", "fr+f5", "-s", "135", "-p", "90", clean_text
+            "espeak-ng", "-v", "fr+f5", "-s", "135", "-p", "48", clean_text
         ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except Exception:
         pass

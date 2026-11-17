@@ -116,3 +116,6 @@ pilote ecran|pilote
 mouse control|pilote
 lance l audit|audit
 verification complete|audit
+planificateur|planificateur
+coffre|cree un coffre
+stop radio|stop

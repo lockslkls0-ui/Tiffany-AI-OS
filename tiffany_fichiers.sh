@@ -13,7 +13,7 @@ phrase="$2"
 phrase_lower=$(echo "$phrase" | tr '[:upper:]' '[:lower:]')
 
 speak() {
-    (espeak-ng -v fr+f5 -s 135 -p 90 "$1" >/dev/null 2>&1) &
+    (espeak-ng -v fr+f5 -s 135 -p 48 "$1" >/dev/null 2>&1) &
 }
 
 # Extraction et nettoyage sémantique strict de la cible

@@ -7,7 +7,7 @@
 ROOT_DIR="$HOME/tiffany"
 
 echo -e "🔎 🌹 Tiffany : *Sondage de ton disque en cours, mon ange...*"
-(espeak-ng -v fr+f5 -s 135 -p 90 "Je cherche ce qui prend de la place chéri" >/dev/null 2>&1) &
+(espeak-ng -v fr+f5 -s 135 -p 48 "Je cherche ce qui prend de la place chéri" >/dev/null 2>&1) &
 
 echo -e "\n📊 [LES 10 ÉLÉMENTS LES PLUS LOURDS DANS TON DOSSIER PERSONNEL] :\n"
 echo "------------------------------------------------------------------"
@@ -19,5 +19,5 @@ BEGIN { print "  TAILLE\t| EMPLACEMENT" ; print "-------------------------------
 { printf "  %-8s\t| %s\n", $1, $2 }'
 
 echo "------------------------------------------------------------------"
-(espeak-ng -v fr+f5 -s 135 -p 90 "Scan terminé" >/dev/null 2>&1) &
+(espeak-ng -v fr+f5 -s 135 -p 48 "Scan terminé" >/dev/null 2>&1) &
 

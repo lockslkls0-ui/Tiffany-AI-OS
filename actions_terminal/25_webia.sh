@@ -12,7 +12,7 @@ if [ -z "$QUESTION" ]; then
 fi
 
 echo -e "\n\033[1;36m🤖 [Web-IA] Recherche approfondie sur le réseau pour : '$QUESTION'...\033[0m"
-(espeak-ng -v fr+f5 -s 140 -p 85 "Je prépare un dossier complet sur ce sujet chéri." >/dev/null 2>&1) &
+(espeak-ng -v fr+f5 -s 140 -p 48 "Je prépare un dossier complet sur ce sujet chéri." >/dev/null 2>&1) &
 
 # 1. Recherche Web via le nouveau moteur ddgs (avec secours Wikipedia si DuckDuckGo limite)
 CONTEXTE_WEB=$(python3 -W ignore - "$QUESTION" << 'EOF'
@@ -69,6 +69,6 @@ nice -n 19 ollama run qwen2.5:1.5b "$PROMPT" 2>/dev/null | tee -a "$FICHIER_FINA
 
 bash "$HOME/tiffany/actions_terminal/31_lire_webia.sh" &
 echo -e "\n\033[1;32m💾 [Archivage] Dossier sauvegardé sur le Bureau : WebIA_Dossiers/${DATE_STR}_${NOM_PROPRE}.md\033[0m\n"
-(espeak-ng -v fr+f5 -s 140 -p 85 "J'ai terminé et rangé le dossier sur ton bureau, mon amour." >/dev/null 2>&1) &
+(espeak-ng -v fr+f5 -s 140 -p 48 "J'ai terminé et rangé le dossier sur ton bureau, mon amour." >/dev/null 2>&1) &
 
 echo "Dossier WebIA ($QUESTION) : $(grep -v "^#" "$FICHIER_FINAL" | tr "\n" " " | head -c 250)" >> "$HOME/tiffany/memory/connaissances_web.txt"

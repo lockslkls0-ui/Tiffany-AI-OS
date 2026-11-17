@@ -13,7 +13,7 @@ if [ -z "$SUJET" ]; then
 fi
 
 echo -e "\n\033[1;36m🌍 [Radar Web] Recherche du meilleur lien pour : '$SUJET'...\033[0m"
-(espeak-ng -v fr+f5 -s 140 -p 85 "Je cherche une page sur le web pour l'apprendre chéri." >/dev/null 2>&1) &
+(espeak-ng -v fr+f5 -s 140 -p 48 "Je cherche une page sur le web pour l'apprendre chéri." >/dev/null 2>&1) &
 
 URL_CIBLE=$(python3 -c "
 from duckduckgo_search import DDGS
@@ -59,7 +59,7 @@ echo -e "\033[1;34m🧠 [Gros Cerveau 1.5b] Apprentissage et synthèse en cours.
     SYNTHESE=$(nice -n 19 timeout 180 ollama run qwen2.5:1.5b "$PROMPT" 2>/dev/null)
     if [ -n "$SYNTHESE" ]; then
         echo -e "\n\033[1;35m🌹 Tiffany (Appris du Web) :\033[0m $SYNTHESE\n"
-        (espeak-ng -v fr+f5 -s 140 -p 85 "$(echo "$SYNTHESE" | sed 's/\*//g')" >/dev/null 2>&1) &
+        (espeak-ng -v fr+f5 -s 140 -p 48 "$(echo "$SYNTHESE" | sed 's/\*//g')" >/dev/null 2>&1) &
         echo "Connaissance Web ($SUJET) : $SYNTHESE" >> "$CTX_FILE"
     fi
 ) &

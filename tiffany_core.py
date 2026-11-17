@@ -64,7 +64,7 @@ def parler_tiffany(requete):
     if requete_clean in dict_local:
         reponse_flash = dict_local[requete_clean]
         print(f"\n\033[1;35m🌹 Tiffany :\033[0m {reponse_flash}\n")
-        subprocess.Popen(["espeak-ng", "-v", "fr+f5", "-s", "138", "-p", "88", reponse_flash.replace("🌹","")], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen(["espeak-ng", "-v", "fr+f5", "-s", "138", "-p", "48", reponse_flash.replace("🌹","")], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         return
 
     mots_cles = ["cree", "supprime", "deplace", "dossier", "fichier", "ouvre", "lance", "scan"]
@@ -107,7 +107,7 @@ def parler_tiffany(requete):
         if res.returncode == 0 and res.stdout.strip():
             reponse_finale = res.stdout.strip()
             print(f"\n\033[1;35m🌹 Tiffany :\033[0m {reponse_finale}\n")
-            subprocess.Popen(["espeak-ng", "-v", "fr+f5", "-s", "138", "-p", "88", reponse_finale], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.Popen(["espeak-ng", "-v", "fr+f5", "-s", "138", "-p", "48", reponse_finale], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
             with open(os.path.join(ROOT_DIR, "logs", "session_raw.txt"), "a", encoding="utf-8") as log_f:
                 log_f.write(f"Créateur: {requete}\nTiffany: {reponse_finale}\n")

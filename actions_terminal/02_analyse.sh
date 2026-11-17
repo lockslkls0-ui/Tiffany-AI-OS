@@ -75,6 +75,7 @@ for s in services:
 
 vus = set()
 for ligne in logs:
+    if re.search(r"^(#\d+|Stack trace|ELF object|Module lib|n/a )", ligne): continue
     msg_brut = re.sub(r'^[a-zA-Zéû]+\.\s+\d+\s+[0-9:]+\s+\S+\s+', '', ligne)
     explication = None
     for motif, fr in traductions:
@@ -110,4 +111,4 @@ echo -e "===================================================================\n"
 
 PHRASE_FR="Analyse complète de ton $MODELE : processeur à ${TEMP} degrés, ${RAM_DISP} de mémoire libre, batterie à ${BAT_CAP} pour cent ${SECTEUR}. ${PHRASE_LOG}"
 pkill -x espeak-ng >/dev/null 2>&1
-(espeak-ng -v fr+f5 -s 145 -p 85 "$PHRASE_FR" >/dev/null 2>&1) &
+(espeak-ng -v fr+f5 -s 145 -p 48 "$PHRASE_FR" >/dev/null 2>&1) &

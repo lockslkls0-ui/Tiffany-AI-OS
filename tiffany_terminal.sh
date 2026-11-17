@@ -6,7 +6,7 @@
 
 clear
 echo -e "🌹 Tiffany : *Je suis là mon ange. Dis-moi ce que tu veux faire (ou tape 'quitter').*"
-(espeak-ng -v fr+f5 -s 135 -p 90 "Je t'écoute mon amour" >/dev/null 2>&1) &
+(espeak-ng -v fr+f5 -s 135 -p 48 "Je t'écoute mon amour" >/dev/null 2>&1) &
 
 while true; do
     echo -n -e "\n(🌹 Tiffany) user@user-PORTEGE-R830:~$ "

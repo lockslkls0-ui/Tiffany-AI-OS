@@ -10,7 +10,7 @@ def speak(texte):
     clean = texte.replace("*", "").replace("🌹", "").replace("🔊", "").replace("🔆", "").replace("🔋", "").replace("🕒", "").replace("🎬", "").replace("🌡️", "")
     try:
         # On lance le processus de parole
-        p = subprocess.Popen(["espeak-ng", "-v", "fr+f5", "-s", "135", "-p", "90", clean], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        p = subprocess.Popen(["espeak-ng", "-v", "fr+f5", "-s", "135", "-p", "48", clean], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         # On laisse le temps à espeak de lire la phrase avant que le script Python ne s'arrête brutalement
         p.wait()
     except Exception:

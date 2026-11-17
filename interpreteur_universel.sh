@@ -5,7 +5,7 @@ NOM=$(cat "$ROOT_DIR/memory/surnom_utilisateur.txt" 2>/dev/null || echo "$USER")
 go() {
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $1\n"
     notify-send -u low -t 3000 -i "dialog-information" "🌹 Tiffany AI-OS" "$1" >/dev/null 2>&1
-    pkill -x espeak-ng >/dev/null 2>&1; (espeak-ng -v fr+f5 -s 145 -p 85 "$(echo "$1" | tr -d '🌹🎵📻❄️⚡🚀🩺💾🪟📷✂️🧼🗑️🌙☀️🔊🎙️💻📊🧬📡⏰📂⚙️')" >/dev/null 2>&1) &
+    pkill -x espeak-ng >/dev/null 2>&1; ("$HOME/tiffany/bin/espeak-ng" -v fr+f5 -s 145 -p 48 "$(echo "$1" | tr -d '🌹🎵📻❄️⚡🚀🩺💾🪟📷✂️🧼🗑️🌙☀️🔊🎙️💻📊🧬📡⏰📂⚙️')" >/dev/null 2>&1) &
     eval "$2" >/dev/null 2>&1 &
     exit 0
 }
@@ -24,7 +24,7 @@ if [[ "$Q" =~ ^(.+)[[:space:]]+dans[[:space:]]+([0-9]+)[[:space:]]+minute ]]; th
 fi
 
 case "$Q" in
-    "planificateur"|"reveil"|"reveils"|"taches programmees"|"ouvre planificateur") bash "$PLUG/05_planificateur_taches.sh" case "$Q" in exit 0 ;;
+    "planificateur"|"reveil"|"reveils"|"taches programmees"|"ouvre planificateur") bash "$PLUG/05_planificateur_taches.sh" ; exit 0 ;;
     "pdf"|"lire pdf"|"apprends pdf"|"apprendre pdf"|"lis un pdf"|"analyse un pdf") bash "$PLUG/04_apprendre_pdf.sh" ; exit 0 ;;
     "webia") SUJ=$(zenity --entry --title="🤖 Recherche Web-IA" --text="Quel sujet dois-je rechercher et archiver sur ton Bureau ?" --width=450 2>/dev/null); [ -n "$SUJ" ] && bash "$ACT/25_webia.sh" "$SUJ"; exit 0 ;;
     # Liaison explicite et complète de tous les plugins du Panneau (100% couverts)

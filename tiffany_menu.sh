@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+exec 8>/tmp/tiffany_menu.lock && flock -n 8 || exit 0
 ROOT_DIR="$HOME/tiffany"
 PLUGIN_DIR="$ROOT_DIR/plugins"
 MEM_GEO="$HOME/.tiffany_menu_geo.txt"
@@ -93,7 +94,7 @@ while true; do
             rm -f "$LOCK_MOVE"
         ) &
     fi
-    CHOIX=$(zenity --list "${ZENITY_ARGS[@]}" --title="TIFFANY_OS" --column="Action" --column="Description" --width="$LAST_W" --height="$LAST_H" 2>/dev/null)
+    CHOIX=$(zenity --list --window-icon="$HOME/tiffany/tiffany_icon.png" "${ZENITY_ARGS[@]}" --title="TIFFANY_OS" --column="Action" --column="Description" --width="$LAST_W" --height="$LAST_H" 2>/dev/null)
     CODE=$?
     kill $SPY_PID 2>/dev/null
 

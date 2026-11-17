@@ -12,7 +12,7 @@ dire_alea() {
     [ "$(cat "$MODE_FILE" 2>/dev/null)" == "zen" ] && DEBIT=128
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $CHOIX\n"
     pkill -x espeak-ng >/dev/null 2>&1
-    (espeak-ng -v fr+f5 -s "$DEBIT" -p 85 "$(echo "$CHOIX" | tr -d '🌹⚡👑🧘💼')" >/dev/null 2>&1) &
+    (espeak-ng -v fr+f5 -s "$DEBIT" -p 48 "$(echo "$CHOIX" | tr -d '🌹⚡👑🧘💼')" >/dev/null 2>&1) &
     exit 0
 }
 

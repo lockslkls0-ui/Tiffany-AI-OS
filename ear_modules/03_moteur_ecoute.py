@@ -12,7 +12,7 @@ def cap(): return subprocess.Popen(shlex.split("arecord -D pulse -f S16_LE -r 16
 muet_jusqua = 0
 def dire(t):
     global muet_jusqua; muet_jusqua = time.time() + 0.9
-    subprocess.Popen(["/usr/bin/espeak-ng", "-v", "fr+f5", "-s", "155", "-p", "88", t], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.Popen([os.path.expanduser("~/tiffany/bin/espeak-ng"), "-v", "fr+f5", "-s", "155", "-p", "48", t], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     rec.Reset()
 def notif(a,b): subprocess.Popen(["notify-send","-u","low","-t","2000",a,b], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 def stop_ia():

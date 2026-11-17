@@ -17,9 +17,20 @@ LOG_SESSION="$HOME/tiffany/logs/session_raw.txt"
 if [ -z "$REQUETE" ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
 REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | tr "'" " " | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed 's/[ùû]/u/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
+# Verrou anti-doublon (1.5s)
+LOCK_ACT="/tmp/tiffany_last_act.lock"
+NOW_MS=$(date +%s%3N 2>/dev/null || date +%s)
+if [ -f "$LOCK_ACT" ]; then
+    read -r LAST_CMD LAST_TS < "$LOCK_ACT"
+    if [ "$LAST_CMD" = "$REQUETE_CLEAN" ] && [ $((NOW_MS - LAST_TS)) -lt 1500 ]; then
+        exit 0
+    fi
+fi
+echo "$REQUETE_CLEAN $NOW_MS" > "$LOCK_ACT"
+
 speak() {
     local TEXT_CLEAN=$(echo "$1" | sed 's/\*//g' | sed 's/🌹//g')
-    pkill -x espeak-ng >/dev/null 2>&1; (espeak-ng -v fr+f5 -s 140 -p 85 "$TEXT_CLEAN" >/dev/null 2>&1) &
+    pkill -x espeak-ng >/dev/null 2>&1; ("$HOME/tiffany/bin/espeak-ng" -v fr+f5 -s 140 -p 48 "$TEXT_CLEAN" >/dev/null 2>&1) &
 }
 
 # 🚪 1. Fermeture propre
