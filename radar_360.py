@@ -48,7 +48,7 @@ test(nb_ear <= 1, "Doublons", "Instance unique Oreille Vocale (03_moteur_ecoute)
 nb_core = sum(1 for l in ps_lines if "tiffany_core.sh" in l and "bash" in l)
 test(nb_core <= 1, "Doublons", "Instance unique Console (tiffany_core.sh)", f"Actifs: {nb_core}", "pkill -f tiffany_core.sh")
 
-nb_menu = sum(1 for l in ps_lines if "tiffany_menu.sh" in l and "bash" in l)
+nb_menu = int(subprocess.getoutput("wmctrl -l 2>/dev/null | grep -c TIFFANY_OS") or 0)
 test(nb_menu <= 1, "Doublons", "Instance unique Panneau (tiffany_menu.sh)", f"Actifs: {nb_menu}", "pkill -f tiffany_menu.sh")
 
 # 3. VOIX SIWIS HD, PROFIL VERROUILLÉ & MICRO
