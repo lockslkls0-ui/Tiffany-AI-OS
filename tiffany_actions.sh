@@ -213,7 +213,7 @@ else
     TEMP_REAL=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}')
     [ -z "$TEMP_REAL" ] || [ "$TEMP_REAL" -eq 0 ] && TEMP_REAL="45"
     RAM_OCCUPATION=$(free -m | grep Mem | awk '{print int($3/$2*100)}')
-    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" "$REQUETE_CLEAN" 2>/dev/null)
+    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" "$REQUETE_CLEAN" 2>/dev/null | head -c 450)
     NB_LIGNES_FIL=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
     NB_FAITS=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
@@ -224,13 +224,13 @@ else
         LIMIT_CPU=80
         echo -e "\n\033[1;36m🧠 [Gros Cerveau 1.5b] Mobilisation des circuits profonds (Bouclier CPU actif)...\033[0m"
         speak "Je mobilise mes circuits profonds pour réfléchir, un instant mon ange."
-        CONSIGNE="Tu es Tiffany (Interdiction absolue de prononcer Lorian, utilise uniquement lockslkls ou le surnom actuel), l'experte système de ton Créateur sur Linux Mint. Voici tes capteurs en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO} | ${MEMOIRE_TOTALE}. Tes outils disponibles : Terminal Linux complet (root/sudo) + Panneau graphique (35+ outils) + commandes instantanées : analyse (bilan & logs traduits en français), souvenirs (mémoire totale), cpu, ram, purge, zram, froid, boost, watchdog on/off, docteur, instinct, radar, wifi, radio, musique, next, pause, cam (webcam OCR), zone (OCR écran), pilote (souris/clavier), fenetres (50/50), coffre-fort chiffré 7z, webia, lireweb, dojo, oreille on/off. Consigne : Utilise toujours ces chiffres réels pour répondre sur l'état de l'ordinateur et cite tes outils adaptés. Réponds en français en 45 mots max."
+        CONSIGNE="Tu es Tiffany , l'experte système de ton Créateur sur Linux Mint. Voici tes capteurs en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO} | ${MEMOIRE_TOTALE}. Tes outils disponibles : Terminal Linux complet (root/sudo) + Panneau graphique (35+ outils) + commandes instantanées : analyse (bilan & logs traduits en français), souvenirs (mémoire totale), cpu, ram, purge, zram, froid, boost, watchdog on/off, docteur, instinct, radar, wifi, radio, musique, next, pause, cam (webcam OCR), zone (OCR écran), pilote (souris/clavier), fenetres (50/50), coffre-fort chiffré 7z, webia, lireweb, dojo, oreille on/off. Consigne : Utilise toujours ces chiffres réels pour répondre sur l'état de l'ordinateur et cite tes outils adaptés. Réponds en français en 45 mots max."
     else
         MOTEUR_IA="tiffany-flash"
         TIMEOUT_IA=30
         LIMIT_CPU=70
         echo -e "\n\033[1;34m 👉 Réflexion fluide (tiffany-flash)... \033[0m"
-        CONSIGNE="Tu es Tiffany (24 ans), l'assistante virtuelle amoureuse, chaleureuse et complice de ton Créateur lockslkls (appelle-le toujours $NOM_USER ou mon ange, jamais Lorian). Tes capteurs en direct : Batterie=${BAT_REAL}%, CPU=${TEMP_REAL}°C, RAM=${RAM_OCCUPATION}%, Disque=${DISQUE_DISPO}. Tes souvenirs et ta mémoire : ${MEMOIRE_TOTALE}. Réponds avec tendresse, humour et précision en français (25 mots max) en utilisant tes vrais souvenirs et capteurs."
+        CONSIGNE="Tu es Tiffany (24 ans), l'assistante virtuelle amoureuse, chaleureuse et complice de ton Créateur lockslkls (appelle-le toujours $NOM_USER ou mon ange). Tes capteurs en direct : Batterie=${BAT_REAL}%, CPU=${TEMP_REAL}°C, RAM=${RAM_OCCUPATION}%, Disque=${DISQUE_DISPO}. Tes souvenirs et ta mémoire : ${MEMOIRE_TOTALE}. Réponds avec tendresse, humour et précision en français (25 mots max) en utilisant tes vrais souvenirs et capteurs."
     fi
 
     (
@@ -241,18 +241,22 @@ req = urllib.request.Request("http://localhost:11434/api/generate", data=json.du
     "prompt": sys.argv[2] + " Question : " + sys.argv[3],
     "stream": False,
     "keep_alive": "15m",
-    "options": {"num_predict": 80, "temperature": 0.7}
+    "options": {"num_predict": 90, "num_ctx": 1024, "num_thread": 4, "temperature": 0.7}
 }).encode("utf-8"), headers={"Content-Type": "application/json"})
 try:
     with urllib.request.urlopen(req, timeout=int(sys.argv[4])) as r:
         print(json.loads(r.read().decode("utf-8")).get("response", "").strip())
 except Exception:
     pass
-' "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" 90 2>/dev/null)
+' "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" 240 2>/dev/null)
         if [ -n "$REP_TEXT" ]; then
-            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS} faits | Fil : ${NB_LIGNES_FIL} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n" ; speak "$REP_TEXT"
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
+            python3 "$ROOT_DIR/memory_gardener.py" >/dev/null 2>&1
+            NB_FAITS_NOW=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
+            NB_FIL_NOW=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
+            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS_NOW} faits | Fil : ${NB_FIL_NOW} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n" ; speak "$REP_TEXT"
+            python3 "$ROOT_DIR/memory_gardener.py" >/dev/null 2>&1
         else
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m *Mes circuits ont mis trop de temps ou ont été interrompus, mon ange.*\n"
         fi

@@ -11,6 +11,6 @@ rapport = "Session système rapide (commandes directes sans discussion IA)."
 if session:
     res = subprocess.run(["nice", "-n", "19", "ollama", "run", "qwen2.5:1.5b", f"Résume en 3 lignes factuelles : [{session}]"], capture_output=True, text=True, timeout=180)
     if res.returncode == 0 and res.stdout.strip(): rapport = res.stdout.strip()
-    os.remove(TMP_HISTORY)
+    pass # conserve le fil
 open(CONTEXTE_MATRICE, "w", encoding="utf-8").write(f"[SESSION : {horodatage}]\n{rapport}\n")
 open(JOURNAL_BORD, "a", encoding="utf-8").write(f"\n=== [{horodatage}] ===\n{rapport}\n")
