@@ -12,19 +12,19 @@ ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_
   5 Reallocated_Sector_Ct   0x0033   252   252   010    Pre-fail  Always       -       0
   7 Seek_Error_Rate         0x002e   252   252   051    Old_age   Always       -       0
   8 Seek_Time_Performance   0x0024   252   252   015    Old_age   Offline      -       0
-  9 Power_On_Hours          0x0032   100   100   000    Old_age   Always       -       8967
+  9 Power_On_Hours          0x0032   100   100   000    Old_age   Always       -       8969
  10 Spin_Retry_Count        0x0032   252   252   051    Old_age   Always       -       0
  11 Calibration_Retry_Count 0x0032   100   100   000    Old_age   Always       -       99
  12 Power_Cycle_Count       0x0032   099   099   000    Old_age   Always       -       1422
 191 G-Sense_Error_Rate      0x0022   100   100   000    Old_age   Always       -       29
 192 Power-Off_Retract_Count 0x0022   252   252   000    Old_age   Always       -       0
-194 Temperature_Celsius     0x0002   063   055   000    Old_age   Always       -       37 (Min/Max 19/45)
+194 Temperature_Celsius     0x0002   062   055   000    Old_age   Always       -       38 (Min/Max 19/45)
 195 Hardware_ECC_Recovered  0x003a   100   100   000    Old_age   Always       -       0
 196 Reallocated_Event_Count 0x0032   252   252   000    Old_age   Always       -       0
 197 Current_Pending_Sector  0x0032   252   252   000    Old_age   Always       -       0
 198 Offline_Uncorrectable   0x0030   252   252   000    Old_age   Offline      -       0
 199 UDMA_CRC_Error_Count    0x0036   100   100   000    Old_age   Always       -       244
-200 Multi_Zone_Error_Rate   0x002a   100   100   000    Old_age   Always       -       67441
+200 Multi_Zone_Error_Rate   0x002a   100   100   000    Old_age   Always       -       67478
 223 Load_Retry_Count        0x0032   100   100   000    Old_age   Always       -       99
 225 Load_Cycle_Count        0x0032   096   096   000    Old_age   Always       -       47081
 
