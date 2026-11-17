@@ -20,7 +20,7 @@ PIP_BREAK_SYSTEM_PACKAGES=1 python3 -c "import spacy.cli; spacy.cli.download('fr
 # 3. Téléchargement automatique de la Voix Douce Siwis HD et de l'Oreille Vosk FR
 if [ ! -f "$ROOT_DIR/voice/fr_FR-siwis-low.onnx" ]; then
     echo -e "\033[1;36m🎙️ Téléchargement de la voix neuronale Siwis HD...\033[0m"
-    curl -sL "https://huggingface.co" -o "$ROOT_DIR/voice/fr_FR-siwis-low.onnx"
+    curl -sL "https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/low/fr_FR-siwis-low.onnx" -o "$ROOT_DIR/voice/fr_FR-siwis-low.onnx"
     curl -sL "https://huggingface.co.json" -o "$ROOT_DIR/voice/fr_FR-siwis-low.onnx.json"
 fi
 ln -sf "$ROOT_DIR/voice/fr_FR-siwis-low.onnx" "$ROOT_DIR/voice/voix_active.onnx"
