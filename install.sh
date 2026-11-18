@@ -25,7 +25,7 @@ if [ ! -f "$ROOT_DIR/voice/fr_FR-siwis-low.onnx" ]; then
 fi
 ln -sf "$ROOT_DIR/voice/fr_FR-siwis-low.onnx" "$ROOT_DIR/voice/voix_active.onnx"
 ln -sf "$ROOT_DIR/voice/fr_FR-siwis-low.onnx.json" "$ROOT_DIR/voice/voix_active.onnx.json"
-echo "piper" > "$ROOT_DIR/voice/mode_voix.txt"
+echo "espeak" > "$ROOT_DIR/voice/mode_voix.txt"
 
 python3 -c 'import vosk, os, shutil; vosk.Model(lang="fr"); dst=os.path.expanduser("~/tiffany/voice/vosk-fr/vosk-model-small-fr-0.22"); os.makedirs(os.path.dirname(dst), exist_ok=True); src=os.path.expanduser("~/.cache/vosk/vosk-model-small-fr-0.22"); os.path.exists(src) and not os.path.exists(dst) and shutil.copytree(src, dst)' 2>/dev/null || true
 

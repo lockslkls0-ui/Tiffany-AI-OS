@@ -4,6 +4,8 @@
 # TERM_ICON: 🤖
 
 REQUETE="$*"
+[ ! -s "$HOME/.config/tiffany/pro_license.key" ] && ("$HOME/tiffany/bin/espeak-ng" "Cette option fait partie de l'édition Pro." >/dev/null 2>&1 &) && zenity --question --title="💎 Option Édition PRO" --text="Cette fonctionnalité avancée nécessite l'Édition PRO.\nVoulez-vous entrer votre clé d'activation maintenant ?" --width=420 2>/dev/null && bash "$HOME/tiffany/plugins/00c_activer_pro.sh" && exit 0
+
 QUESTION=$(echo "$REQUETE" | sed -E 's/^webia//I' | xargs)
 
 if [ -z "$QUESTION" ]; then

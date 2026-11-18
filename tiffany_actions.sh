@@ -54,9 +54,9 @@ if [[ "$REQUETE_CLEAN" == "aide" || "$REQUETE_CLEAN" == "help" ]]; then
     echo -e "\n\033[1;36m📋 PANOPLIE DES OUTILS :\033[0m"
     for act in "$ACTION_DIR"/*.sh; do 
         [ -e "$act" ] || break
-        T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | xargs)
-        T_DESC=$(grep -m1 "# TERM_DESC:" "$act" | cut -d':' -f2- | xargs)
-        T_ICON=$(grep -m1 "# TERM_ICON:" "$act" | cut -d':' -f2- | xargs)
+        T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr '\n' ' ' | tr -s ' ')
+        T_DESC=$(grep -m1 "# TERM_DESC:" "$act" | cut -d':' -f2- | tr '\n' ' ' | tr -s ' ')
+        T_ICON=$(grep -m1 "# TERM_ICON:" "$act" | cut -d':' -f2- | tr '\n' ' ' | tr -s ' ')
         [ -z "$T_ICON" ] && T_ICON="⚡"
         [ -n "$T_KEY" ] && printf " %s \033[1;32m%-10s\033[0m : %s\n" "$T_ICON" "$T_KEY" "$T_DESC"
     done
@@ -84,7 +84,7 @@ fi
 
 for act in "$ACTION_DIR"/*.sh; do
     [ -e "$act" ] || break
-    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | tr "'" " " | xargs)
+    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | tr "'" " " | tr '\n' ' ' | tr -s ' ')
     if [[ -n "$T_KEY" ]]; then
         if [[ "$REQUETE_CLEAN" == "$T_KEY" || "$REQUETE_CLEAN" == "$T_KEY "* ]]; then
             chmod +x "$act" 2>/dev/null ; bash "$act" "$REQUETE" ; exit 0
@@ -156,14 +156,14 @@ fi
 # 📂 GESTION DES FICHIERS & APPRENTISSAGE ACTIF (ZENITY)
 # ==============================================================================
 if [[ "$REQUETE_CLEAN" =~ ^(cherche|trouve) ]]; then
-    CIBLE=$(echo "$REQUETE_CLEAN" | sed -E 's/^(cherche|trouve)//g' | xargs)
+    CIBLE=$(echo "$REQUETE_CLEAN" | sed -E 's/^(cherche|trouve)//g' | tr '\n' ' ' | tr -s ' ')
     if [ -n "$CIBLE" ]; then
         echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Traçage de $CIBLE..."
         find "$HOME" -iname "*$CIBLE*" -not -path '*/.*' 2>/dev/null | head -n 5 | sed 's/^/  👉 /'
         echo "" ; exit 0
     fi
 elif [[ "$REQUETE_CLEAN" =~ ^(ouvre|ouvrir) ]]; then
-    CIBLE=$(echo "$REQUETE_CLEAN" | sed -E 's/^(ouvre|ouvrir)//g' | xargs)
+    CIBLE=$(echo "$REQUETE_CLEAN" | sed -E 's/^(ouvre|ouvrir)//g' | tr '\n' ' ' | tr -s ' ')
     if [ -n "$CIBLE" ]; then
         RES=$(find "$HOME" -iname "*$CIBLE*" -not -path '*/.*' 2>/dev/null | head -n 1)
         if [ -n "$RES" ]; then
@@ -179,7 +179,7 @@ if [[ "$REQUETE_CLEAN" =~ ^(cree|supprime|deplace|installe|mets a jour) ]]; then
     (
         PROMPT_CMD="Tu es l'expert Linux ROOT de Tiffany. Traduis cet ordre en UNE SEULE commande Bash brute (sur /home/user/Bureau si bureau mentionné). Aucun texte, aucun guillemet : '$REQUETE'."
         SORTIE_LLM=$(nice -n 19 timeout 30 ollama run qwen2.5-coder:1.5b "$PROMPT_CMD" 2>/dev/null)
-        CMD_GENEREE=$(echo "$SORTIE_LLM" | sed -r 's/```bash//g; s/```//g; s/`//g' | head -n 1 | xargs)
+        CMD_GENEREE=$(echo "$SORTIE_LLM" | sed -r 's/```bash//g; s/```//g; s/`//g' | head -n 1 | tr '\n' ' ' | tr -s ' ')
         if [ -n "$CMD_GENEREE" ]; then
             zenity --question --title="🌹 Apprentissage & Autorisation" --text="M'autorises-tu à exécuter et MÉMORISER cette commande :\n\n👉 $CMD_GENEREE" --width=450 2>/dev/null
             if [ $? -eq 0 ]; then
@@ -194,7 +194,7 @@ fi
 
 # ==============================================================================
 if [[ "$REQUETE_CLEAN" =~ ^(ap+el+e[- ]moi|mon nom est|je m appelle) ]]; then
-    SURNOM=$(echo "$REQUETE" | sed -E "s/.*(appelle[- ]moi|mon nom est|je m.?appelle)[ :]+//I" | tr -d "?!." | xargs)
+    SURNOM=$(echo "$REQUETE" | sed -E "s/.*(appelle[- ]moi|mon nom est|je m.?appelle)[ :]+//I" | tr -d "?!." | tr '\n' ' ' | tr -s ' ')
     if [ -n "$SURNOM" ]; then
         echo "$SURNOM" > "$ROOT_DIR/memory/surnom_utilisateur.txt"
         echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Enregistre ! Je vais maintenant t appeler $SURNOM.\n"
@@ -213,7 +213,7 @@ else
     TEMP_REAL=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}')
     [ -z "$TEMP_REAL" ] || [ "$TEMP_REAL" -eq 0 ] && TEMP_REAL="45"
     RAM_OCCUPATION=$(free -m | grep Mem | awk '{print int($3/$2*100)}')
-    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" "$REQUETE_CLEAN" 2>/dev/null | head -c 450)
+    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" "$REQUETE_CLEAN" 2>/dev/null | head -c 1800)
     NB_LIGNES_FIL=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
     NB_FAITS=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
@@ -224,7 +224,7 @@ else
         LIMIT_CPU=80
         echo -e "\n\033[1;36m🧠 [Gros Cerveau 1.5b] Mobilisation des circuits profonds (Bouclier CPU actif)...\033[0m"
         speak "Je mobilise mes circuits profonds pour réfléchir, un instant mon ange."
-        CONSIGNE="Tu es Tiffany , l'experte système de ton Créateur sur Linux Mint. Voici tes capteurs en direct : Batterie=${BAT_REAL}% | Temperature_CPU=${TEMP_REAL}°C | RAM_utilisee=${RAM_OCCUPATION}% | Disque_libre=${DISQUE_DISPO} | ${MEMOIRE_TOTALE}. Tes outils disponibles : Terminal Linux complet (root/sudo) + Panneau graphique (35+ outils) + commandes instantanées : analyse (bilan & logs traduits en français), souvenirs (mémoire totale), cpu, ram, purge, zram, froid, boost, watchdog on/off, docteur, instinct, radar, wifi, radio, musique, next, pause, cam (webcam OCR), zone (OCR écran), pilote (souris/clavier), fenetres (50/50), coffre-fort chiffré 7z, webia, lireweb, dojo, oreille on/off. Consigne : Utilise toujours ces chiffres réels pour répondre sur l'état de l'ordinateur et cite tes outils adaptés. Réponds en français en 45 mots max."
+        CONSIGNE="Tu es Tiffany, l'intelligence analytique de ton Créateur $NOM_USER sur son Toshiba Portégé R830. Ne récite JAMAIS de chiffres instantanés de RAM ou de CPU (ton réflexe Bash le fait déjà). Ta mission est de synthétiser en français (50 mots max) ce que tu sais grâce à tes SOUVENIRS, ton JOURNAL DE BORD et l'USURE SMART DU DISQUE : [${MEMOIRE_TOTALE} | Usure_SMART=${LOGS_SMART}]. Fais le lien avec ce que vous avez accompli ensemble, l'évolution de son PC et les points d'attention historiques."
     else
         MOTEUR_IA="tiffany-flash"
         TIMEOUT_IA=30
@@ -234,28 +234,15 @@ else
     fi
 
     (
-        REP_TEXT=$(python3 -c '
-import sys, json, urllib.request
-req = urllib.request.Request("http://localhost:11434/api/generate", data=json.dumps({
-    "model": sys.argv[1],
-    "prompt": sys.argv[2] + " Question : " + sys.argv[3],
-    "stream": False,
-    "keep_alive": "15m",
-    "options": {"num_predict": 90, "num_ctx": 1024, "num_thread": 4, "temperature": 0.7}
-}).encode("utf-8"), headers={"Content-Type": "application/json"})
-try:
-    with urllib.request.urlopen(req, timeout=int(sys.argv[4])) as r:
-        print(json.loads(r.read().decode("utf-8")).get("response", "").strip())
-except Exception:
-    pass
-' "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" 240 2>/dev/null)
+                REP_TEXT=$(nice -n 19 timeout 180 ollama run "$MOTEUR_IA" "$CONSIGNE Question : $REQUETE" 2>/dev/null | tr '\n' ' ' | tr -s ' ')
         if [ -n "$REP_TEXT" ]; then
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
             python3 "$ROOT_DIR/memory_gardener.py" >/dev/null 2>&1
             NB_FAITS_NOW=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
             NB_FIL_NOW=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
-            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS_NOW} faits | Fil : ${NB_FIL_NOW} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n" ; speak "$REP_TEXT"
+            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS_NOW} faits | Fil : ${NB_FIL_NOW} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n"
+            "$HOME/tiffany/bin/espeak-ng" "$REP_TEXT" >/dev/null 2>&1
             python3 "$ROOT_DIR/memory_gardener.py" >/dev/null 2>&1
         else
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m *Mes circuits ont mis trop de temps ou ont été interrompus, mon ange.*\n"

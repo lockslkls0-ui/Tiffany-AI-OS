@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# MENU_NAME: 💎 Activer Édition PRO
+# MENU_DESC: Débloquer la Voix Douce Siwis HD, l'apprentissage PDF & Web-IA
+LIC_FILE="$HOME/.config/tiffany/pro_license.key"
+mkdir -p "$(dirname "$LIC_FILE")"
+
+if [ -s "$LIC_FILE" ]; then
+    zenity --info --title="💎 Tiffany AI-OS PRO" \
+        --text="✅ L'Édition PRO est déjà ACTIVE sur cet ordinateur !\n\n• Voix Neuronale Douce Siwis HD : Débloquée\n• Lecteur & Résumeur éclair de PDF : Débloqué\n• Recherche & Rédaction Web-IA : Débloqué" \
+        --width=420 2>/dev/null
+    exit 0
+fi
+
+CLE=$(zenity --entry --title="💎 Activation Tiffany AI-OS PRO" \
+    --text="Entre ta clé de licence PRO pour débloquer à vie :\n\n• 🌹 La Voix Neuronale Douce « Siwis HD »\n• 📄 L'apprentissage éclair de documents PDF\n• 🤖 Le moteur de recherche Web-IA sans navigateur\n\nClé de licence :" \
+    --width=450 2>/dev/null)
+
+if [[ "$CLE" =~ ^TIFFANY-PRO-[A-Z0-9-]+$ ]]; then
+    echo "$CLE" > "$LIC_FILE"
+    echo "piper" > "$HOME/tiffany/voice/mode_voix.txt"
+    "$HOME/tiffany/bin/espeak-ng" "Félicitations ! L'édition Pro est maintenant débloquée et ma vraie voix douce Siwis haute définition est activée." >/dev/null 2>&1 &
+    zenity --info --title="🎉 Édition PRO Activée !" \
+        --text="🏆 Merci ! Toutes les fonctionnalités PRO et la Voix Douce Siwis HD sont désormais débloquées à vie." \
+        --width=400 2>/dev/null
+elif [ -n "$CLE" ]; then
+    zenity --error --title="❌ Clé invalide" \
+        --text="Cette clé de licence n'est pas reconnue (format attendu : TIFFANY-PRO-XXXX)." \
+        --width=380 2>/dev/null
+fi
