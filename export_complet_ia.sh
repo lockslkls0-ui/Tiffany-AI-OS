@@ -36,6 +36,16 @@ python3 "$HOME/tiffany/audit_complet_tiffany.py" | sed 's/\x1b\[[0-9;]*m//g' >> 
 echo -e "\n--- DERNIÈRES ERREURS SYSTÈME (JOURNALCTL) ---\n" >> "$F4"
 journalctl --user -u tiffany-ear.service -u tiffany-watchdog.service -n 30 --no-pager >> "$F4" 2>/dev/null
 
+# 5. Copie et synchronisation automatique du Kit de Lancement
+mkdir -p "$DOSSIER/5_KIT_LANCEMENT_OFFICIEL"
+KIT_DIR=$(find "$HOME/Bureau" "$HOME/Desktop" -maxdepth 2 -iname "*KIT*LANCEMENT*" -type d 2>/dev/null | head -n 1)
+if [ -n "$KIT_DIR" ] && [ -d "$KIT_DIR" ]; then
+    cp -f "$KIT_DIR"/*.txt "$KIT_DIR"/*.sh "$DOSSIER/5_KIT_LANCEMENT_OFFICIEL/" 2>/dev/null || true
+    [ -f "$HOME/Bureau/tiffany-ai-os_48.6_all.deb" ] && cp -f "$HOME/Bureau/tiffany-ai-os_48.6_all.deb" "$KIT_DIR/"
+    tar --exclude='.git' --exclude='backup' --exclude='logs/*' --exclude='memory/*' --exclude='*.log' --exclude='__pycache__' -czf "$KIT_DIR/Tiffany-AI-OS-PRO-v48.6.tar.gz" -C "$HOME" tiffany 2>/dev/null || true
+fi
+
 # Notification vocale avec la belle voix HD
 [ -x "$HOME/tiffany/voix_hd.sh" ] && "$HOME/tiffany/voix_hd.sh" "Export complet terminé mon ange. Les 4 fichiers pour ton intelligence artificielle sont prêts sur ton Bureau." &
 zenity --info --title="Tiffany AI-OS V48.6" --text="✅ Export complet réussi !\n\nDossier créé sur ton Bureau :\nExport_IA_Tiffany_${DATE_H}_V48.6\n\nContient les 4 fichiers complets prêts à être partagés." 2>/dev/null
+
