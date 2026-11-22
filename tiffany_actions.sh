@@ -84,7 +84,7 @@ fi
 
 for act in "$ACTION_DIR"/*.sh; do
     [ -e "$act" ] || break
-    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | tr "'" " " | tr '\n' ' ' | tr -s ' ')
+    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | xargs)
     if [[ -n "$T_KEY" ]]; then
         if [[ "$REQUETE_CLEAN" == "$T_KEY" || "$REQUETE_CLEAN" == "$T_KEY "* ]]; then
             chmod +x "$act" 2>/dev/null ; bash "$act" "$REQUETE" ; exit 0

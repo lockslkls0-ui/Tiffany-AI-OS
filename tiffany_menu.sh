@@ -2,7 +2,7 @@
 exec 8>/tmp/tiffany_menu.lock
 if ! flock -n 8; then
     pkill -9 -f "zenity.*TIFFANY_OS" 2>/dev/null || true
-    pkill -9 -f "tiffany_menu.sh" 2>/dev/null || true
+    for pid in $(pgrep -f "tiffany_menu.sh"); do [ "$pid" != "$$" ] && [ "$pid" != "$PPID" ] && kill -9 "$pid" 2>/dev/null; done
     rm -f /tmp/tiffany_menu.lock /tmp/tiffany_panneau_moving.lock
     exec 8>/tmp/tiffany_menu.lock && flock -n 8 || exit 0
 fi

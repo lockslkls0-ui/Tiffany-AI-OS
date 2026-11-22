@@ -135,3 +135,4 @@ case "$Q" in
     "google"|"ouvre google"|"chrome"|"navigateur"|"internet") go "Ouverture de Google Chrome, $NOM ! 🌐" "DISPLAY=:0 nohup google-chrome --new-tab 'https://google.com' >/dev/null 2>&1 & sleep 1; DISPLAY=:0 wmctrl -a 'Google Chrome' >/dev/null 2>&1 || true" ;;
     "droite"|"gauche"|"monte"|"descends"|"clic"|"onglet") bash "$ACT/26_pilote.sh" "$Q" ; exit 0 ;;
 esac
+exit 1

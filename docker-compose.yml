@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./prowlarr:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+  whisparr:
+    image: ghcr.io/hotio/whisparr:nightly
+    container_name: whisparr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./whisparr:/config
+      - ~/Téléchargements:/downloads
+      - ~/Vidéos/Adulte:/media
+    ports:
+      - 6969:6969
+    restart: unless-stopped
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=info
+    ports:
+      - 8191:8191
+    restart: unless-stopped
