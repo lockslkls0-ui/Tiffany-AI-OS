@@ -1,9 +1,15 @@
-# Modèles vocaux lourds et caches locaux (téléchargés à l'installation)
-voice/vosk-fr/
-voice/*.onnx
-voice/*.onnx.json
-voice/voix_active*
-voice/mode_voix.txt
-backup/
-*.log
 __pycache__/
+*.pyc
+*.pyo
+*.save
+*.bak
+*.tmp
+snapcraft-tiffany-ai-os-*.txt
+logs/*.log
+logs/session_raw.txt
+logs/last_found.txt
+memory/surnom_utilisateur.txt
+memory/panneau_position.txt
+memory/contexte_matrice.txt
+backup/*
+!backup/.gitkeep
