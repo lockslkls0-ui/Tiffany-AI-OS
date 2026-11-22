@@ -27,7 +27,7 @@ def cap():
 muet_jusqua = 0
 def dire(t):
     global muet_jusqua
-    muet_jusqua = time.time() + 1.2
+    muet_jusqua = time.time() + 2.8
     subprocess.Popen([os.path.expanduser("~/tiffany/bin/espeak-ng"), t], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     rec.Reset()
 
@@ -100,7 +100,7 @@ while True:
     d = proc.stdout.read(4000)
     if not d or proc.poll() is not None:
         proc.kill(); proc.wait(); time.sleep(0.3); proc = cap(); continue
-    if time.time() < muet_jusqua:
+    if time.time() < muet_jusqua or os.path.exists("/tmp/tiffany_parle.lock"):
         rec.Reset(); continue
     if rec.AcceptWaveform(d):
         t = json.loads(rec.Result()).get("text", "").strip().lower()

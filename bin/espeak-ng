@@ -1,32 +1,12 @@
 #!/usr/bin/env bash
-TEXTE=""
-for arg in "$@"; do
-    TEXTE="$arg"
-done
-TEXTE=$(echo "$TEXTE" | sed 's/[*🌹🎵📻❄️⚡🚀🩺💾🪟📷✂️🧼🗑️🌙☀️🔊🎙️💻📊🧬📡⏰📂⚙️🔋🌡️🕒🎬]//g' | xargs)
-[ -z "$TEXTE" ] && exit 0
-
-VOICE_DIR="$HOME/tiffany/voice"
-MODE=$(cat "$VOICE_DIR/mode_voix.txt" 2>/dev/null | tr -d '[:space:]')
-[ -z "$MODE" ] && MODE="piper"
-
-pkill -x aplay 2>/dev/null || true
-pkill -f "/usr/bin/espeak-ng" 2>/dev/null || true
-
-if [ "$MODE" = "espeak" ]; then
-    # Voix légère, pétillante et légèrement aiguë/rapide (comme à l'origine)
-    /usr/bin/espeak-ng -v fr+f5 -s 148 -p 78 "$TEXTE" 2>/dev/null
+touch /tmp/tiffany_parle.lock
+trap 'rm -f /tmp/tiffany_parle.lock' EXIT
+TEXTE="${!#}"
+CLEAN=$(echo "$TEXTE" | sed 's/\*//g; s/🌹//g' | tr -s ' ')
+[ -z "$CLEAN" ] && exit 0
+MODE=$(cat "$HOME/tiffany/voice/mode_voix.txt" 2>/dev/null | tr -d '[:space:]')
+if [ "$MODE" = "piper" ] && [ -x "$HOME/tiffany/voice/piper" ] && [ -f "$HOME/tiffany/voice/voix_active.onnx" ]; then
+    echo "$CLEAN" | "$HOME/tiffany/voice/piper" --model "$HOME/tiffany/voice/voix_active.onnx" --output_raw 2>/dev/null | aplay -r 16000 -f S16_LE -t raw -q 2>/dev/null
 else
-    # Voix douce Siwis HD (cadence naturelle 16000 Hz)
-    MODELE="$VOICE_DIR/fr_FR-siwis-low.onnx"
-    [ ! -f "$MODELE" ] && MODELE="$HOME/Téléchargements/fr_FR-siwis-low.onnx"
-    if [ -x "$VOICE_DIR/piper" ] && [ -f "$MODELE" ]; then
-        echo "$TEXTE" | "$VOICE_DIR/piper" --model "$MODELE" --length_scale 1.00 --output_raw 2>/dev/null | aplay -r 16000 -f S16_LE -t raw -q 2>/dev/null
-    elif command -v piper >/dev/null 2>&1 && [ -f "$MODELE" ]; then
-        echo "$TEXTE" | piper --model "$MODELE" --length-scale 1.00 --output_raw 2>/dev/null | aplay -r 16000 -f S16_LE -t raw -q 2>/dev/null
-    elif python3 -c "import piper" 2>/dev/null && [ -f "$MODELE" ]; then
-        echo "$TEXTE" | python3 -m piper -m "$MODELE" --length-scale 1.00 --output_raw 2>/dev/null | aplay -r 16000 -f S16_LE -t raw -q 2>/dev/null
-    else
-        /usr/bin/espeak-ng -v fr+f5 -s 148 -p 78 "$TEXTE" 2>/dev/null
-    fi
+    /usr/bin/espeak-ng -v fr+f5 -s 145 -p 48 "$CLEAN" >/dev/null 2>&1
 fi

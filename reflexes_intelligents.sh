@@ -77,7 +77,7 @@ elif [[ "$Q" =~ (chauffe|temperature|surchauffe|ventilateur|cadence) ]]; then
     say_alea "Mon processeur tourne à ${T}°C en ce moment, $NOM. 🌡️" "La sonde thermique indique ${T}°C sur le CPU, $NOM. 🌡️" "Tout est sous contrôle : le processeur est à ${T}°C, $NOM. 🌡️"
 elif [[ "$Q" =~ ^(merci|cimer|top|parfait|super|genial|nikel|nickel) ]]; then
     say "Avec grand plaisir, $NOM ! Je veille sur tout. 🌹"
-elif [[ "$Q" =~ ^(bonjour|salut|coucou|hello|hey|yo|bonsoir) ]]; then
+elif [[ "$Q" =~ ^(bonjour|salut|coucou|hello|hey|yo|bonsoir)(\b|$) ]]; then
     say "Coucou $NOM ! Tout est frais et opérationnel sur ton Toshiba. Que faisons-nous ? 🌹"
 elif [[ "$Q" =~ (tu dors|es tu la|tu es la|tu m entends|reveille) ]]; then
     say "Je ne dors jamais, $NOM ! Mon oreille et mon bouclier thermique veillent en permanence. ⚡"
