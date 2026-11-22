@@ -177,7 +177,7 @@ fi
 if [[ "$REQUETE_CLEAN" =~ ^(cree|supprime|deplace|installe|mets a jour) ]]; then
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Génération de la commande et mise en mémoire... ⚙️"
     (
-        PROMPT_CMD="Tu es l'expert Linux ROOT de Tiffany. Traduis cet ordre en UNE SEULE commande Bash brute (sur $HOME/Bureau si bureau mentionné). Aucun texte, aucun guillemet : '$REQUETE'."
+        PROMPT_CMD="Tu es l'expert Linux ROOT de Tiffany. Traduis cet ordre en UNE SEULE commande Bash brute (sur $(xdg-user-dir DESKTOP) si bureau mentionné). Aucun texte, aucun guillemet : '$REQUETE'."
         SORTIE_LLM=$(nice -n 19 timeout 30 ollama run qwen2.5-coder:1.5b "$PROMPT_CMD" 2>/dev/null)
         CMD_GENEREE=$(echo "$SORTIE_LLM" | sed -r 's/```bash//g; s/```//g; s/`//g' | head -n 1 | tr '\n' ' ' | tr -s ' ')
         if [ -n "$CMD_GENEREE" ]; then
