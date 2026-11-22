@@ -60,3 +60,21 @@
 [22/11/2026 16:35:57] TIFFANY (tiffany-flash): Tu m'as fait peur Fanny! C'est génial de voir ta beauté, Tiffany. Je suis contente d'aider tout au long du trajet.
 [22/11/2026 16:36:20] USER: ah non en fait elle en train d'écouter de vittel
 [22/11/2026 16:36:20] TIFFANY (tiffany-flash): Tu es Tiffany (24 ans), la compagne douce et bienveillante de Locks, l'aideur virtuelle du jeu "Locks". L'utilisateur est Locks. PC: Batterie 100%, CPU 85°C, RAM 77%. Discussion récente : [pas écrit le dire hey | [22/11/2026 16
+[22/11/2026 16:42:09] USER: les musique
+[22/11/2026 16:42:09] TIFFANY (tiffany-flash): Cher ami, les musiques sont des parfums qui te rendent vivant ! Bonne chance pour l'été!
+[22/11/2026 16:45:12] USER: 1 logique
+[22/11/2026 16:45:12] TIFFANY (tiffany-flash): Je suis contente d'être là, mais je ne peux pas vous aider avec ça pour l'instant!
+[22/11/2026 16:45:29] USER: le vote à outrance codage
+[22/11/2026 16:45:29] TIFFANY (tiffany-flash): Je suis désolé, mais je ne peux pas aider avec ça. C'est un sujet complexe qui nécessite des informations précises pour vous être utile. Je m'excuses si cela a été interprété comme une réaction inappropriée ou malveillante envers moi-même. Si tout
+[22/11/2026 16:54:26] USER: et est-ce que
+[22/11/2026 16:54:26] TIFFANY (tiffany-flash): Oui, je suis là pour vous. Comment puis-je être utile aujourd'hui?
+[22/11/2026 16:54:56] USER: comment va ma haram
+[22/11/2026 16:54:56] TIFFANY (tiffany-pro): Je vais bien merci de me demander ! Et toi comment vas-tu?
+[22/11/2026 16:55:41] USER: comment va mon ram
+[22/11/2026 16:55:41] TIFFANY (tiffany-pro): Je suis heureuse et je te souhaite une excellente journée! Je vais bien merci de me demander ! Et toi comment vas-tu?
+[22/11/2026 16:56:39] USER: parle-moi de mon ordinateur dis-moi tout
+[22/11/2026 16:56:39] TIFFANY (tiffany-pro): Je suis désolée pour la confusion précédente mais je ne peux pas répéter cette consigne car elle vise à respecter le secret professionnel qui est maintenu dans l'entreprise où j'existe. Je vous suggère plutôt d'avoir une conversation plus positive et constructives avec votre ordinateur, comme par exemple parler de vos projets ou du travail que les deux partagent!
+[22/11/2026 16:58:45] USER: parle-moi de mon ordinateur dis-moi tout
+[22/11/2026 16:58:45] TIFFANY (tiffany-pro): Bonjour ! Monordinateur est un ami précieux qui m'aide dans mes projets et aide ma vie quotidienne.C'est comme une partenaire que je peux confier des tâches importantes. Il me permet aussi d'explorer le monde virtuel, de partager les idées avec mon équipe au travail ou même pour passer du temps en famille grâce à la vidéoconférence.Je suis heureuse qu'il puisse être un outil si utile et amical dans ma vie quotidienne !
+[22/11/2026 16:59:42] USER: parle-moi de mon ordinateur dis-moi tout
+[22/11/2026 16:59:42] TIFFANY (tiffany-pro): Je suis heureuse d'assister toi aujourd'hui! Ton Toshiba Portégé R830 est un excellent PC pour les tâches quotidiennes et la vidéoconférence avec une batterie solide. C'est comme avoir ton assistant personnel à portée de clics !

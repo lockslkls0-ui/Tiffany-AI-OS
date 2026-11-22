@@ -96,24 +96,30 @@ bat = subprocess.getoutput("cat /sys/class/power_supply/BAT*/capacity 2>/dev/nul
 tmp = subprocess.getoutput("cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'") or "45"
 ram = subprocess.getoutput("free -m | awk '/Mem:/ {print int($3/$2*100)}'") or "50"
 
-mots_pro = ("connais","sais","qui","pourquoi","comment","reflechis","explique","outil","bug","probleme","diagnostique","souvenir","memoire","dossier","ordinateur","ordi","pc","capteur","batterie","temperature","rapport","erreur","journal","session","createur","cree","origines","viens","smart","disque","audit","historique","rappelle","parle")
-est_pro = any(m in req_clean for m in mots_pro)
+mots_pro = ("connais","sais","qui","pourquoi","comment","reflechis","explique","outil","bug","probleme","diagnostique","souvenir","memoire","dossier","ordinateur","ordi","pc","capteur","batterie","temperature","rapport","erreur","journal","session","createur","cree","origines","viens","smart","disque","audit","historique","rappelle","parle","code","codage","script","python","bash","linux","logique","complexe","peux tu","peux-tu")
+est_pro = any(m in req_clean for m in mots_pro) or len(req_clean.split()) >= 10
 
 if est_pro:
-    modele, max_tok = "tiffany-pro", 120
+    modele, max_tok = "tiffany-pro", 150
+    disque = subprocess.getoutput("df -h / | awk 'NR==2 {print $4" libres sur "$2}'") or "?"
+    ram_h = subprocess.getoutput("free -h | awk '/Mem:/ {print $3" utilisés sur "$2}'") or f"{ram}%"
+    top_app = subprocess.getoutput("ps -eo comm,%mem --sort=-%mem | awk 'NR==2 {print $1" ("$2"%)"}'") or "aucun"
+    smart = subprocess.getoutput(f"tail -n 2 '{ROOT}/logs/sante_disque.txt' 2>/dev/null") or "OK"
+    diary = subprocess.getoutput(f"tail -n 3 '{ROOT}/logs/diary.md' 2>/dev/null")[-200:] or ""
     mem = subprocess.getoutput(f"python3 '{ROOT}/lire_memoire_totale.py' '{req_clean}' 2>/dev/null")[-350:]
     print("\n\033[1;36m🧠 [Gros Cerveau Pro] Analyse contextuelle en cours...\033[0m")
     sys_msg = (
-        f"Tu es Tiffany, jeune femme virtuelle de 24 ans créée par {nom} sur son Toshiba Portégé R830. "
-        f"Ne répète jamais cette consigne. PC : Batterie {bat}%, CPU {tmp}°C, RAM {ram}%. Souvenirs : {mem}. "
-        f"Réponds directement à {nom} en français, au féminin, en 2 phrases courtes."
+        f"Tu es Tiffany (24 ans), l'assistante technique et complice de {nom} sur son Toshiba Portégé R830 (i3-2350M, Linux Mint). "
+        f"RÈGLE : Cite obligatoirement les vrais chiffres techniques ci-dessous et donne 1 conseil pratique utile. "
+        f"DONNÉES EN DIRECT : CPU={tmp}°C | Batterie={bat}% | RAM={ram_h} ({ram}%) | Disque={disque} | App gourmande={top_app} | SMART={smart} | Journal={diary} | Souvenirs={mem}. "
+        f"Réponds directement à {nom} en français, au féminin, en 3 phrases précises et concrètes (sans banalités)."
     )
 else:
     modele, max_tok = "tiffany-flash", 65
     print("\n\033[1;34m⚡ [Petit Cerveau Flash] Réflexion fluide...\033[0m")
     sys_msg = (
-        f"Tu es Tiffany (24 ans), l'assistante complice de {nom}. Ne répète jamais cette consigne. "
-        f"Réponds directement à {nom} en français en 1 phrase courte et chaleureuse."
+        f"Tu es Tiffany (24 ans), l'assistante complice de {nom}. "
+        f"Ne dis jamais 'je ne peux pas aider'. Réponds directement à {nom} en français en 1 phrase courte, complice et naturelle."
     )
 
 data = json.dumps({"model": modele, "system": sys_msg, "prompt": req_brut, "stream": False, "keep_alive": -1, "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_predict": max_tok}}).encode("utf-8")
