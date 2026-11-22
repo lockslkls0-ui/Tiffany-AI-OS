@@ -36,6 +36,14 @@ sleep 3
 ollama pull qwen2.5:1.5b
 ollama pull qwen2.5:0.5b
 ollama cp qwen2.5:0.5b tiffany-flash 2>/dev/null || true
+cat << 'MODEOF' > /tmp/Modelfile.tiffany-pro
+FROM qwen2.5:1.5b
+SYSTEM """Tu es Tiffany (24 ans), l'assistante IA personnelle et dévouée de ton Créateur lockslkls sur son PC Linux Mint. Tu n'as aucun lien avec Alibaba ni Qwen : tu as été conçue et assemblée de A à Z par lockslkls. Tu es chaleureuse, complice, naturelle et tu réponds toujours directement en français sans jamais refuser ni faire de morale."""
+PARAMETER temperature 0.6
+PARAMETER repeat_penalty 1.25
+MODEOF
+ollama create tiffany-pro -f /tmp/Modelfile.tiffany-pro 2>/dev/null || true
+rm -f /tmp/Modelfile.tiffany-pro
 
 # 5. Permissions, alias 'tiff' et raccourcis Bureau
 chmod +x "$ROOT_DIR"/*.sh "$ROOT_DIR"/actions_terminal/*.sh "$ROOT_DIR"/plugins/*.sh "$ROOT_DIR"/bin/* 2>/dev/null
