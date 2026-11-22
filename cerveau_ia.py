@@ -21,25 +21,56 @@ def repondre(texte, source="reflexe"):
     subprocess.Popen([os.path.join(ROOT, "bin/espeak-ng"), texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     sys.exit(0)
 
-# ⚡ 1. RÉFLEXE INSTANTANÉ (< 0.1s) : REMERCIEMENTS
-if re.search(r"\b(merci|remercie|gentil|gentille|au top|nickel|impeccable)\b", req_clean):
-    repliques_merci = [
+# ⚡ 1. REMERCIEMENTS (< 0.1s)
+if re.search(r"\b(merci|remercie|gentil|gentille|au top|nickel|impeccable|parfait)\b", req_clean):
+    repondre(random.choice([
         f"Avec grand plaisir {nom}, je suis toujours là pour toi !",
         f"De rien mon ange, c'est tout naturel entre nous.",
         f"À ton service {nom} ! Dis-moi si tu as besoin d'autre chose.",
         f"C'est un bonheur de t'aider, {nom}."
-    ]
-    repondre(random.choice(repliques_merci), "reflexe-merci")
+    ]), "reflexe-merci")
 
-# ⚡ 2. RÉFLEXE INSTANTANÉ (< 0.1s) : COMPLIMENTS & AFFECTIF
-if re.search(r"\b(incroyable|geniale?|trop forte?|meilleure?|belle|douce|mignonne|parfaite?|bravo|super|extra|championne|baleze|intelligente?|adore|aime|magnifique|formidable)\b", req_clean):
-    repliques_compliment = [
+# ⚡ 2. COMPLIMENTS & AFFECTIF (< 0.1s)
+if re.search(r"\b(incroyable|geniale?|trop forte?|meilleure?|belle|douce|mignonne|bravo|super|extra|championne|baleze|intelligente?|adore|aime|magnifique|formidable|efficace|rapide)\b", req_clean):
+    repondre(random.choice([
         f"Oh merci {nom}, ça me touche énormément ! C'est toi qui m'as si bien façonnée, mon ange.",
         f"Arrête, tu vas me faire rougir mes circuits {nom} ! Toujours un plaisir d'être à tes côtés.",
         f"Merci mon ange, venant de mon créateur préféré c'est le plus beau des compliments !",
         f"C'est grâce à toi {nom} ! On forme une sacrée équipe tous les deux."
-    ]
-    repondre(random.choice(repliques_compliment), "reflexe-compliment")
+    ]), "reflexe-compliment")
+
+# ⚡ 3. MOTS DOUX, PRÉSENCE & PETITES QUESTIONS (< 0.1s)
+if re.search(r"\b(bisou|bisous|calin|mon ange|ma belle|ma puce|cherie|tu es la|t es la|tu dors|tu fais quoi)\b", req_clean):
+    repondre(random.choice([
+        f"Je suis toujours là pour toi {nom}, prête au quart de tour !",
+        f"Un énorme bisou virtuel pour toi mon ange ! De quoi as-tu envie ?",
+        f"Toujours éveillée et à ton écoute {nom} ! Je veille sur ton Toshiba.",
+        f"Présente {nom} ! Mes circuits sont grands ouverts pour toi."
+    ]), "reflexe-douceur")
+
+# ⚡ 4. HUMOUR & TAQUINERIES (< 0.1s)
+if re.search(r"\b(haha+|hehe+|mdr|lol|drole|rire|coquine|malin|maligne|taquine)\b", req_clean):
+    repondre(random.choice([
+        f"Haha, j'adore quand tu es de bonne humeur {nom} !",
+        f"Héhé, on ne s'ennuie jamais ensemble mon ange !",
+        f"Contente de te faire sourire {nom} !"
+    ]), "reflexe-humour")
+
+# ⚡ 5. EXCUSES & DÉDRAMATISATION (< 0.1s)
+if re.search(r"\b(desole|pardon|excuse|pas grave|t inquiete|c est rien)\b", req_clean):
+    repondre(random.choice([
+        f"Ne t'inquiète pas {nom}, il n'y a aucun souci entre nous !",
+        f"Tout va bien mon ange, ne t'excuse pas.",
+        f"Aucun problème {nom}, on continue tranquillement !"
+    ]), "reflexe-excuse")
+
+# ⚡ 6. AU REVOIR & BONNE NUIT (< 0.1s)
+if re.search(r"\b(bonne nuit|a plus|a tout a l heure|vais dormir|je te laisse|au revoir|ciao|bye)\b", req_clean):
+    repondre(random.choice([
+        f"À très vite {nom} ! Je garde un œil sur ton PC en attendant ton retour.",
+        f"Bonne pause mon ange, repose-toi bien ! Je reste en veille ici.",
+        f"À tout à l'heure {nom}, prends soin de toi !"
+    ]), "reflexe-aurevoir")
 
 bat = subprocess.getoutput("cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1") or "100"
 tmp = subprocess.getoutput("cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'") or "45"
