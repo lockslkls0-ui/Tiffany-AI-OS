@@ -16,11 +16,9 @@ go() {
 
 # Planificateur temporel vocal ("... dans X minutes")
 if [[ "$Q" =~ ^(.+)[[:space:]]+dans[[:space:]]+([0-9]+)[[:space:]]+minute ]]; then
-    ACTION_DIFF="${BASH_REMATCH}"
-    DELAI="${BASH_REMATCH}"
-    echo "bash '$HOME/tiffany/tiffany_actions.sh' '$ACTION_DIFF'" | at "now + ${DELAI} minutes" >/dev/null 2>&1
-    say "C'est programmé $NOM ! J'exécuterai « $ACTION_DIFF » dans $DELAI minutes. ⏰"
-    exit 0
+    ACTION_DIFF="${BASH_REMATCH[1]}"
+    DELAI="${BASH_REMATCH[2]}"
+    go "C'est programmé $NOM ! J'exécuterai « $ACTION_DIFF » dans $DELAI minutes. ⏰" "echo \"DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/\$(id -u)/bus bash '$HOME/tiffany/tiffany_actions.sh' '$ACTION_DIFF'\" | at 'now + ${DELAI} minutes'"
 fi
 
 case "$Q" in

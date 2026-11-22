@@ -1,6 +1,6 @@
+#!/usr/bin/env bash
 mkdir -p "$HOME/tiffany/logs" "$HOME/tiffany/memory"
 export PATH="$HOME/tiffany/bin:$PATH"
-#!/usr/bin/env bash
 # ==============================================================================
 # 🌹 PROJECT TIFFANY - ENGINE HYBRIDE 3 VITESSES V47.5 (DÉTECTION RAPIDE)
 # ==============================================================================
@@ -243,7 +243,6 @@ else
             NB_FIL_NOW=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS_NOW} faits | Fil : ${NB_FIL_NOW} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n"
             "$HOME/tiffany/bin/espeak-ng" "$REP_TEXT" >/dev/null 2>&1
-            python3 "$ROOT_DIR/memory_gardener.py" >/dev/null 2>&1
         else
             echo -e "\n\033[1;35m🌹 Tiffany :\033[0m *Mes circuits ont mis trop de temps ou ont été interrompus, mon ange.*\n"
         fi
