@@ -5,7 +5,7 @@ FIFO="/tmp/tiffany_chat.fifo"
 
 exec 9>/tmp/tiffany_core.lock
 if ! flock -n 9; then
-    pkill -9 -f "tiffany_core.sh" 2>/dev/null || true
+    for pid in $(pgrep -f "tiffany_core.sh"); do [ "$pid" != "$$" ] && kill -9 "$pid" 2>/dev/null || true; done
     sleep 0.3
 fi
 
