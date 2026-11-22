@@ -35,3 +35,24 @@ parts:
       - -tiffany/snap
       - -tiffany/.git
       - -tiffany/backup
+
+  voice-piper:
+    plugin: nil
+    build-packages:
+      - curl
+      - ca-certificates
+    override-build: |
+      mkdir -p "$CRAFT_PART_INSTALL/tiffany/voice"
+      BASE_URL="https://huggingface.co"
+      curl -fL "$BASE_URL/low/fr_FR-siwis-low.onnx" -o "$CRAFT_PART_INSTALL/tiffany/voice/fr_FR-siwis-low.onnx"
+      curl -fL "$BASE_URL/low/fr_FR-siwis-low.onnx.json" -o "$CRAFT_PART_INSTALL/tiffany/voice/fr_FR-siwis-low.onnx.json"
+      curl -fL "$BASE_URL/medium/fr_FR-siwis-medium.onnx" -o "$CRAFT_PART_INSTALL/tiffany/voice/fr_FR-siwis-medium.onnx"
+      curl -fL "$BASE_URL/medium/fr_FR-siwis-medium.onnx.json" -o "$CRAFT_PART_INSTALL/tiffany/voice/fr_FR-siwis-medium.onnx.json"
+      ln -sf fr_FR-siwis-low.onnx "$CRAFT_PART_INSTALL/tiffany/voice/voix_active.onnx"
+      ln -sf fr_FR-siwis-low.onnx.json "$CRAFT_PART_INSTALL/tiffany/voice/voix_active.onnx.json"
+
+  voice-vosk:
+    plugin: dump
+    source: https://alphacephei.com
+    organize:
+      '*': tiffany/voice/vosk-fr/

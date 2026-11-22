@@ -1,0 +1,13 @@
+.git
+__pycache__
+logs
+snapcraft-tiffany-ai-os-*.txt
+*.snap
+backup
+parts
+stage
+prime
+voice/*.onnx
+voice/*.onnx.json
+voice/voix_active*
+voice/vosk-fr
