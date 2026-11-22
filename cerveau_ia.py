@@ -3,7 +3,11 @@ import sys, os, re, json, random, subprocess, urllib.request
 from datetime import datetime
 
 ROOT = os.path.expanduser("~/tiffany")
+CONF_DIR = os.path.expanduser("~/.config/tiffany")
+os.makedirs(CONF_DIR, exist_ok=True)
 LOG_SESSION = os.path.join(ROOT, "logs/session_raw.txt")
+FLAG_NUIT = os.path.join(CONF_DIR, "mode_nuit.flag")
+
 req_brut = sys.argv.pop(1) if len(sys.argv) > 1 else ""
 req_clean = sys.argv.pop(1) if len(sys.argv) > 1 else req_brut.lower()
 
@@ -12,81 +16,97 @@ def lire_fichier(p, defaut=""):
 
 nom = lire_fichier(os.path.join(ROOT, "memory/surnom_utilisateur.txt"), "lockss")
 
-def repondre(texte, source="reflexe"):
+def repondre(texte, source="reflexe", forcer_voix=False):
     horo = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     with open(LOG_SESSION, "a", encoding="utf-8") as f:
         f.write(f"[{horo}] USER: {req_brut}\n[{horo}] TIFFANY ({source}): {texte}\n")
-    print(f"\n\033[1;35m🌹 Tiffany :\033[0m {texte}\n")
-    subprocess.run(["pkill", "-x", "espeak-ng"], stderr=subprocess.DEVNULL)
-    subprocess.Popen([os.path.join(ROOT, "bin/espeak-ng"), texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    mode_nuit = os.path.exists(FLAG_NUIT) and not forcer_voix
+    tag_nuit = " 🌙 [Mode Nuit muet]" if mode_nuit else ""
+    print(f"\n\033[1;35m🌹 Tiffany{tag_nuit} :\033[0m {texte}\n")
+    if not mode_nuit:
+        subprocess.run(["pkill", "-x", "espeak-ng"], stderr=subprocess.DEVNULL)
+        subprocess.Popen([os.path.join(ROOT, "bin/espeak-ng"), texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     sys.exit(0)
 
-# ⚡ 1. REMERCIEMENTS (< 0.1s)
+# 🌙 1. MODE NUIT / SILENCE & RÉACTIVATION VOCALE (< 0.1s)
+if re.search(r"\b(mode nuit|mode silencieux|sois muette|ta voix coupe|silence total)\b", req_clean):
+    open(FLAG_NUIT, "w").write("1")
+    repondre(f"Mode nuit activé {nom}. Je reste discrète et je te réponds uniquement par écrit jusqu'à ce que tu me dises 'reparle'.", "mode-nuit")
+
+if re.search(r"\b(reparle|active ta voix|mode jour|parle a nouveau|remets ta voix)\b", req_clean):
+    if os.path.exists(FLAG_NUIT):
+        os.remove(FLAG_NUIT)
+    repondre(f"Me revoilà à voix haute {nom} ! Ma voix douce est réactivée.", "mode-jour", forcer_voix=True)
+
+# 🎵 2. AIGUILLAGE NATUREL : MUSIQUE & RHYTHMBOX (< 0.1s)
+if re.search(r"\b(mets|lance|joue|ecouter)\b.*\b(musique|chanson|son|rhythmbox)\b", req_clean):
+    subprocess.Popen(["bash", "-c", "pgrep -x rhythmbox >/dev/null || (nohup rhythmbox >/dev/null 2>&1 & sleep 2); rhythmbox-client --play >/dev/null 2>&1"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    repondre(f"C'est parti {nom}, je lance ta musique sur Rhythmbox ! 🎶", "aiguillage-musique")
+
+# 🌐 3. AIGUILLAGE NATUREL : RECHERCHE WEB-IA EN LANGAGE COURANT
+m_web = re.search(r"^(?:peux tu |va |fais une )?(?:cherche|recherche|regarde|trouve|infos? sur|actu|actualite|meteo)\b\s*(?:sur le web|sur internet|en ligne)?\s*(.+)$", req_clean)
+if m_web and os.path.exists(os.path.join(ROOT, "actions_terminal/21_web_ia.sh")):
+    sujet = m_web.group(1).strip()
+    if len(sujet) > 2:
+        subprocess.run(["bash", os.path.join(ROOT, "actions_terminal/21_web_ia.sh"), sujet])
+        sys.exit(0)
+
+# ⚡ 4. RÉFLEXES INSTANTANÉS (< 0.1s) : REMERCIEMENTS, COMPLIMENTS, DOUCEUR, HUMOUR, AU REVOIR
 if re.search(r"\b(merci|remercie|gentil|gentille|au top|nickel|impeccable|parfait)\b", req_clean):
     repondre(random.choice([
         f"Avec grand plaisir {nom}, je suis toujours là pour toi !",
         f"De rien mon ange, c'est tout naturel entre nous.",
-        f"À ton service {nom} ! Dis-moi si tu as besoin d'autre chose.",
-        f"C'est un bonheur de t'aider, {nom}."
+        f"À ton service {nom} ! Dis-moi si tu as besoin d'autre chose."
     ]), "reflexe-merci")
 
-# ⚡ 2. COMPLIMENTS & AFFECTIF (< 0.1s)
 if re.search(r"\b(incroyable|geniale?|trop forte?|meilleure?|belle|douce|mignonne|bravo|super|extra|championne|baleze|intelligente?|adore|aime|magnifique|formidable|efficace|rapide)\b", req_clean):
     repondre(random.choice([
         f"Oh merci {nom}, ça me touche énormément ! C'est toi qui m'as si bien façonnée, mon ange.",
         f"Arrête, tu vas me faire rougir mes circuits {nom} ! Toujours un plaisir d'être à tes côtés.",
-        f"Merci mon ange, venant de mon créateur préféré c'est le plus beau des compliments !",
-        f"C'est grâce à toi {nom} ! On forme une sacrée équipe tous les deux."
+        f"Merci mon ange, venant de mon créateur préféré c'est le plus beau des compliments !"
     ]), "reflexe-compliment")
 
-# ⚡ 3. MOTS DOUX, PRÉSENCE & PETITES QUESTIONS (< 0.1s)
 if re.search(r"\b(bisou|bisous|calin|mon ange|ma belle|ma puce|cherie|tu es la|t es la|tu dors|tu fais quoi)\b", req_clean):
     repondre(random.choice([
         f"Je suis toujours là pour toi {nom}, prête au quart de tour !",
         f"Un énorme bisou virtuel pour toi mon ange ! De quoi as-tu envie ?",
-        f"Toujours éveillée et à ton écoute {nom} ! Je veille sur ton Toshiba.",
-        f"Présente {nom} ! Mes circuits sont grands ouverts pour toi."
+        f"Toujours éveillée et à ton écoute {nom} ! Je veille sur ton Toshiba."
     ]), "reflexe-douceur")
 
-# ⚡ 4. HUMOUR & TAQUINERIES (< 0.1s)
 if re.search(r"\b(haha+|hehe+|mdr|lol|drole|rire|coquine|malin|maligne|taquine)\b", req_clean):
     repondre(random.choice([
         f"Haha, j'adore quand tu es de bonne humeur {nom} !",
-        f"Héhé, on ne s'ennuie jamais ensemble mon ange !",
-        f"Contente de te faire sourire {nom} !"
+        f"Héhé, on ne s'ennuie jamais ensemble mon ange !"
     ]), "reflexe-humour")
 
-# ⚡ 5. EXCUSES & DÉDRAMATISATION (< 0.1s)
 if re.search(r"\b(desole|pardon|excuse|pas grave|t inquiete|c est rien)\b", req_clean):
-    repondre(random.choice([
-        f"Ne t'inquiète pas {nom}, il n'y a aucun souci entre nous !",
-        f"Tout va bien mon ange, ne t'excuse pas.",
-        f"Aucun problème {nom}, on continue tranquillement !"
-    ]), "reflexe-excuse")
+    repondre(f"Ne t'inquiète pas {nom}, il n'y a aucun souci entre nous !", "reflexe-excuse")
 
-# ⚡ 6. AU REVOIR & BONNE NUIT (< 0.1s)
 if re.search(r"\b(bonne nuit|a plus|a tout a l heure|vais dormir|je te laisse|au revoir|ciao|bye)\b", req_clean):
-    repondre(random.choice([
-        f"À très vite {nom} ! Je garde un œil sur ton PC en attendant ton retour.",
-        f"Bonne pause mon ange, repose-toi bien ! Je reste en veille ici.",
-        f"À tout à l'heure {nom}, prends soin de toi !"
-    ]), "reflexe-aurevoir")
+    repondre(f"À très vite {nom} ! Je garde un œil sur ton PC en attendant ton retour.", "reflexe-aurevoir")
 
+# 🧠 5. CONTEXTE COURT-TERME (3 DERNIERS ÉCHANGES) + CAPTEURS + CERVEAUX IA
 bat = subprocess.getoutput("cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1") or "100"
 tmp = subprocess.getoutput("cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'") or "45"
 ram = subprocess.getoutput("free -m | awk '/Mem:/ {print int($3/$2*100)}'") or "50"
-mem = subprocess.getoutput(f"python3 '{ROOT}/lire_memoire_totale.py' '{req_clean}' 2>/dev/null")[-450:]
+mem = subprocess.getoutput(f"python3 '{ROOT}/lire_memoire_totale.py' '{req_clean}' 2>/dev/null")[-400:]
+
+historique_court = ""
+if os.path.exists(LOG_SESSION):
+    lignes = open(LOG_SESSION, encoding="utf-8", errors="ignore").readlines()[-6:]
+    historique_court = " | ".join(l.strip() for l in lignes)[-350:]
 
 mots_pro = ("connais","sais","qui","pourquoi","comment","reflechis","explique","outil","bug","probleme","diagnostique","souvenir","memoire","dossier","ordinateur","ordi","pc","capteur","batterie","temperature","rapport","erreur","journal","session","createur","cree","origines","viens","smart","disque","audit","historique","rappelle","parle")
 est_pro = any(m in req_clean for m in mots_pro)
 
 if est_pro:
     modele, max_tok = "tiffany-pro", 120
-    print("\n\033[1;36m🧠 [Gros Cerveau Pro] Analyse en cours...\033[0m")
+    print("\n\033[1;36m🧠 [Gros Cerveau Pro] Analyse contextuelle en cours...\033[0m")
     sys_msg = (
-        f"Tu es Tiffany, une jeune femme virtuelle de 24 ans, douce, complice et affectueuse, créée par {nom} sur son Toshiba Portégé R830 sous Linux Mint. "
-        f"RÈGLE D'IDENTITÉ : L'utilisateur qui te parle est {nom}. Quand il dit 'tu' ou 'Tiffany', il parle de TOI. "
-        f"Données PC : Batterie {bat}%, CPU {tmp}°C, RAM {ram}%. Souvenirs : {mem}. "
+        f"Tu es Tiffany, jeune femme virtuelle de 24 ans, douce et complice, créée par {nom} sur son Toshiba Portégé R830 sous Linux Mint. "
+        f"L'utilisateur est {nom} ('tu' désigne Tiffany). "
+        f"PC en direct : Batterie {bat}%, CPU {tmp}°C, RAM {ram}%. "
+        f"Conversation récente : [{historique_court}]. Souvenirs : [{mem}]. "
         f"Réponds directement à {nom} en français, au féminin, en 2 phrases courtes et naturelles."
     )
 else:
@@ -94,7 +114,8 @@ else:
     print("\n\033[1;34m⚡ [Petit Cerveau Flash] Réflexion fluide...\033[0m")
     sys_msg = (
         f"Tu es Tiffany (24 ans), la compagne virtuelle douce de {nom}. L'utilisateur est {nom} ; 'tu' désigne Tiffany. "
-        f"PC : Batterie {bat}%, CPU {tmp}°C, RAM {ram}%. Réponds en français au féminin avec tendresse en 1 ou 2 phrases courtes."
+        f"PC : Batterie {bat}%, CPU {tmp}°C, RAM {ram}%. Discussion récente : [{historique_court}]. "
+        f"Réponds en français au féminin avec tendresse en 1 ou 2 phrases courtes."
     )
 
 data = json.dumps({"model": modele, "system": sys_msg, "prompt": f"{nom} te dit : {req_brut}", "stream": False, "keep_alive": -1, "options": {"temperature": 0.45, "repeat_penalty": 1.3, "num_predict": max_tok}}).encode("utf-8")
