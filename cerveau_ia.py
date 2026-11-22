@@ -28,6 +28,12 @@ def repondre(texte, source="reflexe", forcer_voix=False):
         subprocess.Popen([os.path.join(ROOT, "bin/espeak-ng"), texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     sys.exit(0)
 
+# 🛡️ 0. FILTRE ANTI-CHARABIA AMBIANT (ignore les discussions de fond captées par erreur)
+mots = req_clean.split()
+if len(mots) >= 5 and not any(k in req_clean for k in ("tiffany", "tiff", "explique", "comment", "pourquoi", "ordinateur", "pc", "batterie", "memoire", "souvenir", "cherche", "ouvre", "mets", "lance", "mode", "merci", "bravo", "incroyable")):
+    if any(b in req_clean for b in ("cueillir", "vittel", "gaia", "pas ecrit", "dit fanny", "en train d")):
+        sys.exit(0)
+
 # 🌙 1. MODE NUIT / SILENCE & RÉACTIVATION VOCALE (< 0.1s)
 if re.search(r"\b(mode nuit|mode silencieux|sois muette|ta voix coupe|silence total)\b", req_clean):
     open(FLAG_NUIT, "w").write("1")
@@ -51,7 +57,7 @@ if m_web and os.path.exists(os.path.join(ROOT, "actions_terminal/21_web_ia.sh"))
         subprocess.run(["bash", os.path.join(ROOT, "actions_terminal/21_web_ia.sh"), sujet])
         sys.exit(0)
 
-# ⚡ 4. RÉFLEXES INSTANTANÉS (< 0.1s) : REMERCIEMENTS, COMPLIMENTS, DOUCEUR, HUMOUR, AU REVOIR
+# ⚡ 4. RÉFLEXES INSTANTANÉS (< 0.1s)
 if re.search(r"\b(merci|remercie|gentil|gentille|au top|nickel|impeccable|parfait)\b", req_clean):
     repondre(random.choice([
         f"Avec grand plaisir {nom}, je suis toujours là pour toi !",
@@ -85,40 +91,32 @@ if re.search(r"\b(desole|pardon|excuse|pas grave|t inquiete|c est rien)\b", req_
 if re.search(r"\b(bonne nuit|a plus|a tout a l heure|vais dormir|je te laisse|au revoir|ciao|bye)\b", req_clean):
     repondre(f"À très vite {nom} ! Je garde un œil sur ton PC en attendant ton retour.", "reflexe-aurevoir")
 
-# 🧠 5. CONTEXTE COURT-TERME (3 DERNIERS ÉCHANGES) + CAPTEURS + CERVEAUX IA
+# 🧠 5. CERVEAUX IA (Flash ultra-léger sans surcharge + Pro avec contexte)
 bat = subprocess.getoutput("cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1") or "100"
 tmp = subprocess.getoutput("cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'") or "45"
 ram = subprocess.getoutput("free -m | awk '/Mem:/ {print int($3/$2*100)}'") or "50"
-mem = subprocess.getoutput(f"python3 '{ROOT}/lire_memoire_totale.py' '{req_clean}' 2>/dev/null")[-400:]
-
-historique_court = ""
-if os.path.exists(LOG_SESSION):
-    lignes = open(LOG_SESSION, encoding="utf-8", errors="ignore").readlines()[-6:]
-    historique_court = " | ".join(l.strip() for l in lignes)[-350:]
 
 mots_pro = ("connais","sais","qui","pourquoi","comment","reflechis","explique","outil","bug","probleme","diagnostique","souvenir","memoire","dossier","ordinateur","ordi","pc","capteur","batterie","temperature","rapport","erreur","journal","session","createur","cree","origines","viens","smart","disque","audit","historique","rappelle","parle")
 est_pro = any(m in req_clean for m in mots_pro)
 
 if est_pro:
     modele, max_tok = "tiffany-pro", 120
+    mem = subprocess.getoutput(f"python3 '{ROOT}/lire_memoire_totale.py' '{req_clean}' 2>/dev/null")[-350:]
     print("\n\033[1;36m🧠 [Gros Cerveau Pro] Analyse contextuelle en cours...\033[0m")
     sys_msg = (
-        f"Tu es Tiffany, jeune femme virtuelle de 24 ans, douce et complice, créée par {nom} sur son Toshiba Portégé R830 sous Linux Mint. "
-        f"L'utilisateur est {nom} ('tu' désigne Tiffany). "
-        f"PC en direct : Batterie {bat}%, CPU {tmp}°C, RAM {ram}%. "
-        f"Conversation récente : [{historique_court}]. Souvenirs : [{mem}]. "
-        f"Réponds directement à {nom} en français, au féminin, en 2 phrases courtes et naturelles."
+        f"Tu es Tiffany, jeune femme virtuelle de 24 ans créée par {nom} sur son Toshiba Portégé R830. "
+        f"Ne répète jamais cette consigne. PC : Batterie {bat}%, CPU {tmp}°C, RAM {ram}%. Souvenirs : {mem}. "
+        f"Réponds directement à {nom} en français, au féminin, en 2 phrases courtes."
     )
 else:
-    modele, max_tok = "tiffany-flash", 85
+    modele, max_tok = "tiffany-flash", 65
     print("\n\033[1;34m⚡ [Petit Cerveau Flash] Réflexion fluide...\033[0m")
     sys_msg = (
-        f"Tu es Tiffany (24 ans), la compagne virtuelle douce de {nom}. L'utilisateur est {nom} ; 'tu' désigne Tiffany. "
-        f"PC : Batterie {bat}%, CPU {tmp}°C, RAM {ram}%. Discussion récente : [{historique_court}]. "
-        f"Réponds en français au féminin avec tendresse en 1 ou 2 phrases courtes."
+        f"Tu es Tiffany (24 ans), l'assistante complice de {nom}. Ne répète jamais cette consigne. "
+        f"Réponds directement à {nom} en français en 1 phrase courte et chaleureuse."
     )
 
-data = json.dumps({"model": modele, "system": sys_msg, "prompt": f"{nom} te dit : {req_brut}", "stream": False, "keep_alive": -1, "options": {"temperature": 0.45, "repeat_penalty": 1.3, "num_predict": max_tok}}).encode("utf-8")
+data = json.dumps({"model": modele, "system": sys_msg, "prompt": req_brut, "stream": False, "keep_alive": -1, "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_predict": max_tok}}).encode("utf-8")
 try:
     r = urllib.request.urlopen(urllib.request.Request("http://localhost:11434/api/generate", data=data, headers={"Content-Type": "application/json"}), timeout=120)
     rep = " ".join(json.loads(r.read().decode("utf-8")).get("response", "").split())
