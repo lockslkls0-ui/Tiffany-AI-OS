@@ -96,7 +96,7 @@ cat << EODP > "$HOME/.config/systemd/user/tiffany-diary.service"
 Description=Archiviste Automatique Memoire Tiffany AI-OS
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c "python3 $ROOT_DIR/memory_gardener.py && nice -n 19 python3 $ROOT_DIR/diary_agent.py"
+ExecStart=/bin/bash -c "bash $ROOT_DIR/plugins/00d_systeme_immunitaire.sh --silent; python3 $ROOT_DIR/memory_gardener.py && nice -n 19 python3 $ROOT_DIR/diary_agent.py"
 EODP
 
 cat << EODT > "$HOME/.config/systemd/user/tiffany-diary.timer"
