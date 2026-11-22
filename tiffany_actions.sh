@@ -219,7 +219,7 @@ else
     LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
 
     if [[ "$REQUETE_CLEAN" =~ (connais|sais tu|qui est|pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|souvenir|memoire|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire|rapport|erreur|journal|session|precedent|createur|qui je suis|utilisateur|smart|disque|audit|historique|rappelle) ]]; then
-        MOTEUR_IA="qwen2.5:1.5b"
+        MOTEUR_IA="tiffany-pro"
         TIMEOUT_IA=600
         LIMIT_CPU=80
         echo -e "\n\033[1;36m🧠 [Gros Cerveau 1.5b] Mobilisation des circuits profonds (Bouclier CPU actif)...\033[0m"
@@ -234,7 +234,26 @@ else
     fi
 
     (
-                REP_TEXT=$(nice -n 19 timeout 180 ollama run "$MOTEUR_IA" "$CONSIGNE Question : $REQUETE" 2>/dev/null | tr '\n' ' ' | tr -s ' ')
+                REP_TEXT=$(python3 - "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" << 'INNER'
+import sys, json, urllib.request
+mod, sys_p, q = sys.argv, sys.argv, sys.argv
+data = json.dumps({
+    "model": mod,
+    "system": sys_p,
+    "prompt": q,
+    "stream": False,
+    "keep_alive": -1,
+    "options": {"temperature": 0.6, "repeat_penalty": 1.25, "num_predict": 140}
+}).encode("utf-8")
+try:
+    req = urllib.request.Request("http://localhost:11434/api/generate", data=data, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        res = json.loads(r.read().decode("utf-8")).get("response", "")
+        print(" ".join(res.split()))
+except Exception:
+    print("")
+INNER
+)
         if [ -n "$REP_TEXT" ]; then
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
             echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
