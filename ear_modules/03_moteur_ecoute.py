@@ -1,3 +1,10 @@
+import fcntl, sys
+_lock_f = open("/tmp/tiffany_moteur_ecoute.lock", "w")
+try:
+    fcntl.flock(_lock_f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+except IOError:
+    sys.exit(0)
+
 import sys, os, json, subprocess, time, select, shlex, importlib.util
 from vosk import Model, KaldiRecognizer, SetLogLevel
 SetLogLevel(-1)
@@ -94,6 +101,7 @@ def ordre(b):
 
 notif("👂 Tiffany Prête", "Oreille haute précision activée !")
 while True:
+    time.sleep(0.03)
     r, _, _ = select.select([proc.stdout], [], [], 3.0)
     if not r:
         proc.kill(); proc.wait(); proc = cap(); rec.Reset(); continue
