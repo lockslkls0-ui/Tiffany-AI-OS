@@ -80,7 +80,7 @@ case "$Q" in
     "lumiere -"|"luminosite -"|"baisse la luminosite"|"moins clair"|"moins lumineux") go "Luminosité baissée, $NOM ! 🌙" "brightnessctl set 15%-" ;;
     "fenetres"|"range"|"cote a cote"|"partage ecran") go "Fenêtres rangées en 50/50, $NOM ! 🪟" "bash '$ACT/30_fenetre.sh' range" ;;
     "bureau"|"montre le bureau"|"reduis tout") go "Bureau dégagé, $NOM ! 🖥️" "bash '$ACT/30_fenetre.sh' bureau" ;;
-    "chrome"|"navigateur"|"internet"|"ouvre chrome"|"va sur internet") go "Ouverture du navigateur, $NOM ! 🌐" "bash '$ACT/30_fenetre.sh' chrome" ;;
+    "google"|"ouvre google"|"chrome"|"navigateur"|"internet"|"ouvre chrome"|"va sur internet") go "Ouverture de Google Chrome, $NOM ! 🌐" "DISPLAY=:0 nohup google-chrome --new-tab 'https://google.com' >/dev/null 2>&1 & sleep 1; DISPLAY=:0 wmctrl -a 'Google Chrome' >/dev/null 2>&1 || true" ;;
     "youtube"|"ouvre youtube") go "Ouverture de YouTube, $NOM ! 🌐" "bash '$ACT/13_youtube.sh'" ;;
     "verrouille"|"verrouille l ecran"|"verrouille la session") bash "$ACT/26_pilote.sh" verrouille ; exit 0 ;;
     "aide"|"help"|"commandes"|"panoplie") bash "$ROOT_DIR/tiffany_actions.sh" "aide" ; exit 0 ;;
