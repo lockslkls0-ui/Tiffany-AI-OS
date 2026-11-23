@@ -20,7 +20,7 @@ lint:
 
 apps:
   tiffany-ai-os:
-    command: bin/bash $SNAP/tiffany/tiffany_menu.sh
+    command: tiffany/tiffany_menu.sh
 
 parts:
   tiffany:

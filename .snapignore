@@ -7,7 +7,3 @@ backup
 parts
 stage
 prime
-voice/*.onnx
-voice/*.onnx.json
-voice/voix_active*
-voice/vosk-fr
