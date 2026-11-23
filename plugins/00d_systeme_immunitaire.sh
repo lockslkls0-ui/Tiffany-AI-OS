@@ -27,7 +27,7 @@ for f in "$ROOT"/*.sh "$ROOT"/actions_terminal/*.sh "$ROOT"/plugins/*.sh; do
     [ -f "$f" ] || continue
     if ! bash -n "$f" >/dev/null 2>&1; then
         REL="${f#$ROOT/}"
-        git -C "$ROOT" checkout HEAD -- "$REL" 2>/dev/null && chmod +x "$f"
+        echo "Alerte syntaxe sur $REL (aucun ecrasement automatique)" 2>/dev/null && chmod +x "$f"
         SOINS=$((SOINS+1))
         RAPPORT="$RAPPORT\n• Script Bash soigné : $REL"
     fi
@@ -36,7 +36,7 @@ for py in "$ROOT"/*.py "$ROOT"/ear_modules/*.py "$ROOT"/agents/*.py; do
     [ -f "$py" ] || continue
     if ! python3 -m py_compile "$py" >/dev/null 2>&1; then
         REL="${py#$ROOT/}"
-        git -C "$ROOT" checkout HEAD -- "$REL" 2>/dev/null
+        echo "Alerte syntaxe sur $REL (aucun ecrasement automatique)" 2>/dev/null
         SOINS=$((SOINS+1))
         RAPPORT="$RAPPORT\n• Script Python soigné : $REL"
     fi

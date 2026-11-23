@@ -48,7 +48,7 @@ data = json.dumps({
     "model": "tiffany-flash",
     "prompt": prompt,
     "stream": False,
-    "keep_alive": -1,
+    "keep_alive": "5m",
     "options": {"temperature": 0.3, "repeat_penalty": 1.25, "num_predict": 180}
 }).encode("utf-8")
 try:

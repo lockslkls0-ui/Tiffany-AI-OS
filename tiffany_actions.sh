@@ -234,7 +234,9 @@ else
     fi
 
     (
-                REP_TEXT=$(python3 - "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" << 'INNER'
+        exec 7>/tmp/tiffany_ia_brain.lock
+        flock -n 7 || exit 0
+        REP_TEXT=$(python3 - "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" << 'INNER'
 import sys, json, urllib.request
 mod, sys_p, q = sys.argv[1], sys.argv[2], sys.argv[3]
 data = json.dumps({
@@ -242,7 +244,7 @@ data = json.dumps({
     "system": sys_p,
     "prompt": q,
     "stream": False,
-    "keep_alive": -1,
+    "keep_alive": "5m",
     "options": {"temperature": 0.6, "repeat_penalty": 1.25, "num_predict": 140}
 }).encode("utf-8")
 try:

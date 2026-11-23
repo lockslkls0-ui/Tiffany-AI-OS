@@ -130,7 +130,7 @@ else:
     sys_msg = f"Tu es Tiffany (24 ans), la compagne virtuelle douce et dévouée de {nom} sur Linux Mint. Memoire active : {memo}. Reponds directement a {nom} en francais en 1 ou 2 phrases courtes, naturelles et complices."
     prompt_user = req_brut
 
-data = json.dumps({"model": modele, "system": sys_msg, "prompt": prompt_user, "stream": False, "keep_alive": -1, "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_predict": max_tok}}).encode("utf-8")
+data = json.dumps({"model": modele, "system": sys_msg, "prompt": prompt_user, "stream": False, "keep_alive": "5m", "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_predict": max_tok}}).encode("utf-8")
 try:
     r = urllib.request.urlopen(urllib.request.Request("http://localhost:11434/api/generate", data=data, headers={"Content-Type": "application/json"}), timeout=120)
     rep = " ".join(json.loads(r.read().decode("utf-8")).get("response", "").split())
