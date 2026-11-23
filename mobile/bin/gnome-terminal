@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+if [[ "$TIFFANY_MOBILE" != "1" ]]; then
+    exec /usr/bin/gnome-terminal "$@"
+fi
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --title=*|--window-with-profile=*|--geometry=*) shift ;;
+        --title|--window-with-profile|--geometry|--) shift 2 ;;
+        bash|sh)
+            shift
+            [[ "$1" == "-c" ]] && shift
+            CMD=$(echo "$1" | sed -E 's/;[[:space:]]*read.*$//; s/\|[[:space:]]*less.*$//')
+            eval "$CMD"
+            exit $?
+            ;;
+        *) shift ;;
+    esac
+done
