@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Si lancé depuis le PC (sans TIFFANY_MOBILE=1), utiliser le vrai zenity système
 if [[ "$TIFFANY_MOBILE" != "1" && -x /usr/bin/zenity ]]; then
     exec /usr/bin/zenity "$@"
 fi
@@ -8,8 +7,11 @@ fi
 MODE="info"
 TITRE="Tiffany AI"
 TEXTE=""
-OPTIONS=()
+RAW_ARGS=()
 CHAMPS=()
+NB_COLS=0
+CHECKLIST=0
+PRINT_COL=1
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -17,25 +19,67 @@ while [[ $# -gt 0 ]]; do
         --forms) MODE="forms"; shift ;;
         --question) MODE="question"; shift ;;
         --list) MODE="list"; shift ;;
-        --info|--warning|--error|--text-info|--notification) MODE="info"; shift ;;
+        --progress) MODE="progress"; shift ;;
+        --info|--warning|--error|--text-info|--notification) [[ "$*" == *"--timeout"* ]] && exit 0; MODE="info"; shift ;;
+        --checklist|--radiolist) CHECKLIST=1; shift ;;
         --title=*) TITRE="${1#--title=}"; shift ;;
         --title) TITRE="$2"; shift 2 ;;
         --text=*) TEXTE="${1#--text=}"; shift ;;
         --text) TEXTE="$2"; shift 2 ;;
         --add-entry=*) CHAMPS+=("${1#--add-entry=}"); shift ;;
         --add-entry) CHAMPS+=("$2"); shift 2 ;;
-        --column=*|--width=*|--height=*|--print-column=*|--separator=*) shift ;;
-        --column) shift 2 ;;
-        --hide-header|--radiolist|--checklist) shift ;;
-        *) OPTIONS+=("$1"); shift ;;
+        --column=*) NB_COLS=$((NB_COLS + 1)); shift ;;
+        --column) NB_COLS=$((NB_COLS + 1)); shift 2 ;;
+        --print-column=*) PRINT_COL="${1#--print-column=}"; shift ;;
+        --print-column) PRINT_COL="$2"; shift 2 ;;
+        --extra-button=*) RAW_ARGS+=("${1#--extra-button=}"); shift ;;
+        --width=*|--height=*|--separator=*|--cancel-label=*|--hide-header|--auto-close) shift ;;
+        *) RAW_ARGS+=("$1"); shift ;;
     esac
 done
 
+# Pour --progress, on ne bloque pas le téléphone (le téléchargement continue en arrière-plan)
+if [[ "$MODE" == "progress" ]]; then
+    cat >/dev/null
+    exit 0
+fi
+
 [[ -z "$TEXTE" && ! -t 0 ]] && TEXTE=$(cat)
+
+# Structuration intelligente des options (gestion des tableaux multi-colonnes et Top 10)
+OPTIONS=()
+declare -A MAP_RETOUR
+
+if [[ "$MODE" == "list" && ${#RAW_ARGS[@]} -gt 0 ]]; then
+    if [[ $NB_COLS -gt 1 && ${#RAW_ARGS[@]} -ge $NB_COLS ]]; then
+        i=0
+        while [[ $i -lt ${#RAW_ARGS[@]} ]]; do
+            if [[ $CHECKLIST -eq 1 && $NB_COLS -ge 3 ]]; then
+                # Format checklist (ex: FALSE | N° | Titre | Durée)
+                VAL_RET="${RAW_ARGS[$((i + PRINT_COL - 1))]}"
+                LABEL="${RAW_ARGS[$((i + 1))]}. ${RAW_ARGS[$((i + 2))]}"
+                [[ $NB_COLS -ge 4 ]] && LABEL="$LABEL (${RAW_ARGS[$((i + 3))]})"
+            else
+                # Format liste classique à 2+ colonnes (ex: Action | Description)
+                VAL_RET="${RAW_ARGS[$((i + PRINT_COL - 1))]}"
+                LABEL="${RAW_ARGS[$i]}"
+                [[ -n "${RAW_ARGS[$((i + 1))]}" ]] && LABEL="$LABEL — ${RAW_ARGS[$((i + 1))]}"
+            fi
+            OPTIONS+=("$LABEL")
+            MAP_RETOUR["$LABEL"]="$VAL_RET"
+            i=$((i + NB_COLS))
+        done
+    else
+        for item in "${RAW_ARGS[@]}"; do
+            OPTIONS+=("$item")
+            MAP_RETOUR["$item"]="$item"
+        done
+    fi
+fi
+
 [[ "$MODE" == "question" && ${#OPTIONS[@]} -eq 0 ]] && OPTIONS=("Oui" "Non")
 [[ "$MODE" == "info" && ${#OPTIONS[@]} -eq 0 ]] && OPTIONS=("OK")
 
-# Fonction interne pour poser une question sur l'interface mobile 8486
 ask_mobile() {
     local m_mode="$1"
     local m_title="$2"
@@ -57,7 +101,7 @@ with open("/tmp/tiffany_mob_prompt.json", "w", encoding="utf-8") as f:
 ' "$qid" "$m_mode" "$m_title" "$m_text" "$@"
 
     local ans_file="/tmp/tiffany_mob_ans_${qid}.json"
-    for _ in $(seq 1 120); do
+    for _ in $(seq 1 240); do
         if [[ -f "$ans_file" ]]; then
             local res
             res=$(python3 -c '
@@ -78,12 +122,11 @@ print(d.get("value", ""))
     return 1
 }
 
-# Mode formulaire (--forms) : pose chaque champ l'un après l'autre sur le téléphone et assemble avec |
 if [[ "$MODE" == "forms" ]]; then
     [[ ${#CHAMPS[@]} -eq 0 ]] && CHAMPS=("Saisie :")
     RESULTATS=()
     for idx in "${!CHAMPS[@]}"; do
-        REP=$(ask_mobile "entry" "$TITRE ($((idx+1))/${#CHAMPS[@]})" "${TEXTE}\n\n👉 ${CHAMPS[$idx]}")
+        REP=$(ask_mobile "entry" "$TITRE ($((idx+1))/${#CHAMPS[@]})" "${TEXTE}"$'\n\n👉 '"${CHAMPS[$idx]}")
         CODE=$?
         [[ $CODE -ne 0 ]] && exit 1
         RESULTATS+=("$REP")
@@ -92,7 +135,6 @@ if [[ "$MODE" == "forms" ]]; then
     exit 0
 fi
 
-# Autres modes (entry, question, list, info)
 REP=$(ask_mobile "$MODE" "$TITRE" "$TEXTE" "${OPTIONS[@]}")
 CODE=$?
 [[ $CODE -ne 0 ]] && exit 1
@@ -100,5 +142,10 @@ CODE=$?
 if [[ "$MODE" == "question" ]]; then
     [[ "$REP" == "Oui" ]] && exit 0 || exit 1
 fi
-echo "$REP"
+
+if [[ "$MODE" == "list" && -n "${MAP_RETOUR[$REP]}" ]]; then
+    echo "${MAP_RETOUR[$REP]}"
+else
+    echo "$REP"
+fi
 exit 0

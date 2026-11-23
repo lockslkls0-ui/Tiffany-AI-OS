@@ -1,4 +1,4 @@
-import os, re, json, glob, hashlib, subprocess, datetime
+import os, re, json, glob, hashlib, subprocess
 
 ROOT = os.path.expanduser("~/tiffany")
 PIN_FILE = os.path.expanduser("~/.config/tiffany/mobile_pin.hash")
@@ -29,13 +29,8 @@ def stats():
         m = subprocess.check_output(["free", "-m"]).decode().splitlines().pop(1).split()
         ram = f"{int(m.pop(2))*100//int(m.pop(1))}%"
     except Exception: ram = "N/A"
-    prompt = None
-    if os.path.exists("/tmp/tiffany_mob_prompt.json"):
-        try:
-            prompt = json.load(open("/tmp/tiffany_mob_prompt.json", encoding="utf-8"))
-        except Exception:
-            pass
-    return {"temp": temp, "ram": ram, "prompt": prompt}
+    pr = json.load(open("/tmp/tiffany_mob_prompt.json")) if __import__("os").path.exists("/tmp/tiffany_mob_prompt.json") else None
+    return {"temp": temp, "ram": ram, "prompt": pr}
 
 def map_outils():
     mapping = {}
@@ -76,54 +71,36 @@ def executer(ordre):
         ordre = ordre[4:].strip()
         low = ordre.lower()
 
-    # 0. Réponses directes rapides sur mobile (Heure, Date, Météo) sans lancer de fenêtre PC
-    if re.search(r"\b(quelle heure|l'heure|heure est-il|donne l'heure)\b", low) or low == "heure":
-        now = datetime.datetime.now()
-        return f"🕒 Il est exactement {now.strftime('%H:%M')} (nous sommes le {now.strftime('%d/%m/%Y')})."
-
-    if re.search(r"\b(meteo|météo)\b", low):
-        ville = re.sub(r".*\b(meteo|météo)\b\s*(a|à|de|du|pour)?\s*", "", low).strip()
-        try:
-            url = f"https://wttr.in{ville}?format=%l:+%c+%t+(ressenti+%f),+%w,+humidité+%h&lang=fr"
-            rep = subprocess.check_output(["curl", "-s", "-m", "8", url]).decode("utf-8", "ignore").strip()
-            if rep and "Unknown" not in rep and "<html" not in rep.lower():
-                return f"🌤️ Météo : {rep}"
-        except Exception:
-            pass
-
-    # 1. Téléchargeur MP3 Intelligent depuis le téléphone
+    # 1. Telechargeur MP3 Intelligent depuis le telephone
     if low.startswith("telechargeur intelligent") or low.startswith("telecharger "):
         musique = re.sub(r"^(telechargeur intelligent|telecharger)\s*", "", ordre, flags=re.I).strip()
         if not musique:
             return "🎵 Écris le nom de ta musique ou de ton artiste dans la case tout en haut, puis appuie sur 'Telechargeur intelligent' !"
-        try:
-            titre = subprocess.check_output(["yt-dlp", "--get-title", f"ytsearch1:{musique}"], stderr=subprocess.DEVNULL, timeout=15).decode("utf-8", "ignore").splitlines()
-            titre_str = titre.pop(0) if titre else musique
-        except Exception:
-            titre_str = musique
+        titre = subprocess.check_output(["yt-dlp", "--get-title", f"ytsearch1:{musique}"], stderr=subprocess.DEVNULL, timeout=15).decode("utf-8", "ignore").splitlines()
+        titre_str = titre.pop(0) if titre else musique
         os.makedirs(os.path.expanduser("~/Musique"), exist_ok=True)
         subprocess.Popen(["notify-send", "-i", "folder-music", "📥 Téléchargement MP3 Tiffany", f"Extraction : {titre_str}"], env=env)
         subprocess.Popen(["bash", "-c", f'yt-dlp -x --audio-format mp3 --audio-quality 192K --no-playlist -o "$HOME/Musique/%(title)s.%(ext)s" "ytsearch1:{musique}" >/dev/null 2>&1 && notify-send -i "emblem-default" "✅ MP3 Téléchargé !" "{titre_str}"'], env=env)
         return f"📥 Téléchargement MP3 lancé sur ton PC (dossier Musique) :\n🎵 {titre_str}"
 
     # 2. Recherche directe dans les boutons uniquement si clic bouton
-    outils = map_outils() if is_btn else {}
+    outils = map_outils()
     for nom_btn in sorted(outils.keys(), key=len, reverse=True):
-        if low == nom_btn or low.startswith(nom_btn + " "):
+        if low == nom_btn or low.startswith(nom_btn + " ") or (len(low) >= 4 and low in nom_btn):
             sc = outils[nom_btn]
             arg = ordre[len(nom_btn):].strip()
             cmd = ["bash", sc] + ([arg] if arg else [])
             try:
-                out = clean(subprocess.check_output(cmd, input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=60).decode("utf-8", "ignore"))
-                return out[-1200:] if out else f"✅ {nom_btn.capitalize()} exécuté."
+                out = clean(subprocess.check_output(cmd, input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=12).decode("utf-8", "ignore"))
+                return out[-1200:] if out else f"✅ {nom_btn.capitalize()} lancé sur le PC."
             except subprocess.TimeoutExpired:
                 return f"✅ {nom_btn.capitalize()} ouvert sur l'écran du PC."
             except Exception as e:
                 return f"⚠️ {nom_btn.capitalize()} : {e}"
 
-    # 3. Passer par l'interpréteur universel
+    # 3. Sinon, passer par l'interpreteur universel (ex: 'son a 50', 'mute', 'youtube jazz', 'chrome')
     try:
-        out = clean(subprocess.check_output(["bash", f"{ROOT}/interpreteur_universel.sh", ordre], input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=30).decode("utf-8", "ignore"))
+        out = clean(subprocess.check_output(["bash", f"{ROOT}/interpreteur_universel.sh", ordre], input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=12).decode("utf-8", "ignore"))
         if out and "inconnu" not in out.lower():
             return out[-1200:]
     except subprocess.TimeoutExpired:
@@ -131,7 +108,7 @@ def executer(ordre):
     except Exception:
         pass
 
-    # 4. Question libre au Cerveau IA local (Ollama)
+    # 4. Sinon, question libre au Cerveau IA local (Ollama)
     try:
         pay = json.dumps({"model": "tiffany-flash", "prompt": f"Réponds brièvement en français en tant que Tiffany AI-OS : {ordre}", "stream": False}).encode()
         raw = subprocess.check_output(["curl", "-s", "-m", "25", "http://127.0.0", "-d", pay]).decode("utf-8", "ignore")
