@@ -458,3 +458,18 @@
 [24/11/2026 03:10:15] USER (Mobile): BTN:variante
 [24/11/2026 03:10:33] USER (Mobile): BTN:audit fonctionnel
 [24/11/2026 03:10:34] USER (Mobile): BTN:lire pdf
+[24/11/2026 10:38:46] USER (Mobile): BTN:son a 100
+[24/11/2026 10:38:46] USER (Mobile): BTN:son a 100
+[24/11/2026 10:38:47] USER (Mobile): BTN:son a 100
+[24/11/2026 10:38:49] USER (Mobile): BTN:son a 100
+[24/11/2026 10:38:50] USER (Mobile): BTN:son a 100
+[24/11/2026 10:38:51] USER (Mobile): BTN:mode boost
+[24/11/2026 10:39:21] USER (Mobile): play pause
+[24/11/2026 10:39:21] USER (Mobile): allumer rhythmbox
+[24/11/2026 10:40:27] USER (Mobile): Son a 120
+[24/11/2026 10:40:46] USER (Mobile): Son a 180
+[24/11/2026 10:41:00] USER (Mobile): Volume a 1
+[24/11/2026 10:41:10] USER (Mobile): Son max
+[24/11/2026 10:42:54] USER (Mobile): BTN:analyse
+[24/11/2026 10:43:24] USER (Mobile): BTN:mode boost
+[24/11/2026 10:43:54] USER (Mobile): BTN:analyse
