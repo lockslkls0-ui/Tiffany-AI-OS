@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 if [[ "$TIFFANY_MOBILE" != "1" && -x /usr/bin/zenity ]]; then
     exec /usr/bin/zenity "$@"
 fi
@@ -20,7 +19,7 @@ while [[ $# -gt 0 ]]; do
         --question) MODE="question"; shift ;;
         --list) MODE="list"; shift ;;
         --progress) MODE="progress"; shift ;;
-        --info|--warning|--error|--text-info|--notification) [[ "$*" == *"--timeout"* ]] && exit 0; MODE="info"; shift ;;
+        --info|--warning|--error|--text-info|--notification) MODE="info"; shift ;;
         --checklist|--radiolist) CHECKLIST=1; shift ;;
         --title=*) TITRE="${1#--title=}"; shift ;;
         --title) TITRE="$2"; shift 2 ;;
@@ -33,20 +32,19 @@ while [[ $# -gt 0 ]]; do
         --print-column=*) PRINT_COL="${1#--print-column=}"; shift ;;
         --print-column) PRINT_COL="$2"; shift 2 ;;
         --extra-button=*) RAW_ARGS+=("${1#--extra-button=}"); shift ;;
-        --width=*|--height=*|--separator=*|--cancel-label=*|--hide-header|--auto-close) shift ;;
+        --width=*|--height=*|--separator=*|--cancel-label=*|--hide-header|--auto-close|--timeout=*) shift ;;
         *) RAW_ARGS+=("$1"); shift ;;
     esac
 done
 
-# Pour --progress, on ne bloque pas le téléphone (le téléchargement continue en arrière-plan)
 if [[ "$MODE" == "progress" ]]; then
     cat >/dev/null
     exit 0
 fi
 
-[[ -z "$TEXTE" && ! -t 0 ]] && TEXTE=$(cat)
+[[ "$**" == *"--timeout"* ]] && exit 0
+[[ -v TEXTE && ! -t 0 ]] && TEXTE=$(cat)
 
-# Structuration intelligente des options (gestion des tableaux multi-colonnes et Top 10)
 OPTIONS=()
 declare -A MAP_RETOUR
 
@@ -55,15 +53,13 @@ if [[ "$MODE" == "list" && ${#RAW_ARGS[@]} -gt 0 ]]; then
         i=0
         while [[ $i -lt ${#RAW_ARGS[@]} ]]; do
             if [[ $CHECKLIST -eq 1 && $NB_COLS -ge 3 ]]; then
-                # Format checklist (ex: FALSE | N° | Titre | Durée)
                 VAL_RET="${RAW_ARGS[$((i + PRINT_COL - 1))]}"
                 LABEL="${RAW_ARGS[$((i + 1))]}. ${RAW_ARGS[$((i + 2))]}"
                 [[ $NB_COLS -ge 4 ]] && LABEL="$LABEL (${RAW_ARGS[$((i + 3))]})"
             else
-                # Format liste classique à 2+ colonnes (ex: Action | Description)
                 VAL_RET="${RAW_ARGS[$((i + PRINT_COL - 1))]}"
                 LABEL="${RAW_ARGS[$i]}"
-                [[ -n "${RAW_ARGS[$((i + 1))]}" ]] && LABEL="$LABEL — ${RAW_ARGS[$((i + 1))]}"
+                [[ -n "${RAW_ARGS[$((i + 1))]}" ]] && LABEL="$LABEL -- ${RAW_ARGS[$((i + 1))]}"
             fi
             OPTIONS+=("$LABEL")
             MAP_RETOUR["$LABEL"]="$VAL_RET"
@@ -90,23 +86,22 @@ ask_mobile() {
     python3 -c '
 import json, sys
 data = {
-    "id": sys.argv,
-    "mode": sys.argv,
-    "title": sys.argv,
-    "text": sys.argv,
+    "id": sys.argv[1],
+    "mode": sys.argv[2],
+    "title": sys.argv[3],
+    "text": sys.argv[4],
     "options": sys.argv[5:]
 }
 with open("/tmp/tiffany_mob_prompt.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False)
 ' "$qid" "$m_mode" "$m_title" "$m_text" "$@"
-
     local ans_file="/tmp/tiffany_mob_ans_${qid}.json"
     for _ in $(seq 1 240); do
         if [[ -f "$ans_file" ]]; then
             local res
             res=$(python3 -c '
 import json, sys
-d = json.load(open(sys.argv, encoding="utf-8"))
+d = json.load(open(sys.argv[1], encoding="utf-8"))
 if d.get("cancel"): sys.exit(2)
 print(d.get("value", ""))
 ' "$ans_file")
@@ -122,30 +117,17 @@ print(d.get("value", ""))
     return 1
 }
 
-if [[ "$MODE" == "forms" ]]; then
-    [[ ${#CHAMPS[@]} -eq 0 ]] && CHAMPS=("Saisie :")
-    RESULTATS=()
-    for idx in "${!CHAMPS[@]}"; do
-        REP=$(ask_mobile "entry" "$TITRE ($((idx+1))/${#CHAMPS[@]})" "${TEXTE}"$'\n\n👉 '"${CHAMPS[$idx]}")
-        CODE=$?
-        [[ $CODE -ne 0 ]] && exit 1
-        RESULTATS+=("$REP")
-    done
-    (IFS="|"; echo "${RESULTATS[*]}")
-    exit 0
-fi
-
-REP=$(ask_mobile "$MODE" "$TITRE" "$TEXTE" "${OPTIONS[@]}")
+RES=$(ask_mobile "$MODE" "$TITRE" "$TEXTE" "${OPTIONS[@]}")
 CODE=$?
 [[ $CODE -ne 0 ]] && exit 1
 
 if [[ "$MODE" == "question" ]]; then
-    [[ "$REP" == "Oui" ]] && exit 0 || exit 1
+    [[ "$RES" == "Oui" ]] && exit 0 || exit 1
 fi
 
-if [[ "$MODE" == "list" && -n "${MAP_RETOUR[$REP]}" ]]; then
-    echo "${MAP_RETOUR[$REP]}"
+if [[ "$MODE" == "list" && -n "${MAP_RETOUR[$RES]}" ]]; then
+    echo "${MAP_RETOUR[$RES]]"
 else
-    echo "$REP"
+    echo "$RES"
 fi
 exit 0

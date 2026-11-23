@@ -1,4 +1,4 @@
-import os, re, json, glob, hashlib, subprocess
+import os, re, json, glob, shutil, hashlib, subprocess, datetime
 
 ROOT = os.path.expanduser("~/tiffany")
 PIN_FILE = os.path.expanduser("~/.config/tiffany/mobile_pin.hash")
@@ -7,6 +7,7 @@ RAW_FILE = os.path.expanduser("~/.config/tiffany/mobile_pin.txt")
 def _h(p): return hashlib.sha256(("tiffany_salt_" + p.strip()).encode()).hexdigest()
 
 def init_pin():
+    os.makedirs(os.path.dirname(PIN_FILE), exist_ok=True)
     if not os.path.exists(PIN_FILE):
         p = open(RAW_FILE).read().strip() if os.path.exists(RAW_FILE) else "1246"
         open(PIN_FILE, "w").write(_h(p))
@@ -27,10 +28,15 @@ def stats():
     except Exception: temp = "N/A"
     try:
         m = subprocess.check_output(["free", "-m"]).decode().splitlines().pop(1).split()
-        ram = f"{int(m.pop(2))*100//int(m.pop(1))}%"
+        ram = f"{int(m[2])*100//int(m[1])}%"
     except Exception: ram = "N/A"
-    pr = json.load(open("/tmp/tiffany_mob_prompt.json")) if __import__("os").path.exists("/tmp/tiffany_mob_prompt.json") else None
-    return {"temp": temp, "ram": ram, "prompt": pr}
+    prompt = None
+    if os.path.exists("/tmp/tiffany_mob_prompt.json"):
+        try:
+            prompt = json.load(open("/tmp/tiffany_mob_prompt.json", encoding="utf-8"))
+        except Exception:
+            pass
+    return {"temp": temp, "ram": ram, "prompt": prompt}
 
 def map_outils():
     mapping = {}
@@ -51,14 +57,50 @@ def clean(s):
 
 def get_env():
     uid = os.getuid()
+    home = os.path.expanduser("~")
     env = os.environ.copy()
     env["DISPLAY"] = ":0"
-    env["XAUTHORITY"] = os.path.expanduser("~/.Xauthority")
+    env["XAUTHORITY"] = os.path.join(home, ".Xauthority")
     env["XDG_RUNTIME_DIR"] = f"/run/user/{uid}"
     env["DBUS_SESSION_BUS_ADDRESS"] = f"unix:path=/run/user/{uid}/bus"
     env["TIFFANY_MOBILE"] = "1"
-    env["PATH"] = f"{ROOT}/mobile/bin:" + env.get("PATH", "")
+    env["PATH"] = f"{ROOT}/mobile/bin:{home}/.local/bin:/usr/local/bin:/usr/bin:/bin:" + env.get("PATH", "")
     return env
+
+def find_ytdlp():
+    for c in (os.path.expanduser("~/.local/bin/yt-dlp"), "/usr/local/bin/yt-dlp", "/usr/bin/yt-dlp", shutil.which("yt-dlp")):
+        if c and os.path.isfile(c) and os.access(c, os.X_OK):
+            return c
+    return None
+
+
+def sync_bureau_et_memoire(ordre, reponse=""):
+    import time
+    log_f = os.path.join(ROOT, "logs", "session_raw.txt")
+    os.makedirs(os.path.dirname(log_f), exist_ok=True)
+    horo = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    with open(log_f, "a", encoding="utf-8") as f:
+        f.write(f"[{horo}] USER (Mobile): {ordre}\n")
+        if reponse:
+            f.write(f"[{horo}] TIFFANY (Mobile): {reponse}\n")
+    env = get_env()
+    fifo = "/tmp/tiffany_chat.fifo"
+    if not os.path.exists("/tmp/tiffany_core_ready") or not os.path.exists(fifo):
+        if os.path.exists("/tmp/tiffany_core_ready"):
+            try: os.remove("/tmp/tiffany_core_ready")
+            except Exception: pass
+        subprocess.Popen(["gnome-terminal", "--title=Discussion_Tiffany", "--", "bash", os.path.join(ROOT, "tiffany_core.sh")], env=env)
+        for _ in range(40):
+            time.sleep(0.1)
+            if os.path.exists("/tmp/tiffany_core_ready") and os.path.exists(fifo):
+                break
+    if os.path.exists(fifo):
+        try:
+            fd = os.open(fifo, os.O_WRONLY | os.O_NONBLOCK)
+            os.write(fd, (f"[📱 Mobile] {ordre}\n").encode("utf-8"))
+            os.close(fd)
+        except Exception:
+            pass
 
 def executer(ordre):
     ordre = ordre.strip()
@@ -66,49 +108,76 @@ def executer(ordre):
     env = get_env()
     low = ordre.lower()
 
-    is_btn = ordre.startswith("BTN:")
-    if is_btn:
+    sync_bureau_et_memoire(ordre)
+    if ordre.startswith("BTN:"):
         ordre = ordre[4:].strip()
         low = ordre.lower()
 
-    # 1. Telechargeur MP3 Intelligent depuis le telephone
+    # 1. Heure & Météo directes (sans lancer l'horloge Matrix)
+    if re.search(r"\b(quelle heure|l'heure|heure est-il|donne l'heure)\b", low) or low == "heure":
+        now = datetime.datetime.now()
+        return f"🕒 Il est {now.strftime('%H:%M')} (le {now.strftime('%d/%m/%Y')})."
+
+    if re.search(r"\b(meteo|météo)\b", low):
+        ville = re.sub(r".*\b(meteo|météo)\b\s*(a|à|de|du|pour)?\s*", "", low).strip()
+        try:
+            rep = subprocess.check_output(["curl", "-s", "-m", "8", f"https://wttr.in{ville}?format=%l:+%c+%t+(ressenti+%f),+%w&lang=fr"]).decode("utf-8", "ignore").strip()
+            if rep and "Unknown" not in rep and "<html" not in rep.lower():
+                return f"🌤️ Météo : {rep}"
+        except Exception:
+            pass
+
+    # 2. Téléchargeur MP3 (fonctionne avec les deux boutons + cherche yt-dlp partout)
     if low.startswith("telechargeur intelligent") or low.startswith("telecharger "):
-        musique = re.sub(r"^(telechargeur intelligent|telecharger)\s*", "", ordre, flags=re.I).strip()
+        musique = re.sub(r"^(telechargeur mp3 pro|telechargeur intelligent|telecharger)\s*", "", ordre, flags=re.I).strip()
         if not musique:
-            return "🎵 Écris le nom de ta musique ou de ton artiste dans la case tout en haut, puis appuie sur 'Telechargeur intelligent' !"
-        titre = subprocess.check_output(["yt-dlp", "--get-title", f"ytsearch1:{musique}"], stderr=subprocess.DEVNULL, timeout=15).decode("utf-8", "ignore").splitlines()
-        titre_str = titre.pop(0) if titre else musique
+            return "🎵 Écris le nom de ta musique dans la case en haut, puis appuie sur le bouton Téléchargeur !"
+        yt = find_ytdlp()
+        if not yt:
+            return "❌ yt-dlp est introuvable sur le PC (installe-le avec : pip3 install yt-dlp)."
+        try:
+            titre_lines = subprocess.check_output([yt, "--no-update", "--get-title", f"ytsearch1:{musique}"], env=env, stderr=subprocess.DEVNULL, timeout=25).decode("utf-8", "ignore").splitlines()
+            titre_str = titre_lines[0] if titre_lines else musique
+        except Exception as e:
+            return f"❌ Recherche YouTube impossible : {e}"
         os.makedirs(os.path.expanduser("~/Musique"), exist_ok=True)
         subprocess.Popen(["notify-send", "-i", "folder-music", "📥 Téléchargement MP3 Tiffany", f"Extraction : {titre_str}"], env=env)
-        subprocess.Popen(["bash", "-c", f'yt-dlp -x --audio-format mp3 --audio-quality 192K --no-playlist -o "$HOME/Musique/%(title)s.%(ext)s" "ytsearch1:{musique}" >/dev/null 2>&1 && notify-send -i "emblem-default" "✅ MP3 Téléchargé !" "{titre_str}"'], env=env)
-        return f"📥 Téléchargement MP3 lancé sur ton PC (dossier Musique) :\n🎵 {titre_str}"
+        dl_cmd = (
+            f'"{yt}" --no-update -x --audio-format mp3 --audio-quality 192K --no-playlist '
+            f'-o "$HOME/Musique/%(title)s.%(ext)s" "ytsearch1:{musique}" >/tmp/tiffany_dl.log 2>&1 && '
+            f'notify-send -i "emblem-default" "✅ MP3 Téléchargé !" "{titre_str}" && '
+            f'F=$(ls -t "$HOME/Musique"/*.mp3 2>/dev/null | head -n 1) && '
+            f'[ -n "$F" ] && (pgrep -x rhythmbox >/dev/null || nohup rhythmbox >/dev/null 2>&1 &) && sleep 2 && rhythmbox-client --enqueue "$F" >/dev/null 2>&1'
+        )
+        subprocess.Popen(["bash", "-c", dl_cmd], env=env)
+        return f"📥 Téléchargement MP3 lancé :\n🎵 {titre_str}\n(Ajout automatique à Rhythmbox dès la fin)"
 
-    # 2. Recherche directe dans les boutons uniquement si clic bouton
+    # 3. Boutons & Outils (correspondance exacte ou mot-clé comme 'boost' / 'froid')
     outils = map_outils()
     for nom_btn in sorted(outils.keys(), key=len, reverse=True):
         if low == nom_btn or low.startswith(nom_btn + " ") or (len(low) >= 4 and low in nom_btn):
             sc = outils[nom_btn]
-            arg = ordre[len(nom_btn):].strip()
+            arg = ordre[len(nom_btn):].strip() if low.startswith(nom_btn) else ""
             cmd = ["bash", sc] + ([arg] if arg else [])
             try:
-                out = clean(subprocess.check_output(cmd, input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=12).decode("utf-8", "ignore"))
-                return out[-1200:] if out else f"✅ {nom_btn.capitalize()} lancé sur le PC."
+                out = clean(subprocess.check_output(cmd, input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=30).decode("utf-8", "ignore"))
+                return out[-1200:] if out else f"✅ {nom_btn.capitalize()} exécuté."
             except subprocess.TimeoutExpired:
-                return f"✅ {nom_btn.capitalize()} ouvert sur l'écran du PC."
+                return f"✅ {nom_btn.capitalize()} ouvert."
             except Exception as e:
                 return f"⚠️ {nom_btn.capitalize()} : {e}"
 
-    # 3. Sinon, passer par l'interpreteur universel (ex: 'son a 50', 'mute', 'youtube jazz', 'chrome')
+    # 4. Interpréteur universel
     try:
-        out = clean(subprocess.check_output(["bash", f"{ROOT}/interpreteur_universel.sh", ordre], input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=12).decode("utf-8", "ignore"))
+        out = clean(subprocess.check_output(["bash", f"{ROOT}/tiffany_actions.sh", ordre], input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=20).decode("utf-8", "ignore"))
         if out and "inconnu" not in out.lower():
             return out[-1200:]
     except subprocess.TimeoutExpired:
-        return f"✅ Action '{ordre}' lancée sur le PC."
+        return f"✅ Action '{ordre}' lancée."
     except Exception:
         pass
 
-    # 4. Sinon, question libre au Cerveau IA local (Ollama)
+    # 5. Cerveau IA local Ollama
     try:
         pay = json.dumps({"model": "tiffany-flash", "prompt": f"Réponds brièvement en français en tant que Tiffany AI-OS : {ordre}", "stream": False}).encode()
         raw = subprocess.check_output(["curl", "-s", "-m", "25", "http://127.0.0", "-d", pay]).decode("utf-8", "ignore")

@@ -152,3 +152,7 @@
 [23/11/2026 22:56:51] TIFFANY (tiffany-pro): Mon PC, Toshiba Portégé R830 avec i3-2350M et Linux Mint 17.4 : État matériel : + CPU: Temps de fonctionnement normal (69°C) + RAM: Utilisation optimale à environ la moitié du stock disponible + Disque dur : Spécification correcte, libre pour l'instant + SMART monitoring OK Points d'attention / erreurs trouvées : 1. CPU un peu chaud (~85°c) - C'est une tendance inhabituelle qui pourrait suggérer que le système est stressé ou qu'il y a des problèmes de ventilation. 2. Logiciel tiffany-diary.service : Les deux services demandés ne se sont pas démarrées correctement, ce dont dépend la fonction
 [24/11/2026 00:25:11] USER: savoir
 [24/11/2026 00:25:11] TIFFANY (tiffany-flash): Je ne peux pas vous aider à cacher vos identifiants de connexion dans les applications d'entreprise (SAS etc). Je suis ici pour partager mes informations personnelles sans ces données particulières. Si tu veux discuter sur des sujets plus axés, je serai heureuse de le faire en
+[24/11/2026 02:33:20] USER (Mobile): quelle heure est-il
+[24/11/2026 02:33:22] USER (Mobile): BTN:systeme immunitaire
+[24/11/2026 02:33:30] USER (Mobile): BTN:oreille on off
+[24/11/2026 02:33:31] USER (Mobile): BTN:voir memoire

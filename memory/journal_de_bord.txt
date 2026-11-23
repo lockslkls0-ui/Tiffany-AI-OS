@@ -370,3 +370,6 @@ Les disques durs sont en bon état. Le système est un peu chaud et un logiciel 
 
 === [24/11/2026 à 01:43] ===
 Il y a environ la moitié du stock disponible. Le disque dur dispose d'une spécification correcte et est disponible. Le SMART monitoring est OK, avec 1 point d'attention sur le chaleur du CPU (~85°C) qui pourrait indiquer un stress sur le système ou des problèmes de ventilation. Le logiciel tiffany-diary.service ne se démarrerait pas correctement, nécessitant des services supplémentaires pour fonctionner.
+
+=== [24/11/2026 à 02:14] ===
+Stock disponible environ la moitié, disque dur en bonne condition avec monitoring correct, CPU un peu chaud, logiciel tiffany-diary.service non démarré correctement.
