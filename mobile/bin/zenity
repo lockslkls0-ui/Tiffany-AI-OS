@@ -18,6 +18,10 @@ while [[ $# -gt 0 ]]; do
         --forms) MODE="forms"; shift ;;
         --question) MODE="question"; shift ;;
         --list) MODE="list"; shift ;;
+        --file-selection)
+            MODE="list"; NB_COLS=1
+            while IFS= read -r f; do RAW_ARGS+=("$f"); done < <(find "$HOME/Bureau" "$HOME/Desktop" "$HOME/Documents" "$HOME/Téléchargements" "$HOME/Downloads" -maxdepth 2 -iname "*.pdf" 2>/dev/null | head -n 15)
+            shift ;;
         --progress) MODE="progress"; shift ;;
         --info|--warning|--error|--text-info|--notification) MODE="info"; shift ;;
         --checklist|--radiolist) CHECKLIST=1; shift ;;

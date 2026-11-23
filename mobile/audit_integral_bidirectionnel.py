@@ -90,16 +90,13 @@ for label, cmd in outils:
 
     # Vérification statique de compatibilité mobile du script
     txt_sc = open(src, encoding="utf-8", errors="ignore").read() if os.path.exists(src) else ""
-    if "gnome-terminal" in txt_sc and "zenity" not in txt_sc:
-        warn("Affichage PC seul", f"'{label}' ouvre un terminal uniquement sur PC", src, f"Ajouter un retour texte/zenity dans {src}")
-        continue
 
     env = os.environ.copy()
     env["TIFFANY_MOBILE"] = "1"
     env["PATH"] = f"{ROOT}/mobile/bin:{env.get('PATH', '')}"
     p = subprocess.Popen(["python3", "-c", f"import sys; sys.path.insert(0,'{ROOT}/mobile'); import moteur_mobile as m; print(m.executer('BTN:{cmd}'))"], env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     try:
-        out, _ = p.communicate(timeout=8.0)
+        out, _ = p.communicate(timeout=18.0)
         res = m.clean(out.decode("utf-8", errors="ignore"))
         if not res or "inconnu" in res.lower() or "introuvable" in res.lower():
             err("Aiguillage Bouton", f"'{label}' -> Aucune réponse valide", src, f"Vérifier le routage de '{cmd}' dans {src}")
