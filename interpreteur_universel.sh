@@ -18,7 +18,9 @@ go() {
 if [[ "$Q" =~ ^(.+)[[:space:]]+dans[[:space:]]+([0-9]+)[[:space:]]+minute ]]; then
     ACTION_DIFF="${BASH_REMATCH[1]}"
     DELAI="${BASH_REMATCH[2]}"
-    go "C'est programmé $NOM ! J'exécuterai « $ACTION_DIFF » dans $DELAI minutes. ⏰" "echo \"DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/\$(id -u)/bus bash '$HOME/tiffany/tiffany_actions.sh' '$ACTION_DIFF'\" | at 'now + ${DELAI} minutes'"
+    echo "bash '$HOME/tiffany/tiffany_actions.sh' '$ACTION_DIFF'" | at "now + ${DELAI} minutes" >/dev/null 2>&1
+    say "C'est programmé $NOM ! J'exécuterai « $ACTION_DIFF » dans $DELAI minutes. ⏰"
+    exit 0
 fi
 
 case "$Q" in
@@ -35,7 +37,7 @@ case "$Q" in
     "lireweb"|"lis"|"lecture web"|"lis le dossier"|"lis la fiche") go "Lecture vocale du dernier dossier Web-IA, $NOM ! 📖" "bash '$PLUG/38_lire_dernier_webia.sh'" ;;
     "chut"|"stop voix"|"silence voix"|"tais toi"|"arrete de lire"|"stop lecture") bash "$PLUG/39_stop_voix.sh" ; exit 0 ;;
     "eteins l ordinateur"|"eteins le pc"|"extinction systeme"|"arrete l ordinateur"|"eteindre le pc") go "Extinction propre du Toshiba, à bientôt $NOM ! 💤" "bash '$PLUG/Z99_eteindre_toshiba.sh'" ;;
-    "musique"|"playlist"|"rhythmbox"|"sons"|"allume la musique"|"mets de la musique"|"lance la musique"|"joue ma musique"|"mets ma playlist") go "J'allume Rhythmbox, $NOM ! 🎵" "bash '$PLUG/43_allumer_rhythmbox.sh'" ;;
+    "musique"|"play musique"|"plait musique"|"plaît musique"|"play music"|"playlist"|"rhythmbox"|"sons"|"allume la musique"|"mets de la musique"|"lance la musique"|"joue ma musique"|"mets ma playlist") go "J'allume Rhythmbox, $NOM ! 🎵" "bash '$PLUG/43_allumer_rhythmbox.sh'" ;;
     "backup"|"sauvegarde"|"sauvegarde matrice"|"sauvegarder"|"fais une sauvegarde"|"archive tout") go "Sauvegarde complète de la matrice lancée, $NOM ! 💾" "bash '$PLUG/15_sauvegarde_matrice.sh'" ;;
     "analyse graphique"|"bilan graphique"|"fenetre analyse"|"affiche bilan") bash "$PLUG/01_analyse_systeme.sh" ; exit 0 ;;
     # Multimédia & Radio
@@ -46,9 +48,9 @@ case "$Q" in
     "intercepte"|"telecharge cette musique"|"enregistre ce son"|"aspire cette chanson") go "J'intercepte le morceau en MP3, $NOM ! 🎧" "bash '$PLUG/41_intercepter_rhythmbox.sh'" ;;
     "telechargeur mp3"|"extracteur mp3"|"cherche une musique"|"telecharge sur youtube") go "Téléchargeur MP3 intelligent ouvert, $NOM ! 📥" "bash '$PLUG/42_telechargeur_intelligent.sh'" ;;
     # Groupe 1 : Son, Volume & Voix (toutes nuances sans conflit)
-    "muet"|"mute"|"coupe le son"|"remets le son"|"active le son"|"mode muet") go "Bascule son système, $NOM ! 🔊" "bash '$PLUG/34_bascule_son.sh'" ;;
-    "son +"|"volume +"|"volume plus"|"son plus"|"monte le son"|"augmente le son"|"monte le volume"|"augmente le volume"|"plus fort"|"mets plus fort") go "Volume augmenté de 15%, $NOM ! 🔊" "amixer -D pulse sset Master 15%+ 2>/dev/null || amixer sset Master 15%+" ;;
-    "son -"|"volume -"|"volume moins"|"son moins"|"baisse le son"|"diminue le son"|"baisse le volume"|"diminue le volume"|"moins fort"|"baisse un peu") go "Volume baissé de 15%, $NOM ! 🔉" "amixer -D pulse sset Master 15%- 2>/dev/null || amixer sset Master 15%-" ;;
+    "muet"|"mute"|"coupe le son"|"remets le son"|"active le son"|"active lecon"|"mode muet") go "Bascule son système, $NOM ! 🔊" "bash '$PLUG/34_bascule_son.sh'" ;;
+    "son +"|"volume +"|"volume plus"|"volume up"|"son plus"|"monte le son"|"augmente le son"|"monte le volume"|"augmente le volume"|"plus fort"|"mets plus fort") go "Volume augmenté de 15%, $NOM ! 🔊" "amixer -D pulse sset Master 15%+ 2>/dev/null || amixer sset Master 15%+" ;;
+    "son -"|"volume -"|"volume moins"|"volume down"|"son moins"|"baisse le son"|"diminue le son"|"baisse le volume"|"diminue le volume"|"moins fort"|"baisse un peu") go "Volume baissé de 15%, $NOM ! 🔉" "amixer -D pulse sset Master 15%- 2>/dev/null || amixer sset Master 15%-" ;;
     "son a fond"|"volume a fond"|"son au max"|"volume au max"|"volume maximum"|"son maximum") go "Volume réglé au maximum (100%), $NOM ! 🔊" "amixer -D pulse sset Master 100% 2>/dev/null || amixer sset Master 100%" ;;
     "son doux"|"volume doux"|"volume bas") go "Volume doux réglé à 30%, $NOM ! 🔉" "amixer -D pulse sset Master 30% 2>/dev/null || amixer sset Master 30%" ;;
     "son moyen"|"volume moyen"|"volume moitie") go "Volume moyen réglé à 50%, $NOM ! 🔊" "amixer -D pulse sset Master 50% 2>/dev/null || amixer sset Master 50%" ;;
@@ -78,7 +80,7 @@ case "$Q" in
     "lumiere -"|"luminosite -"|"baisse la luminosite"|"moins clair"|"moins lumineux") go "Luminosité baissée, $NOM ! 🌙" "brightnessctl set 15%-" ;;
     "fenetres"|"range"|"cote a cote"|"partage ecran") go "Fenêtres rangées en 50/50, $NOM ! 🪟" "bash '$ACT/30_fenetre.sh' range" ;;
     "bureau"|"montre le bureau"|"reduis tout") go "Bureau dégagé, $NOM ! 🖥️" "bash '$ACT/30_fenetre.sh' bureau" ;;
-    "google"|"ouvre google"|"chrome"|"navigateur"|"internet"|"ouvre chrome"|"va sur internet") go "Ouverture de Google Chrome, $NOM ! 🌐" "DISPLAY=:0 nohup google-chrome --new-tab 'https://google.com' >/dev/null 2>&1 & sleep 1; DISPLAY=:0 wmctrl -a 'Google Chrome' >/dev/null 2>&1 || true" ;;
+    "chrome"|"navigateur"|"internet"|"ouvre chrome"|"va sur internet") go "Ouverture du navigateur, $NOM ! 🌐" "bash '$ACT/30_fenetre.sh' chrome" ;;
     "youtube"|"ouvre youtube") go "Ouverture de YouTube, $NOM ! 🌐" "bash '$ACT/13_youtube.sh'" ;;
     "verrouille"|"verrouille l ecran"|"verrouille la session") bash "$ACT/26_pilote.sh" verrouille ; exit 0 ;;
     "aide"|"help"|"commandes"|"panoplie") bash "$ROOT_DIR/tiffany_actions.sh" "aide" ; exit 0 ;;
@@ -132,7 +134,83 @@ case "$Q" in
     # Fenêtres & Souris
     "fenetres"|"range") go "Fenêtres rangées en 50/50, $NOM ! 🪟" "bash '$ACT/30_fenetre.sh' range" ;;
     "bureau") go "Bureau dégagé, $NOM ! 🖥️" "bash '$ACT/30_fenetre.sh' bureau" ;;
-    "google"|"ouvre google"|"chrome"|"navigateur"|"internet") go "Ouverture de Google Chrome, $NOM ! 🌐" "DISPLAY=:0 nohup google-chrome --new-tab 'https://google.com' >/dev/null 2>&1 & sleep 1; DISPLAY=:0 wmctrl -a 'Google Chrome' >/dev/null 2>&1 || true" ;;
+    "chrome"|"navigateur"|"internet") go "Ouverture du navigateur, $NOM ! 🌐" "bash '$ACT/30_fenetre.sh' chrome" ;;
     "droite"|"gauche"|"monte"|"descends"|"clic"|"onglet") bash "$ACT/26_pilote.sh" "$Q" ; exit 0 ;;
 esac
+
+# ==============================================================================
+# 2. VOLUME / LUMINOSITÉ AU POURCENTAGE EXACT & MINUTEUR VOCAL
+# ==============================================================================
+if [[ "$Q" =~ ^(mets[[:space:]]+le[[:space:]]+)?(son|volume)[[:space:]]+(a[[:space:]]+)?([0-9]+) ]]; then
+    VAL=$(echo "$Q" | grep -oE '[0-9]+' | head -n 1)
+    [ "$VAL" -gt 100 ] && VAL=100
+    go "Volume réglé à ${VAL}%, $NOM ! 🔊" "amixer -D pulse sset Master ${VAL}% 2>/dev/null || amixer sset Master ${VAL}%"
+elif [[ "$Q" =~ ^(mets[[:space:]]+la[[:space:]]+)?(luminosite|lumiere)[[:space:]]+(a[[:space:]]+)?([0-9]+) ]]; then
+    VAL=$(echo "$Q" | grep -oE '[0-9]+' | head -n 1)
+    [ "$VAL" -lt 15 ] && VAL=15 ; [ "$VAL" -gt 100 ] && VAL=100
+    go "Luminosité réglée à ${VAL}%, $NOM ! ☀️" "brightnessctl set ${VAL}%"
+elif [[ "$Q" =~ ^(minuteur|alarme|rappelle[- ]moi) ]]; then
+    bash "$ROOT_DIR/tiffany_outils.sh" "minuteur" "$Q" ; exit 0
+fi
+
+# ==============================================================================
+# 3. RADIO INTELLIGENTE PAR NOM DE STATION
+# ==============================================================================
+if [[ "$Q" =~ (radio|station|frequence) ]] && [[ ! "$Q" =~ (coupe|arrete|eteins|stop) ]]; then
+    ST_Q=$(echo "$Q" | sed -E 's/.*(allume|mets|lance|ouvre|ecouter|zappe|sur|la|le|de|du|des|une|radio|station)[[:space:]]+//g' | xargs)
+    MATCH=$([ -n "$ST_Q" ] && grep -i "$ST_Q" "$HOME/.tiffany_radios.txt" "$HOME/.catalogue_geant.txt" 2>/dev/null | head -n 1 | cut -d':' -f2-)
+    [ -z "$MATCH" ] && MATCH=$(shuf -n 1 "$HOME/.tiffany_radios.txt" "$HOME/.catalogue_geant.txt" 2>/dev/null | head -n 1)
+    NOM_ST=$(echo "$MATCH" | cut -d'|' -f1); URL_ST=$(echo "$MATCH" | cut -d'|' -f2)
+    go "Je lance ${NOM_ST:-la radio} et j'ouvre le panneau radio, $NOM ! 📻" "pkill -9 -x mpv vlc 2>/dev/null; pgrep -x rhythmbox >/dev/null || (rhythmbox >/dev/null 2>&1 & sleep 2); [ -n '$URL_ST' ] && rhythmbox-client --play-uri='$URL_ST'; bash '$PLUG/40_gestion_radio.sh'"
+fi
+
+# ==============================================================================
+# 4. NUANCES DE PHRASES NATURELLES (SANS AMBIGUÏTÉ)
+# ==============================================================================
+if [[ "$Q" =~ (intercepte|capture.*morceau|telecharge.*(musique|chanson|son|piste)|aspire.*mp3) ]]; then
+    go "J'intercepte le morceau en MP3, $NOM ! 🎵" "bash '$PLUG/41_intercepter_rhythmbox.sh'"
+elif [[ "$Q" =~ (telecharge.*youtube|cherche.*mp3|extracteur.*mp3|telecharge.*un.*son) ]]; then
+    go "Téléchargeur MP3 intelligent ouvert, $NOM ! 📡" "bash '$PLUG/42_telechargeur_intelligent.sh'"
+elif [[ "$Q" =~ (morceau.*suivant|chanson.*suivante|zappe.*(musique|son|chanson)|passe.*(chanson|morceau)|autre.*(chanson|son|musique)) ]]; then
+    go "Morceau suivant, $NOM ! ⏭️" "bash '$PLUG/45_morceau_suivant.sh'"
+elif [[ "$Q" =~ (mets.*pause|reprends.*musique|relance.*musique|play.*pause) ]]; then
+    go "Bascule lecture/pause, $NOM ! ⏸️" "bash '$PLUG/44_play_pause.sh'"
+elif [[ "$Q" =~ (coupe.(musique|rhythmbox|radio)|arrete.(musique|rhythmbox|radio)|stop.(musique|radio)) ]]; then
+go "Lecture arrêtée, $NOM ! 🤫" "bash '$PLUG/46_couper_radio.sh'"
+elif [[ "$Q" =~ (allume.(musique|rhythmbox)|mets.(musique|son|playlist)|lance.(musique|rhythmbox|playlist)|ecouter.*musique) ]]; then
+go "J'allume Rhythmbox, $NOM ! 🎵" "bash '$PLUG/43_allumer_rhythmbox.sh'"
+elif [[ "$Q" =~ (range.*fenetre|cote a cote|moitie.*ecran|partage.*ecran) ]]; then
+go "Fenêtres rangées côte à côte, $NOM ! 🪟" "bash '$ACT/30_fenetre.sh' range"
+elif [[ "$Q" =~ (degage.*bureau|montre.*bureau|reduis.*tout) ]]; then
+go "Bureau dégagé, $NOM ! 🖥️" "bash '$ACT/30_fenetre.sh' bureau"
+elif [[ "$Q" =~ (va sur chrome|passe sur chrome|ouvre.*navigateur|ouvre.*chrome) ]]; then
+go "Bascule sur le navigateur, $NOM ! 🌐" "bash '$ACT/30_fenetre.sh' chrome"
+elif [[ "$Q" =~ (descend.*page|scroll.*bas) ]]; then bash "$ACT/26_pilote.sh" descends ; exit 0
+elif [[ "$Q" =~ (remonte.*page|scroll.*haut) ]]; then bash "$ACT/26_pilote.sh" monte ; exit 0
+elif [[ "$Q" =~ (onglet.suivant|change.onglet) ]]; then bash "$ACT/26_pilote.sh" onglet ; exit 0
+elif [[ "$Q" =~ (plein ecran|mode cinema) ]]; then bash "$ACT/26_pilote.sh" plein ecran ; exit 0
+elif [[ "$Q" =~ (verrouille.(pc|ecran|session)) ]]; then bash "$ACT/26_pilote.sh" verrouille ; exit 0
+elif [[ "$Q" =~ (filtre.(nuit|bleu)|protege.*yeux) ]]; then go "Mode nuit activé, $NOM ! 🌙" "bash '$PLUG/32_filtre_nuit.sh'"
+elif [[ "$Q" =~ (enleve.*filtre|coupe.*filtre) ]]; then go "Mode jour restauré, $NOM ! ☀️" "bash '$PLUG/33_mode_jour.sh'"
+elif [[ "$Q" =~ (coupe.*son|mets.*muet|remet.*son|bascule.*son) ]]; then go "Bascule du son, $NOM ! 🔊" "bash '$PLUG/34_bascule_son.sh'"
+elif [[ "$Q" =~ (change.*voix|bascule.*voix|voix douce|voix vive) ]]; then go "Sélecteur de voix ouvert, $NOM ! 🎙️" "bash '$PLUG/35_bascule_voix.sh'"
+elif [[ "$Q" =~ (turbo.*ram|compresse.*ram|active.*zram|accelere.*ram) ]]; then go "Accélération ZRAM active, $NOM ! 🚀" "bash '$PLUG/25_turbo_zram.sh'"
+elif [[ "$Q" =~ (docteur.*mistral|lance.*docteur|audit.*total) ]]; then go "Docteur Mistral lancé, $NOM ! 🩺" "bash '$PLUG/16_docteur_mistral.sh'"
+elif [[ "$Q" =~ (stabilise.*chrome|bride.*chrome) ]]; then go "Chrome stabilisé à 120%, $NOM ! 🛡️" "bash '$PLUG/10_stabiliser_chrome.sh'"
+elif [[ "$Q" =~ (sauvegarde.*matrice|archive.*tiffany) ]]; then go "Sauvegarde matrice lancée, $NOM ! 💾" "bash '$PLUG/15_sauvegarde_matrice.sh'"
+elif [[ "$Q" =~ (vide.*corbeille|vide.*poubelle) ]]; then go "Corbeille purgée, $NOM ! 🗑️" "bash '$PLUG/30_vider_corbeille.sh'"
+fi
+
+# Filet de sécurité par mots-clés flous (comprend tes intentions libres sans phrase exacte)
+if [[ "$Q" =~ (dossier|fichier|coffre) ]] && [[ "$Q" =~ (securis|proteg|chiffr|mot de passe|verrouill|zip|7z) ]]; then
+    MDP=$(zenity --password --title="🔒 Mot de passe du Coffre-Fort") && [ -n "$MDP" ] && NOM=$(zenity --entry --title="📁 Nom du Coffre" --text="Nom du dossier sécurisé :" --entry-text="Coffre_Prive") && [ -n "$NOM" ] && mkdir -p "$HOME/Bureau/$NOM" && touch "$HOME/Bureau/$NOM/LISEZMOI.txt" && 7z a -t7z -mx=1 -mhe=on -p"$MDP" "$HOME/Bureau/${NOM}.7z" "$HOME/Bureau/$NOM" >/dev/null && rm -rf "$HOME/Bureau/$NOM" && chmod 400 "$HOME/Bureau/${NOM}.7z" && notify-send "🔒 Coffre-Fort Créé" "${NOM}.7z chiffré et protégé !"
+    exit 0
+elif [[ "$Q" =~ (memoire|souvenir|journal|archive) ]] && [[ "$Q" =~ (regarde|ouvre|affiche|voir|lis|montre) ]]; then
+    bash "$PLUG/02_voir_memoire.sh" &
+    exit 0
+elif [[ "$Q" =~ (variante|alias|synonyme|traduction) ]] && [[ "$Q" =~ (ajoute|creer|cree|nouveau|nouvelle|ouvre) ]]; then
+    bash "$PLUG/03_ajouter_variante.sh" &
+    exit 0
+fi
+
 exit 1

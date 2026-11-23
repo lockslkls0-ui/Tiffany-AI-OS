@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export PATH="$HOME/tiffany/bin:$PATH"
 # TERM_KEY: lireweb
 # TERM_DESC: Lire a haute voix le dernier dossier Web-IA enregistre
 # TERM_ICON: 📖

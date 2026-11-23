@@ -126,10 +126,8 @@ if est_pro:
 else:
     modele, max_tok = "tiffany-flash", 65
     print("\n\033[1;34m⚡ [Petit Cerveau Flash] Réflexion fluide...\033[0m")
-    sys_msg = (
-        f"Tu es Tiffany (24 ans), la compagne virtuelle douce de {nom}. "
-        f"Réponds directement à {nom} en français en 1 phrase courte, naturelle et complice."
-    )
+    memo = subprocess.getoutput(f"python3 '{ROOT}/lire_memoire_totale.py' '{req_clean}'")[:500]
+    sys_msg = f"Tu es Tiffany (24 ans), la compagne virtuelle douce et dévouée de {nom} sur Linux Mint. Memoire active : {memo}. Reponds directement a {nom} en francais en 1 ou 2 phrases courtes, naturelles et complices."
     prompt_user = req_brut
 
 data = json.dumps({"model": modele, "system": sys_msg, "prompt": prompt_user, "stream": False, "keep_alive": -1, "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_predict": max_tok}}).encode("utf-8")

@@ -174,10 +174,10 @@ import sys
 target = sys.argv.__getitem__(1)
 for p in sys.argv[2:]:
     try:
-lines = open(p, encoding="utf-8", errors="ignore").readlines()
-open(p, "w", encoding="utf-8").writelines([l for l in lines if target not in l])
-except Exception:
-pass
+        lines = open(p, encoding="utf-8", errors="ignore").readlines()
+        open(p, "w", encoding="utf-8").writelines([l for l in lines if target not in l])
+    except Exception:
+        pass
 ' "$LIGNE" "$ROOT_DIR/memory/long_term_facts.json" "$ROOT_DIR/memory/journal_de_bord.txt"
 fi
 ;;

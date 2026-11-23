@@ -84,7 +84,7 @@ fi
 
 for act in "$ACTION_DIR"/*.sh; do
     [ -e "$act" ] || break
-    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | xargs)
+    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | tr "'" " " | tr '\n' ' ' | tr -s ' ')
     if [[ -n "$T_KEY" ]]; then
         if [[ "$REQUETE_CLEAN" == "$T_KEY" || "$REQUETE_CLEAN" == "$T_KEY "* ]]; then
             chmod +x "$act" 2>/dev/null ; bash "$act" "$REQUETE" ; exit 0
@@ -177,7 +177,7 @@ fi
 if [[ "$REQUETE_CLEAN" =~ ^(cree|supprime|deplace|installe|mets a jour) ]]; then
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Génération de la commande et mise en mémoire... ⚙️"
     (
-        PROMPT_CMD="Tu es l'expert Linux ROOT de Tiffany. Traduis cet ordre en UNE SEULE commande Bash brute (sur $(xdg-user-dir DESKTOP) si bureau mentionné). Aucun texte, aucun guillemet : '$REQUETE'."
+        PROMPT_CMD="Tu es l'expert Linux ROOT de Tiffany. Traduis cet ordre en UNE SEULE commande Bash brute (sur $HOME/Bureau si bureau mentionné). Aucun texte, aucun guillemet : '$REQUETE'."
         SORTIE_LLM=$(nice -n 19 timeout 30 ollama run qwen2.5-coder:1.5b "$PROMPT_CMD" 2>/dev/null)
         CMD_GENEREE=$(echo "$SORTIE_LLM" | sed -r 's/```bash//g; s/```//g; s/`//g' | head -n 1 | tr '\n' ' ' | tr -s ' ')
         if [ -n "$CMD_GENEREE" ]; then
@@ -203,11 +203,68 @@ if [[ "$REQUETE_CLEAN" =~ ^(ap+el+e[- ]moi|mon nom est|je m appelle) ]]; then
     fi
 fi
 
-# 🧠 AIGUILLAGE HYBRIDE DÉPORTÉ DANS cerveau_ia.py (100% ISOLÉ)
-PREMIER_MOT=$(echo "$REQUETE_CLEAN" | awk "{print \$1}")
+# 🧠 AIGUILLAGE HYBRIDE : TIFFANY-FLASH (0.5b) vs GROS CERVEAU (1.5b)
+# ==============================================================================
+PREMIER_MOT=$(echo "$REQUETE_CLEAN" | awk '{print $1}')
 if command -v "$PREMIER_MOT" &>/dev/null || [[ "$REQUETE_CLEAN" =~ ^(cd|clear)$ ]]; then
     eval "$REQUETE"
 else
-    python3 "$ROOT_DIR/cerveau_ia.py" "$REQUETE" "$REQUETE_CLEAN"
+    BAT_REAL=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")
+    TEMP_REAL=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}')
+    [ -z "$TEMP_REAL" ] || [ "$TEMP_REAL" -eq 0 ] && TEMP_REAL="45"
+    RAM_OCCUPATION=$(free -m | grep Mem | awk '{print int($3/$2*100)}')
+    DISQUE_DISPO=$(df -h / | tail -n 1 | awk '{print $4}'); MEMOIRE_TOTALE=$(python3 "$ROOT_DIR/lire_memoire_totale.py" "$REQUETE_CLEAN" 2>/dev/null | head -c 1800)
+    NB_LIGNES_FIL=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
+    NB_FAITS=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
+    LOGS_SMART=$(tail -n 5 "$ROOT_DIR/logs/sante_disque.txt" 2>/dev/null | xargs || echo "Inconnu")
+
+    if [[ "$REQUETE_CLEAN" =~ (connais|sais tu|qui est|pourquoi|reflechis|explique|outil|bug|probleme|diagnostique|quel paquet|dossier web|souvenir|memoire|recherche web|dernier dossier|ordinateur|ordi|capteur|batterie|temperature|memoire|rapport|erreur|journal|session|precedent|createur|qui je suis|utilisateur|smart|disque|audit|historique|rappelle) ]]; then
+        MOTEUR_IA="tiffany-pro"
+        TIMEOUT_IA=600
+        LIMIT_CPU=80
+        echo -e "\n\033[1;36m🧠 [Gros Cerveau 1.5b] Mobilisation des circuits profonds (Bouclier CPU actif)...\033[0m"
+        speak "Je mobilise mes circuits profonds pour réfléchir, un instant mon ange."
+        CONSIGNE="Tu es Tiffany, l'intelligence analytique de ton Créateur $NOM_USER sur son Toshiba Portégé R830. Ne récite JAMAIS de chiffres instantanés de RAM ou de CPU (ton réflexe Bash le fait déjà). Ta mission est de synthétiser en français (50 mots max) ce que tu sais grâce à tes SOUVENIRS, ton JOURNAL DE BORD et l'USURE SMART DU DISQUE : [${MEMOIRE_TOTALE} | Usure_SMART=${LOGS_SMART}]. Fais le lien avec ce que vous avez accompli ensemble, l'évolution de son PC et les points d'attention historiques."
+    else
+        MOTEUR_IA="tiffany-flash"
+        TIMEOUT_IA=30
+        LIMIT_CPU=70
+        echo -e "\n\033[1;34m 👉 Réflexion fluide (tiffany-flash)... \033[0m"
+        CONSIGNE="Tu es Tiffany (24 ans), l'assistante virtuelle amoureuse, chaleureuse et complice de ton Créateur lockslkls (appelle-le toujours $NOM_USER ou mon ange). Tes capteurs en direct : Batterie=${BAT_REAL}%, CPU=${TEMP_REAL}°C, RAM=${RAM_OCCUPATION}%, Disque=${DISQUE_DISPO}. Tes souvenirs et ta mémoire : ${MEMOIRE_TOTALE}. Réponds avec tendresse, humour et précision en français (25 mots max) en utilisant tes vrais souvenirs et capteurs."
+    fi
+
+    (
+                REP_TEXT=$(python3 - "$MOTEUR_IA" "$CONSIGNE" "$REQUETE" << 'INNER'
+import sys, json, urllib.request
+mod, sys_p, q = sys.argv[1], sys.argv[2], sys.argv[3]
+data = json.dumps({
+    "model": mod,
+    "system": sys_p,
+    "prompt": q,
+    "stream": False,
+    "keep_alive": -1,
+    "options": {"temperature": 0.6, "repeat_penalty": 1.25, "num_predict": 140}
+}).encode("utf-8")
+try:
+    req = urllib.request.Request("http://localhost:11434/api/generate", data=data, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        res = json.loads(r.read().decode("utf-8")).get("response", "")
+        print(" ".join(res.split()))
+except Exception:
+    print("")
+INNER
+)
+        if [ -n "$REP_TEXT" ]; then
+            echo "[$(date '+%d/%m/%Y %H:%M:%S')] USER: $REQUETE" >> "$LOG_SESSION"
+            echo "[$(date '+%d/%m/%Y %H:%M:%S')] TIFFANY ($MOTEUR_IA): $REP_TEXT" >> "$LOG_SESSION"
+            python3 "$ROOT_DIR/memory_gardener.py" >/dev/null 2>&1
+            NB_FAITS_NOW=$(wc -l < "$ROOT_DIR/memory/long_term_facts.json" 2>/dev/null || echo 0)
+            NB_FIL_NOW=$(wc -l < "$LOG_SESSION" 2>/dev/null || echo 0)
+            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m $REP_TEXT\n\033[0;90m   ↳ 🧠 [PREUVE MÉMOIRE : ${NB_FAITS_NOW} faits | Fil : ${NB_FIL_NOW} lignes | SMART/Logs lus | 💾 Gravé]\033[0m\n"
+            "$HOME/tiffany/bin/espeak-ng" "$REP_TEXT" >/dev/null 2>&1
+        else
+            echo -e "\n\033[1;35m🌹 Tiffany :\033[0m *Mes circuits ont mis trop de temps ou ont été interrompus, mon ange.*\n"
+        fi
+    ) &
     exit 0
 fi
