@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>🌹 Tiffany AI-OS</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#12121a;color:#f3f4f6;margin:0;padding:14px;padding-bottom:40px}
+h1{font-size:1.2rem;text-align:center;color:#fb7185;margin:4px 0 10px}
+h2{font-size:.85rem;color:#9ca3af;margin:0 0 8px;text-transform:uppercase}
+.card{background:#1e1e2e;border-radius:14px;padding:12px;margin-bottom:12px}
+.stats,.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+button{background:#2e2e42;color:#fff;border:none;border-radius:10px;padding:11px 8px;font-size:.86rem;font-weight:600}
+button:active{background:#fb7185;color:#12121a}
+.stop{background:#991b1b}.mic{background:#0369a1}.go{background:#e11d48}
+input{width:100%;box-sizing:border-box;padding:11px;border-radius:10px;border:1px solid #3f3f5a;background:#12121a;color:#fff;font-size:.98rem;margin-bottom:8px}
+#rep{white-space:pre-wrap;font-size:.88rem;color:#a7f3d0;min-height:48px;max-height:260px;overflow-y:auto}
+</style></head><body>
+<h1>🌹 Tiffany AI-OS — Téléphone & PC</h1>
+<div class="card stats"><span>🌡️ CPU : <b id="temp">--</b></span><span>🧠 RAM : <b id="ram">--</b></span></div>
+<div class="card">
+  <input id="pin" type="password" inputmode="numeric" placeholder="Code PIN (4+ chiffres)">
+  <input id="msg" type="text" placeholder="Parle ou pose n'importe quelle question...">
+  <div class="grid"><button class="mic" onclick="dicter()">🎤 Dicter</button><button class="go" onclick="send(document.getElementById('msg').value)">💬 Parler / Envoyer</button></div>
+</div>
+<div class="card">
+  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.8rem;color:#9ca3af">
+    <span>Réponse de Tiffany :</span><label style="color:#fb7185"><input type="checkbox" id="voixTel" checked style="width:auto;margin:0 4px 0 0">🔊 Voix téléphone</label>
+  </div><div id="rep">Prêt !</div>
+</div>
+<div class="card"><h2>⚡ Contrôles & Bancs d'Essai</h2><div class="grid3">
+  <button onclick="send('analyse')">📊 Analyse</button><button onclick="send('banc essai')">🧪 Banc 143</button><button onclick="send('simulation')">🎙️ Test Audio</button>
+  <button onclick="send('froid')">❄️ Froid</button><button onclick="send('boost')">🚀 Boost</button><button onclick="send('purge ram')">🧹 Purge RAM</button>
+  <button onclick="send('son a 50')">🔉 Son 50%</button><button onclick="send('son a 100')">🔊 Son 100%</button><button class="stop" onclick="send('stop ia')">🛑 Stop IA</button>
+</div></div>
+<div class="card"><h2>🧩 Modules & Plugins (__COUNT__)</h2><div class="grid">__BOUTONS__</div></div>
+<div class="card"><h2>🔐 Changer le Code PIN</h2><div style="display:flex;gap:8px">
+  <input id="newpin" type="password" inputmode="numeric" placeholder="Nouveau PIN (4+ chiffres)" style="margin:0"><button onclick="changerPin()">Valider</button>
+</div></div>
+<script>
+const pEl=document.getElementById('pin');pEl.value=localStorage.getItem('tiff_pin')||'';
+pEl.addEventListener('change',()=>localStorage.setItem('tiff_pin',pEl.value));
+function parler(t){if(!document.getElementById('voixTel').checked||!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[╔═╗║╚╝✔✘⚠▶•📊🧪🎙️❄️🚀🧹🔉🔊🛑✅⏳❌]/g,'').slice(0,350));u.lang='fr-FR';window.speechSynthesis.speak(u);}
+async function maj(){try{const r=await fetch('/stats');const d=await r.json();document.getElementById('temp').textContent=d.temp;document.getElementById('ram').textContent=d.ram;}catch(e){}}
+async function send(txt){const ex=document.getElementById('msg').value.trim();if(ex&&txt!==ex)txt=txt+' '+ex;if(!txt)return;localStorage.setItem('tiff_pin',pEl.value);const rep=document.getElementById('rep');rep.textContent='⏳ '+txt+'...';try{const r=await fetch('/cmd',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'pin='+encodeURIComponent(pEl.value)+'&q='+encodeURIComponent(txt)});const out=await r.text();rep.textContent=out;parler(out);}catch(e){rep.textContent='❌ Erreur réseau.';}document.getElementById('msg').value='';maj();}
+function changerPin(){const n=document.getElementById('newpin').value.trim();if(!n)return;send('SETPIN:'+n);pEl.value=n;localStorage.setItem('tiff_pin',n);document.getElementById('newpin').value='';}
+function dicter(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Utilise le micro de ton clavier Android !');return;}const r=new SR();r.lang='fr-FR';r.onresult=e=>{const t=e.results.transcript;document.getElementById('msg').value=t;send(t);};r.start();}
+maj();setInterval(maj,5000);
+</script></body></html>
