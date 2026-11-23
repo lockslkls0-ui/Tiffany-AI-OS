@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# anti-symboles
+if [ -n "$1" ]; then
+  CLEAN_TXT=$(python3 -c "import sys,re; s=sys.argv[1]; s=re.sub(r'[^a-zA-Z0-9\sàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇœŒæÆ.,!?;:()-]', ' ', s); print(re.sub(r'\s+', ' ', s).strip())" "$1")
+  set -- "$CLEAN_TXT" "${@:2}"
+fi
 [ -f "/tmp/tiffany_mute.flag" ] && exit 0
 while [[ "$1" == -* ]]; do
     case "$1" in

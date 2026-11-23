@@ -82,6 +82,10 @@ def executer(ordre):
         return clean(subprocess.check_output(["python3", f"{ROOT}/audit_total_ultime.py"], stderr=subprocess.STDOUT, timeout=45).decode("utf-8", "ignore"))[-1500:]
     if any(k in low for k in ("simulation", "test audio")):
         return clean(subprocess.check_output(["python3", f"{ROOT}/simulation_totale_audio.py"], stderr=subprocess.STDOUT, timeout=60).decode("utf-8", "ignore"))[-1500:]
+    if low in ("froid", "mode froid"):
+        return clean(subprocess.check_output(["bash", f"{ROOT}/plugins/11_mode_froid.sh"], env=env, stderr=subprocess.STDOUT, timeout=15).decode("utf-8", "ignore"))
+    if low in ("boost", "mode boost"):
+        return clean(subprocess.check_output(["bash", f"{ROOT}/plugins/12_mode_boost.sh"], env=env, stderr=subprocess.STDOUT, timeout=15).decode("utf-8", "ignore"))
     if low in ("analyse", "bilan"):
         st = stats(); up = subprocess.check_output(["uptime", "-p"]).decode().strip()
         return f"📊 ANALYSE EN DIRECT :\n• CPU : {st['temp']}\n• RAM : {st['ram']}\n• Uptime : {up}"

@@ -28,7 +28,7 @@ input{width:100%;box-sizing:border-box;padding:11px;border-radius:10px;border:1p
 </div>
 <div class="card"><h2>⚡ Contrôles & Bancs d'Essai</h2><div class="grid3">
   <button onclick="send('analyse')">📊 Analyse</button><button onclick="send('banc essai')">🧪 Banc 143</button><button onclick="send('simulation')">🎙️ Test Audio</button>
-  <button onclick="send('froid')">❄️ Froid</button><button onclick="send('boost')">🚀 Boost</button><button onclick="send('purge ram')">🧹 Purge RAM</button>
+  <button onclick="send('mode froid')">❄️ Froid</button><button onclick="send('mode boost')">🚀 Boost</button><button onclick="send('purge ram')">🧹 Purge RAM</button>
   <button onclick="send('son a 50')">🔉 Son 50%</button><button onclick="send('son a 100')">🔊 Son 100%</button><button class="stop" onclick="send('stop ia')">🛑 Stop IA</button>
 </div></div>
 <div class="card"><h2>🧩 Modules & Plugins (__COUNT__)</h2><div class="grid">__BOUTONS__</div></div>
@@ -38,13 +38,14 @@ input{width:100%;box-sizing:border-box;padding:11px;border-radius:10px;border:1p
 <script>
 const pEl=document.getElementById('pin');pEl.value=localStorage.getItem('tiff_pin')||'';
 pEl.addEventListener('change',()=>localStorage.setItem('tiff_pin',pEl.value));
-function parler(t){if(!document.getElementById('voixTel').checked||!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[╔═╗║╚╝✔✘⚠▶•📊🧪🎙️❄️🚀🧹🔉🔊🛑✅⏳❌]/g,'').slice(0,350));u.lang='fr-FR';window.speechSynthesis.speak(u);}
-let curAskId=null;
-async function repAsk(val,cancel){
-  if(!curAskId)return;
-  const id=curAskId;curAskId=null;
-  document.getElementById('askBox').style.display='none';
-  await fetch('/answer',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'pin='+encodeURIComponent(pEl.value)+'&id='+encodeURIComponent(id)+'&val='+encodeURIComponent(val)+'&cancel='+(cancel?'1':'0')});
+function parler(t){
+  if(!document.getElementById('voixTel').checked||!('speechSynthesis'in window))return;
+  window.speechSynthesis.cancel();
+  const clean=t.replace(/[^a-zA-Z0-9\sàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇœŒæÆ.,!?;:()-]/g,' ').replace(/\s+/g,' ').trim().slice(0,350);
+  if(!clean)return;
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='fr-FR';
+  window.speechSynthesis.speak(u);
 }
 async function maj(){try{const r=await fetch('/stats');const d=await r.json();document.getElementById('temp').textContent=d.temp;document.getElementById('ram').textContent=d.ram;const b=document.getElementById('askBox');if(d.prompt&&d.prompt.id!==curAskId){curAskId=d.prompt.id;document.getElementById('askTitle').textContent='🔔 '+d.prompt.title;document.getElementById('askText').textContent=d.prompt.text;const o=document.getElementById('askOpts');o.innerHTML='';(d.prompt.options||[]).forEach(x=>{const bt=document.createElement('button');bt.textContent=x;bt.onclick=()=>repAsk(x,false);o.appendChild(bt);});document.getElementById('askInputRow').style.display=(d.prompt.mode==='entry')?'flex':'none';b.style.display='block';}else if(!d.prompt){curAskId=null;b.style.display='none';}}catch(e){}}
 async function send(txt){const ex=document.getElementById('msg').value.trim();if(ex&&txt!==ex)txt=txt+' '+ex;if(!txt)return;localStorage.setItem('tiff_pin',pEl.value);const rep=document.getElementById('rep');rep.textContent='⏳ '+txt+'...';try{const r=await fetch('/cmd',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'pin='+encodeURIComponent(pEl.value)+'&q='+encodeURIComponent(txt)});const out=await r.text();rep.textContent=out;parler(out);}catch(e){rep.textContent='❌ Erreur réseau.';}document.getElementById('msg').value='';maj();}
