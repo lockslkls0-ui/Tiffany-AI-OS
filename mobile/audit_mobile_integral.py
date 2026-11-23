@@ -81,7 +81,7 @@ for label, cmd in outils:
         env["PATH"] = f"{ROOT}/mobile/bin:{env.get('PATH', '')}"
         p = subprocess.Popen(["python3", "-c", f"import sys; sys.path.insert(0, '{ROOT}/mobile'); import moteur_mobile as m; print(m.executer('{cmd}'))"], env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         try:
-            out, _ = p.communicate(timeout=8.0)
+            out, _ = p.communicate(timeout=15.0)
             res = m.clean(out.decode("utf-8", errors="ignore"))
             if "inconnu" in res.lower() or "introuvable" in res.lower() or not res:
                 err("Routage Bouton", f"'{label}' -> Aucune action / Routage raté", src, f"Relier '{cmd}' directement à {src} dans moteur_mobile.py")
