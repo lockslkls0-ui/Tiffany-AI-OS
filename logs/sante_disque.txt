@@ -24,7 +24,7 @@ ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_
 197 Current_Pending_Sector  0x0032   252   252   000    Old_age   Always       -       0
 198 Offline_Uncorrectable   0x0030   252   252   000    Old_age   Offline      -       0
 199 UDMA_CRC_Error_Count    0x0036   100   100   000    Old_age   Always       -       244
-200 Multi_Zone_Error_Rate   0x002a   100   100   000    Old_age   Always       -       68444
+200 Multi_Zone_Error_Rate   0x002a   100   100   000    Old_age   Always       -       68447
 223 Load_Retry_Count        0x0032   100   100   000    Old_age   Always       -       100
 225 Load_Cycle_Count        0x0032   096   096   000    Old_age   Always       -       47091
 
