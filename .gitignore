@@ -13,3 +13,4 @@ memory/panneau_position.txt
 memory/contexte_matrice.txt
 backup/*
 !backup/.gitkeep
+*.snap
