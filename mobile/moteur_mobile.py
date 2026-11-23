@@ -63,6 +63,11 @@ def executer(ordre):
     env = get_env()
     low = ordre.lower()
 
+    is_btn = ordre.startswith("BTN:")
+    if is_btn:
+        ordre = ordre[4:].strip()
+        low = ordre.lower()
+
     # 1. Telechargeur MP3 Intelligent depuis le telephone
     if low.startswith("telechargeur intelligent") or low.startswith("telecharger "):
         musique = re.sub(r"^(telechargeur intelligent|telecharger)\s*", "", ordre, flags=re.I).strip()
@@ -71,11 +76,12 @@ def executer(ordre):
         titre = subprocess.check_output(["yt-dlp", "--get-title", f"ytsearch1:{musique}"], stderr=subprocess.DEVNULL, timeout=15).decode("utf-8", "ignore").splitlines()
         titre_str = titre.pop(0) if titre else musique
         os.makedirs(os.path.expanduser("~/Musique"), exist_ok=True)
-        subprocess.Popen(["yt-dlp", "-x", "--audio-format", "mp3", "--audio-quality", "192K", "--no-playlist", "-o", os.path.expanduser("~/Musique/%(title)s.%(ext)s"), f"ytsearch1:{musique}"], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen(["notify-send", "-i", "folder-music", "📥 Téléchargement MP3 Tiffany", f"Extraction : {titre_str}"], env=env)
+        subprocess.Popen(["bash", "-c", f'yt-dlp -x --audio-format mp3 --audio-quality 192K --no-playlist -o "$HOME/Musique/%(title)s.%(ext)s" "ytsearch1:{musique}" >/dev/null 2>&1 && notify-send -i "emblem-default" "✅ MP3 Téléchargé !" "{titre_str}"'], env=env)
         return f"📥 Téléchargement MP3 lancé sur ton PC (dossier Musique) :\n🎵 {titre_str}"
 
-    # 2. Recherche directe dans tous les boutons/plugins (execution du vrai script .sh)
-    outils = map_outils()
+    # 2. Recherche directe dans les boutons uniquement si clic bouton
+    outils = map_outils() if is_btn else {}
     for nom_btn in sorted(outils.keys(), key=len, reverse=True):
         if low == nom_btn or low.startswith(nom_btn + " "):
             sc = outils[nom_btn]
