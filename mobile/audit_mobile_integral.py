@@ -70,6 +70,7 @@ for sp in scripts:
 print(f"\n{GRAS}▶ [3/3] SIMULATION RÉELLE DE CLIC SUR LES BOUTONS MOBILES{RESET}")
 outils = m.lister_outils()
 for label, cmd in outils:
+    if any(w in cmd for w in ("eteindre", "reboot", "redemarrer", "sommeil")): ok("Bouton Protégé", f"'{label}'", "Ignoré au test (sécurité)"); continue
     # Trouver le fichier source correspondant
     cands = [s for s in scripts if not s.endswith(".off") and cmd.replace(" ", "_") in os.path.basename(s)]
     src = cands.pop(0) if cands else f"{ROOT}/interpreteur_universel.sh"
