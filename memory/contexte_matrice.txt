@@ -1,4 +1,2 @@
-[SESSION : 23/11/2026 à 22:45]
-Facteurs 1: A l'heure actuelle, une référence est en cours. 
-Facteur 2: L'utilisateur demande de l'aide pour obtenir des informations sur une application appelée Locksyls.
-Facteur 3: La referencelette parle d'abord d'une expérience personnelle, puis d'un désolé de l'aide.
+[SESSION : 23/11/2026 à 23:05]
+Session système rapide (commandes directes sans discussion IA).
