@@ -45,7 +45,7 @@ if re.search(r"\b(reparle|active ta voix|mode jour|parle a nouveau|remets ta voi
     repondre(f"Me revoilà à voix haute {nom} ! Ma voix douce est réactivée.", "mode-jour", forcer_voix=True)
 
 # 🎵 2. AIGUILLAGE NATUREL : MUSIQUE & RHYTHMBOX (< 0.1s)
-if re.search(r"\b(mets|lance|joue|ecouter)\b.*\b(musique|chanson|son|rhythmbox)\b", req_clean):
+if re.search(r"\b(mets|lance|joue|ecouter|play|allume)\b.*\b(musique|chanson|son|rhythmbox)\b", req_clean):
     subprocess.Popen(["bash", "-c", "pgrep -x rhythmbox >/dev/null || (nohup rhythmbox >/dev/null 2>&1 & sleep 2); rhythmbox-client --play >/dev/null 2>&1"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     repondre(f"C'est parti {nom}, je lance ta musique sur Rhythmbox ! 🎶", "aiguillage-musique")
 

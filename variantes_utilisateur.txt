@@ -119,3 +119,4 @@ verification complete|audit
 planificateur|planificateur
 coffre|cree un coffre
 stop radio|stop
+play musique|musique
