@@ -1,7 +1,7 @@
 #!/bin/bash
 # MENU_NAME: 📥 Téléchargeur MP3 Intelligent
 # MENU_DESC: Affiche le titre exact trouvé avant de l'extraire
-RECHERCHE=$(zenity --entry --title="📡 Extracteur YouTube" --text="Écris un morceau ou un artiste mon ange :" --width=450 2>/dev/null)
+if [ -n "$1" ]; then RECHERCHE="$*"; else RECHERCHE=$(zenity --entry --title="📡 Extracteur YouTube" --text="Écris un morceau ou un artiste mon ange :" --width=450); fi
 if [ -n "$RECHERCHE" ]; then
     TITRE_TROUVE=$(yt-dlp --get-title "ytsearch1:$RECHERCHE" 2>/dev/null | head -n 1)
     if [ -n "$TITRE_TROUVE" ]; then
