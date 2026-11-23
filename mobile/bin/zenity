@@ -1,106 +1,104 @@
 #!/usr/bin/env bash
 
-TYPE="info"
-TEXTE=""
-TITRE="Tiffany AI"
-COLONNES=()
-OPTIONS=()
+# Si lancé depuis le PC (sans TIFFANY_MOBILE=1), utiliser le vrai zenity système
+if [[ "$TIFFANY_MOBILE" != "1" && -x /usr/bin/zenity ]]; then
+    exec /usr/bin/zenity "$@"
+fi
 
-# 1. Extraction propre de tous les paramètres envoyés par Tiffany
+MODE="info"
+TITRE="Tiffany AI"
+TEXTE=""
+OPTIONS=()
+CHAMPS=()
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --info|--warning|--error|--question|--entry|--list|--text-info|--notification|--progress)
-            TYPE="${1#--}"
-            shift
-            ;;
-        --text=*)
-            TEXTE="${1#--text=}"
-            shift
-            ;;
-        --text)
-            TEXTE="$2"
-            shift 2
-            ;;
-        --title=*)
-            TITRE="${1#--title=}"
-            shift
-            ;;
-        --title)
-            TITRE="$2"
-            shift 2
-            ;;
-        --column=*)
-            COLONNES+=("${1#--column=}")
-            shift
-            ;;
-        --column)
-            COLONNES+=("$2")
-            shift 2
-            ;;
-        --width=*|--height=*|--hide-header|--radiolist|--checklist|--print-column=*)
-            shift
-            ;;
-        *)
-            # Tout le reste correspond aux sous-options d'une liste (--list)
-            OPTIONS+=("$1")
-            shift
-            ;;
+        --entry) MODE="entry"; shift ;;
+        --forms) MODE="forms"; shift ;;
+        --question) MODE="question"; shift ;;
+        --list) MODE="list"; shift ;;
+        --info|--warning|--error|--text-info|--notification) MODE="info"; shift ;;
+        --title=*) TITRE="${1#--title=}"; shift ;;
+        --title) TITRE="$2"; shift 2 ;;
+        --text=*) TEXTE="${1#--text=}"; shift ;;
+        --text) TEXTE="$2"; shift 2 ;;
+        --add-entry=*) CHAMPS+=("${1#--add-entry=}"); shift ;;
+        --add-entry) CHAMPS+=("$2"); shift 2 ;;
+        --column=*|--width=*|--height=*|--print-column=*|--separator=*) shift ;;
+        --column) shift 2 ;;
+        --hide-header|--radiolist|--checklist) shift ;;
+        *) OPTIONS+=("$1"); shift ;;
     esac
 done
 
-# Si le texte arrive par un tube (stdin, ex: cat resultat.txt | zenity --text-info)
-if [[ -z "$TEXTE" && ! -t 0 ]]; then
-    TEXTE=$(cat)
+[[ -z "$TEXTE" && ! -t 0 ]] && TEXTE=$(cat)
+[[ "$MODE" == "question" && ${#OPTIONS[@]} -eq 0 ]] && OPTIONS=("Oui" "Non")
+[[ "$MODE" == "info" && ${#OPTIONS[@]} -eq 0 ]] && OPTIONS=("OK")
+
+# Fonction interne pour poser une question sur l'interface mobile 8486
+ask_mobile() {
+    local m_mode="$1"
+    local m_title="$2"
+    local m_text="$3"
+    shift 3
+    local qid="$(date +%s%N)"
+
+    python3 -c '
+import json, sys
+data = {
+    "id": sys.argv,
+    "mode": sys.argv,
+    "title": sys.argv,
+    "text": sys.argv,
+    "options": sys.argv[5:]
+}
+with open("/tmp/tiffany_mob_prompt.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False)
+' "$qid" "$m_mode" "$m_title" "$m_text" "$@"
+
+    local ans_file="/tmp/tiffany_mob_ans_${qid}.json"
+    for _ in $(seq 1 120); do
+        if [[ -f "$ans_file" ]]; then
+            local res
+            res=$(python3 -c '
+import json, sys
+d = json.load(open(sys.argv, encoding="utf-8"))
+if d.get("cancel"): sys.exit(2)
+print(d.get("value", ""))
+' "$ans_file")
+            local code=$?
+            rm -f "$ans_file" /tmp/tiffany_mob_prompt.json
+            [[ $code -eq 2 ]] && return 2
+            echo "$res"
+            return 0
+        fi
+        sleep 0.5
+    done
+    rm -f /tmp/tiffany_mob_prompt.json
+    return 1
+}
+
+# Mode formulaire (--forms) : pose chaque champ l'un après l'autre sur le téléphone et assemble avec |
+if [[ "$MODE" == "forms" ]]; then
+    [[ ${#CHAMPS[@]} -eq 0 ]] && CHAMPS=("Saisie :")
+    RESULTATS=()
+    for idx in "${!CHAMPS[@]}"; do
+        REP=$(ask_mobile "entry" "$TITRE ($((idx+1))/${#CHAMPS[@]})" "${TEXTE}\n\n👉 ${CHAMPS[$idx]}")
+        CODE=$?
+        [[ $CODE -ne 0 ]] && exit 1
+        RESULTATS+=("$REP")
+    done
+    (IFS="|"; echo "${RESULTATS[*]}")
+    exit 0
 fi
 
-# 2. Sauvegarde systématique dans le flux mobile pour ne jamais rien perdre
-{
-    echo "=========================================="
-    echo "[$(date '+%H:%M:%S')] $TITRE ($TYPE)"
-    echo "------------------------------------------"
-    echo "$TEXTE"
-    [[ ${#OPTIONS[@]} -gt 0 ]] && printf "Option : %s\n" "${OPTIONS[@]}"
-} >> /tmp/tiffany_mobile_feed.log
+# Autres modes (entry, question, list, info)
+REP=$(ask_mobile "$MODE" "$TITRE" "$TEXTE" "${OPTIONS[@]}")
+CODE=$?
+[[ $CODE -ne 0 ]] && exit 1
 
-# 3. Affichage et interaction directe dans le cadre mobile
-case "$TYPE" in
-    list)
-        echo -e "\n╔══════════════════════════════════════════╗" >/dev/tty
-        echo -e "║ 📌 $TITRE" >/dev/tty
-        echo -e "╚══════════════════════════════════════════╝" >/dev/tty
-        [[ -n "$TEXTE" ]] && echo -e "$TEXTE\n" >/dev/tty
-        
-        for i in "${!OPTIONS[@]}"; do
-            echo "  [$((i+1))] ${OPTIONS[$i]}" >/dev/tty
-        done
-        
-        echo "" >/dev/tty
-        read -rp "👉 Votre choix (numéro) : " CHOIX </dev/tty
-        if [[ "$CHOIX" =~ ^[0-9]+$ ]] && (( CHOIX >= 1 && CHOIX <= ${#OPTIONS[@]} )); then
-            echo "${OPTIONS[$((CHOIX-1))]}"
-            exit 0
-        else
-            exit 1
-        fi
-        ;;
-    entry)
-        echo -e "\n┌── ✏️  $TITRE ───────────────────────────" >/dev/tty
-        read -rp "│ $TEXTE : " REPONSE </dev/tty
-        echo "$REPONSE"
-        exit 0
-        ;;
-    question)
-        echo -e "\n┌── ❓ $TITRE ───────────────────────────" >/dev/tty
-        read -rp "│ $TEXTE (o/n) : " REPONSE </dev/tty
-        [[ "$REPONSE" =~ ^[oOyY] ]] && exit 0 || exit 1
-        ;;
-    *)
-        # Cadre lisible pour toutes les réponses et résultats de commandes
-        echo -e "\n╔══════════════════════════════════════════╗" >/dev/tty
-        echo -e "║ 🤖 $TITRE" >/dev/tty
-        echo -e "╠══════════════════════════════════════════╣" >/dev/tty
-        echo -e "$TEXTE" >/dev/tty
-        echo -e "╚══════════════════════════════════════════╝\n" >/dev/tty
-        exit 0
-        ;;
-esac
+if [[ "$MODE" == "question" ]]; then
+    [[ "$REP" == "Oui" ]] && exit 0 || exit 1
+fi
+echo "$REP"
+exit 0
