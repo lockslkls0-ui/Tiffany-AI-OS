@@ -1,29 +1,39 @@
 #!/usr/bin/env bash
-# MENU_NAME: 💎 Activer Édition PRO
-# MENU_DESC: Débloquer la Voix Douce Siwis HD, l'apprentissage PDF & Web-IA
-LIC_FILE="$HOME/.config/tiffany/pro_license.key"
-mkdir -p "$(dirname "$LIC_FILE")"
+# MENU_NAME: 💎 Activer l'Édition PRO
+# MENU_DESC: Entrer une clé de licence Tiffany AI-OS PRO
+KEY_FILE="$HOME/.config/tiffany/pro_license.key"
+mkdir -p "$(dirname "$KEY_FILE")"
 
-if [ -s "$LIC_FILE" ]; then
-    zenity --info --title="💎 Tiffany AI-OS PRO" \
-        --text="✅ L'Édition PRO est déjà ACTIVE sur cet ordinateur !\n\n• Voix Neuronale Douce Siwis HD : Débloquée\n• Lecteur & Résumeur éclair de PDF : Débloqué\n• Recherche & Rédaction Web-IA : Débloqué" \
-        --width=420 2>/dev/null
-    exit 0
-fi
+LIEN_ACHAT="https://gumroad.com"
 
 CLE=$(zenity --entry --title="💎 Activation Tiffany AI-OS PRO" \
-    --text="Entre ta clé de licence PRO pour débloquer à vie :\n\n• 🌹 La Voix Neuronale Douce « Siwis HD »\n• 📄 L'apprentissage éclair de documents PDF\n• 🤖 Le moteur de recherche Web-IA sans navigateur\n\nClé de licence :" \
-    --width=450 2>/dev/null)
+    --text="Débloquez la Voix Douce Siwis HD, la Télécommande Mobile Wi-Fi, la lecture PDF et Web-IA !\n\n🛒 Obtenir une clé à vie (16 €) :\n$LIEN_ACHAT\n\n🔑 Colle ta clé de licence ci-dessous :" \
+    --width=480 2>/dev/null)
 
-if [[ "$CLE" =~ ^TIFFANY-PRO-[A-Z0-9-]+$ ]]; then
-    echo "$CLE" > "$LIC_FILE"
-    echo "piper" > "$HOME/tiffany/voice/mode_voix.txt"
-    "$HOME/tiffany/bin/espeak-ng" "Félicitations ! L'édition Pro est maintenant débloquée et ma vraie voix douce Siwis haute définition est activée." >/dev/null 2>&1 &
-    zenity --info --title="🎉 Édition PRO Activée !" \
-        --text="🏆 Merci ! Toutes les fonctionnalités PRO et la Voix Douce Siwis HD sont désormais débloquées à vie." \
-        --width=400 2>/dev/null
-elif [ -n "$CLE" ]; then
-    zenity --error --title="❌ Clé invalide" \
-        --text="Cette clé de licence n'est pas reconnue (format attendu : TIFFANY-PRO-XXXX)." \
-        --width=380 2>/dev/null
+[ -z "$CLE" ] && exit 0
+CLE=$(echo "$CLE" | xargs)
+
+# Vérification en direct auprès de l'API officielle Gumroad (ou clé maître créateur)
+VALIDE=$(python3 - "$CLE" << 'PYEOF'
+import sys, json, urllib.request, urllib.parse
+cle = sys.argv[1]
+if cle == "TIFFANY-PRO-CREATOR-LOCKSLKLS-2026":
+    print("OK"); sys.exit(0)
+try:
+    url = "https:" + chr(47)*2 + "://gumroad.com" + chr(47) + "v2" + chr(47) + "licenses" + chr(47) + "verify"
+    data = urllib.parse.urlencode({"product_permalink": "tiffany-ai-os-pro", "license_key": cle}).encode()
+    req = urllib.request.Request(url, data=data)
+    res = json.loads(urllib.request.urlopen(req, timeout=10).read().decode())
+    print("OK" if res.get("success") and not res.get("purchase", {}).get("refunded") else "NO")
+except Exception:
+    print("NO")
+PYEOF
+)
+
+if [ "$VALIDE" = "OK" ]; then
+    echo "$CLE" > "$KEY_FILE"
+    "$HOME/tiffany/bin/espeak-ng" "Félicitations ! L'édition Pro est maintenant activée à vie." >/dev/null 2>&1 &
+    zenity --info --title="✅ Édition PRO Activée !" --text="🎉 Merci pour votre soutien !\nToutes les fonctionnalités PRO sont débloquées à vie sur ce PC." --width=420 2>/dev/null
+else
+    zenity --error --title="❌ Clé Invalide" --text="Cette clé de licence n'est pas valide ou a déjà atteint sa limite d'activations.\n\nObtiens ta clé sur :\n$LIEN_ACHAT" --width=440 2>/dev/null
 fi
