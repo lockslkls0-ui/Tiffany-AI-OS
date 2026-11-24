@@ -401,3 +401,6 @@ Message de SMS pour recommander un album de Nina Simone, contenant les titres et
 
 === [24/11/2026 à 17:13] ===
 Nina Simone's "Strange Fruit" is a popular song discovered by Tiffany on 12/24/2026. Tiffany recommends downloading MP3 1, which is "Strange Fruit" by Nina Simone. The download is initiated on her mobile device and will be available in Rhythmbox upon completion. The mobile user then switches on boost mode for their PC, enhancing the music's rhythm.
+
+=== [24/11/2026 à 17:44] ===
+Nina Simone: Strange Fruit - Live in Antibes, 1965. Lyric video.
