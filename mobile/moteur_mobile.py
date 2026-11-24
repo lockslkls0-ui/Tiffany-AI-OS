@@ -1,4 +1,4 @@
-import os, re, json, glob, time, shutil, hashlib, subprocess, datetime
+import os, re, json, glob, time, hashlib, subprocess, datetime
 
 ROOT = os.path.expanduser("~/tiffany")
 PIN_FILE = os.path.expanduser("~/.config/tiffany/mobile_pin.hash")
@@ -28,14 +28,12 @@ def stats():
     except Exception: temp = "N/A"
     try:
         m = subprocess.check_output(["free", "-m"]).decode().splitlines().pop(1).split()
-        ram = f"{int(m)*100//int(m)}%"
+        ram = f"{int(m[2])*100//int(m[1])}%"
     except Exception: ram = "N/A"
     prompt = None
     if os.path.exists("/tmp/tiffany_mob_prompt.json"):
-        try:
-            prompt = json.load(open("/tmp/tiffany_mob_prompt.json", encoding="utf-8"))
-        except Exception:
-            pass
+        try: prompt = json.load(open("/tmp/tiffany_mob_prompt.json", encoding="utf-8"))
+        except Exception: pass
     return {"temp": temp, "ram": ram, "prompt": prompt}
 
 def map_outils():
@@ -45,8 +43,7 @@ def map_outils():
             b = os.path.basename(f)
             if b.endswith(".off"): continue
             nom = re.sub(r"^\d+[a-z]?_|^Z\d+_", "", b[:-3]).replace("_", " ").strip().lower()
-            if nom and nom not in mapping:
-                mapping[nom] = f
+            if nom and nom not in mapping: mapping[nom] = f
     return mapping
 
 def lister_outils():
@@ -76,14 +73,9 @@ def journaliser_et_afficher_pc(ordre, reponse):
     horo_full = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     with open(log_f, "a", encoding="utf-8") as f:
         f.write(f"[{horo_full}] USER (Mobile): {ordre}\n")
-        if reponse:
-            f.write(f"[{horo_full}] TIFFANY (Mobile): {reponse}\n")
+        if reponse: f.write(f"[{horo_full}] TIFFANY (Mobile): {reponse}\n")
     with open(mirror_f, "a", encoding="utf-8") as mf:
-        mf.write(f"
-[{horo}] 📱 VOUS : {ordre}
-[{horo}] 🌹 TIFFANY :
-{reponse}\n" + "─"*50 + "
-")
+        mf.write(f"\n[{horo}] 📱 VOUS : {ordre}\n[{horo}] 🌹 TIFFANY :\n{reponse}\n" + "-"*50 + "\n")
     env = get_env()
     wins = subprocess.getoutput("DISPLAY=:0 wmctrl -l 2>/dev/null")
     if "Suivi_Mobile_Tiffany" not in wins:
@@ -93,16 +85,14 @@ def journaliser_et_afficher_pc(ordre, reponse):
             f"--setenv=DBUS_SESSION_BUS_ADDRESS={env['DBUS_SESSION_BUS_ADDRESS']}",
             f"--setenv=XAUTHORITY={env['XAUTHORITY']}",
             "gnome-terminal", "--title=Suivi_Mobile_Tiffany", "--",
-            "bash", "-c", "clear; echo '🌹 SUIVI EN DIRECT — TÉLÉPHONE ↔ TIFFANY'; echo '=================================================='; tail -n 30 -f /tmp/tiffany_live_mirror.log"
+            "bash", "-c", "clear; echo '🌹 SUIVI EN DIRECT — TELEPHONE <-> TIFFANY'; tail -n 30 -f /tmp/tiffany_live_mirror.log"
         ])
 
-
-def run_script_fast(cmd_list, env, timeout=15):
-    # Exécute un script sans rester bloqué par les processus audio (espeak-ng) en arrière-plan
+def run_fast(cmd_list, env, timeout=20):
     p = subprocess.Popen(cmd_list, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, start_new_session=True)
     try:
         out, _ = p.communicate(timeout=timeout)
-        return clean(out.decode("utf-8", errors="ignore"))
+        return clean(out.decode("utf-8", "ignore"))
     except subprocess.TimeoutExpired:
         return None
 
@@ -114,32 +104,28 @@ def executer(ordre):
     ordre = ordre_brut[4:].strip() if is_btn else ordre_brut
     low = ordre.lower()
 
-    if re.search(r"(boost|mode boost|pleine puissance|accelere)", low):
-        open("/tmp/tiffany_cpu_mode", "w").write("auto
-")
+    if re.search(r"\b(boost|mode boost|pleine puissance|accelere)\b", low):
+        open("/tmp/tiffany_cpu_mode", "w").write("auto\n")
         subprocess.run(["bash", "-c", "echo 100 | sudo -n tee /sys/devices/system/cpu/intel_pstate/max_perf_pct >/dev/null 2>&1; for g in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance | sudo -n tee $g >/dev/null 2>&1 || echo ondemand | sudo -n tee $g >/dev/null 2>&1; done"], env=env)
         mhz = subprocess.getoutput("awk -F': ' '/cpu MHz/{print int($2); exit}' /proc/cpuinfo")
-        rep = f"⚡ Mode Boost activé ! (Puissance CPU : 100% | Cadence actuelle : {mhz} MHz)."
+        rep = f"⚡ Mode Boost activé ! (Puissance CPU : 100% | Cadence : {mhz} MHz)."
         journaliser_et_afficher_pc(ordre, rep)
         return rep
 
-    if re.search(r"(froid|mode froid|refroidis|ca chauffe|trop chaud)", low):
-        open("/tmp/tiffany_cpu_mode", "w").write("force_froid
-")
+    if re.search(r"\b(froid|mode froid|refroidis|ca chauffe|trop chaud)\b", low):
+        open("/tmp/tiffany_cpu_mode", "w").write("force_froid\n")
         subprocess.run(["bash", "-c", "echo 45 | sudo -n tee /sys/devices/system/cpu/intel_pstate/max_perf_pct >/dev/null 2>&1; for g in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo powersave | sudo -n tee $g >/dev/null 2>&1; done"], env=env)
         mhz = subprocess.getoutput("awk -F': ' '/cpu MHz/{print int($2); exit}' /proc/cpuinfo")
-        rep = f"❄️ Mode Froid activé ! (Plafond CPU : 45% | Cadence actuelle : {mhz} MHz)."
+        rep = f"❄️ Mode Froid activé ! (Plafond CPU : 45% | Cadence : {mhz} MHz)."
         journaliser_et_afficher_pc(ordre, rep)
         return rep
 
-    # 2. Téléchargeur MP3 Pro (lancement détaché pour que la fenêtre askBox s'affiche immédiatement sur le téléphone)
     if "telechargeur mp3 pro" in low:
         subprocess.Popen(["bash", os.path.expanduser("~/.local/bin/telechargeur_mp3_pro.sh")], env=env, start_new_session=True)
         rep = "🎧 Téléchargeur MP3 Pro ouvert dans le cadre interactif ci-dessus !"
         journaliser_et_afficher_pc(ordre, rep)
         return rep
 
-    # 3. Heure & Météo instantanées (0.1s)
     if re.search(r"\b(quelle heure|l'heure|heure est-il|donne l'heure)\b", low) or low == "heure":
         now = datetime.datetime.now()
         rep = f"🕒 Il est {now.strftime('%H:%M')} (le {now.strftime('%d/%m/%Y')})."
@@ -154,23 +140,20 @@ def executer(ordre):
                 rep = f"🌤️ Météo : {m_txt}"
                 journaliser_et_afficher_pc(ordre, rep)
                 return rep
-        except Exception:
-            pass
+        except Exception: pass
 
-    # 4. Boutons directs (renvoie immédiatement tout le texte écrit sur le téléphone)
     if is_btn:
         outils = map_outils()
         for nom_btn in sorted(outils.keys(), key=len, reverse=True):
             if low == nom_btn or low.startswith(nom_btn + " "):
                 sc = outils[nom_btn]
                 arg = ordre[len(nom_btn):].strip()
-                out = run_script_fast(["bash", sc] + ([arg] if arg else []), env, timeout=15)
+                out = run_fast(["bash", sc] + ([arg] if arg else []), env, timeout=20)
                 rep = out[-2500:] if out else f"🔔 {nom_btn.capitalize()} ouvert (voir cadre interactif ci-dessus)."
                 journaliser_et_afficher_pc(ordre, rep)
                 return rep
 
-    # 5. Conversation & Commandes naturelles (réponse instantanée sans attendre espeak-ng)
-    out = run_script_fast(["bash", f"{ROOT}/tiffany_actions.sh", ordre], env, timeout=20)
+    out = run_fast(["bash", f"{ROOT}/tiffany_actions.sh", ordre], env, timeout=60)
     rep = out[-2500:] if out else f"✅ Ordre exécuté : {ordre}"
     journaliser_et_afficher_pc(ordre, rep)
     return rep

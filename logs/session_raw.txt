@@ -657,3 +657,87 @@
 [24/11/2026 11:32:14] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss ! 🔊
 [24/11/2026 11:32:18] USER (Mobile): banc essai
 [24/11/2026 11:32:18] TIFFANY (Mobile): 🔔 Banc essai ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 12:30:42] USER (Mobile): mode boost
+[24/11/2026 12:30:42] TIFFANY (Mobile): ⚡ Mode Boost activé ! (Puissance CPU : 100% | Cadence : 2294 MHz).
+[24/11/2026 12:31:02] USER (Mobile): analyse
+[24/11/2026 12:31:02] TIFFANY (Mobile): 🔍 [ANALYSE COMPLÈTE EN TEMPS RÉEL & AUTO-TRADUCTION FRANÇAISE] :
+===================================================================
+ 💻 Machine      : PORTEGE R830 (Noyau Linux 6.8.0-151-generic)
+ 🌡️ Processeur   : 56°C à 2294 MHz (Mode Fluide (ondemand))
+ ⚖️ Charge CPU   : 1,44, 1,91, 2,45
+ 🧠 Mémoire RAM  : 2,5 Go disponibles (5,1 Go utilisés sur 7,7 Go)
+ 🚀 Turbo ZRAM   : 1,8G compressés en 748,9M | Swap :
+ 💾 Disque dur   : 332 Go libres sur 457 Go (24% utilisés)
+ 📀 Usure SMART  : 9022 heures (~375 jours) | Erreurs câble CRC : 244
+ 🔋 Batterie     : 100% (branché sur secteur)
+ 📶 Réseau Wi-Fi : e_e (IP : 192.168.0.106)
+-------------------------------------------------------------------
+ 🔥 TOP 5 DES APPLICATIONS LES PLUS ACTIVES :
+   • python3            | CPU :  67.4% | RAM :   5.1%
+   • llama-server       | CPU :  24.3% | RAM :  15.0%
+   • chrome             | CPU :   6.6% | RAM :   6.3%
+   • chrome             | CPU :   6.3% | RAM :   7.6%
+   • qbittorrent        | CPU :   4.4% | RAM :   5.0%
+-------------------------------------------------------------------
+ 🩺 JOURNAUX D'ERREURS TRADUITS EN FRANÇAIS :
+   ⚠️ [Service en échec] snap.ollama.listener.service ➔ Ce service système ne tourne pas actuellement.
+   • Alerte système : systemd[3076]: a échoué to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS.
+     (Log d'origine : systemd[3076]: Failed to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS)
+   • Alerte système : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.
+     (Log d'origine : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.)
+   • Alerte système : lightdm[1012939]: gkr-pam: unable to locate daemon control file
+     (Log d'origine : lightdm[1012939]: gkr-pam: unable to locate daemon control file)
+   • Alerte système : systemd[1]: a échoué to start snap.ollama.listener.service - Service for snap application ollama.listener.
+     (Log d'origine : systemd[1]: Failed to start snap.ollama.listener.service - Service for snap application ollama.)
+===================================================================
+[24/11/2026 12:31:17] USER (Mobile): stop ia
+[24/11/2026 12:31:17] TIFFANY (Mobile): 🛑 Réflexion IA interrompue immédiatement, mon ange.
+[24/11/2026 12:31:31] USER (Mobile): watchdog on off
+[24/11/2026 12:31:31] TIFFANY (Mobile): 🌹 Tiffany : La sentinelle thermique est active, lockss.
+[24/11/2026 12:32:14] USER (Mobile): Ça va ?
+[24/11/2026 12:32:14] TIFFANY (Mobile): ✅ Ordre exécuté : Ça va ?
+[24/11/2026 12:32:14] USER (Mobile): telechargeur intelligent
+[24/11/2026 12:32:14] TIFFANY (Mobile): 🌹 Tiffany : La batterie est à 100% et ton ordinateur est branché sur secteur, lockss. 🔋
+[24/11/2026 12:32:35] USER (Mobile): Tu vas bien la belle ?
+[24/11/2026 12:32:35] TIFFANY (Mobile): 🌹 Tiffany : Tout va super bien lockss ! CPU frais à 63°C, RAM à 58% et batterie à 100%. À tes ordres !
+[24/11/2026 12:32:55] USER: Ça va ?
+[24/11/2026 12:32:55] TIFFANY (tiffany-flash): Oui, je vais bien ! Comment puis-je vous aider aujourd'hui ? Je suis là pour répondre à vos questions de manière amicale tout au long des conversations. Si vous avez besoin d'aide avec quelque chose ou si vous voulez discuter plus en détail sur un sujet spécifique, n'hésitez
+[24/11/2026 12:33:05] USER (Mobile): Et toi comment tu vas ? Peut tu me parler avec ton gros cervaux ?
+[24/11/2026 12:33:05] TIFFANY (Mobile): 🌹 Tiffany : Tout va super bien lockss ! CPU frais à 63°C, RAM à 60% et batterie à 100%. À tes ordres !
+[24/11/2026 12:33:21] USER (Mobile): Je suis branché ?
+[24/11/2026 12:33:21] TIFFANY (Mobile): 🌹 Tiffany : Tu es actuellement branché sur secteur, avec une batterie à 100%, lockss. 🔋
+[24/11/2026 12:33:38] USER (Mobile): Son max
+[24/11/2026 12:33:38] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé au maximum (100%), lockss ! 🔊
+[24/11/2026 12:34:12] USER (Mobile): Sin 150
+[24/11/2026 12:34:12] TIFFANY (Mobile): ✅ Ordre exécuté : Sin 150
+[24/11/2026 12:34:13] USER (Mobile): Son 150
+[24/11/2026 12:34:13] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 150%, lockss ! 🔊
+[24/11/2026 12:34:13] USER (Mobile): Son a 150
+[24/11/2026 12:34:13] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 150%, lockss ! 🔊
+[24/11/2026 12:34:13] USER: Sin 150
+[24/11/2026 12:34:13] TIFFANY (tiffany-flash): Je suis désolé pour la confusion précédente mais je ne peux pas répondre à ce que vous dites parce qu'il s'agit de mots non traduits en français ou anglais. Pourriez-vous reformuler votre question avec des termes qui sont plus compris ? Je serai ravi(e) de
+[24/11/2026 12:34:27] USER (Mobile): son a 50
+[24/11/2026 12:34:27] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 50%, lockss ! 🔊
+[24/11/2026 12:34:29] USER (Mobile): son a 100
+[24/11/2026 12:34:29] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss ! 🔊
+[24/11/2026 12:34:33] USER (Mobile): mode boost
+[24/11/2026 12:34:33] TIFFANY (Mobile): ⚡ Mode Boost activé ! (Puissance CPU : 100% | Cadence : 2295 MHz).
+[24/11/2026 12:34:45] USER (Mobile): parler tiffany
+[24/11/2026 12:34:45] TIFFANY (Mobile): 🧠 [Gros Cerveau Pro] Audit matériel & journaux en cours...
+🌹 Tiffany : *Mes circuits ont mis trop de temps à répondre, mon ange.*
+[24/11/2026 12:34:57] USER: mes circuits ont mis trop de temps à répondre mon ange
+[24/11/2026 12:34:57] TIFFANY (reflexe-douceur): Toujours éveillée et à ton écoute lockss ! Je veille sur ton Toshiba.
+[24/11/2026 12:35:39] USER (Mobile): Explique moi comment Tu vas bien répond moi avec ton gros cervaux
+[24/11/2026 12:35:39] TIFFANY (Mobile): 🌹 Tiffany : Tout va super bien lockss ! CPU frais à 63°C, RAM à 58% et batterie à 100%. À tes ordres !
+[24/11/2026 12:36:28] USER (Mobile): Qui est tu?
+[24/11/2026 12:36:28] TIFFANY (Mobile): 🧠 [Gros Cerveau Pro] Audit matériel & journaux en cours...
+🌹 Tiffany : *Mes circuits ont mis trop de temps à répondre, mon ange.*
+[24/11/2026 12:36:38] USER: mes circuits ont mis trop de temps à répondre mon ange
+[24/11/2026 12:36:38] TIFFANY (reflexe-douceur): Toujours éveillée et à ton écoute lockss ! Je veille sur ton Toshiba.
+[24/11/2026 12:42:05] USER (Mobile): Explique moi qui est tu es d'où tu viens
+[24/11/2026 12:42:05] TIFFANY (Mobile): 🌹 Tiffany : Je dois mon existence à lockslkls, mon concepteur sur Linux Mint ! 👑
+[24/11/2026 12:43:09] USER (Mobile): Dit moi tout sur toi qui tu es et tout se dont tu es capable et qui t'a fabriquée
+[24/11/2026 12:43:09] TIFFANY (Mobile): 🌹 Tiffany : Je dois mon existence à lockslkls, mon concepteur sur Linux Mint ! 👑
+[24/11/2026 12:43:27] USER (Mobile): Qui est tu
+[24/11/2026 12:43:27] TIFFANY (Mobile): 🧠 [Gros Cerveau Pro] Audit matériel & journaux en cours...
+🌹 Tiffany : *Mes circuits ont mis trop de temps à répondre, mon ange.*

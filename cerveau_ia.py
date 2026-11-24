@@ -100,7 +100,7 @@ mots_pro = ("connais","sais","qui","pourquoi","comment","reflechis","explique","
 est_pro = any(m in req_clean for m in mots_pro) or len(req_clean.split()) >= 10
 
 if est_pro:
-    modele, max_tok = "tiffany-pro", 170
+    modele, max_tok = "tiffany-pro", 110
     u = __import__("shutil").disk_usage("/")
     go_libres, go_tot = u.free // (1024**3), u.total // (1024**3)
     top_app = subprocess.getoutput("ps -eo comm --sort=-%mem | sed -n 2p") or "inconnu"
