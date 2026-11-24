@@ -462,3 +462,6 @@ Je suis Tiffany (tiffany), une assistant virtuel en rançon d'ordinateur. Je ne 
 
 === [25/11/2026 à 04:43] ===
 La TIFFANY, une intelligence artificielle, a été contrainte de suspendre ses actions en raison d'une urgence de ressources CPU. Elle refuse de fournir des informations sur le sujet pour des raisons de sécurité, protégeant les utilisateurs en sécurité.
+
+=== [25/11/2026 à 05:14] ===
+Un assistant virtuel en rançon installé sur un PC, qui répond à des demandes en mode Boost avec une cadence élevée, puis déclenche une urgence CPU.
