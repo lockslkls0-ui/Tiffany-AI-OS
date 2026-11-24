@@ -13,7 +13,7 @@ rm -f "$ROOT_DIR/memory/surnom_utilisateur.txt"
 BUREAU_DIR=$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Bureau")
 mkdir -p "$BUREAU_DIR"
 sudo apt update
-sudo apt install -y espeak-ng zenity tesseract-ocr tesseract-ocr-fra brightnessctl rfkill rhythmbox mpv cvlc python3-pip cpulimit wmctrl xdotool smartmontools lm-sensors curl p7zip-full at
+sudo apt install -y espeak-ng zenity tesseract-ocr tesseract-ocr-fra brightnessctl rfkill rhythmbox mpv cvlc python3-pip cpulimit wmctrl xdotool smartmontools lm-sensors curl p7zip-full at python3-qrcode python3-pil
 PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install requests spacy vosk pyaudio yt-dlp ddgs piper-tts 2>/dev/null || pip3 install requests spacy vosk pyaudio yt-dlp ddgs piper-tts
 PIP_BREAK_SYSTEM_PACKAGES=1 python3 -c "import spacy.cli; spacy.cli.download('fr_core_news_sm')" 2>/dev/null || true
 
@@ -111,6 +111,19 @@ WantedBy=timers.target
 EODT
 
 systemctl --user daemon-reload 2>/dev/null || true
-systemctl --user enable --now tiffany-watchdog.service tiffany-ear.service tiffany-diary.timer 2>/dev/null || true
+cat << EOM > "$HOME/.config/systemd/user/tiffany-mobile.service"
+[Unit]
+Description=Serveur Compagnon Mobile Tiffany AI-OS
+After=network.target
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 $ROOT_DIR/mobile/serveur_mobile.py
+Restart=always
+RestartSec=3
+[Install]
+WantedBy=default.target
+EOM
+
+systemctl --user enable --now tiffany-watchdog.service tiffany-ear.service tiffany-diary.timer tiffany-mobile.service 2>/dev/null || true
 
 echo -e "\n\033[1;32m🏆 Installation terminée à 100 % ! Clique sur '🌹 Panneau Tiffany' ou tape 'tiff'.\033[0m\n"

@@ -9,9 +9,9 @@ def _h(p): return hashlib.sha256(("tiffany_salt_" + p.strip()).encode()).hexdige
 def init_pin():
     os.makedirs(os.path.dirname(PIN_FILE), exist_ok=True)
     if not os.path.exists(PIN_FILE):
-        p = open(RAW_FILE).read().strip() if os.path.exists(RAW_FILE) else "1246"
+        p = open(RAW_FILE).read().strip() if os.path.exists(RAW_FILE) else str(__import__("random").randint(100000, 999999))
         open(PIN_FILE, "w").write(_h(p))
-    return open(RAW_FILE).read().strip() if os.path.exists(RAW_FILE) else "1246"
+    return open(RAW_FILE).read().strip() if os.path.exists(RAW_FILE) else str(__import__("random").randint(100000, 999999))
 
 def check_pin(p): return os.path.exists(PIN_FILE) and _h(p) == open(PIN_FILE).read().strip()
 
