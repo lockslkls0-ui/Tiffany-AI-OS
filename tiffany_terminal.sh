@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+stty -icanon min 1 time 0 2>/dev/null || true
 # ==============================================================================
 # 🌹 MODULE : tiffany_terminal.sh (Version 11.0 - CONSOLE HYBRIDE SÉCURISÉE)
 # 🛡️ RÔLE   : Invite de commande interactive interceptant l'IA et le Bash

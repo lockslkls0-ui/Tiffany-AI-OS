@@ -3,13 +3,13 @@
 # MENU_DESC: Entrer une clé de licence Tiffany AI-OS PRO
 KEY_FILE="$HOME/.config/tiffany/pro_license.key"
 mkdir -p "$(dirname "$KEY_FILE")"
-LIEN_ACHAT="https://://gumroad.com/l/tiffany-ai-os-pro"
+LIEN_ACHAT="https://locksmith410.gumroad.com/l/tiffany-ai-os-pro"
 
 CLE=$(zenity --entry --title="💎 Activation Tiffany AI-OS PRO" --text="Débloquez la Voix Douce Siwis HD, la Télécommande Mobile Wi-Fi, la lecture PDF et Web-IA !\n\n🛒 Obtenir une clé à vie (16 €) :\n$LIEN_ACHAT\n\n🔑 Colle ta clé de licence ci-dessous :" --width=480 2>/dev/null)
 [ -z "$CLE" ] && exit 0
 CLE=$(echo "$CLE" | xargs)
 
-if [[ "$CLE" == "TIFFANY-PRO-CREATOR-LOCKSLKLS-2026" ]] || [[ "$CLE" == TIFFANY-PRO-* && ${#CLE} -ge 18 ]] || curl -s -X POST "https://://gumroad.com/v2/licenses/verify""://gumroad.com" -d "product_permalink=tiffany-ai-os-pro" -d "license_key=$CLE" | grep -q "\"success\":true"; then
+if [[ "$CLE" == "TIFFANY-PRO-CREATOR-LOCKSLKLS-2026" ]] || [[ "$CLE" == TIFFANY-PRO-* && ${#CLE} -ge 18 ]] || curl -s -X POST "https://api.gumroad.com/v2/licenses/verify" -d "product_permalink=tiffany-ai-os-pro" -d "license_key=$CLE" | grep -q '"success":true'; then
     echo "$CLE" > "$KEY_FILE"
     "$HOME/tiffany/bin/espeak-ng" "Félicitations ! L édition Pro est maintenant activée à vie." >/dev/null 2>&1 &
     zenity --info --title="✅ Édition PRO Activée !" --text="🎉 Merci pour votre soutien !\nToutes les fonctionnalités PRO sont débloquées à vie sur ce PC." --width=420 2>/dev/null
