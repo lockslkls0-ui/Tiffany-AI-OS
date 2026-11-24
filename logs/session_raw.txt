@@ -1379,3 +1379,17 @@ Titre: Règles du Compte Rendu et Déclaration de Connaissance 13 Mai 2024 Titre
 [24/11/2026 16:04:49] TIFFANY (Mobile): ⬇️ Téléchargement MP3 lancé :
 🎵 Nina Simone - Strange Fruit
 (Démarrage auto dans Rhythmbox dès la fin).
+[24/11/2026 16:38:40] USER (Mobile): Telecharge Nina simon strange fruits
+[24/11/2026 16:38:40] TIFFANY (Mobile): 🎧 Top 5 trouvé pour « Nina simon strange fruits » :
+
+1. Nina Simone - Strange Fruit
+2. Nina Simone: Strange Fruit (Live in Antibes, 1965)
+3. Nina Simone - Strange Fruit (Audio)
+4. Nina Simone: Strange Fruit (Live in Antibes, 1965) - Lyric Video
+5. Billie Holiday - "Strange Fruit" Live 1959 [Reelin' In The Years Archives]
+
+👉 Réponds 'mp3 1' (ou 2, 3, 4, 5) pour télécharger !
+[24/11/2026 16:39:02] USER (Mobile): Mp3 1
+[24/11/2026 16:39:02] TIFFANY (Mobile): ⬇️ Téléchargement MP3 lancé :
+🎵 Nina Simone - Strange Fruit
+(Démarrage auto dans Rhythmbox dès la fin).

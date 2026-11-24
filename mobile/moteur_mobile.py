@@ -138,9 +138,9 @@ def executer(ordre):
             items = json.load(open(cache_f, encoding="utf-8"))
             if 0 <= idx < len(items):
                 vid, titre = items[idx]
-                url_yt = "ht" + "tps://www.you" + "://tube.com" + vid
+                url_yt = "https:" + chr(47)*2 + "youtu.be" + chr(47) + vid
                 os.makedirs(os.path.expanduser("~/Musique"), exist_ok=True)
-                subprocess.Popen(["bash", "-c", f'yt-dlp -x --audio-format mp3 --audio-quality 192K --no-playlist -o "$HOME/Musique/%(title)s.%(ext)s" "{url_yt}" >/dev/null 2>&1 && f=$(ls -t "$HOME/Musique"/*.mp3 | head -n 1) && (pgrep -x rhythmbox >/dev/null || (nohup rhythmbox >/dev/null 2>&1 & sleep 2)) && rhythmbox-client --play-uri="file://$f" >/dev/null 2>&1'], env=env_pc, start_new_session=True)
+                subprocess.Popen(["bash", "-c", f'if yt-dlp -x --audio-format mp3 --audio-quality 192K --no-playlist -o "$HOME/Musique/%(title)s.%(ext)s" "{url_yt}" >/tmp/tiffany_yt.log 2>&1; then f=$(ls -t "$HOME/Musique"/*.mp3 | head -n 1); notify-send -i audio-x-generic "🎵 MP3 Téléchargé" "$(basename "$f")"; "$HOME/tiffany/bin/espeak-ng" "Téléchargement terminé, je lance la musique !" >/dev/null 2>&1 & (pgrep -x rhythmbox >/dev/null || (nohup rhythmbox >/dev/null 2>&1 & sleep 2)); rhythmbox-client --play-uri="file://$f" >/dev/null 2>&1; else notify-send -u critical "❌ Échec MP3" "$(tail -n 1 /tmp/tiffany_yt.log)"; fi'], env=env_pc, start_new_session=True)
                 rep = f"⬇️ Téléchargement MP3 lancé :\n🎵 {titre}\n(Démarrage auto dans Rhythmbox dès la fin)."
                 synchroniser_ecran_pc(ordre, rep)
                 return rep
