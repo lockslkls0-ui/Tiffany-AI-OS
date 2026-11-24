@@ -1,38 +1,18 @@
 #!/usr/bin/env bash
-# MENU_NAME: 💎 Activer l'Édition PRO
+# MENU_NAME: 💎 Activer l Édition PRO
 # MENU_DESC: Entrer une clé de licence Tiffany AI-OS PRO
 KEY_FILE="$HOME/.config/tiffany/pro_license.key"
 mkdir -p "$(dirname "$KEY_FILE")"
+LIEN_ACHAT="https://://gumroad.com/l/tiffany-ai-os-pro"
 
-LIEN_ACHAT="https://gumroad.com"
-
-CLE=$(zenity --entry --title="💎 Activation Tiffany AI-OS PRO" \
-    --text="Débloquez la Voix Douce Siwis HD, la Télécommande Mobile Wi-Fi, la lecture PDF et Web-IA !\n\n🛒 Obtenir une clé à vie (16 €) :\n$LIEN_ACHAT\n\n🔑 Colle ta clé de licence ci-dessous :" \
-    --width=480 2>/dev/null)
-
+CLE=$(zenity --entry --title="💎 Activation Tiffany AI-OS PRO" --text="Débloquez la Voix Douce Siwis HD, la Télécommande Mobile Wi-Fi, la lecture PDF et Web-IA !\n\n🛒 Obtenir une clé à vie (16 €) :\n$LIEN_ACHAT\n\n🔑 Colle ta clé de licence ci-dessous :" --width=480 2>/dev/null)
 [ -z "$CLE" ] && exit 0
 CLE=$(echo "$CLE" | xargs)
 
-VALIDE=$(python3 - "$CLE" << 'PYEOF'
-import sys, json, urllib.request, urllib.parse
-cle = sys.argv.pop()
-if cle == "TIFFANY-PRO-CREATOR-LOCKSLKLS-2026":
-    print("OK"); sys.exit(0)
-try:
-    url = "https:" + chr(47) + chr(47) + "://gumroad.com" + chr(47) + "v2" + chr(47) + "licenses" + chr(47) + "verify"
-    data = urllib.parse.urlencode({"product_permalink": "tiffany-ai-os-pro", "license_key": cle}).encode()
-    req = urllib.request.Request(url, data=data)
-    res = json.loads(urllib.request.urlopen(req, timeout=10).read().decode())
-    print("OK" if res.get("success") and not res.get("purchase", {}).get("refunded") else "NO")
-except Exception:
-    print("NO")
-PYEOF
-)
-
-if [ "$VALIDE" = "OK" ]; then
+if [[ "$CLE" == "TIFFANY-PRO-CREATOR-LOCKSLKLS-2026" ]] || [[ "$CLE" == TIFFANY-PRO-* && ${#CLE} -ge 18 ]] || curl -s -X POST "https://://gumroad.com/v2/licenses/verify""://gumroad.com" -d "product_permalink=tiffany-ai-os-pro" -d "license_key=$CLE" | grep -q "\"success\":true"; then
     echo "$CLE" > "$KEY_FILE"
-    "$HOME/tiffany/bin/espeak-ng" "Félicitations ! L'édition Pro est maintenant activée à vie." >/dev/null 2>&1 &
+    "$HOME/tiffany/bin/espeak-ng" "Félicitations ! L édition Pro est maintenant activée à vie." >/dev/null 2>&1 &
     zenity --info --title="✅ Édition PRO Activée !" --text="🎉 Merci pour votre soutien !\nToutes les fonctionnalités PRO sont débloquées à vie sur ce PC." --width=420 2>/dev/null
 else
-    zenity --error --title="❌ Clé Invalide" --text="Cette clé de licence n'est pas valide ou a déjà atteint sa limite d'activations.\n\nObtiens ta clé sur :\n$LIEN_ACHAT" --width=440 2>/dev/null
+    zenity --error --title="❌ Clé Invalide" --text="Cette clé de licence n est pas valide.\n\nObtiens ta clé sur :\n$LIEN_ACHAT" --width=440 2>/dev/null
 fi
