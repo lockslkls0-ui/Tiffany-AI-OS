@@ -96,7 +96,7 @@ bat = subprocess.getoutput("cat /sys/class/power_supply/BAT*/capacity 2>/dev/nul
 tmp = subprocess.getoutput("cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk '{print int($1/1000)}'") or "45"
 ram = subprocess.getoutput("free -m | awk '/Mem:/ {print int($3/$2*100)}'") or "50"
 
-mots_pro = ("connais","sais","qui","pourquoi","comment","reflechis","explique","outil","bug","probleme","diagnostique","souvenir","memoire","dossier","ordinateur","ordi","pc","capteur","batterie","temperature","rapport","erreur","journal","session","createur","cree","origines","viens","smart","disque","audit","historique","rappelle","parle","code","codage","script","python","bash","linux","logique","complexe","peux tu","peux-tu")
+mots_pro = ("connais","sais","pourquoi","comment","reflechis","explique","outil","bug","probleme","diagnostique","souvenir","memoire","dossier","ordinateur","ordi","pc","capteur","batterie","temperature","rapport","erreur","journal","session","createur","cree","origines","viens","smart","disque","audit","historique","rappelle","parle","code","codage","script","python","bash","linux","logique","complexe","peux tu","peux-tu")
 est_pro = any(m in req_clean for m in mots_pro) or len(req_clean.split()) >= 10
 
 if est_pro:
@@ -130,11 +130,12 @@ else:
     sys_msg = f"Tu es Tiffany (24 ans), la compagne virtuelle douce et dévouée de {nom} sur Linux Mint. Memoire active : {memo}. Reponds directement a {nom} en francais en 1 ou 2 phrases courtes, naturelles et complices."
     prompt_user = req_brut
 
-data = json.dumps({"model": modele, "system": sys_msg, "prompt": prompt_user, "stream": False, "keep_alive": "5m", "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_predict": max_tok}}).encode("utf-8")
+data = json.dumps({"model": modele, "system": sys_msg, "prompt": prompt_user, "stream": False, "keep_alive": "5m", "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_ctx": 1024, "num_thread": 3, "num_predict": 85}}).encode("utf-8")
 try:
-    r = urllib.request.urlopen(urllib.request.Request("http://localhost:11434/api/generate", data=data, headers={"Content-Type": "application/json"}), timeout=120)
+    r = urllib.request.urlopen(urllib.request.Request("http://localhost:11434/api/generate", data=data, headers={"Content-Type": "application/json"}), timeout=180)
     rep = " ".join(json.loads(r.read().decode("utf-8")).get("response", "").split())
-except Exception:
+except Exception as e:
+    print(f"[DEBUG IA: {e}]")
     rep = ""
 
 if rep:

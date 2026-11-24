@@ -379,3 +379,6 @@ Les utilisateurs ont changé de mode boost, augmenté la volume à 120, joué le
 
 === [24/11/2026 à 11:44] ===
 Session système rapide (commandes directes sans discussion IA).
+
+=== [24/11/2026 à 12:45] ===
+Tiffany, créée par lockss sur Linux Mint, est une IA programmée pour répondre à ses demandes.

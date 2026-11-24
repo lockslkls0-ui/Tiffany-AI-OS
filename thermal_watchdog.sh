@@ -75,7 +75,7 @@ while true; do
     done
 
     # --- BOUCLE 4 : COUPE-CIRCUIT ANTI-SURCHAUFFE LLAMA-SERVER ---
-    if [ -n "$TEMP" ] && [ "$TEMP" -ge 77 ]; then
+    if [ -n "$TEMP" ] && [ "$TEMP" -ge 88 ]; then
         killall -9 llama-server >/dev/null 2>&1 || true
         echo "[$(date '+%T')] 🔥 (${TEMP}°C) : Coupe-circuit llama-server déclenché !" >> "$ROOT_DIR/logs/thermique.log"
     fi

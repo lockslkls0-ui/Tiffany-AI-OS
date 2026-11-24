@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os, json, time, subprocess
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer as HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import parse_qs
 import moteur_mobile as m
 
