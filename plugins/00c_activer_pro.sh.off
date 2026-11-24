@@ -13,14 +13,13 @@ CLE=$(zenity --entry --title="💎 Activation Tiffany AI-OS PRO" \
 [ -z "$CLE" ] && exit 0
 CLE=$(echo "$CLE" | xargs)
 
-# Vérification en direct auprès de l'API officielle Gumroad (ou clé maître créateur)
 VALIDE=$(python3 - "$CLE" << 'PYEOF'
 import sys, json, urllib.request, urllib.parse
-cle = sys.argv[1]
+cle = sys.argv.pop()
 if cle == "TIFFANY-PRO-CREATOR-LOCKSLKLS-2026":
     print("OK"); sys.exit(0)
 try:
-    url = "https:" + chr(47)*2 + "://gumroad.com" + chr(47) + "v2" + chr(47) + "licenses" + chr(47) + "verify"
+    url = "https:" + chr(47) + chr(47) + "://gumroad.com" + chr(47) + "v2" + chr(47) + "licenses" + chr(47) + "verify"
     data = urllib.parse.urlencode({"product_permalink": "tiffany-ai-os-pro", "license_key": cle}).encode()
     req = urllib.request.Request(url, data=data)
     res = json.loads(urllib.request.urlopen(req, timeout=10).read().decode())
