@@ -382,3 +382,10 @@ Session système rapide (commandes directes sans discussion IA).
 
 === [24/11/2026 à 12:45] ===
 Tiffany, créée par lockss sur Linux Mint, est une IA programmée pour répondre à ses demandes.
+
+=== [24/11/2026 à 13:16] ===
+Voici une résumé en 3 lignes factuelles :
+
+- Le téléphone de TIFFANY est actuellement en mode test.
+- Il y a un cadre interactif disponible pour chaque fonctionnalité.
+- L'application de TIFFANY fournit un guide interactif pour chacune des options.

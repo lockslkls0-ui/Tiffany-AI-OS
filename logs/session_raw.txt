@@ -775,3 +775,212 @@
 [24/11/2026 13:14:59] TIFFANY (Mobile): 🔔 Simulation audio ouvert (voir cadre interactif ci-dessus).
 [24/11/2026 13:15:00] USER (Mobile): oreille on off
 [24/11/2026 13:15:00] TIFFANY (Mobile): 🔔 Oreille on off ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:16:12] USER (Mobile): inventaire alias
+[24/11/2026 13:16:12] TIFFANY (Mobile): 🔔 Inventaire alias ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:16:30] USER (Mobile): mode froid
+[24/11/2026 13:16:30] TIFFANY (Mobile): ❄️ Mode Froid activé ! (Plafond CPU : 45% | Cadence : 798 MHz).
+[24/11/2026 13:16:31] USER (Mobile): mode boost
+[24/11/2026 13:16:31] TIFFANY (Mobile): ⚡ Mode Boost activé ! (Puissance CPU : 100% | Cadence : 2294 MHz).
+[24/11/2026 13:16:32] USER (Mobile): watchdog on off
+[24/11/2026 13:16:32] TIFFANY (Mobile): 🔔 Watchdog on off ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:17:08] USER (Mobile): diagnostic cpu
+[24/11/2026 13:17:08] TIFFANY (Mobile): 🔔 Diagnostic cpu ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:17:08] USER (Mobile): checkup ram
+[24/11/2026 13:17:08] TIFFANY (Mobile): 🔔 Checkup ram ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:17:11] USER (Mobile): purge ram
+[24/11/2026 13:17:11] TIFFANY (Mobile): 🔔 Purge ram ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:17:11] USER (Mobile): etat reseau
+[24/11/2026 13:17:11] TIFFANY (Mobile): 🔔 Etat reseau ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:18:23] USER (Mobile): nettoyer systeme
+[24/11/2026 13:18:23] TIFFANY (Mobile): 🔔 Nettoyer systeme ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:18:23] USER (Mobile): filtre nuit
+[24/11/2026 13:18:23] TIFFANY (Mobile): 🌙 *Activation du mode nuit (Filtre chaud)...*
+[24/11/2026 13:18:24] USER (Mobile): mode jour
+[24/11/2026 13:18:24] TIFFANY (Mobile): ☀️ *Retour à la luminosité normale...*
+[24/11/2026 13:18:24] USER (Mobile): bascule son
+[24/11/2026 13:18:24] TIFFANY (Mobile): 🔊 *Bascule du mode muet...*
+Simple mixer control 'Master',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 65536
+  Mono:
+  Front Left: Playback 65536 [100%] [off]
+  Front Right: Playback 65536 [100%] [off]
+[24/11/2026 13:18:43] USER (Mobile): lire dernier webia
+[24/11/2026 13:18:43] TIFFANY (Mobile): xargs: guillemets simple non appairés ; par défaut les guillemets sont particuliers à xargs à moins d'utiliser l'option -0
+📖 Lecture de : 2026-11-22_15-23_13_mai_2024.md
+Titre: Règles du Compte Rendu et Déclaration de Connaissance 13 Mai 2024 Titre du Document: [NouvelleCalédonie 2024 Un Mémorial Numérique Immersif] Titre de la Fiche: 1. 13 Mai 2024 NouvelleCalédonie 2. 13 May 2024 Mémorial numérique 3. 13 May 2024 What Happened on May 13, 2024 4. 13 May 2024 Conseil dÉtat, Section, 13/05/2024, 466541, Publié au... 5. 13 mai 2024  LeCalendrier  Explication de la Fiche:  1. 13 Mai 2024  NouvelleCalédonie     Titre de la Fiche: 13 Mai 2024  NouvelleCalédonie     Début de la Fiche: 13 mai 2024, 17h00     Contenu:       La Fédération des Associations NouvelleCalédoniennes (FANAC) a inauguré le 13 mai 2024 un mémorial numérique consacré aux événements de ce jour, 13 mai 2024, en NouvelleCalédonie. Le mémorial est un projet de mémoire, de récit et de transmission, qui rassemble vidéos, photographies et témoignages sur les événements de ce jour. Les visiteurs peuvent entrer dans un environnement 3D pour découvrir lhistoire de cette journée. 2. 13 May 2024 Mémorial numérique Titre de la Fiche: 13 May 2024 Mémorial numérique Début de la Fiche: 13 mai 2024, 17h00 Contenu: Un mémorial numérique immersif a été inauguré en NouvelleCalédonie, le 13 mai 2024. Ce mémorial contient des vidéos, des photographies et des témoignages pour raconter lhistoire de ce jour. Il est un projet de mémoire, de récit et de transmission qui permet aux visiteurs de se connecter à lhistoire à travers une immersion numérique. 3
+[24/11/2026 13:18:43] USER (Mobile): stop voix
+[24/11/2026 13:18:43] TIFFANY (Mobile): 🔔 Stop voix ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:19:40] USER (Mobile): allumer rhythmbox
+[24/11/2026 13:19:40] TIFFANY (Mobile): 🔔 Allumer rhythmbox ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:19:40] USER (Mobile): telechargeur mp3 pro
+[24/11/2026 13:19:40] TIFFANY (Mobile): 🎧 Téléchargeur MP3 Pro ouvert dans le cadre interactif ci-dessus !
+[24/11/2026 13:19:58] USER (Mobile): play pause
+[24/11/2026 13:19:58] TIFFANY (Mobile): 🔔 Play pause ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:19:58] USER (Mobile): morceau suivant
+[24/11/2026 13:19:58] TIFFANY (Mobile): 🔔 Morceau suivant ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:19:59] USER (Mobile): couper radio
+[24/11/2026 13:19:59] TIFFANY (Mobile): 🔔 Couper radio ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:20:34] USER (Mobile): analyse
+[24/11/2026 13:20:34] TIFFANY (Mobile): 🔍 [ANALYSE COMPLÈTE EN TEMPS RÉEL & AUTO-TRADUCTION FRANÇAISE] :
+===================================================================
+ 💻 Machine      : PORTEGE R830 (Noyau Linux 6.8.0-151-generic)
+ 🌡️ Processeur   : 78°C à 2294 MHz (Mode Fluide (ondemand))
+ ⚖️ Charge CPU   : 3,53, 2,69, 2,84
+ 🧠 Mémoire RAM  : 2,3 Go disponibles (5,3 Go utilisés sur 7,7 Go)
+ 🚀 Turbo ZRAM   : 2,1G compressés en 829,1M | Swap :
+ 💾 Disque dur   : 331 Go libres sur 457 Go (24% utilisés)
+ 📀 Usure SMART  : 9033 heures (~376 jours) | Erreurs câble CRC : 244
+ 🔋 Batterie     : 100% (branché sur secteur)
+ 📶 Réseau Wi-Fi : e_e (IP : 192.168.0.106)
+-------------------------------------------------------------------
+ 🔥 TOP 5 DES APPLICATIONS LES PLUS ACTIVES :
+   • llama-server       | CPU :  67.3% | RAM :  15.0%
+   • piper              | CPU :  31.4% | RAM :   6.3%
+   • zenity             | CPU :  28.7% | RAM :   0.5%
+   • xfce4-taskmanag    | CPU :  18.9% | RAM :   0.7%
+   • chrome             | CPU :   8.1% | RAM :  10.0%
+-------------------------------------------------------------------
+ 🩺 JOURNAUX D'ERREURS TRADUITS EN FRANÇAIS :
+   ⚠️ [Service en échec] snap.ollama.listener.service ➔ Ce service système ne tourne pas actuellement.
+   • Alerte système : systemd[3076]: a échoué to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS.
+     (Log d'origine : systemd[3076]: Failed to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS)
+   • Alerte système : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.
+     (Log d'origine : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.)
+   • Alerte système : lightdm[1012939]: gkr-pam: unable to locate daemon control file
+     (Log d'origine : lightdm[1012939]: gkr-pam: unable to locate daemon control file)
+   • Alerte système : systemd[1]: a échoué to start snap.ollama.listener.service - Service for snap application ollama.listener.
+     (Log d'origine : systemd[1]: Failed to start snap.ollama.listener.service - Service for snap application ollama.)
+===================================================================
+[24/11/2026 13:20:34] USER (Mobile): cpu
+[24/11/2026 13:20:34] TIFFANY (Mobile): 🔔 Cpu ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:20:38] USER (Mobile): ram
+[24/11/2026 13:20:38] TIFFANY (Mobile): 🌹 Tiffany : 🧼 Cache RAM purgé et mémoire libérée !
+[24/11/2026 13:20:44] USER (Mobile): corbeille
+[24/11/2026 13:20:44] TIFFANY (Mobile): 🧼 *Vidage de la corbeille...*
+🌹 Tiffany : ✅ Corbeille entièrement vidée, mon ange.
+🧼 Poubelle vidée !
+[24/11/2026 13:20:49] USER (Mobile): froid
+[24/11/2026 13:20:49] TIFFANY (Mobile): ❄️ Mode Froid activé ! (Plafond CPU : 45% | Cadence : 798 MHz).
+[24/11/2026 13:20:49] USER (Mobile): boost
+[24/11/2026 13:20:49] TIFFANY (Mobile): ⚡ Mode Boost activé ! (Puissance CPU : 100% | Cadence : 2294 MHz).
+[24/11/2026 13:20:59] USER (Mobile): radar
+[24/11/2026 13:20:59] TIFFANY (Mobile): 🔎 🌹 Tiffany : *Sondage de ton disque en cours, mon ange...*
+📊 [LES 10 ÉLÉMENTS LES PLUS LOURDS DANS TON DOSSIER PERSONNEL] :
+------------------------------------------------------------------
+  TAILLE	| EMPLACEMENT
+------------------------------------------------------------------
+  10G     	| /home/user/FORCE_DISTRICT
+  5,0G    	| /home/user/Bureau
+  4,9G    	| /home/user/Téléchargements
+  4,8G    	| /home/user/tiffany_sauvegardes
+  2,0G    	| /home/user/.cache
+  814M    	| /home/user/Musique
+  584M    	| /home/user/.config
+  428M    	| /home/user/.local
+  329M    	| /home/user/tiffany
+  8,0M    	| /home/user/photorec.ses
+------------------------------------------------------------------
+[24/11/2026 13:21:00] USER (Mobile): wifi
+[24/11/2026 13:21:00] TIFFANY (Mobile): 🔔 Wifi ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:21:00] USER (Mobile): heure
+[24/11/2026 13:21:00] TIFFANY (Mobile): 🕒 Il est 13:21 (le 24/11/2026).
+[24/11/2026 13:21:04] USER (Mobile): meteo
+[24/11/2026 13:21:04] TIFFANY (Mobile): 🌤️ Météo : Noumea, South Province, NC: 🌦️  +27°C (ressenti +29°C), ←20km/h
+[24/11/2026 13:21:05] USER (Mobile): youtube
+[24/11/2026 13:21:05] TIFFANY (Mobile): 🔔 Youtube ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:21:23] USER (Mobile): cherche
+[24/11/2026 13:21:23] TIFFANY (Mobile): 🔔 Cherche ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:21:24] USER (Mobile): ouvre
+[24/11/2026 13:21:24] TIFFANY (Mobile): 🌹 Tiffany : 📂 Dossier personnel ouvert.
+[24/11/2026 13:21:38] USER (Mobile): screen
+[24/11/2026 13:21:38] TIFFANY (Mobile): 🔔 Screen ouvert (voir cadre interactif ci-dessus).
+[24/11/2026 13:21:40] USER (Mobile): test ia
+[24/11/2026 13:21:40] TIFFANY (Mobile): mmeil_total.sh
+ [  OK  ] Bouton Panneau aligné : 00d_systeme_immunitaire.sh
+ [  OK  ] Bouton Panneau aligné : 00_urgence_cpu.sh
+ [  OK  ] Bouton Panneau aligné : 01_analyse_systeme.sh
+ [  OK  ] Bouton Panneau aligné : 01_banc_essai.sh
+ [  OK  ] Bouton Panneau aligné : 01b_radar_360.sh
+ [  OK  ] Bouton Panneau aligné : 01c_simulation_audio.sh
+ [  OK  ] Bouton Panneau aligné : 01_parler_tiffany.sh
+ [  OK  ] Bouton Panneau aligné : 02_oreille_on_off.sh
+ [  OK  ] Bouton Panneau aligné : 02_voir_memoire.sh
+ [  OK  ] Bouton Panneau aligné : 03_ajouter_variante.sh
+ [  OK  ] Bouton Panneau aligné : 04_apprendre_pdf.sh
+ [  OK  ] Bouton Panneau aligné : 05_planificateur_taches.sh
+ [  OK  ] Bouton Panneau aligné : 06_inventaire_alias.sh
+ [  OK  ] Bouton Panneau aligné : 10_stabiliser_chrome.sh
+ [  OK  ] Bouton Panneau aligné : 11_mode_froid.sh
+ [  OK  ] Bouton Panneau aligné : 12_mode_boost.sh
+ [  OK  ] Bouton Panneau aligné : 13_watchdog_on_off.sh
+ [  OK  ] Bouton Panneau aligné : 15_sauvegarde_matrice.sh
+ [  OK  ] Bouton Panneau aligné : 16_docteur_mistral.sh
+ [  OK  ] Bouton Panneau aligné : 20_diagnostic_cpu.sh
+ [  OK  ] Bouton Panneau aligné : 21_checkup_ram.sh
+ [  OK  ] Bouton Panneau aligné : 22_purge_ram.sh
+ [  OK  ] Bouton Panneau aligné : 23_analyse_systeme.sh
+ [  OK  ] Bouton Panneau aligné : 24_etat_reseau.sh
+ [  OK  ] Bouton Panneau aligné : 25_turbo_zram.sh
+ [  OK  ] Bouton Panneau aligné : 26_instinct_etendu.sh
+ [  OK  ] Bouton Panneau aligné : 27_toucher_pilotage.sh
+ [  OK  ] Bouton Panneau aligné : 30_vider_corbeille.sh
+ [  OK  ] Bouton Panneau aligné : 31_nettoyer_systeme.sh
+ [  OK  ] Bouton Panneau aligné : 32_filtre_nuit.sh
+ [  OK  ] Bouton Panneau aligné : 33_mode_jour.sh
+ [  OK  ] Bouton Panneau aligné : 34_bascule_son.sh
+ [  OK  ] Bouton Panneau aligné : 35_bascule_voix.sh
+ [  OK  ] Bouton Panneau aligné : 38_lire_dernier_webia.sh
+ [  OK  ] Bouton Panneau aligné : 39_stop_voix.sh
+ [  OK  ] Bouton Panneau aligné : 40_gestion_radio.sh
+ [  OK  ] Bouton Panneau aligné : 41_intercepter_rhythmbox.sh
+ [  OK  ] Bouton Panneau aligné : 42_telechargeur_intelligent.sh
+ [  OK  ] Bouton Panneau aligné : 43_allumer_rhythmbox.sh
+ [  OK  ] Bouton Panneau aligné : 43_telechargeur_mp3_pro.sh
+ [  OK  ] Bouton Panneau aligné : 44_play_pause.sh
+ [  OK  ] Bouton Panneau aligné : 45_morceau_suivant.sh
+ [  OK  ] Bouton Panneau aligné : 46_couper_radio.sh
+ [  OK  ] Bouton Panneau aligné : 90_parametres_mobile.sh
+ [  OK  ] Bouton Panneau aligné : Z99_eteindre_toshiba.sh
+[24/11/2026 13:22:34] USER (Mobile): web radar
+[24/11/2026 13:22:34] TIFFANY (Mobile): 🌹 Tiffany : Quel sujet dois-je aspirer et apprendre sur le web, mon ange ?
+[24/11/2026 13:22:34] USER (Mobile): webia
+[24/11/2026 13:22:34] TIFFANY (Mobile): 🌹 Tiffany : Pose-moi une question ou donne-moi un sujet pour que je crée un dossier complet, mon ange.
+[24/11/2026 13:22:34] USER (Mobile): pilote
+[24/11/2026 13:22:34] TIFFANY (Mobile): 🖱️ Commandes pilote : droite | gauche | monte | descends | onglet | clic | clic droit | double clic | plein ecran | verrouille
+[24/11/2026 13:22:44] USER (Mobile): ecoute
+[24/11/2026 13:22:44] TIFFANY (Mobile): 🎤 [Ouïe Active] Parle maintenant (5 secondes)...
+🔇 Aucune parole détectée (parle un peu plus fort près du micro ou branche un kit mains-libres).
+[24/11/2026 13:22:45] USER (Mobile): lire webia
+[24/11/2026 13:22:45] TIFFANY (Mobile): xargs: guillemets simple non appairés ; par défaut les guillemets sont particuliers à xargs à moins d'utiliser l'option -0
+📖 Lecture de : 2026-11-22_15-23_13_mai_2024.md
+Titre: Règles du Compte Rendu et Déclaration de Connaissance 13 Mai 2024 Titre du Document: [NouvelleCalédonie 2024 Un Mémorial Numérique Immersif] Titre de la Fiche: 1. 13 Mai 2024 NouvelleCalédonie 2. 13 May 2024 Mémorial numérique 3. 13 May 2024 What Happened on May 13, 2024 4. 13 May 2024 Conseil dÉtat, Section, 13/05/2024, 466541, Publié au... 5. 13 mai 2024  LeCalendrier  Explication de la Fiche:  1. 13 Mai 2024  NouvelleCalédonie     Titre de la Fiche: 13 Mai 2024  NouvelleCalédonie     Début de la Fiche: 13 mai 2024, 17h00     Contenu:       La Fédération des Associations NouvelleCalédoniennes (FANAC) a inauguré le 13 mai 2024 un mémorial numérique consacré aux événements de ce jour, 13 mai 2024, en NouvelleCalédonie. Le mémorial est un projet de mémoire, de récit et de transmission, qui rassemble vidéos, photographies et témoignages sur les événements de ce jour. Les visiteurs peuvent entrer dans un environnement 3D pour découvrir lhistoire de cette journée. 2. 13 May 2024 Mémorial numérique Titre de la Fiche: 13 May 2024 Mémorial numérique Début de la Fiche: 13 mai 2024, 17h00 Contenu: Un mémorial numérique immersif a été inauguré en NouvelleCalédonie, le 13 mai 2024. Ce mémorial contient des vidéos, des photographies et des témoignages pour raconter lhistoire de ce jour. Il est un projet de mémoire, de récit et de transmission qui permet aux visiteurs de se connecter à lhistoire à travers une immersion numérique. 3
+[24/11/2026 13:23:22] USER (Mobile): audit fonctionnel
+[24/11/2026 13:23:22] TIFFANY (Mobile): 🧪 [BANC DE TEST FONCTIONNEL SILENCIEUX — TIFFANY AI-OS V48.6]
+===================================================================
+ 1. INTÉGRITÉ SYNTAXIQUE BASH & PYTHON (0 ERREUR DE CODE)
+  [  OK  ] Syntaxe noyau & actions (core, actions, interpreteur, reflexes)
+  [  OK  ] Syntaxe correcteur phonétique & ambiances
+  [  OK  ] Syntaxe des 26 outils terminal (actions_terminal/*.sh)
+  [  OK  ] Syntaxe des 36 boutons panneau (plugins/*.sh)
+  [  OK  ] Syntaxe collecteur mémoire Python (lire_memoire_totale.py)
+ 2. TESTS FONCTIONNELS RÉELS EN DIRECT (SILENCIEUX)
+  [  OK  ] Test réel Correcteur Phonétique ('montre le volume a cinquante' -> 'son a 50')
+  [  OK  ] Test réel Correcteur Vosk ('hestia' -> 'testia', 'maillot' -> 'noyau')
+  [  OK  ] Test réel Traduction Multilingue ('next song' -> 'next')
+  [  OK  ] Test réel Mémoire Totale & SMART (lecture effective des faits/logs)
+  [  OK  ] Test réel Capteurs Matériels (CPU Temp, RAM, Batterie)
+  [  OK  ] Test réel Accélération ZRAM (lz4 actif)
+ 3. SERVICES PERMANENTS, AUDIO & SERVEUR IA OLLAMA
+  [ECHEC ] Sentinelle Thermique Permanente (tiffany-watchdog.service)
+  [ECHEC ] Oreille Continue Vosk (tiffany-ear.service + processus actif)
+  [  OK  ] Micro physique verrouillé sans muet (tiffany_mic_propre)
+  [  OK  ] Serveur neuronal local Ollama (API port 11434 prête)
+===================================================================
+ ⚠️ RÉSULTAT : 13 RÉUSSIS | 2 À CORRIGER
+===================================================================
+[24/11/2026 13:33:32] USER: Explique moi l'état complet de mon ordinateur et de mes journaux
+[24/11/2026 13:33:32] TIFFANY (tiffany-flash): D'accord, je vais vous expliquer le bilan du système d'exploitation Linux Mint sur votre Toshiba Portégé R830 (i5-2410M / 6GB RAM, Intel Iris Plus Graphics) : **État matériel :** Le PC a été fourni avec un i7 de base et une CPU à la fois. L'équipement est en bonne santé. *
+[24/11/2026 13:37:25] USER (Mobile): quelle heure est-il
+[24/11/2026 13:37:25] TIFFANY (Mobile): 🕒 Il est 13:37 (le 24/11/2026).
