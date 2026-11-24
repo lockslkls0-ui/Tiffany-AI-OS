@@ -70,32 +70,41 @@ def get_env():
 
 def journaliser_et_afficher_pc(ordre, reponse):
     log_f = os.path.join(ROOT, "logs", "session_raw.txt")
+    mirror_f = "/tmp/tiffany_live_mirror.log"
     os.makedirs(os.path.dirname(log_f), exist_ok=True)
-    horo = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    horo = datetime.datetime.now().strftime("%H:%M:%S")
+    horo_full = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     with open(log_f, "a", encoding="utf-8") as f:
-        f.write(f"[{horo}] USER (Mobile): {ordre}\n")
+        f.write(f"[{horo_full}] USER (Mobile): {ordre}\n")
         if reponse:
-            f.write(f"[{horo}] TIFFANY (Mobile): {reponse}\n")
-
+            f.write(f"[{horo_full}] TIFFANY (Mobile): {reponse}\n")
+    with open(mirror_f, "a", encoding="utf-8") as mf:
+        mf.write(f"
+[{horo}] 📱 VOUS : {ordre}
+[{horo}] 🌹 TIFFANY :
+{reponse}\n" + "─"*50 + "
+")
     env = get_env()
-    fifo = "/tmp/tiffany_chat.fifo"
-    if not os.path.exists("/tmp/tiffany_core_ready") or not os.path.exists(fifo):
-        if os.path.exists("/tmp/tiffany_core_ready"):
-            try: os.remove("/tmp/tiffany_core_ready")
-            except Exception: pass
-        subprocess.Popen(["gnome-terminal", "--title=Discussion_Tiffany", "--", "bash", os.path.join(ROOT, "tiffany_core.sh")], env=env)
-        for _ in range(35):
-            time.sleep(0.1)
-            if os.path.exists("/tmp/tiffany_core_ready") and os.path.exists(fifo):
-                break
-    if os.path.exists(fifo):
-        try:
-            fd = os.open(fifo, os.O_WRONLY | os.O_NONBLOCK)
-            msg_pc = f"[📱 Mobile] {ordre}\n🌹 Tiffany (Mobile) : {reponse[:300]}\n"
-            os.write(fd, msg_pc.encode("utf-8"))
-            os.close(fd)
-        except Exception:
-            pass
+    wins = subprocess.getoutput("DISPLAY=:0 wmctrl -l 2>/dev/null")
+    if "Suivi_Mobile_Tiffany" not in wins:
+        subprocess.Popen([
+            "systemd-run", "--user", "--quiet",
+            "--setenv=DISPLAY=:0",
+            f"--setenv=DBUS_SESSION_BUS_ADDRESS={env['DBUS_SESSION_BUS_ADDRESS']}",
+            f"--setenv=XAUTHORITY={env['XAUTHORITY']}",
+            "gnome-terminal", "--title=Suivi_Mobile_Tiffany", "--",
+            "bash", "-c", "clear; echo '🌹 SUIVI EN DIRECT — TÉLÉPHONE ↔ TIFFANY'; echo '=================================================='; tail -n 30 -f /tmp/tiffany_live_mirror.log"
+        ])
+
+
+def run_script_fast(cmd_list, env, timeout=15):
+    # Exécute un script sans rester bloqué par les processus audio (espeak-ng) en arrière-plan
+    p = subprocess.Popen(cmd_list, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, start_new_session=True)
+    try:
+        out, _ = p.communicate(timeout=timeout)
+        return clean(out.decode("utf-8", errors="ignore"))
+    except subprocess.TimeoutExpired:
+        return None
 
 def executer(ordre):
     ordre_brut = ordre.strip()
@@ -105,32 +114,42 @@ def executer(ordre):
     ordre = ordre_brut[4:].strip() if is_btn else ordre_brut
     low = ordre.lower()
 
-    # 1. Raccourcis matériels directs (Boost / Froid garantis sans blocage)
-    if re.search(r"\b(boost|mode boost|pleine puissance|accelere)\b", low):
-        subprocess.run(["bash", f"{ROOT}/plugins/12_mode_boost.sh"], env=env, timeout=10)
-        gov = open("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").read().strip() if os.path.exists("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor") else "ondemand"
-        rep = f"⚡ Mode Boost activé ! (Gouverneur CPU : {gov} | Auto-régulation thermique active)."
+    if re.search(r"(boost|mode boost|pleine puissance|accelere)", low):
+        open("/tmp/tiffany_cpu_mode", "w").write("auto
+")
+        subprocess.run(["bash", "-c", "echo 100 | sudo -n tee /sys/devices/system/cpu/intel_pstate/max_perf_pct >/dev/null 2>&1; for g in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance | sudo -n tee $g >/dev/null 2>&1 || echo ondemand | sudo -n tee $g >/dev/null 2>&1; done"], env=env)
+        mhz = subprocess.getoutput("awk -F': ' '/cpu MHz/{print int($2); exit}' /proc/cpuinfo")
+        rep = f"⚡ Mode Boost activé ! (Puissance CPU : 100% | Cadence actuelle : {mhz} MHz)."
         journaliser_et_afficher_pc(ordre, rep)
         return rep
 
-    if re.search(r"\b(froid|mode froid|refroidis|ca chauffe|trop chaud)\b", low):
-        subprocess.run(["bash", f"{ROOT}/plugins/11_mode_froid.sh"], env=env, timeout=10)
-        gov = open("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").read().strip() if os.path.exists("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor") else "powersave"
-        rep = f"❄️ Mode Froid activé ! (Gouverneur CPU : {gov} | Refroidissement en cours)."
+    if re.search(r"(froid|mode froid|refroidis|ca chauffe|trop chaud)", low):
+        open("/tmp/tiffany_cpu_mode", "w").write("force_froid
+")
+        subprocess.run(["bash", "-c", "echo 45 | sudo -n tee /sys/devices/system/cpu/intel_pstate/max_perf_pct >/dev/null 2>&1; for g in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo powersave | sudo -n tee $g >/dev/null 2>&1; done"], env=env)
+        mhz = subprocess.getoutput("awk -F': ' '/cpu MHz/{print int($2); exit}' /proc/cpuinfo")
+        rep = f"❄️ Mode Froid activé ! (Plafond CPU : 45% | Cadence actuelle : {mhz} MHz)."
         journaliser_et_afficher_pc(ordre, rep)
         return rep
 
-    # 2. Heure & Météo instantanées
+    # 2. Téléchargeur MP3 Pro (lancement détaché pour que la fenêtre askBox s'affiche immédiatement sur le téléphone)
+    if "telechargeur mp3 pro" in low:
+        subprocess.Popen(["bash", os.path.expanduser("~/.local/bin/telechargeur_mp3_pro.sh")], env=env, start_new_session=True)
+        rep = "🎧 Téléchargeur MP3 Pro ouvert dans le cadre interactif ci-dessus !"
+        journaliser_et_afficher_pc(ordre, rep)
+        return rep
+
+    # 3. Heure & Météo instantanées (0.1s)
     if re.search(r"\b(quelle heure|l'heure|heure est-il|donne l'heure)\b", low) or low == "heure":
         now = datetime.datetime.now()
-        rep = f"🕒 Il est {now.strftime('%H:%M')} (nous sommes le {now.strftime('%d/%m/%Y')})."
+        rep = f"🕒 Il est {now.strftime('%H:%M')} (le {now.strftime('%d/%m/%Y')})."
         journaliser_et_afficher_pc(ordre, rep)
         return rep
 
     if re.search(r"\b(meteo|météo|quel temps)\b", low):
         ville = re.sub(r".*\b(meteo|météo|quel temps)\b\s*(fait-il|a|à|de|du|pour)?\s*", "", low).strip()
         try:
-            m_txt = subprocess.check_output(["curl", "-s", "-m", "8", f"https://wttr.in{ville}?format=%l:+%c+%t+(ressenti+%f),+%w&lang=fr"]).decode("utf-8", "ignore").strip()
+            m_txt = subprocess.check_output(["curl", "-s", "-m", "6", f"https://wttr.in{ville}?format=%l:+%c+%t+(ressenti+%f),+%w&lang=fr"]).decode("utf-8", "ignore").strip()
             if m_txt and "Unknown" not in m_txt and "<html" not in m_txt.lower():
                 rep = f"🌤️ Météo : {m_txt}"
                 journaliser_et_afficher_pc(ordre, rep)
@@ -138,38 +157,20 @@ def executer(ordre):
         except Exception:
             pass
 
-    # 3. Exécution directe d'un bouton cliqué (renvoie tout le texte de sortie sur le téléphone)
+    # 4. Boutons directs (renvoie immédiatement tout le texte écrit sur le téléphone)
     if is_btn:
         outils = map_outils()
         for nom_btn in sorted(outils.keys(), key=len, reverse=True):
             if low == nom_btn or low.startswith(nom_btn + " "):
                 sc = outils[nom_btn]
                 arg = ordre[len(nom_btn):].strip()
-                cmd = ["bash", sc] + ([arg] if arg else [])
-                try:
-                    out = clean(subprocess.check_output(cmd, input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=45).decode("utf-8", "ignore"))
-                    rep = out[-2500:] if out else f"✅ {nom_btn.capitalize()} terminé."
-                except subprocess.TimeoutExpired:
-                    rep = f"⏳ {nom_btn.capitalize()} ouvert (en attente d'action)."
-                except Exception as e:
-                    rep = f"⚠️ {nom_btn.capitalize()} : {e}"
+                out = run_script_fast(["bash", sc] + ([arg] if arg else []), env, timeout=15)
+                rep = out[-2500:] if out else f"🔔 {nom_btn.capitalize()} ouvert (voir cadre interactif ci-dessus)."
                 journaliser_et_afficher_pc(ordre, rep)
                 return rep
 
-    # 4. Phrase libre / Conversation / Action vocale (passe par tiffany_actions.sh -> réflexes + outils + IA)
-    try:
-        out = clean(subprocess.check_output(["bash", f"{ROOT}/tiffany_actions.sh", ordre], input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=45).decode("utf-8", "ignore"))
-        if out:
-            rep = out[-2500:]
-            journaliser_et_afficher_pc(ordre, rep)
-            return rep
-    except subprocess.TimeoutExpired:
-        rep = f"⏳ Action '{ordre}' en cours sur le PC."
-        journaliser_et_afficher_pc(ordre, rep)
-        return rep
-    except Exception:
-        pass
-
-    rep = f"✅ Ordre transmis à Tiffany : {ordre}"
+    # 5. Conversation & Commandes naturelles (réponse instantanée sans attendre espeak-ng)
+    out = run_script_fast(["bash", f"{ROOT}/tiffany_actions.sh", ordre], env, timeout=20)
+    rep = out[-2500:] if out else f"✅ Ordre exécuté : {ordre}"
     journaliser_et_afficher_pc(ordre, rep)
     return rep
