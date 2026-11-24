@@ -473,3 +473,147 @@
 [24/11/2026 10:42:54] USER (Mobile): BTN:analyse
 [24/11/2026 10:43:24] USER (Mobile): BTN:mode boost
 [24/11/2026 10:43:54] USER (Mobile): BTN:analyse
+[24/11/2026 10:57:22] USER (Mobile): telechargeur mp3 pro
+[24/11/2026 10:58:16] USER (Mobile): parler tiffany
+[24/11/2026 10:58:33] USER (Mobile): Ça va?
+[24/11/2026 10:59:12] USER (Mobile): parler tiffany
+[24/11/2026 10:59:36] USER: Ça va?
+[24/11/2026 10:59:36] TIFFANY (tiffany-flash): Oui, je suis là! Comment puis-je vous aider aujourd'hui ?
+[24/11/2026 11:12:28] USER (Mobile): analyse
+[24/11/2026 11:12:28] TIFFANY (Mobile): 🔍 [ANALYSE COMPLÈTE EN TEMPS RÉEL & AUTO-TRADUCTION FRANÇAISE] :
+===================================================================
+ 💻 Machine      : PORTEGE R830 (Noyau Linux 6.8.0-151-generic)
+ 🌡️ Processeur   : 85°C à 2294 MHz (Mode Fluide (ondemand))
+ ⚖️ Charge CPU   : 8,07, 7,82, 6,72
+ 🧠 Mémoire RAM  : 2,6 Go disponibles (5,0 Go utilisés sur 7,7 Go)
+ 🚀 Turbo ZRAM   : 2G compressés en 866,8M | Swap :
+ 💾 Disque dur   : 333 Go libres sur 457 Go (24% utilisés)
+ 📀 Usure SMART  : 9022 heures (~375 jours) | Erreurs câble CRC : 244
+ 🔋 Batterie     : 100% (branché sur secteur)
+ 📶 Réseau Wi-Fi : e_e (IP : 192.168.0.106)
+-------------------------------------------------------------------
+ 🔥 TOP 5 DES APPLICATIONS LES PLUS ACTIVES :
+   • llama-server       | CPU :   184% | RAM :  13.6%
+   • python3            | CPU :  34.8% | RAM :   5.5%
+   • chrome             | CPU :   6.9% | RAM :   6.5%
+   • chrome             | CPU :   5.1% | RAM :   6.8%
+   • Xorg               | CPU :   3.9% | RAM :   0.6%
+-------------------------------------------------------------------
+ 🩺 JOURNAUX D'ERREURS TRADUITS EN FRANÇAIS :
+   • Alerte système : systemd[3076]: a échoué to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS.
+     (Log d'origine : systemd[3076]: Failed to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS)
+   • Alerte système : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.
+     (Log d'origine : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.)
+   • Alerte système : lightdm[1012939]: gkr-pam: unable to locate daemon control file
+     (Log d'origine : lightdm[1012939]: gkr-pam: unable to locate daemon control file)
+===================================================================
+[24/11/2026 11:12:29] USER (Mobile): analyse
+[24/11/2026 11:12:29] TIFFANY (Mobile): 🔍 [ANALYSE COMPLÈTE EN TEMPS RÉEL & AUTO-TRADUCTION FRANÇAISE] :
+===================================================================
+ 💻 Machine      : PORTEGE R830 (Noyau Linux 6.8.0-151-generic)
+ 🌡️ Processeur   : 85°C à 2294 MHz (Mode Fluide (ondemand))
+ ⚖️ Charge CPU   : 7,52, 7,72, 6,71
+ 🧠 Mémoire RAM  : 2,6 Go disponibles (5,0 Go utilisés sur 7,7 Go)
+ 🚀 Turbo ZRAM   : 2G compressés en 866,8M | Swap :
+ 💾 Disque dur   : 333 Go libres sur 457 Go (24% utilisés)
+ 📀 Usure SMART  : 9022 heures (~375 jours) | Erreurs câble CRC : 244
+ 🔋 Batterie     : 100% (branché sur secteur)
+ 📶 Réseau Wi-Fi : e_e (IP : 192.168.0.106)
+-------------------------------------------------------------------
+ 🔥 TOP 5 DES APPLICATIONS LES PLUS ACTIVES :
+   • llama-server       | CPU :   184% | RAM :  13.6%
+   • python3            | CPU :  34.9% | RAM :   5.5%
+   • piper              | CPU :  33.9% | RAM :   0.2%
+   • pgrep              | CPU :  11.7% | RAM :   0.0%
+   • chrome             | CPU :   6.9% | RAM :   6.5%
+-------------------------------------------------------------------
+ 🩺 JOURNAUX D'ERREURS TRADUITS EN FRANÇAIS :
+   • Alerte système : systemd[3076]: a échoué to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS.
+     (Log d'origine : systemd[3076]: Failed to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS)
+   • Alerte système : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.
+     (Log d'origine : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.)
+   • Alerte système : lightdm[1012939]: gkr-pam: unable to locate daemon control file
+     (Log d'origine : lightdm[1012939]: gkr-pam: unable to locate daemon control file)
+===================================================================
+[24/11/2026 11:12:29] USER (Mobile): banc essai
+[24/11/2026 11:12:29] TIFFANY (Mobile): ✅ Banc essai terminé.
+[24/11/2026 11:12:30] USER (Mobile): analyse
+[24/11/2026 11:12:30] TIFFANY (Mobile): 🔍 [ANALYSE COMPLÈTE EN TEMPS RÉEL & AUTO-TRADUCTION FRANÇAISE] :
+===================================================================
+ 💻 Machine      : PORTEGE R830 (Noyau Linux 6.8.0-151-generic)
+ 🌡️ Processeur   : 85°C à 2294 MHz (Mode Fluide (ondemand))
+ ⚖️ Charge CPU   : 9,72, 8,17, 6,86
+ 🧠 Mémoire RAM  : 2,6 Go disponibles (5,1 Go utilisés sur 7,7 Go)
+ 🚀 Turbo ZRAM   : 2G compressés en 866,8M | Swap :
+ 💾 Disque dur   : 333 Go libres sur 457 Go (24% utilisés)
+ 📀 Usure SMART  : 9022 heures (~375 jours) | Erreurs câble CRC : 244
+ 🔋 Batterie     : 100% (branché sur secteur)
+ 📶 Réseau Wi-Fi : e_e (IP : 192.168.0.106)
+-------------------------------------------------------------------
+ 🔥 TOP 5 DES APPLICATIONS LES PLUS ACTIVES :
+   • llama-server       | CPU :   184% | RAM :  13.6%
+   • piper              | CPU :  36.0% | RAM :   1.2%
+   • python3            | CPU :  34.9% | RAM :   5.5%
+   • chrome             | CPU :   6.9% | RAM :   6.5%
+   • chrome             | CPU :   5.1% | RAM :   6.8%
+-------------------------------------------------------------------
+ 🩺 JOURNAUX D'ERREURS TRADUITS EN FRANÇAIS :
+   • Alerte système : systemd[3076]: a échoué to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS.
+     (Log d'origine : systemd[3076]: Failed to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS)
+   • Alerte système : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.
+     (Log d'origine : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.)
+   • Alerte système : lightdm[1012939]: gkr-pam: unable to locate daemon control file
+     (Log d'origine : lightdm[1012939]: gkr-pam: unable to locate daemon control file)
+===================================================================
+[24/11/2026 11:12:41] USER (Mobile): analyse
+[24/11/2026 11:12:41] TIFFANY (Mobile): 🔍 [ANALYSE COMPLÈTE EN TEMPS RÉEL & AUTO-TRADUCTION FRANÇAISE] :
+===================================================================
+ 💻 Machine      : PORTEGE R830 (Noyau Linux 6.8.0-151-generic)
+ 🌡️ Processeur   : 85°C à 2294 MHz (Mode Fluide (ondemand))
+ ⚖️ Charge CPU   : 9,21, 8,12, 6,86
+ 🧠 Mémoire RAM  : 2,4 Go disponibles (5,3 Go utilisés sur 7,7 Go)
+ 🚀 Turbo ZRAM   : 2G compressés en 866,8M | Swap :
+ 💾 Disque dur   : 333 Go libres sur 457 Go (24% utilisés)
+ 📀 Usure SMART  : 9022 heures (~375 jours) | Erreurs câble CRC : 244
+ 🔋 Batterie     : 100% (branché sur secteur)
+ 📶 Réseau Wi-Fi : e_e (IP : 192.168.0.106)
+-------------------------------------------------------------------
+ 🔥 TOP 5 DES APPLICATIONS LES PLUS ACTIVES :
+   • llama-server       | CPU :   184% | RAM :  13.6%
+   • piper              | CPU :  48.0% | RAM :   3.4%
+   • python3            | CPU :  34.9% | RAM :   5.5%
+   • chrome             | CPU :   6.9% | RAM :   6.5%
+   • chrome             | CPU :   5.1% | RAM :   6.8%
+-------------------------------------------------------------------
+ 🩺 JOURNAUX D'ERREURS TRADUITS EN FRANÇAIS :
+   • Alerte système : systemd[3076]: a échoué to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS.
+     (Log d'origine : systemd[3076]: Failed to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS)
+   • Alerte système : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.
+     (Log d'origine : lightdm[1012601]: gkr-pam: couldn't unlock the login keyring.)
+   • Alerte système : lightdm[1012939]: gkr-pam: unable to locate daemon control file
+     (Log d'origine : lightdm[1012939]: gkr-pam: unable to locate daemon control file)
+===================================================================
+[24/11/2026 11:12:45] USER (Mobile): filtre nuit
+[24/11/2026 11:12:45] TIFFANY (Mobile): 🌹 Tiffany : Mode nuit activé, lockss ! 🌙
+[24/11/2026 11:12:46] USER (Mobile): filtre nuit
+[24/11/2026 11:12:46] TIFFANY (Mobile): 🌹 Tiffany : Mode nuit activé, lockss ! 🌙
+[24/11/2026 11:12:46] USER (Mobile): filtre nuit
+[24/11/2026 11:12:46] TIFFANY (Mobile): 🌹 Tiffany : Mode nuit activé, lockss ! 🌙
+[24/11/2026 11:12:56] USER (Mobile): mode jour
+[24/11/2026 11:12:56] TIFFANY (Mobile): 🌹 Tiffany : Mode jour restauré, lockss ! ☀️
+[24/11/2026 11:12:57] USER (Mobile): mode jour
+[24/11/2026 11:12:57] TIFFANY (Mobile): 🌹 Tiffany : Mode jour restauré, lockss ! ☀️
+[24/11/2026 11:12:58] USER (Mobile): mode jour
+[24/11/2026 11:12:58] TIFFANY (Mobile): 🌹 Tiffany : Mode jour restauré, lockss ! ☀️
+[24/11/2026 11:12:58] USER (Mobile): mode jour
+[24/11/2026 11:12:58] TIFFANY (Mobile): 🌹 Tiffany : Mode jour restauré, lockss ! ☀️
+[24/11/2026 11:12:59] USER (Mobile): mode jour
+[24/11/2026 11:12:59] TIFFANY (Mobile): 🌹 Tiffany : Mode jour restauré, lockss ! ☀️
+[24/11/2026 11:12:59] USER (Mobile): mode jour
+[24/11/2026 11:12:59] TIFFANY (Mobile): 🌹 Tiffany : Mode jour restauré, lockss ! ☀️
+[24/11/2026 11:13:00] USER (Mobile): mode jour
+[24/11/2026 11:13:00] TIFFANY (Mobile): 🌹 Tiffany : Mode jour restauré, lockss ! ☀️
+[24/11/2026 11:13:00] USER (Mobile): mode jour
+[24/11/2026 11:13:00] TIFFANY (Mobile): 🌹 Tiffany : Mode jour restauré, lockss ! ☀️
+[24/11/2026 11:14:21] USER (Mobile): Ça va ?
+[24/11/2026 11:14:21] TIFFANY (Mobile): ⏳ Action 'Ça va ?' en cours sur le PC.

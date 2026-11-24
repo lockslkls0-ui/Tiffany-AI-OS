@@ -1,4 +1,4 @@
-import os, re, json, glob, shutil, hashlib, subprocess, datetime
+import os, re, json, glob, time, shutil, hashlib, subprocess, datetime
 
 ROOT = os.path.expanduser("~/tiffany")
 PIN_FILE = os.path.expanduser("~/.config/tiffany/mobile_pin.hash")
@@ -28,7 +28,7 @@ def stats():
     except Exception: temp = "N/A"
     try:
         m = subprocess.check_output(["free", "-m"]).decode().splitlines().pop(1).split()
-        ram = f"{int(m[2])*100//int(m[1])}%"
+        ram = f"{int(m)*100//int(m)}%"
     except Exception: ram = "N/A"
     prompt = None
     if os.path.exists("/tmp/tiffany_mob_prompt.json"):
@@ -53,7 +53,8 @@ def lister_outils():
     return [(k.capitalize(), k) for k in map_outils().keys()]
 
 def clean(s):
-    return re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', s).strip()
+    s = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', s)
+    return "\n".join(l.rstrip() for l in s.splitlines() if l.strip()).strip()
 
 def get_env():
     uid = os.getuid()
@@ -64,18 +65,10 @@ def get_env():
     env["XDG_RUNTIME_DIR"] = f"/run/user/{uid}"
     env["DBUS_SESSION_BUS_ADDRESS"] = f"unix:path=/run/user/{uid}/bus"
     env["TIFFANY_MOBILE"] = "1"
-    env["PATH"] = f"{ROOT}/mobile/bin:{home}/.local/bin:/usr/local/bin:/usr/bin:/bin:" + env.get("PATH", "")
+    env["PATH"] = f"{ROOT}/mobile/bin:{ROOT}/bin:{home}/.local/bin:/usr/local/bin:/usr/bin:/bin:" + env.get("PATH", "")
     return env
 
-def find_ytdlp():
-    for c in (os.path.expanduser("~/.local/bin/yt-dlp"), "/usr/local/bin/yt-dlp", "/usr/bin/yt-dlp", shutil.which("yt-dlp")):
-        if c and os.path.isfile(c) and os.access(c, os.X_OK):
-            return c
-    return None
-
-
-def sync_bureau_et_memoire(ordre, reponse=""):
-    import time
+def journaliser_et_afficher_pc(ordre, reponse):
     log_f = os.path.join(ROOT, "logs", "session_raw.txt")
     os.makedirs(os.path.dirname(log_f), exist_ok=True)
     horo = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -83,6 +76,7 @@ def sync_bureau_et_memoire(ordre, reponse=""):
         f.write(f"[{horo}] USER (Mobile): {ordre}\n")
         if reponse:
             f.write(f"[{horo}] TIFFANY (Mobile): {reponse}\n")
+
     env = get_env()
     fifo = "/tmp/tiffany_chat.fifo"
     if not os.path.exists("/tmp/tiffany_core_ready") or not os.path.exists(fifo):
@@ -90,100 +84,92 @@ def sync_bureau_et_memoire(ordre, reponse=""):
             try: os.remove("/tmp/tiffany_core_ready")
             except Exception: pass
         subprocess.Popen(["gnome-terminal", "--title=Discussion_Tiffany", "--", "bash", os.path.join(ROOT, "tiffany_core.sh")], env=env)
-        for _ in range(40):
+        for _ in range(35):
             time.sleep(0.1)
             if os.path.exists("/tmp/tiffany_core_ready") and os.path.exists(fifo):
                 break
     if os.path.exists(fifo):
         try:
             fd = os.open(fifo, os.O_WRONLY | os.O_NONBLOCK)
-            os.write(fd, (f"[📱 Mobile] {ordre}\n").encode("utf-8"))
+            msg_pc = f"[📱 Mobile] {ordre}\n🌹 Tiffany (Mobile) : {reponse[:300]}\n"
+            os.write(fd, msg_pc.encode("utf-8"))
             os.close(fd)
         except Exception:
             pass
 
 def executer(ordre):
-    ordre = ordre.strip()
-    if not ordre: return "Ordre vide."
+    ordre_brut = ordre.strip()
+    if not ordre_brut: return "Ordre vide."
     env = get_env()
+    is_btn = ordre_brut.startswith("BTN:")
+    ordre = ordre_brut[4:].strip() if is_btn else ordre_brut
     low = ordre.lower()
 
-    sync_bureau_et_memoire(ordre)
-    if ordre.startswith("BTN:"):
-        ordre = ordre[4:].strip()
-        low = ordre.lower()
+    # 1. Raccourcis matériels directs (Boost / Froid garantis sans blocage)
+    if re.search(r"\b(boost|mode boost|pleine puissance|accelere)\b", low):
+        subprocess.run(["bash", f"{ROOT}/plugins/12_mode_boost.sh"], env=env, timeout=10)
+        gov = open("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").read().strip() if os.path.exists("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor") else "ondemand"
+        rep = f"⚡ Mode Boost activé ! (Gouverneur CPU : {gov} | Auto-régulation thermique active)."
+        journaliser_et_afficher_pc(ordre, rep)
+        return rep
 
-    # 1. Heure & Météo directes (sans lancer l'horloge Matrix)
+    if re.search(r"\b(froid|mode froid|refroidis|ca chauffe|trop chaud)\b", low):
+        subprocess.run(["bash", f"{ROOT}/plugins/11_mode_froid.sh"], env=env, timeout=10)
+        gov = open("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").read().strip() if os.path.exists("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor") else "powersave"
+        rep = f"❄️ Mode Froid activé ! (Gouverneur CPU : {gov} | Refroidissement en cours)."
+        journaliser_et_afficher_pc(ordre, rep)
+        return rep
+
+    # 2. Heure & Météo instantanées
     if re.search(r"\b(quelle heure|l'heure|heure est-il|donne l'heure)\b", low) or low == "heure":
         now = datetime.datetime.now()
-        return f"🕒 Il est {now.strftime('%H:%M')} (le {now.strftime('%d/%m/%Y')})."
+        rep = f"🕒 Il est {now.strftime('%H:%M')} (nous sommes le {now.strftime('%d/%m/%Y')})."
+        journaliser_et_afficher_pc(ordre, rep)
+        return rep
 
-    if re.search(r"\b(meteo|météo)\b", low):
-        ville = re.sub(r".*\b(meteo|météo)\b\s*(a|à|de|du|pour)?\s*", "", low).strip()
+    if re.search(r"\b(meteo|météo|quel temps)\b", low):
+        ville = re.sub(r".*\b(meteo|météo|quel temps)\b\s*(fait-il|a|à|de|du|pour)?\s*", "", low).strip()
         try:
-            rep = subprocess.check_output(["curl", "-s", "-m", "8", f"https://wttr.in{ville}?format=%l:+%c+%t+(ressenti+%f),+%w&lang=fr"]).decode("utf-8", "ignore").strip()
-            if rep and "Unknown" not in rep and "<html" not in rep.lower():
-                return f"🌤️ Météo : {rep}"
+            m_txt = subprocess.check_output(["curl", "-s", "-m", "8", f"https://wttr.in{ville}?format=%l:+%c+%t+(ressenti+%f),+%w&lang=fr"]).decode("utf-8", "ignore").strip()
+            if m_txt and "Unknown" not in m_txt and "<html" not in m_txt.lower():
+                rep = f"🌤️ Météo : {m_txt}"
+                journaliser_et_afficher_pc(ordre, rep)
+                return rep
         except Exception:
             pass
 
-    # 2. Téléchargeur MP3 (fonctionne avec les deux boutons + cherche yt-dlp partout)
-    if low.startswith("telechargeur intelligent") or low.startswith("telecharger "):
-        musique = re.sub(r"^(telechargeur mp3 pro|telechargeur intelligent|telecharger)\s*", "", ordre, flags=re.I).strip()
-        if not musique:
-            return "🎵 Écris le nom de ta musique dans la case en haut, puis appuie sur le bouton Téléchargeur !"
-        yt = find_ytdlp()
-        if not yt:
-            return "❌ yt-dlp est introuvable sur le PC (installe-le avec : pip3 install yt-dlp)."
-        try:
-            titre_lines = subprocess.check_output([yt, "--no-update", "--get-title", f"ytsearch1:{musique}"], env=env, stderr=subprocess.DEVNULL, timeout=25).decode("utf-8", "ignore").splitlines()
-            titre_str = titre_lines[0] if titre_lines else musique
-        except Exception as e:
-            return f"❌ Recherche YouTube impossible : {e}"
-        os.makedirs(os.path.expanduser("~/Musique"), exist_ok=True)
-        subprocess.Popen(["notify-send", "-i", "folder-music", "📥 Téléchargement MP3 Tiffany", f"Extraction : {titre_str}"], env=env)
-        dl_cmd = (
-            f'"{yt}" --no-update -x --audio-format mp3 --audio-quality 192K --no-playlist '
-            f'-o "$HOME/Musique/%(title)s.%(ext)s" "ytsearch1:{musique}" >/tmp/tiffany_dl.log 2>&1 && '
-            f'notify-send -i "emblem-default" "✅ MP3 Téléchargé !" "{titre_str}" && '
-            f'F=$(ls -t "$HOME/Musique"/*.mp3 2>/dev/null | head -n 1) && '
-            f'[ -n "$F" ] && (pgrep -x rhythmbox >/dev/null || nohup rhythmbox >/dev/null 2>&1 &) && sleep 2 && rhythmbox-client --enqueue "$F" >/dev/null 2>&1'
-        )
-        subprocess.Popen(["bash", "-c", dl_cmd], env=env)
-        return f"📥 Téléchargement MP3 lancé :\n🎵 {titre_str}\n(Ajout automatique à Rhythmbox dès la fin)"
+    # 3. Exécution directe d'un bouton cliqué (renvoie tout le texte de sortie sur le téléphone)
+    if is_btn:
+        outils = map_outils()
+        for nom_btn in sorted(outils.keys(), key=len, reverse=True):
+            if low == nom_btn or low.startswith(nom_btn + " "):
+                sc = outils[nom_btn]
+                arg = ordre[len(nom_btn):].strip()
+                cmd = ["bash", sc] + ([arg] if arg else [])
+                try:
+                    out = clean(subprocess.check_output(cmd, input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=45).decode("utf-8", "ignore"))
+                    rep = out[-2500:] if out else f"✅ {nom_btn.capitalize()} terminé."
+                except subprocess.TimeoutExpired:
+                    rep = f"⏳ {nom_btn.capitalize()} ouvert (en attente d'action)."
+                except Exception as e:
+                    rep = f"⚠️ {nom_btn.capitalize()} : {e}"
+                journaliser_et_afficher_pc(ordre, rep)
+                return rep
 
-    # 3. Boutons & Outils (correspondance exacte ou mot-clé comme 'boost' / 'froid')
-    outils = map_outils()
-    for nom_btn in sorted(outils.keys(), key=len, reverse=True):
-        if low == nom_btn or low.startswith(nom_btn + " ") or (len(low) >= 4 and low in nom_btn):
-            sc = outils[nom_btn]
-            arg = ordre[len(nom_btn):].strip() if low.startswith(nom_btn) else ""
-            cmd = ["bash", sc] + ([arg] if arg else [])
-            try:
-                out = clean(subprocess.check_output(cmd, input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=30).decode("utf-8", "ignore"))
-                return out[-1200:] if out else f"✅ {nom_btn.capitalize()} exécuté."
-            except subprocess.TimeoutExpired:
-                return f"✅ {nom_btn.capitalize()} ouvert."
-            except Exception as e:
-                return f"⚠️ {nom_btn.capitalize()} : {e}"
-
-    # 4. Interpréteur universel
+    # 4. Phrase libre / Conversation / Action vocale (passe par tiffany_actions.sh -> réflexes + outils + IA)
     try:
-        out = clean(subprocess.check_output(["bash", f"{ROOT}/tiffany_actions.sh", ordre], input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=20).decode("utf-8", "ignore"))
-        if out and "inconnu" not in out.lower():
-            return out[-1200:]
+        out = clean(subprocess.check_output(["bash", f"{ROOT}/tiffany_actions.sh", ordre], input=b"\n", env=env, stderr=subprocess.STDOUT, timeout=45).decode("utf-8", "ignore"))
+        if out:
+            rep = out[-2500:]
+            journaliser_et_afficher_pc(ordre, rep)
+            return rep
     except subprocess.TimeoutExpired:
-        return f"✅ Action '{ordre}' lancée."
+        rep = f"⏳ Action '{ordre}' en cours sur le PC."
+        journaliser_et_afficher_pc(ordre, rep)
+        return rep
     except Exception:
         pass
 
-    # 5. Cerveau IA local Ollama
-    try:
-        pay = json.dumps({"model": "tiffany-flash", "prompt": f"Réponds brièvement en français en tant que Tiffany AI-OS : {ordre}", "stream": False}).encode()
-        raw = subprocess.check_output(["curl", "-s", "-m", "25", "http://127.0.0", "-d", pay]).decode("utf-8", "ignore")
-        rep = json.loads(raw).get("response", "").strip()
-        if rep: return rep
-    except Exception:
-        pass
-
-    return f"✅ Ordre envoyé à Tiffany : {ordre}"
+    rep = f"✅ Ordre transmis à Tiffany : {ordre}"
+    journaliser_et_afficher_pc(ordre, rep)
+    return rep
