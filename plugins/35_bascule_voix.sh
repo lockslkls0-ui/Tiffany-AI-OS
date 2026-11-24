@@ -22,7 +22,7 @@ case "$CHOIX" in
         zenity --info --text="⚡ Voix Légère activée et verrouillée pour tout le système !" --width=320 --timeout=2 2>/dev/null
         ;;
     "🌹 Voix Douce (Siwis HD Mielleuse)")
-        if [ ! -s "$HOME/.config/tiffany/pro_license.key" ]; then
+        if [ ! -s "$HOME/.config/tiffany/pro_license_disabled_launch" ]; then
             (
                 MOD="$HOME/tiffany/voice/fr_FR-siwis-low.onnx"
                 if [ -x "$HOME/tiffany/voice/piper" ] && [ -f "$MOD" ]; then

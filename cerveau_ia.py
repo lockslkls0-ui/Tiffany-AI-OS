@@ -25,7 +25,7 @@ def repondre(texte, source="reflexe", forcer_voix=False):
     print(f"\n\033[1;35m🌹 Tiffany{tag_nuit} :\033[0m {texte}\n")
     if not mode_nuit:
         subprocess.run(["pkill", "-x", "espeak-ng"], stderr=subprocess.DEVNULL)
-        subprocess.Popen([os.path.join(ROOT, "bin/espeak-ng"), texte], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen([os.path.join(ROOT, "bin/espeak-ng"), texte], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, close_fds=True)
     sys.exit(0)
 
 # 🛡️ 0. FILTRE ANTI-CHARABIA AMBIANT (ignore les discussions de fond captées par erreur)
@@ -46,7 +46,7 @@ if re.search(r"\b(reparle|active ta voix|mode jour|parle a nouveau|remets ta voi
 
 # 🎵 2. AIGUILLAGE NATUREL : MUSIQUE & RHYTHMBOX (< 0.1s)
 if re.search(r"\b(mets|lance|joue|ecouter|play|allume)\b.*\b(musique|chanson|son|rhythmbox)\b", req_clean):
-    subprocess.Popen(["bash", "-c", "pgrep -x rhythmbox >/dev/null || (nohup rhythmbox >/dev/null 2>&1 & sleep 2); rhythmbox-client --play >/dev/null 2>&1"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.Popen(["bash", "-c", "pgrep -x rhythmbox >/dev/null || (nohup rhythmbox >/dev/null 2>&1 & sleep 2); rhythmbox-client --play >/dev/null 2>&1"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, close_fds=True)
     repondre(f"C'est parti {nom}, je lance ta musique sur Rhythmbox ! 🎶", "aiguillage-musique")
 
 # 🌐 3. AIGUILLAGE NATUREL : RECHERCHE WEB-IA EN LANGAGE COURANT

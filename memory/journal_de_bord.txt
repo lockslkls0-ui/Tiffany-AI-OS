@@ -389,3 +389,6 @@ Voici une résumé en 3 lignes factuelles :
 - Le téléphone de TIFFANY est actuellement en mode test.
 - Il y a un cadre interactif disponible pour chaque fonctionnalité.
 - L'application de TIFFANY fournit un guide interactif pour chacune des options.
+
+=== [24/11/2026 à 14:16] ===
+RhythmBox sur Mint : 1. Allumer : Appuyez sur "aller" puis Entrée. 2. Sélectionnez la configuration de démarrage. 3. Utilisez sudo lightdm --all-apps pour activer automatiquement.

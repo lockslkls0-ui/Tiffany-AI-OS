@@ -81,7 +81,7 @@ mkdir -p '$CIBLE'" --width=480 2>/dev/null; then
             say "Création annulée, $NOM."
         fi
     fi
-elif [[ "$Q" =~ (batterie|chargeur|branche|secteur|autonomie|jus) ]]; then
+elif [[ "$Q" =~ (batterie|\bchargeur\b|branche|secteur|autonomie|\bjus\b) ]]; then
     BAT=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")
     ST=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n 1)
     if [[ "$ST" == "Charging" || "$ST" == "Full" ]]; then ETAT="branché sur secteur"; else ETAT="débranché (sur batterie)"; fi

@@ -15,7 +15,7 @@ mkdir -p "$HOME/tiffany/logs" && touch "$HOME/tiffany/logs/session_raw.txt"
 LOG_SESSION="$HOME/tiffany/logs/session_raw.txt"
 
 if [ -z "$REQUETE" ] || [[ "$REQUETE" =~ ^[[:space:]]*$ ]]; then exit 0; fi
-REQUETE_CLEAN=$(echo "$REQUETE" | tr 'A-Z' 'a-z' | tr "'" " " | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed 's/[ùû]/u/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+REQUETE_CLEAN=$(echo "$REQUETE" | python3 -c 'import sys; print(sys.stdin.read().lower(), end="")' | tr "'" " " | sed 's/[éèêë]/e/g' | sed 's/[àâ]/a/g' | sed 's/[ùû]/u/g; s/ç/c/g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
 # Verrou anti-doublon (1.5s)
 LOCK_ACT="/tmp/tiffany_last_act.lock"
@@ -74,6 +74,9 @@ fi
 if [[ "$REQUETE_CLEAN" =~ (audit|banc de test) ]]; then
     bash "$ACTION_DIR/34_audit_fonctionnel.sh" ; exit 0
 fi
+if [[ "$REQUETE_CLEAN" =~ ^(meteo|la meteo|quel temps) ]]; then
+    bash "$ACTION_DIR/11_meteo.sh" "$REQUETE" ; exit 0
+fi
 bash "$ROOT_DIR/reflexes_intelligents.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
 bash "$ROOT_DIR/interpreteur_universel.sh" "$REQUETE_CLEAN" "$REQUETE" && exit 0
 # ⚡ VITESSE 1 : BASH PUR & DÉTECTION RAPIDE DES OUTILS (< 0.1s)
@@ -84,7 +87,7 @@ fi
 
 for act in "$ACTION_DIR"/*.sh; do
     [ -e "$act" ] || break
-    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | tr 'A-Z' 'a-z' | tr "'" " " | tr '\n' ' ' | tr -s ' ')
+    T_KEY=$(grep -m1 "# TERM_KEY:" "$act" | cut -d':' -f2- | python3 -c 'import sys; print(sys.stdin.read().lower(), end="")' | tr "'" " " | tr '\n' ' ' | tr -s ' ')
     if [[ -n "$T_KEY" ]]; then
         if [[ "$REQUETE_CLEAN" == "$T_KEY" || "$REQUETE_CLEAN" == "$T_KEY "* ]]; then
             chmod +x "$act" 2>/dev/null ; bash "$act" "$REQUETE" ; exit 0
@@ -118,7 +121,7 @@ if [[ "$REQUETE_CLEAN" =~ ^(qui je suis|qui suis je|c est qui moi|tu me connais)
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Tu es $NOM_USER, mon Créateur adoré ! 👑\n" ; speak "Tu es $NOM_USER, mon Createur adore." ; exit 0
 elif [[ "$REQUETE_CLEAN" =~ ^(qui es tu|qui tu es|tu es qui|tes qui|c est qui toi|presente toi) ]]; then
     echo -e "\n\033[1;35m🌹 Tiffany :\033[0m Je suis Tiffany, ton assistante IA personnelle de 24 ans sur Linux Mint, $NOM_USER ! 🌹\n" ; speak "Je suis Tiffany, ton assistante personnelle." ; exit 0
-elif [[ "$REQUETE_CLEAN" =~ (ca va|cava|comment ca va|tu vas bien|comment tu vas|la forme|tout va bien|tu te portes) ]]; then
+elif [[ "$REQUETE_CLEAN" =~ (ca va|cava|comment ca va|tu vas bien|comment tu vas|la forme|tout va bien|tu te portes|comment te sens tu|comment te sent tu|quel est ton etat) ]]; then
     T_NOW=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -n 1 | awk "{print int(\$1/1000)}"); [ -z "$T_NOW" ] && T_NOW=50
     R_NOW=$(free -m | grep Mem | awk "{print int(\$3/\$2*100)}")
     B_NOW=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n 1 || echo "100")

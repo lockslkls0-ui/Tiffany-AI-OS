@@ -120,3 +120,8 @@ planificateur|planificateur
 coffre|cree un coffre
 stop radio|stop
 play musique|musique
+allume rhythmbox|musique
+allumer rhythmbox|musique
+lance rhythmbox|musique
+ouvre rhythmbox|musique
+demarre rhythmbox|musique

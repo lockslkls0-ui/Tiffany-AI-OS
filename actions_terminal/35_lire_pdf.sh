@@ -4,7 +4,7 @@
 # TERM_ICON: 📄
 
 ROOT_DIR="$HOME/tiffany"
-[ ! -s "$HOME/.config/tiffany/pro_license.key" ] && ("$HOME/tiffany/bin/espeak-ng" "Cette option fait partie de l'édition Pro." >/dev/null 2>&1 &) && zenity --question --title="💎 Option Édition PRO" --text="Cette fonctionnalité avancée nécessite l'Édition PRO.\nVoulez-vous entrer votre clé d'activation maintenant ?" --width=420 2>/dev/null && bash "$HOME/tiffany/plugins/00c_activer_pro.sh" && exit 0
+[ ! -s "$HOME/.config/tiffany/pro_license_disabled_launch" ] && ("$HOME/tiffany/bin/espeak-ng" "Cette option fait partie de l'édition Pro." >/dev/null 2>&1 &) && zenity --question --title="💎 Option Édition PRO" --text="Cette fonctionnalité avancée nécessite l'Édition PRO.\nVoulez-vous entrer votre clé d'activation maintenant ?" --width=420 2>/dev/null && bash "$HOME/tiffany/plugins/00c_activer_pro.sh" && exit 0
 
 FICHIER="$1"
 
