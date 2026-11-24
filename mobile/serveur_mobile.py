@@ -10,10 +10,6 @@ FAILS = {}
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass
     def do_GET(self):
-        if not os.path.exists(os.path.expanduser("~/.config/tiffany/pro_license_disabled_launch")):
-            self.send_response(403); self.send_header("Content-Type","text/html; charset=utf-8"); self.end_headers()
-            self.wfile.write("<h1>💎 Tiffany AI-OS PRO requis</h1><p>Active l'édition PRO sur ton PC pour débloquer la télécommande mobile.</p>".encode("utf-8"))
-            return
         if self.path == "/stats":
             self.send_response(200); self.send_header("Content-Type","application/json"); self.end_headers()
             self.wfile.write(json.dumps(m.stats()).encode())

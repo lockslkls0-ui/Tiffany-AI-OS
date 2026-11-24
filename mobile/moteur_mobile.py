@@ -3,7 +3,6 @@ import os, re, json, glob, time, hashlib, subprocess, datetime
 ROOT = os.path.expanduser("~/tiffany")
 PIN_FILE = os.path.expanduser("~/.config/tiffany/mobile_pin.hash")
 RAW_FILE = os.path.expanduser("~/.config/tiffany/mobile_pin.txt")
-FIFO = "/tmp/tiffany_chat.fifo"
 
 def _h(p): return hashlib.sha256(("tiffany_salt_" + p.strip()).encode()).hexdigest()
 
@@ -84,7 +83,6 @@ def synchroniser_ecran_pc(ordre, reponse):
 
     env = get_env(force_pc_gui=True)
     wins = subprocess.getoutput("DISPLAY=:0 wmctrl -l 2>/dev/null")
-    # Ouvre automatiquement la console Discussion_Tiffany sur le PC si fermée
     if "Suivi_Mobile_Tiffany" not in wins:
         subprocess.Popen([
             "gnome-terminal", "--title=Suivi_Mobile_Tiffany", "--",
@@ -119,7 +117,6 @@ def executer(ordre):
     ordre = ordre_brut[4:].strip() if is_btn else ordre_brut
     low = ordre.lower()
 
-    # 1. Actions matérielles & multimédia critiques (exécution immédiate + pop-up PC)
     if re.search(r"\b(boost|mode boost|pleine puissance|accelere)\b", low):
         subprocess.Popen(["bash", os.path.join(ROOT, "plugins/12_mode_boost.sh")], env=env_pc, start_new_session=True)
         mhz = subprocess.getoutput("awk -F': ' '/cpu MHz/{print int($2); exit}' /proc/cpuinfo")
@@ -134,21 +131,40 @@ def executer(ordre):
         synchroniser_ecran_pc(ordre, rep)
         return rep
 
+    if low.startswith("mp3 ") and low[4:].strip().isdigit():
+        idx = int(low[4:].strip()) - 1
+        cache_f = "/tmp/tiffany_yt_cache.json"
+        if os.path.exists(cache_f):
+            items = json.load(open(cache_f, encoding="utf-8"))
+            if 0 <= idx < len(items):
+                vid, titre = items[idx]
+                url_yt = "ht" + "tps://www.you" + "://tube.com" + vid
+                os.makedirs(os.path.expanduser("~/Musique"), exist_ok=True)
+                subprocess.Popen(["bash", "-c", f'yt-dlp -x --audio-format mp3 --audio-quality 192K --no-playlist -o "$HOME/Musique/%(title)s.%(ext)s" "{url_yt}" >/dev/null 2>&1 && f=$(ls -t "$HOME/Musique"/*.mp3 | head -n 1) && (pgrep -x rhythmbox >/dev/null || (nohup rhythmbox >/dev/null 2>&1 & sleep 2)) && rhythmbox-client --play-uri="file://$f" >/dev/null 2>&1'], env=env_pc, start_new_session=True)
+                rep = f"⬇️ Téléchargement MP3 lancé :\n🎵 {titre}\n(Démarrage auto dans Rhythmbox dès la fin)."
+                synchroniser_ecran_pc(ordre, rep)
+                return rep
+
+    if "telechargeur mp3 pro" in low or low.startswith("telecharge "):
+        sujet = re.sub(r"^(telechargeur mp3 pro|telecharge)\s*", "", ordre, flags=re.I).strip()
+        if not sujet:
+            rep = "🎧 Écris : telecharge [nom de l'artiste ou chanson]\n(Exemple : telecharge stromae alors on danse)"
+            synchroniser_ecran_pc(ordre, rep)
+            return rep
+        raw = subprocess.getoutput(f'yt-dlp --flat-playlist --print "%(id)s|%(title)s" "ytsearch5:{sujet}" 2>/dev/null')
+        items = [l.split("|", 1) for l in raw.splitlines() if "|" in l]
+        if not items:
+            rep = f"❌ Aucun résultat YouTube trouvé pour « {sujet} »."
+        else:
+            json.dump(items, open("/tmp/tiffany_yt_cache.json", "w", encoding="utf-8"))
+            liste = "\n".join(f"{i+1}. {t}" for i, (_, t) in enumerate(items))
+            rep = f"🎧 Top 5 trouvé pour « {sujet} » :\n\n{liste}\n\n👉 Réponds 'mp3 1' (ou 2, 3, 4, 5) pour télécharger !"
+        synchroniser_ecran_pc(ordre, rep)
+        return rep
+
     if re.search(r"\b(rhythmbox|musique|playlist|play music|play musique)\b", low) and not re.search(r"\b(stop|coupe|arrete|pause|next|suivant)\b", low):
         subprocess.Popen(["bash", os.path.join(ROOT, "plugins/43_allumer_rhythmbox.sh")], env=env_pc, start_new_session=True)
         rep = "🎵 Rhythmbox allumé et lecture de ta playlist lancée sur le PC !"
-        synchroniser_ecran_pc(ordre, rep)
-        return rep
-
-    if "telechargeur mp3 pro" in low:
-        subprocess.Popen(["bash", os.path.expanduser("~/.local/bin/telechargeur_mp3_pro.sh")], env=env_pc, start_new_session=True)
-        rep = "🎧 Téléchargeur MP3 Pro ouvert sur l'écran du PC !"
-        synchroniser_ecran_pc(ordre, rep)
-        return rep
-
-    if "telechargeur intelligent" in low or "telechargeur mp3" in low:
-        subprocess.Popen(["bash", os.path.join(ROOT, "plugins/42_telechargeur_intelligent.sh")], env=env_pc, start_new_session=True)
-        rep = "📥 Téléchargeur MP3 Intelligent ouvert sur l'écran du PC !"
         synchroniser_ecran_pc(ordre, rep)
         return rep
 
@@ -158,7 +174,6 @@ def executer(ordre):
         synchroniser_ecran_pc(ordre, rep)
         return rep
 
-    # 2. Exécution des boutons explicites (BTN:...) avec affichage graphique sur PC
     if is_btn:
         outils = map_outils()
         for nom_btn in sorted(outils.keys(), key=len, reverse=True):
@@ -170,7 +185,6 @@ def executer(ordre):
                 synchroniser_ecran_pc(ordre, rep)
                 return rep
 
-    # 3. Routage universel (Réflexes, Interpréteur, Cerveau IA) avec GUI PC actif
     out = run_action(["bash", f"{ROOT}/tiffany_actions.sh", ordre], env_pc, timeout=45)
     rep = out[-2500:] if out else f"✅ Action « {ordre} » déclenchée sur le PC."
     synchroniser_ecran_pc(ordre, rep)

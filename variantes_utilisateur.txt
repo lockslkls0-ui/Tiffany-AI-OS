@@ -125,3 +125,4 @@ allumer rhythmbox|musique
 lance rhythmbox|musique
 ouvre rhythmbox|musique
 demarre rhythmbox|musique
+telechargeur pro|telechargeur mp3 pro
