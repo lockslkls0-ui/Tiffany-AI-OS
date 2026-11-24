@@ -4,7 +4,7 @@
 # 🛡️ RÔLE   : Mise à jour automatique transparente via GitHub pour LocksLks
 # ==============================================================================
 ROOT_DIR="$HOME/tiffany"
-REPO_URL="git@github.com:lockslkls0-ui/Tiffany-AI-OS.git"
+REPO_URL="https://github.com/lockslkls0-ui/Tiffany-AI-OS.git"
 
 clear
 echo -e "\033[1;35m┌──────────────────────────────────────────────────────────────────┐\033[0m"
