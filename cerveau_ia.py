@@ -100,29 +100,42 @@ mots_pro = ("connais","sais","pourquoi","comment","reflechis","explique","outil"
 est_pro = any(m in req_clean for m in mots_pro) or len(req_clean.split()) >= 10
 
 if est_pro:
-    modele, max_tok = "tiffany-flash", 95
-    u = __import__("shutil").disk_usage("/")
-    go_libres, go_tot = u.free // (1024**3), u.total // (1024**3)
-    top_app = subprocess.getoutput("ps -eo comm --sort=-%mem | sed -n 2p") or "inconnu"
-    errs = subprocess.getoutput("journalctl -p 3 -n 2 --no-pager -o cat 2>/dev/null | tr '\n' '; '")[:160] or "Aucune erreur critique"
-    smart = subprocess.getoutput(f"tail -n 1 '{ROOT}/logs/sante_disque.txt' 2>/dev/null")[:80] or "OK"
-    print("\n\033[1;36m🧠 [Gros Cerveau Pro] Audit matériel & journaux en cours...\033[0m")
+    modele, max_tok = "qwen2.5:1.5b", 130
+    memo = subprocess.getoutput(f"python3 '{ROOT}/lire_memoire_totale.py' '{req_clean}'")[:900]
+    mots_matos = ("ordinateur","ordi","pc","capteur","batterie","temperature","erreur","journal","smart","disque","audit","bug","probleme","ram","cpu","bilan")
+    est_matos = any(m in req_clean for m in mots_matos)
 
-    alertes = []
-    if int(tmp) >= 72: alertes.append(f"CPU un peu chaud ({tmp}°C, pense à la commande 'froid')")
-    if int(ram) >= 75: alertes.append(f"RAM chargée ({ram}%, gourmand : {top_app})")
-    if go_libres < 15: alertes.append(f"Disque faible ({go_libres} Go libres)")
-    if "Aucune" not in errs and errs.strip(): alertes.append(f"Log système : {errs}")
-    bilan_alertes = " | ".join(alertes) if alertes else "Aucune anomalie matérielle détectée"
+    if est_matos:
+        u = __import__("shutil").disk_usage("/")
+        go_libres, go_tot = u.free // (1024**3), u.total // (1024**3)
+        top_app = subprocess.getoutput("ps -eo comm --sort=-%mem | sed -n 2p") or "inconnu"
+        errs = subprocess.getoutput("journalctl -p 3 -n 2 --no-pager -o cat 2>/dev/null | tr '\n' '; '")[:160] or "Aucune erreur critique"
+        smart = subprocess.getoutput(f"tail -n 1 '{ROOT}/logs/sante_disque.txt' 2>/dev/null")[:80] or "OK"
+        print("\n\033[1;36m🧠 [Gros Cerveau Pro 1.5b] Audit matériel & mémoire en cours...\033[0m")
 
-    sys_msg = (
-        f"Tu es Tiffany, l'experte système de {nom} sur son Toshiba Portégé R830 (i3-2350M, Linux Mint). "
-        f"Presente un bilan clair, franc et structuré en 3 phrases courtes en français au féminin : "
-        f"1) État matériel (CPU {tmp}°C, RAM {ram}%, Disque {go_libres}/{go_tot} Go libres, SMART {smart}). "
-        f"2) Points d'attention ou erreurs trouvées ({bilan_alertes}). "
-        f"3) Un conseil concret pour optimiser."
-    )
-    prompt_user = f"Fais-moi le bilan complet et sans complaisance de mon PC : {bilan_alertes}. Demande : {req_brut}"
+        alertes = []
+        if int(tmp) >= 72: alertes.append(f"CPU un peu chaud ({tmp}°C, pense à la commande 'froid')")
+        if int(ram) >= 75: alertes.append(f"RAM chargée ({ram}%, gourmand : {top_app})")
+        if go_libres < 15: alertes.append(f"Disque faible ({go_libres} Go libres)")
+        if "Aucune" not in errs and errs.strip(): alertes.append(f"Log système : {errs}")
+        bilan_alertes = " | ".join(alertes) if alertes else "Aucune anomalie matérielle détectée"
+
+        sys_msg = (
+            f"Tu es Tiffany, l'experte système de {nom} sur Linux. Memoire & historique : {memo}. "
+            f"Presente un bilan clair et franc en 3 phrases courtes en français au féminin : "
+            f"1) État matériel (CPU {tmp}°C, RAM {ram}%, Disque {go_libres}/{go_tot} Go libres, SMART {smart}). "
+            f"2) Points d'attention ou erreurs actuelles/passées ({bilan_alertes}). "
+            f"3) Un conseil concret."
+        )
+        prompt_user = f"Demande de {nom} : {req_brut} (Contexte matériel : {bilan_alertes})"
+    else:
+        print("\n\033[1;36m🧠 [Gros Cerveau Pro 1.5b] Fouille mémoire & réflexion...\033[0m")
+        sys_msg = (
+            f"Tu es Tiffany (24 ans), l'assistante IA personnelle et dévouée de {nom}. "
+            f"Voici ta mémoire complète (souvenirs, journal de bord des sessions, archives web/PDF) : {memo}. "
+            f"Réponds directement à la question de {nom} en français en t'appuyant fidèlement sur ces souvenirs sans rien inventer (3 phrases max)."
+        )
+        prompt_user = req_brut
 else:
     modele, max_tok = "tiffany-flash", 65
     print("\n\033[1;34m⚡ [Petit Cerveau Flash] Réflexion fluide...\033[0m")
@@ -130,7 +143,7 @@ else:
     sys_msg = f"Tu es Tiffany (24 ans), la compagne virtuelle douce et dévouée de {nom} sur Linux Mint. Memoire active : {memo}. Reponds directement a {nom} en francais en 1 ou 2 phrases courtes, naturelles et complices."
     prompt_user = req_brut
 
-data = json.dumps({"model": modele, "system": sys_msg, "prompt": prompt_user, "stream": False, "keep_alive": "5m", "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_ctx": 1024, "num_thread": 3, "num_predict": 85}}).encode("utf-8")
+data = json.dumps({"model": modele, "system": sys_msg, "prompt": prompt_user, "stream": False, "keep_alive": "5m", "options": {"temperature": 0.45, "repeat_penalty": 1.35, "num_ctx": 1024, "num_thread": 3, "num_predict": max_tok}}).encode("utf-8")
 try:
     r = urllib.request.urlopen(urllib.request.Request("http://localhost:11434/api/generate", data=data, headers={"Content-Type": "application/json"}), timeout=180)
     rep = " ".join(json.loads(r.read().decode("utf-8")).get("response", "").split())
