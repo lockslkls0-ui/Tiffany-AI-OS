@@ -45,7 +45,7 @@ Section: utils
 Priority: optional
 Architecture: all
 Depends: bash, python3, python3-pip, zenity, espeak-ng, alsa-utils, ffmpeg, libnotify-bin, poppler-utils, tesseract-ocr, tesseract-ocr-fra, brightnessctl, rfkill, rhythmbox, mpv, cpulimit, wmctrl, xdotool, lm-sensors, curl, p7zip-full, at
-Homepage: https://github.com
+Homepage: https://github.com/lockslkls0-ui/Tiffany-AI-OS/issues
 Maintainer: LocksLks <lockslkls0-ui@users.noreply.github.com>
 Description: Tiffany AI-OS - Assistant Vocal Hybride & Gestionnaire Systeme Linux
  Assistant intelligent 100% local propulse par Ollama, Vosk FR et Piper TTS.
