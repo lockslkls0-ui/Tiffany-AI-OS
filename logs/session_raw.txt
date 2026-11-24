@@ -1164,3 +1164,53 @@ Titre: Règles du Compte Rendu et Déclaration de Connaissance 13 Mai 2024 Titre
 [24/11/2026 13:45:41] TIFFANY (Mobile): xargs: guillemets simple non appairés ; par défaut les guillemets sont particuliers à xargs à moins d'utiliser l'option -0
 📖 Lecture de : 2026-11-22_15-23_13_mai_2024.md
 Titre: Règles du Compte Rendu et Déclaration de Connaissance 13 Mai 2024 Titre du Document: [NouvelleCalédonie 2024 Un Mémorial Numérique Immersif] Titre de la Fiche: 1. 13 Mai 2024 NouvelleCalédonie 2. 13 May 2024 Mémorial numérique 3. 13 May 2024 What Happened on May 13, 2024 4. 13 May 2024 Conseil dÉtat, Section, 13/05/2024, 466541, Publié au... 5. 13 mai 2024  LeCalendrier  Explication de la Fiche:  1. 13 Mai 2024  NouvelleCalédonie     Titre de la Fiche: 13 Mai 2024  NouvelleCalédonie     Début de la Fiche: 13 mai 2024, 17h00     Contenu:       La Fédération des Associations NouvelleCalédoniennes (FANAC) a inauguré le 13 mai 2024 un mémorial numérique consacré aux événements de ce jour, 13 mai 2024, en NouvelleCalédonie. Le mémorial est un projet de mémoire, de récit et de transmission, qui rassemble vidéos, photographies et témoignages sur les événements de ce jour. Les visiteurs peuvent entrer dans un environnement 3D pour découvrir lhistoire de cette journée. 2. 13 May 2024 Mémorial numérique Titre de la Fiche: 13 May 2024 Mémorial numérique Début de la Fiche: 13 mai 2024, 17h00 Contenu: Un mémorial numérique immersif a été inauguré en NouvelleCalédonie, le 13 mai 2024. Ce mémorial contient des vidéos, des photographies et des témoignages pour raconter lhistoire de ce jour. Il est un projet de mémoire, de récit et de transmission qui permet aux visiteurs de se connecter à lhistoire à travers une immersion numérique. 3
+[24/11/2026 13:46:22] USER (Mobile): audit fonctionnel
+[24/11/2026 13:46:22] TIFFANY (Mobile): 🧪 [BANC DE TEST FONCTIONNEL SILENCIEUX — TIFFANY AI-OS V48.6]
+===================================================================
+ 1. INTÉGRITÉ SYNTAXIQUE BASH & PYTHON (0 ERREUR DE CODE)
+  [  OK  ] Syntaxe noyau & actions (core, actions, interpreteur, reflexes)
+  [  OK  ] Syntaxe correcteur phonétique & ambiances
+  [  OK  ] Syntaxe des 26 outils terminal (actions_terminal/*.sh)
+  [  OK  ] Syntaxe des 36 boutons panneau (plugins/*.sh)
+  [  OK  ] Syntaxe collecteur mémoire Python (lire_memoire_totale.py)
+ 2. TESTS FONCTIONNELS RÉELS EN DIRECT (SILENCIEUX)
+  [  OK  ] Test réel Correcteur Phonétique ('montre le volume a cinquante' -> 'son a 50')
+  [  OK  ] Test réel Correcteur Vosk ('hestia' -> 'testia', 'maillot' -> 'noyau')
+  [  OK  ] Test réel Traduction Multilingue ('next song' -> 'next')
+  [  OK  ] Test réel Mémoire Totale & SMART (lecture effective des faits/logs)
+  [  OK  ] Test réel Capteurs Matériels (CPU Temp, RAM, Batterie)
+  [  OK  ] Test réel Accélération ZRAM (lz4 actif)
+ 3. SERVICES PERMANENTS, AUDIO & SERVEUR IA OLLAMA
+  [  OK  ] Sentinelle Thermique Permanente (tiffany-watchdog.service)
+  [ECHEC ] Oreille Continue Vosk (tiffany-ear.service + processus actif)
+  [  OK  ] Micro physique verrouillé sans muet (tiffany_mic_propre)
+  [  OK  ] Serveur neuronal local Ollama (API port 11434 prête)
+===================================================================
+ ⚠️ RÉSULTAT : 14 RÉUSSIS | 1 À CORRIGER
+===================================================================
+[24/11/2026 13:46:41] USER: Fais-moi le bilan rapide de mon ordinateur
+[24/11/2026 13:46:41] TIFFANY (reflexe-compliment): Merci mon ange, venant de mon créateur préféré c'est le plus beau des compliments !
+[24/11/2026 13:50:12] USER (Mobile): son a 100
+[24/11/2026 13:50:12] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss ! 🔊
+[24/11/2026 13:50:13] USER (Mobile): son a 100
+[24/11/2026 13:50:13] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss ! 🔊
+[24/11/2026 13:50:14] USER (Mobile): son a 100
+[24/11/2026 13:50:14] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss ! 🔊
+[24/11/2026 13:50:14] USER (Mobile): son a 100
+[24/11/2026 13:50:14] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss ! 🔊
+[24/11/2026 13:50:15] USER (Mobile): son a 100
+[24/11/2026 13:50:15] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss ! 🔊
+[24/11/2026 13:51:04] USER (Mobile): allumer rhythmbox
+[24/11/2026 13:51:04] TIFFANY (Mobile): ✅ Ordre exécuté : allumer rhythmbox
+[24/11/2026 13:51:16] USER (Mobile): mode boost
+[24/11/2026 13:51:16] TIFFANY (Mobile): ⚡ Mode Boost activé ! (Puissance CPU : 100% | Cadence : 2294 MHz).
+[24/11/2026 13:51:25] USER (Mobile): allumer rhythmbox
+[24/11/2026 13:51:25] TIFFANY (Mobile): ✅ Ordre exécuté : allumer rhythmbox
+[24/11/2026 13:51:40] USER (Mobile): Play
+[24/11/2026 13:51:40] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, lockss ! ⏸️
+[24/11/2026 13:52:22] USER: allumer rhythmbox
+[24/11/2026 13:52:22] TIFFANY (tiffany-flash): Pour allumer RhythmBox sur votre système d'exploitation Linux Mint (Mint) avec un écran déclencheur s'affiche, vous pouvez suivre ces étapes : 1. Enregistrez l'équation de démarrage : - Saisissez le mot clé "aller" et appuyez sur Entrée. 2. Sélectionnez la configuration du
+[24/11/2026 13:53:10] USER: allumer rhythmbox
+[24/11/2026 13:53:10] TIFFANY (tiffany-flash): Pour allumé le programme "RhythmBox" sur votre système d'exploitation Linux Mint (Mint), vous pouvez suivre ces étapes : ### Pour Unix/Linux : 1. Ouvrez l'écran de démarrage et cliquez avec la touche D. 2. Sélectionnez un écran ou une application pour allumer le programme. ```bash sudo lightdm --all-apps
+[24/11/2026 13:58:11] USER (Mobile): morceau suivant
+[24/11/2026 13:58:11] TIFFANY (Mobile): 🌹 Tiffany : Morceau suivant, lockss ! ⏭️
