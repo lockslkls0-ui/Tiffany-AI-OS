@@ -53,3 +53,6 @@ souverain, sans cloud et ultra-léger pour Linux.
 - 🛡️ Thermal Watchdog, SMART Health, Instant PDF Summarizer & Web-IA Research
 
 🔗 Official Repository: https://github.com/lockslkls0-ui/Tiffany-AI-OS
+
+---
+© 2026 **lockslkls0-ui** — *Tiffany AI-OS™*. Tous droits réservés. Logiciel propriétaire protégé (voir fichier `LICENSE`).
