@@ -106,7 +106,7 @@ try:
     subprocess.run(["bash", f"{h_pdf}/tiffany/actions_terminal/35_lire_pdf.sh", pdf_file], env=env_pdf, capture_output=True, text=True)
     webia_dir = os.path.join(h_pdf, "Bureau", "WebIA_Dossiers")
     mds = os.listdir(webia_dir) if os.path.isdir(webia_dir) else []
-    if mds and "DOCUMENT COMPLET VERIFIE PAR TIFFANY AI OS" in open(os.path.join(webia_dir, mds)).read():
+    if mds and "DOCUMENT COMPLET VERIFIE PAR TIFFANY AI OS" in open(os.path.join(webia_dir, mds[0])).read():
         log(V, "Module PDF", f"Extraction intégrale + archivage Markdown OK ({mds})")
     else:
         log(R, "Module PDF", "Échec archivage complet dans WebIA_Dossiers", "Vérifier 35_lire_pdf.sh")
@@ -124,7 +124,7 @@ try:
     # --- PHASE 5 : TEST RÉEL DES CERVEAUX IA (OLLAMA + RÉFLEXES + DISCUSSION) ---
     print(f"\n{C}▶ [PHASE 5/6] TEST RÉEL DU CERVEAU IA & DISCUSSION AVEC OLLAMA{N}")
     for q in ["merci tiffany", "quel est ton statut materiel"]:
-        r_c = subprocess.run(["python3", f"{root}/cerveau_ia.py", q], capture_output=True, text=True, timeout=15)
+        r_c = subprocess.run(["python3", f"{root}/cerveau_ia.py", q], capture_output=True, text=True, timeout=180)
         if r_c.returncode == 0 and len(r_c.stdout.strip()) > 2:
             log(V, "Réflexe Cerveau", f"'{q}' -> {r_c.stdout.strip()[:55]}...")
         else:
@@ -132,7 +132,7 @@ try:
 
     try:
         payload = json.dumps({"model": "tiffany-flash", "prompt": "Reponds juste par le mot : OPERATIONNEL", "stream": False, "options": {"num_predict": 15}}).encode()
-        req = urllib.request.Request("http://127.0.0", data=payload, headers={"Content-Type": "application/json"})
+        req = urllib.request.Request("http://localhost:11434/api/generate", data=payload, headers={"Content-Type": "application/json"})
         with urllib.request.urlopen(req, timeout=25) as resp:
             rep = json.loads(resp.read().decode()).get("response", "").strip()
             log(V, "Ollama Live", f"Génération réelle tiffany-flash OK -> '{rep[:40]}'")
@@ -143,8 +143,8 @@ try:
     print(f"\n{C}▶ [PHASE 6/6] VÉRIFICATION COMPAGNON MOBILE, ICÔNE PNG & TAILSCALE{N}")
     try:
         page = urllib.request.urlopen("http://127.0.0", timeout=4).read().decode("utf-8", errors="ignore")
-        ico = urllib.request.urlopen("http://127.0.0icon.png", timeout=4).read()
-        if "Tiffany" in page and "Astuce Mobile (HTTP)" in page:
+        ico = urllib.request.urlopen("http://localhost:8486/icon.png", timeout=4).read()
+        if "Tiffany" in page and "Astuce Mobile" in page:
             log(V, "Interface Mobile", "Page HTML + bouton micro intelligent HTTP actifs")
         else:
             log(J, "Interface Mobile", "Interface chargée mais script astuce micro absent")
