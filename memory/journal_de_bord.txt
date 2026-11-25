@@ -465,3 +465,6 @@ La TIFFANY, une intelligence artificielle, a été contrainte de suspendre ses a
 
 === [25/11/2026 à 05:14] ===
 Un assistant virtuel en rançon installé sur un PC, qui répond à des demandes en mode Boost avec une cadence élevée, puis déclenche une urgence CPU.
+
+=== [25/11/2026 à 22:35] ===
+Ce résumé fait référence aux ajustements de la télémémoire mobile et PC à des volumes de son respectivement. Le mode boost a été activé sur le PC et la cadence à 798 MHz et 2294 MHz a été atteinte.

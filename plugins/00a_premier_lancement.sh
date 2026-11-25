@@ -5,7 +5,7 @@
 CONF_DIR="$HOME/.config/tiffany"
 mkdir -p "$CONF_DIR"
 
-RAM_GO=$(free -g | awk '/^Mem:/{print $2}')
+RAM_GO=$(free -m | awk '/^Mem:/{printf "%.0f", $2/1024}')
 [ -z "$RAM_GO" ] && RAM_GO=4
 
 PRENOM=$(zenity --entry --title="🌹 Bienvenue dans Tiffany AI-OS" \
