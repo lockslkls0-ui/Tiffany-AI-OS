@@ -1759,3 +1759,17 @@ Vidéos
 [25/11/2026 23:48:04] TIFFANY (Mobile): 🕒 Il est 23:48 (le 25/11/2026).
 [26/11/2026 00:01:22] USER (Mobile): mode boost
 [26/11/2026 00:01:22] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[26/11/2026 00:06:27] USER (Mobile): mode boost
+[26/11/2026 00:06:27] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[26/11/2026 00:06:31] USER (Mobile): mode boost
+[26/11/2026 00:06:31] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[26/11/2026 00:07:10] USER (Mobile): play pause
+[26/11/2026 00:07:10] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, lockss  ! ⏸️
+[26/11/2026 00:07:22] USER (Mobile): son 1
+[26/11/2026 00:07:22] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 1%, lockss  ! 🔊
+[26/11/2026 00:08:06] USER (Mobile): play pause
+[26/11/2026 00:08:06] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, lockss  ! ⏸️
+[26/11/2026 00:08:17] USER (Mobile): son 50
+[26/11/2026 00:08:17] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 50%, lockss  ! 🔊
+[26/11/2026 00:08:26] USER (Mobile): son 100
+[26/11/2026 00:08:26] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss  ! 🔊

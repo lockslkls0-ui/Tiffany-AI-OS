@@ -1,25 +1,44 @@
 ================================================================================
-LICENCE PROPRIÉTAIRE — TIFFANY AI-OS (TOUS DROITS RÉSERVÉS)
-Copyright (c) 2026 lockslkls0-ui — Créateur & Auteur Original de Tiffany AI-OS
+DOUBLE LICENCE OPEN-CORE — TIFFANY AI-OS™
+Copyright (c) 2026 lockslkls0-ui (Mon Créateur & Project Tiffany)
 ================================================================================
 
-1. PROPRIÉTÉ INTELLECTUELLE
-Le logiciel « Tiffany AI-OS », son architecture modulaire, son entonnoir IA à
-4 cerveaux, son compagnon mobile, ses scripts, ses visuels et sa documentation
-sont la propriété exclusive de leur auteur original (lockslkls0-ui), protégés
-par le Code de la Propriété Intellectuelle (France & Nouvelle-Calédonie) et les
-traités internationaux sur le droit d'auteur.
+Ce projet est distribué sous un modèle hybride « Open-Core » combinant le
+partage communautaire et la protection commerciale de son auteur original :
 
-2. DROITS D'UTILISATION (LICENCE PERSONNELLE)
-L'acquisition d'une licence accorde à l'utilisateur un droit personnel, non
-exclusif et non transférable d'installer et d'utiliser Tiffany AI-OS sur ses
-ordinateurs personnels.
+--------------------------------------------------------------------------------
+PARTIE 1 : SOCLE COMMUNAUTAIRE (MIT LICENSE — OPEN SOURCE)
+--------------------------------------------------------------------------------
+Le cœur système de base (hors modules PRO listés en Partie 2) est placé sous
+licence MIT :
 
-3. INTERDICTIONS STRICTES
-Sauf autorisation écrite préalable de l'auteur, il est strictement interdit de :
-- Copier, cloner, republier ou redistribuer le code source (en tout ou partie) ;
-- Revendre, louer ou sous-licencier le logiciel ou ses modules ;
-- Modifier, décompiler ou supprimer les mentions de copyright et de licence.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Toute violation expose son auteur à des poursuites civiles et pénales.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+PARTIE 2 : ÉDITION PRO, ARCHITECTURE & MARQUE (TOUS DROITS RÉSERVÉS)
+--------------------------------------------------------------------------------
+1. Propriété exclusive : L'architecture d'entonnoir IA à 4 cerveaux, le nom
+   « Tiffany AI-OS™ », l'identité visuelle ainsi que les modules de l'Édition
+   PRO (Compagnon Mobile & QR Code, Synthèse Vocale HD, Extraction Intégrale
+   PDF, Recherche Web-IA et système de licence) sont la propriété exclusive
+   de leur auteur (lockslkls0-ui) — Tous droits réservés.
+2. Interdictions : Toute revente, redistribution non autorisée ou contournement
+   du système de licence de l'Édition PRO est strictement interdit sans accord
+   écrit de l'auteur.
 ================================================================================
