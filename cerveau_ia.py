@@ -52,10 +52,10 @@ if re.search(r"\b(mets|lance|joue|ecouter|play|allume)\b.*\b(musique|chanson|son
 
 # 🌐 3. AIGUILLAGE NATUREL : RECHERCHE WEB-IA EN LANGAGE COURANT
 m_web = re.search(r"^(?:peux tu |va |fais une )?(?:cherche|recherche|regarde|trouve|infos? sur|actu|actualite|meteo)\b\s*(?:sur le web|sur internet|en ligne)?\s*(.+)$", req_clean)
-if m_web and os.path.exists(os.path.join(ROOT, "actions_terminal/21_web_ia.sh")):
+if m_web and os.path.exists(os.path.join(ROOT, "actions_terminal/25_webia.sh")):
     sujet = m_web.group(1).strip()
     if len(sujet) > 2:
-        subprocess.run(["bash", os.path.join(ROOT, "actions_terminal/21_web_ia.sh"), sujet])
+        subprocess.run(["bash", os.path.join(ROOT, "actions_terminal/25_webia.sh"), sujet])
         sys.exit(0)
 
 # ⚡ 4. RÉFLEXES INSTANTANÉS (< 0.1s)

@@ -72,7 +72,7 @@ After=graphical-session.target
 [Service]
 Type=simple
 ExecStart=/bin/bash $ROOT_DIR/thermal_watchdog.sh
-Restart=always
+Restart=on-failure
 RestartSec=3
 [Install]
 WantedBy=default.target
@@ -85,7 +85,7 @@ After=graphical-session.target sound.target
 [Service]
 Type=simple
 ExecStart=/bin/bash $ROOT_DIR/tiffany_ear_daemon.sh
-Restart=always
+Restart=on-failure
 RestartSec=3
 [Install]
 WantedBy=default.target
@@ -118,7 +118,7 @@ After=network.target
 [Service]
 Type=simple
 ExecStart=/usr/bin/python3 $ROOT_DIR/mobile/serveur_mobile.py
-Restart=always
+Restart=on-failure
 RestartSec=3
 [Install]
 WantedBy=default.target

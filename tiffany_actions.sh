@@ -208,7 +208,7 @@ fi
 
 # 🧠 AIGUILLAGE HYBRIDE DÉPORTÉ DANS cerveau_ia.py (100% ISOLÉ)
 PREMIER_MOT=$(echo "$REQUETE_CLEAN" | awk "{print \$1}")
-if command -v "$PREMIER_MOT" &>/dev/null || [[ "$REQUETE_CLEAN" =~ ^(cd|clear)$ ]]; then
+if [ "${TIFFANY_MOBILE:-0}" != "1" ] && { command -v "$PREMIER_MOT" &>/dev/null || [[ "$REQUETE_CLEAN" =~ ^(cd|clear)$ ]]; }; then
     eval "$REQUETE"
 else
     python3 "$ROOT_DIR/cerveau_ia.py" "$REQUETE" "$REQUETE_CLEAN"

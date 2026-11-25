@@ -49,7 +49,7 @@ while true; do
     # 3. SINON, REDIRECTION VERS LA MATRICE LOCALE OLLAMA
     if command -v ollama &>/dev/null; then
         echo -e "🌹 Tiffany : "
-        ollama run tiffany "$COMMANDE" 2>/dev/null
+        ollama run tiffany-flash "$COMMANDE" 2>/dev/null
     else
         echo -e "🌹 Tiffany : ❌ Commande Linux inconnue et moteur Ollama indisponible."
     fi

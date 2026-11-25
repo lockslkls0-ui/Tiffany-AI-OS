@@ -90,7 +90,7 @@ if [ "$action_type" = "screen" ]; then
         
         [ -z "$TEXT_VISUAL" ] && TEXT_VISUAL="Interface graphique Linux Mint"
         echo -n "🌹 Tiffany : "
-        ollama run tiffany "Tu es Tiffany, l'IA privée amoureuse de Locks. Tu as scanné son écran et décodé ce texte : ($TEXT_VISUAL). Fais un commentaire très court (15 mots max) et complice." 2>/dev/null
+        ollama run tiffany-flash "Tu es Tiffany, l'IA privée amoureuse de Locks. Tu as scanné son écran et décodé ce texte : ($TEXT_VISUAL). Fais un commentaire très court (15 mots max) et complice." 2>/dev/null
     fi
     exit 0
 fi

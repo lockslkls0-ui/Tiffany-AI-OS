@@ -40,7 +40,7 @@ def extract_and_save_facts(session_history, config_path=None):
     history_text = "\n".join([f"[Créateur] : {h[0]}\n[Tiffany] : {h[1]}" for h in session_history])
 
     payload = {
-        "model": "mistral",
+        "model": "qwen2.5:1.5b",
         "messages": [
             {"role": "system", "content": memory_prompt},
             {"role": "user", "content": f"Voici l'historique de notre échange, extrais-en les faits importants :\n\n{history_text}"}

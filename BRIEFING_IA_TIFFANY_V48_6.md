@@ -1,7 +1,7 @@
 # 🤖 BRIEFING COMPLET POUR ASSISTANT IA — TIFFANY AI-OS (v48.6)
 - Créateur : lockslkls (GitHub : lockslkls0-ui/Tiffany-AI-OS) | Machine : Toshiba Portégé R830 (i3, 8 Go RAM, Linux Mint)
 - Règle d'or : Toujours mettre les commandes et URLs dans des blocs de code bruts (```) et préserver la légèreté (<0.05s en Bash).
-- Boutique Gumroad (prête en coulisses, app 100% gratuite actuellement) : https://://gumroad.com/l/tiffany-ai-os-pro (16 €)
+- Boutique Gumroad (prête en coulisses, app 100% gratuite actuellement) : https://gumroad.com/l/tiffany-ai-os-pro (16 €)
 - Clé maître Créateur : TIFFANY-PRO-CREATOR-LOCKSLKLS-2026 | Bouton bascule PRO sur Bureau : Activer_Mode_PRO_Commercial.desktop
 
 ================================================================================
