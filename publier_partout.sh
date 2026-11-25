@@ -79,7 +79,7 @@ echo "✅ GitHub et Tag v$VER synchronisés !"
 echo -e "\n=== 3/3 : RELEASE GITHUB (.deb) & SNAP STORE (SNAPCRAFT) ==="
 if command -v gh >/dev/null 2>&1; then
     gh release delete "v$VER" -y 2>/dev/null || true
-    gh release create "v$VER" "$ROOT"/*.deb --title "Tiffany AI-OS v$VER" --notes "Release officielle Linux (.deb) - 100% locale" && echo "✅ Fichier .deb publié dans les Releases GitHub !"
+    gh release create "v$VER" "$HOME/Desktop"/*.deb --title "Tiffany AI-OS v$VER" --notes "Release officielle Linux (.deb) - 100% locale" && echo "✅ Fichier .deb publié dans les Releases GitHub !"
 fi
 if command -v snapcraft >/dev/null 2>&1; then
     nohup snapcraft remote-build --launchpad-accept-public-upload > /tmp/snapcraft_build.log 2>&1 &
