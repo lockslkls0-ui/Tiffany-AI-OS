@@ -1613,3 +1613,9 @@ Vidéos
 [25/11/2026 17:42:19] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 50%, locksss  ! 🔊
 [25/11/2026 17:42:24] USER (Mobile): son a 100
 [25/11/2026 17:42:24] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, locksss  ! 🔊
+[25/11/2026 18:08:24] USER (Mobile): Son 160
+[25/11/2026 18:08:24] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 150%, locksss  ! 🔊
+[25/11/2026 18:08:47] USER (Mobile): Volume 100
+[25/11/2026 18:08:47] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, locksss  ! 🔊
+[25/11/2026 18:35:45] USER (Mobile): mode boost
+[25/11/2026 18:35:45] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).

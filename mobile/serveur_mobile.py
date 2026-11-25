@@ -10,6 +10,7 @@ FAILS = {}
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass
     def do_GET(self):
+        if self.path == "/icon.png": self.send_response(200); self.send_header("Content-Type","image/png"); self.end_headers(); self.wfile.write(open(os.path.join(DIR,"icon.png"),"rb").read()); return
         if self.path == "/stats":
             self.send_response(200); self.send_header("Content-Type","application/json"); self.end_headers()
             self.wfile.write(json.dumps(m.stats()).encode())

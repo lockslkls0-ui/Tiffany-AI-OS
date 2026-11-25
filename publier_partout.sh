@@ -76,11 +76,13 @@ git push -u origin main
 git tag -f "v$VER" && git push -f origin "v$VER"
 echo "✅ GitHub et Tag v$VER synchronisés !"
 
-echo -e "\n=== 3/3 : DÉCLENCHEMENT SNAP STORE (SNAPCRAFT) ==="
+echo -e "\n=== 3/3 : RELEASE GITHUB (.deb) & SNAP STORE (SNAPCRAFT) ==="
+if command -v gh >/dev/null 2>&1; then
+    gh release delete "v$VER" -y 2>/dev/null || true
+    gh release create "v$VER" "$ROOT"/*.deb --title "Tiffany AI-OS v$VER" --notes "Release officielle Linux (.deb) - 100% locale" && echo "✅ Fichier .deb publié dans les Releases GitHub !"
+fi
 if command -v snapcraft >/dev/null 2>&1; then
-    echo "Build local prêt"
-    echo "🚀 Build Snap lancé en arrière-plan sur Launchpad !"
-else
-    echo "ℹ️ Snapcraft CLI non installé localement."
+    nohup snapcraft remote-build --launchpad-accept-public-upload > /tmp/snapcraft_build.log 2>&1 &
+    echo "🚀 Vrai build Launchpad lancé en arrière-plan (suivi dans /tmp/snapcraft_build.log) !"
 fi
 echo -e "\n🏆 PUBLICATION MULTI-PLATEFORMES PROFESSIONNELLE TERMINÉE !"
