@@ -1701,3 +1701,31 @@ Vidéos
 [25/11/2026 20:06:43] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, lockss  ! ⏸️
 [25/11/2026 20:08:05] USER (Mobile): Est-ce que je suis branché
 [25/11/2026 20:08:05] TIFFANY (Mobile): 🌹 Tiffany : Côté énergie, ton PC est branché sur secteur et la batterie affiche 100%, lockss . 🔋
+[25/11/2026 20:47:28] USER (Mobile): mode boost
+[25/11/2026 20:47:28] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 20:47:33] USER (Mobile): mode boost
+[25/11/2026 20:47:33] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 1815 MHz).
+[25/11/2026 20:48:01] USER (Mobile): mode boost
+[25/11/2026 20:48:01] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 20:48:56] USER (Mobile): Bonjour
+[25/11/2026 20:48:56] TIFFANY (Mobile): 🌹 Tiffany : Coucou lockss  ! Tout est frais et opérationnel sur ton Toshiba. Que faisons-nous ? 🌹
+[25/11/2026 20:49:08] USER (Mobile): son a 50
+[25/11/2026 20:49:08] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 50%, lockss  ! 🔊
+[25/11/2026 20:49:10] USER (Mobile): son a 100
+[25/11/2026 20:49:10] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss  ! 🔊
+[25/11/2026 20:49:23] USER (Mobile): Sont à cent dix
+[25/11/2026 20:49:23] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 10%, lockss  ! 🔊
+[25/11/2026 20:49:44] USER (Mobile): Son cent trente
+[25/11/2026 20:49:44] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 30%, lockss  ! 🔊
+[25/11/2026 20:49:59] USER (Mobile): son 130
+[25/11/2026 20:49:59] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 130%, lockss  ! 🔊
+[25/11/2026 20:50:07] USER (Mobile): son a 100
+[25/11/2026 20:50:07] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, lockss  ! 🔊
+[25/11/2026 21:19:06] USER (Mobile): mode boost
+[25/11/2026 21:19:06] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 798 MHz).
+[25/11/2026 21:19:48] USER (Mobile): mode boost
+[25/11/2026 21:19:48] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 21:20:05] USER (Mobile): mode boost
+[25/11/2026 21:20:05] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 21:20:11] USER (Mobile): mode boost
+[25/11/2026 21:20:11] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
