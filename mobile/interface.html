@@ -56,4 +56,20 @@ async function send(txt){if(!txt)return;localStorage.setItem('tiff_pin',pEl.valu
 function changerPin(){const n=document.getElementById('newpin').value.trim();if(!n)return;send('SETPIN:'+n);pEl.value=n;localStorage.setItem('tiff_pin',n);document.getElementById('newpin').value='';}
 function dicter(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Utilise le micro de ton clavier Android !');return;}const r=new SR();r.lang='fr-FR';r.onresult=e=>{const t=e.results.transcript;document.getElementById('msg').value=t;send(t);};r.start();}
 maj();setInterval(maj,1000);
+</script><script>
+if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent.includes('🎤') || btn.textContent.includes('🎙') || (btn.id && btn.id.toLowerCase().includes('mic'))) {
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    const inp = document.querySelector('input[type="text"], textarea');
+                    if (inp) { inp.focus(); inp.placeholder = "🎙️ Appuie sur le micro de ton clavier pour parler..."; }
+                    alert("💡 Astuce Mobile (HTTP) :\nAppuie dans la case de texte puis utilise le petit micro 🎙️ en haut à droite de ton clavier téléphone !");
+                };
+            }
+        });
+    });
+}
 </script></body></html>

@@ -1621,3 +1621,83 @@ Vidéos
 [25/11/2026 18:35:45] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
 [25/11/2026 18:59:39] USER (Mobile): Volume 110
 [25/11/2026 18:59:39] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 110%, locksss  ! 🔊
+[25/11/2026 19:42:28] USER (Mobile): stop voix
+[25/11/2026 19:42:28] TIFFANY (Mobile): ✅ Action « stop voix » déclenchée sur le PC.
+[25/11/2026 19:42:33] USER (Mobile): allumer rhythmbox
+[25/11/2026 19:42:33] TIFFANY (Mobile): 🎵 Rhythmbox allumé et lecture de ta playlist lancée sur le PC !
+[25/11/2026 19:42:49] USER (Mobile): Son 150
+[25/11/2026 19:42:49] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 150%, locksss  ! 🔊
+[25/11/2026 19:43:07] USER (Mobile): morceau suivant
+[25/11/2026 19:43:07] TIFFANY (Mobile): 🌹 Tiffany : Morceau suivant, locksss  ! ⏭️
+[25/11/2026 19:43:40] USER (Mobile): Son 100
+[25/11/2026 19:43:40] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, locksss  ! 🔊
+[25/11/2026 19:53:23] USER (Mobile): Bonjour Tiffany
+[25/11/2026 19:53:23] TIFFANY (Mobile): ⚡ [Petit Cerveau Flash] Réflexion fluide...
+[DEBUG IA: <urlopen error [Errno 111] Connection refused>]
+🌹 Tiffany : *Mes circuits ont mis trop de temps à répondre, mon ange.*
+[25/11/2026 19:53:40] USER (Mobile): Cava ?
+[25/11/2026 19:53:40] TIFFANY (Mobile): 🌹 Tiffany : Tout va super bien locksss  ! CPU frais à 67°C, RAM à 62% et batterie à 100%. À tes ordres !
+[25/11/2026 19:53:57] USER (Mobile): Son à
+[25/11/2026 19:53:57] TIFFANY (Mobile): ⚡ [Petit Cerveau Flash] Réflexion fluide...
+[DEBUG IA: <urlopen error [Errno 111] Connection refused>]
+🌹 Tiffany : *Mes circuits ont mis trop de temps à répondre, mon ange.*
+[25/11/2026 19:54:24] USER (Mobile): Son sang
+[25/11/2026 19:54:24] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, locksss  ! 🔊
+[25/11/2026 19:54:35] USER (Mobile): Son 10
+[25/11/2026 19:54:35] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 10%, locksss  ! 🔊
+[25/11/2026 19:55:08] USER (Mobile): Analyse
+[25/11/2026 19:55:08] TIFFANY (Mobile): 🔍 [ANALYSE COMPLÈTE EN TEMPS RÉEL & AUTO-TRADUCTION FRANÇAISE] :
+===================================================================
+ 💻 Machine      : PORTEGE R830 (Noyau Linux 6.8.0-151-generic)
+ 🌡️ Processeur   : 56°C à 2238 MHz (Mode Fluide (ondemand))
+ ⚖️ Charge CPU   : 0,41, 0,95, 1,56
+ 🧠 Mémoire RAM  : 2,8 Go disponibles (4,8 Go utilisés sur 7,7 Go)
+ 🚀 Turbo ZRAM   : Actif | Swap :
+ 💾 Disque dur   : 331 Go libres sur 457 Go (24% utilisés)
+ 📀 Usure SMART  : 9042 heures (~376 jours) | Erreurs câble CRC : 244
+ 🔋 Batterie     : 100% (branché sur secteur)
+ 📶 Réseau Wi-Fi : e_e (IP : 192.168.0.106)
+-------------------------------------------------------------------
+ 🔥 TOP 5 DES APPLICATIONS LES PLUS ACTIVES :
+   • chrome             | CPU :  32.5% | RAM :  13.5%
+   • chrome             | CPU :  27.2% | RAM :   1.2%
+   • chrome             | CPU :  25.0% | RAM :   0.9%
+   • Xorg               | CPU :   5.8% | RAM :   0.9%
+   • chrome             | CPU :   5.4% | RAM :   1.6%
+-------------------------------------------------------------------
+ 🩺 JOURNAUX D'ERREURS TRADUITS EN FRANÇAIS :
+   • Alerte système : systemd[3076]: a échoué to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS.
+     (Log d'origine : systemd[3076]: Failed to start tiffany-diary.service - Archiviste & Auto-Guerison Tiffany AI-OS)
+   • Alerte système : systemd[1]: a échoué to start snap.ollama.listener.service - Service for snap application ollama.listener.
+     (Log d'origine : systemd[1]: Failed to start snap.ollama.listener.service - Service for snap application ollama.)
+===================================================================
+[25/11/2026 19:55:51] USER (Mobile): Son 100
+[25/11/2026 19:55:51] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, locksss  ! 🔊
+[25/11/2026 20:02:59] USER (Mobile): Merci
+[25/11/2026 20:02:59] TIFFANY (Mobile): 🌹 Tiffany : Avec grand plaisir, locksss  ! Je veille sur tout. 🌹
+[25/11/2026 20:03:24] USER (Mobile): Tu gère
+[25/11/2026 20:03:24] TIFFANY (Mobile): ⚡ [Petit Cerveau Flash] Réflexion fluide...
+[DEBUG IA: <urlopen error [Errno 111] Connection refused>]
+🌹 Tiffany : *Mes circuits ont mis trop de temps à répondre, mon ange.*
+[25/11/2026 20:04:05] USER (Mobile): morceau suivant
+[25/11/2026 20:04:05] TIFFANY (Mobile): 🌹 Tiffany : Morceau suivant, locksss  ! ⏭️
+[25/11/2026 20:04:07] USER (Mobile): morceau suivant
+[25/11/2026 20:04:07] TIFFANY (Mobile): 🌹 Tiffany : Morceau suivant, locksss  ! ⏭️
+[25/11/2026 20:04:16] USER (Mobile): play pause
+[25/11/2026 20:04:16] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, locksss  ! ⏸️
+[25/11/2026 20:04:20] USER (Mobile): play pause
+[25/11/2026 20:04:20] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, locksss  ! ⏸️
+[25/11/2026 20:04:54] USER (Mobile): morceau suivant
+[25/11/2026 20:04:54] TIFFANY (Mobile): 🌹 Tiffany : Morceau suivant, locksss  ! ⏭️
+[25/11/2026 20:05:26] USER (Mobile): Appelle-moi locks
+[25/11/2026 20:05:26] TIFFANY (Mobile): 🌹 Tiffany : Enregistre ! Je vais maintenant t appeler locks .
+[25/11/2026 20:05:41] USER (Mobile): Merci
+[25/11/2026 20:05:41] TIFFANY (Mobile): 🌹 Tiffany : Avec grand plaisir, locks  ! Je veille sur tout. 🌹
+[25/11/2026 20:06:31] USER (Mobile): Appelle-moi lockss
+[25/11/2026 20:06:31] TIFFANY (Mobile): 🌹 Tiffany : Enregistre ! Je vais maintenant t appeler lockss .
+[25/11/2026 20:06:35] USER (Mobile): play pause
+[25/11/2026 20:06:35] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, lockss  ! ⏸️
+[25/11/2026 20:06:43] USER (Mobile): play pause
+[25/11/2026 20:06:43] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, lockss  ! ⏸️
+[25/11/2026 20:08:05] USER (Mobile): Est-ce que je suis branché
+[25/11/2026 20:08:05] TIFFANY (Mobile): 🌹 Tiffany : Côté énergie, ton PC est branché sur secteur et la batterie affiche 100%, lockss . 🔋
