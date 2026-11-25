@@ -193,7 +193,7 @@ def executer(ordre):
                 synchroniser_ecran_pc(ordre, rep)
                 return rep
 
-    out = run_action(["bash", f"{ROOT}/tiffany_actions.sh", ordre], get_env(force_pc_gui=False), timeout=45)
+    out = run_action(["bash", f"{ROOT}/tiffany_actions.sh", ordre], {**env_pc, "TIFFANY_MOBILE": "1"}, timeout=45)
     rep = out[-2500:] if out else f"✅ Action « {ordre} » déclenchée sur le PC."
     synchroniser_ecran_pc(ordre, rep)
     return rep
