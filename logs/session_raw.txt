@@ -1540,3 +1540,76 @@ Vidéos
 [25/11/2026 03:15:08] TIFFANY (Mobile): ✅ Action « urgence cpu » déclenchée sur le PC.
 [25/11/2026 03:16:02] USER: urgence cpu
 [25/11/2026 03:16:02] TIFFANY (tiffany-flash): Je suis désolé, mais je ne peux pas vous aider avec ça car c'est un problème de sécurité interdite pour l'utilisateurs libres d'opinion (LOO). Je n'ai aucune information sur ce sujet et il est impossible que nous ait le droit à cette info.
+[25/11/2026 06:00:25] USER: ta gueule
+[25/11/2026 06:00:25] TIFFANY (tiffany-flash): Je suis là pour te soutenir tout au long de ta journée! Je m'efforce d'être la plus gentille possible à ton rythme. Comment puis-je t'aider aujourd'hui ?
+[25/11/2026 06:00:57] USER: très rigoler mais hier
+[25/11/2026 06:00:57] TIFFANY (tiffany-flash): Ouais, c'est une excellente idée ! Comment puis-je vous aider aujourd'hui ?
+[25/11/2026 06:03:54] USER: il va bien oui ben des sommes versées en commun et puis je me suis rappelé des de la valeur des pistolets
+[25/11/2026 06:03:54] TIFFANY (qwen2.5:1.5b): Je comprends, il semble que ton PC ait besoin d'un peu plus de maintenance. N'hésite pas à demander si tu as quelques conseils sur les mises à jour ou le nettoyage du système ? Je serai ravi de te guider dans cette étape nécessaire pour tenir ta machine en bonne santé !
+[25/11/2026 13:47:36] USER (Mobile): play pause
+[25/11/2026 13:47:36] TIFFANY (Mobile): 🌹 Tiffany : Bascule lecture/pause, locksss  ! ⏸️
+[25/11/2026 13:47:40] USER (Mobile): morceau suivant
+[25/11/2026 13:47:40] TIFFANY (Mobile): 🌹 Tiffany : Morceau suivant, locksss  ! ⏭️
+[25/11/2026 13:47:56] USER (Mobile): Volume 80
+[25/11/2026 13:47:56] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 80%, locksss  ! 🔊
+[25/11/2026 13:48:09] USER (Mobile): Volume 60
+[25/11/2026 13:48:09] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 60%, locksss  ! 🔊
+[25/11/2026 13:52:40] USER (Mobile): Son 90
+[25/11/2026 13:52:40] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 90%, locksss  ! 🔊
+[25/11/2026 13:54:05] USER (Mobile): mode boost
+[25/11/2026 13:54:05] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 14:31:54] USER (Mobile): mode boost
+[25/11/2026 14:31:54] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 1197 MHz).
+[25/11/2026 14:34:08] USER (Mobile): mode boost
+[25/11/2026 14:34:08] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 798 MHz).
+[25/11/2026 14:57:07] USER (Mobile): mode boost
+[25/11/2026 14:57:07] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 14:57:23] USER (Mobile): mode boost
+[25/11/2026 14:57:23] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 14:58:10] USER (Mobile): mode boost
+[25/11/2026 14:58:10] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 14:58:26] USER (Mobile): mode boost
+[25/11/2026 14:58:26] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 14:58:45] USER (Mobile): mode boost
+[25/11/2026 14:58:45] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 15:12:19] USER (Mobile): mode boost
+[25/11/2026 15:12:19] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 798 MHz).
+[25/11/2026 15:12:22] USER (Mobile): mode boost
+[25/11/2026 15:12:22] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 15:12:28] USER (Mobile): mode froid
+[25/11/2026 15:12:28] TIFFANY (Mobile): ❄️ Mode Froid activé sur le PC ! (Cadence : 2294 MHz).
+[25/11/2026 15:12:40] USER (Mobile): mode boost
+[25/11/2026 15:12:40] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 798 MHz).
+[25/11/2026 17:27:18] USER (Mobile): son a 100
+[25/11/2026 17:27:18] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, locksss  ! 🔊
+[25/11/2026 17:27:39] USER (Mobile): analyse
+[25/11/2026 17:27:39] TIFFANY (Mobile): 🔍 [ANALYSE COMPLÈTE EN TEMPS RÉEL & AUTO-TRADUCTION FRANÇAISE] :
+===================================================================
+ 💻 Machine      : PORTEGE R830 (Noyau Linux 6.8.0-151-generic)
+ 🌡️ Processeur   : 56°C à 2294 MHz (Mode Fluide (ondemand))
+ ⚖️ Charge CPU   : 1,24, 0,96, 0,94
+ 🧠 Mémoire RAM  : 1,4 Go disponibles (6,2 Go utilisés sur 7,7 Go)
+ 🚀 Turbo ZRAM   : Actif | Swap :
+ 💾 Disque dur   : 332 Go libres sur 457 Go (24% utilisés)
+ 📀 Usure SMART  : 9042 heures (~376 jours) | Erreurs câble CRC : 244
+ 🔋 Batterie     : 100% (branché sur secteur)
+ 📶 Réseau Wi-Fi : e_e (IP : 192.168.0.106)
+-------------------------------------------------------------------
+ 🔥 TOP 5 DES APPLICATIONS LES PLUS ACTIVES :
+   • chrome             | CPU :  22.3% | RAM :  19.0%
+   • chrome             | CPU :   6.4% | RAM :   8.4%
+   • Xorg               | CPU :   5.8% | RAM :   0.9%
+   • chrome             | CPU :   5.3% | RAM :   1.6%
+   • chrome             | CPU :   3.8% | RAM :   6.3%
+-------------------------------------------------------------------
+ 🩺 JOURNAUX D'ERREURS TRADUITS EN FRANÇAIS :
+[25/11/2026 17:41:25] USER (Mobile): mode boost
+[25/11/2026 17:41:25] TIFFANY (Mobile): ⚡ Mode Boost activé sur le PC ! (Cadence : 798 MHz).
+[25/11/2026 17:41:47] USER (Mobile): son a 50
+[25/11/2026 17:41:47] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 50%, locksss  ! 🔊
+[25/11/2026 17:41:54] USER (Mobile): son a 100
+[25/11/2026 17:41:54] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, locksss  ! 🔊
+[25/11/2026 17:42:19] USER (Mobile): son a 50
+[25/11/2026 17:42:19] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 50%, locksss  ! 🔊
+[25/11/2026 17:42:24] USER (Mobile): son a 100
+[25/11/2026 17:42:24] TIFFANY (Mobile): 🌹 Tiffany : Volume réglé à 100%, locksss  ! 🔊
