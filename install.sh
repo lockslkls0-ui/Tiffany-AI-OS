@@ -127,3 +127,6 @@ EOM
 systemctl --user enable --now tiffany-watchdog.service tiffany-ear.service tiffany-diary.timer tiffany-mobile.service 2>/dev/null || true
 
 echo -e "\n\033[1;32m🏆 Installation terminée à 100 % ! Clique sur '🌹 Panneau Tiffany' ou tape 'tiff'.\033[0m\n"
+
+# Adaptation automatique multi-PC (RAM & Matériel)
+bash "$HOME/tiffany/detect_materiel.sh"

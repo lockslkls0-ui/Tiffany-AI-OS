@@ -4,7 +4,7 @@ import json
 import subprocess
 from datetime import datetime
 
-ROOT_DIR = "/home/user/tiffany"
+ROOT_DIR = os.path.expanduser("~/tiffany")
 EVOLUTION_SCRIPT = os.path.join(ROOT_DIR, "tiffany_evolution.sh")
 DICT_PATH = os.path.join(ROOT_DIR, "dictionnaire_flash.txt")
 JOURNAL_BORD = os.path.join(ROOT_DIR, "memory", "journal_de_bord.txt")

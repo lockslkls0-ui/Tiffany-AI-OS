@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 import sys, os, re, json, random, subprocess, urllib.request
 from datetime import datetime

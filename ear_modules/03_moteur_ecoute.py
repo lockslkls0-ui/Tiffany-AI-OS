@@ -1,3 +1,4 @@
+import os
 import fcntl, sys
 _lock_f = open("/tmp/tiffany_moteur_ecoute.lock", "w")
 try:

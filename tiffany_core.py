@@ -4,12 +4,12 @@ import os
 import subprocess
 import json
 
-ROOT_DIR = "/home/user/tiffany"
+ROOT_DIR = os.path.expanduser("~/tiffany")
 DICT_PATH = os.path.join(ROOT_DIR, "dictionnaire_flash.txt")
 CMD_MEMORY_DIR = os.path.join(ROOT_DIR, "memory")
 CMD_MEMORY_PATH = os.path.join(CMD_MEMORY_DIR, "commandes_assimilees.txt")
 CONTEXTE_DEMARRAGE = os.path.join(CMD_MEMORY_DIR, "contexte_matrice.txt")
-FICHIER_SAUVEGARDE_TOTALE = "/home/user/Bureau/Sauvegarde_Projet_Tiffany.txt"
+FICHIER_SAUVEGARDE_TOTALE = os.path.expanduser("~/Bureau/Sauvegarde_Projet_Tiffany.txt"
 MODEL_NAME = "qwen2.5:1.5b"
 
 def nettoyer_texte(texte):
